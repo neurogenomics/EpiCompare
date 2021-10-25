@@ -1,0 +1,9 @@
+
+# Unrelated directories 
+./outs
+./docs
+./papers
+./data
+
+*.DS_Store 
+
