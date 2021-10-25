@@ -1,4 +1,24 @@
+# R variables
 .Rproj.user
+.Rproj
 .Rhistory
+.Rapp.history 
 .RData
 .Ruserdata
+.Renviron
+
+# Mac variables 
+*.DS_Store
+data/*DS_Store
+src/*.DS_Store
+outs/*.DS_Store
+docs/*.DS_Store
+papers/*.DS_Store
+
+# Irrelevant files 
+data/
+outs/
+docs/
+papers/
+
+
