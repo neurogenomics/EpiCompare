@@ -12,7 +12,7 @@ EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
   peakfile1_in_peakfile2_unique <- IRanges::subsetByOverlaps(x = peakfile1, ranges = peakfile2, invert = TRUE)
   peakfile2_in_peakfile1_unique <- IRanges::subsetByOverlaps(x = peakfile2, ranges = peakfile1, invert = TRUE)
   
-  # calculate percentage of overlap 
+  # calculate percentage of overlapping peaks
   percent_overlap_peakfile1 <- length(peakfile1_in_peakfile2)/length(peakfile1)*100
   percent_overlap_peakfile2 <- length(peakfile2_in_peakfile1)/length(peakfile2)*100
   
@@ -38,14 +38,14 @@ EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
     colnames(matrix_melt) = c("Sample", "State", "value")
     
     # Plot
-    chrHMM_plot <- ggplot(matrix_melt) +
-      geom_tile(aes(x = State, y = Sample, fill = value)) +
-      ylab("") +
-      xlab("") +
-      scale_fill_viridis() +
-      theme_minimal() +
+    chrHMM_plot <- ggplot2::ggplot(matrix_melt) +
+      ggplot2::geom_tile(ggplot2::aes(x = State, y = Sample, fill = value)) +
+      ggplot2::ylab("") +
+      ggplot2::xlab("") +
+      viridis::scale_fill_viridis() +
+      ggplot2::theme_minimal() +
       ggpubr::rotate_x_text(angle = 45) +
-      theme(axis.text = element_text(size = 11))
+      ggplot2::theme(axis.text = ggplot2::element_text(size = 11))
     
     return(chrHMM_plot)
   }
@@ -81,26 +81,39 @@ EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
                'Peak File 1: `r peakfile1_name` <br/>',
                'Peak File 2: `r peakfile2_name`',
                '## Percentage Overlap',
-               'Percentage of peaks from **`r peakfile1_name`** found in **`r peakfile2_name`**:',
+               'This function calculates the percentage of overlapping peaks in each file.
+               By default, two peak ranges are considered as overlapping if:',
+               '* The start or end position of a range is inside the other range', 
+               '* The overlap has a minimum distance of 1 base pair',
+               '* The overlap can be of any type (i.e. start, end, within, equal are all accepted) <br/>',
+               '',
+               'Percentage of **`r peakfile1_name`** peaks found in **`r peakfile2_name`** peaks:',
                '```{r, echo=FALSE}',
                'print(percent_overlap_peakfile1)',
                '```',
-               'Percentage of peaks from **`r peakfile2_name`** found in **`r peakfile1_name`**:',
+               'Percentage of **`r peakfile2_name`** peaks found in **`r peakfile1_name`** peaks:',
                '```{r, echo=FALSE}',
                'print(percent_overlap_peakfile2)',
                '```',
-               '## ChromHMM',
-               'ChromHMM annotates the chromatin state. Annotations obtained from 
-               http://genome.ucsc.edu/cgi-bin/hgFileUi?g=wgEncodeBroadHmm&db=hg19',
+               '<br/>',
+               '## ChromHMM {.tabset}',
+               'ChromHMM annotates peaks with ChromHMM-derived chromatin states. 
+               The annotations for cell-line K562 were obtained from
+               http://genome.ucsc.edu/cgi-bin/hgFileUi?g=wgEncodeBroadHmm&db=hg19. 
+               The heatmap shows the relative percentages of total peaks falling into each category.
+               Note that peaks can fall into multiple categories simultaneously.',
                '### Peak files',
+               'ChromHMM annotation of individual peak files.',
                '```{r, echo=FALSE, warning=FALSE, fig.width = 9}',
                'chrHMM_sample',
                '```',
                '### Overlapping peaks',
+               'ChromHMM annotation of overlapping peaks in each file.',
                '```{r, echo=FALSE, warning=FALSE, fig.width = 9}',
                'chrHMM_overlap',
                '```',
                '### Unique peaks',
+               'ChromHMM annotation of unique peaks in each file.',
                '```{r, echo=FALSE, warning=FALSE, fig.width = 9}',
                'chrHMM_unique',
                '```'
@@ -111,8 +124,8 @@ EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
 }
 
 # Test function
-EpiCompare(peakfile1_path = "./data/H3K27ac",
-           peakfile2_path = "./data/H3K27me",
+EpiCompare(peakfile1_path = "./data/ENCODE_H3K27ac",
+           peakfile2_path = "./data/ENCODE_H3K27me",
            outpath = "./EpiCompare.html")
 
 
