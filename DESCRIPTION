@@ -1,0 +1,29 @@
+Package: EpiCompare
+Title: Comparison, Benchmarking & QC of Epigenetic Datasets
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Sera",
+	    family = "Choi",
+	    role = c("cre"),
+           email = "serachoi1230@gmail.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Used to compare different epigenetic datasets. The package provides tools to calculate percentage overlap of peaks between two files and performs ChromHMM.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+LazyData: TRUE
+Depends: R(>= 4.0.2)
+Imports:
+	GenomicRanges,
+	ChIPseeker,
+	dplyr,
+	genomation,
+	knitr,
+	IRanges,
+	reshape2,
+	ggplot2,
+	viridis,
+	ggpubr,
+	markdown,
+	knitr
+RoxygenNote: 7.1.2
+Encoding: UTF-8
