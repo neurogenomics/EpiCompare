@@ -1,10 +1,20 @@
-#' Compare Epigenetic Datasets
+#' Compare Two Epigenetic Datasets
 #'
-#' This function calculates percentage of overlapping peaks in two different peak files.
-#' It also performs ChromHMM on individual files, overlapping and unique peaks.
-
-
+#' This function calculates the percentage of overlapping peaks in two peak files.
+#' It also performs ChromHMM on individual peak files, overlapping and unique peaks.
+#' The output of this function is a knitted HTML file, which will be saved in the specified outpath.
+#'
+#' @param peakfile1_path Specify the path to your peakfile 1
+#' @param peakfile2_path Specify the path to your peakfile 2
+#' @param outpath Specify the path to where you want the knitted HTML report
+#'
+#' @return
 #' @export
+#' @examples
+#' EpiCompare(peakfile1_path = "path/to/peakfile",
+#'            peakfile2_path = "path/to/peakfile",
+#'            outpath = "path/for/html" )
+#'
 EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
 
   # read as GRanges
@@ -129,6 +139,4 @@ EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
   # knit into HTML
   markdown::markdownToHTML(text = knitr::knit(text = markobj), output = outpath)
 }
-
-
 

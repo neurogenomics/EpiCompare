@@ -2,11 +2,28 @@
 % Please edit documentation in R/EpiCompare.R
 \name{EpiCompare}
 \alias{EpiCompare}
-\title{Compare Epigenetic Datasets}
+\title{Compare Two Epigenetic Datasets}
 \usage{
 EpiCompare(peakfile1_path, peakfile2_path, outpath)
 }
+\arguments{
+\item{peakfile1_path}{Specify the path to your peakfile 1}
+
+\item{peakfile2_path}{Specify the path to your peakfile 2}
+
+\item{outpath}{Specify the path to where you want the knitted HTML report}
+}
+\value{
+
+}
 \description{
-This function calculates percentage of overlapping peaks in two different peak files.
-It also performs ChromHMM on individual files, overlapping and unique peaks.
+This function calculates the percentage of overlapping peaks in two peak files.
+It also performs ChromHMM on individual peak files, overlapping and unique peaks.
+The output of this function is a knitted HTML file, which will be saved in the specified outpath.
+}
+\examples{
+EpiCompare(peakfile1_path = "path/to/peakfile",
+           peakfile2_path = "path/to/peakfile",
+           outpath = "path/for/html" )
+
 }

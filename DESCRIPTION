@@ -7,9 +7,8 @@ Authors@R:
 	    role = c("cre"),
            email = "serachoi1230@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: Used to compare different epigenetic datasets. The package provides tools to calculate percentage overlap of peaks between two files and performs ChromHMM.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Description: Used to compare two different epigenetic datasets. The package provides tools to calculate percentage of overlapping peaks between two files and performs ChromHMM. The output of this function is a knitted HTML report. 
+License: LICENSE
 LazyData: TRUE
 Depends: R(>= 4.0.2)
 Imports:
@@ -17,7 +16,6 @@ Imports:
 	ChIPseeker,
 	dplyr,
 	genomation,
-	knitr,
 	IRanges,
 	reshape2,
 	ggplot2,
@@ -27,3 +25,6 @@ Imports:
 	knitr
 RoxygenNote: 7.1.2
 Encoding: UTF-8
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
