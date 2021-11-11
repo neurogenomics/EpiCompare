@@ -7,14 +7,14 @@
 EpiCompare(peakfile1_path, peakfile2_path, outpath)
 }
 \arguments{
-\item{peakfile1_path}{Specify the path to your peakfile 1}
+\item{peakfile1_path}{Path to your peakfile 1}
 
-\item{peakfile2_path}{Specify the path to your peakfile 2}
+\item{peakfile2_path}{Path to your peakfile 2}
 
-\item{outpath}{Specify the path to where you want the knitted HTML report}
+\item{outpath}{Path to where you want the knitted HTML report}
 }
 \value{
-
+a knitted HTML report containing results of the analysis
 }
 \description{
 This function calculates the percentage of overlapping peaks in two peak files.
@@ -22,8 +22,8 @@ It also performs ChromHMM on individual peak files, overlapping and unique peaks
 The output of this function is a knitted HTML file, which will be saved in the specified outpath.
 }
 \examples{
-EpiCompare(peakfile1_path = "path/to/peakfile",
-           peakfile2_path = "path/to/peakfile",
-           outpath = "path/for/html" )
+EpiCompare(peakfile1_path = "path/to/peakfile1",
+           peakfile2_path = "path/to/peakfile2",
+           outpath = "path/for/output/report" )
 
 }

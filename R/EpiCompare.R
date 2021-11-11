@@ -4,20 +4,20 @@
 #' It also performs ChromHMM on individual peak files, overlapping and unique peaks.
 #' The output of this function is a knitted HTML file, which will be saved in the specified outpath.
 #'
-#' @param peakfile1_path Specify the path to your peakfile 1
-#' @param peakfile2_path Specify the path to your peakfile 2
-#' @param outpath Specify the path to where you want the knitted HTML report
+#' @param peakfile1_path Path to your peakfile 1
+#' @param peakfile2_path Path to your peakfile 2
+#' @param outpath Path to where you want the knitted HTML report
 #'
-#' @return
+#' @return a knitted HTML report containing results of the analysis
 #' @export
 #' @examples
-#' EpiCompare(peakfile1_path = "path/to/peakfile",
-#'            peakfile2_path = "path/to/peakfile",
-#'            outpath = "path/for/html" )
+#' EpiCompare(peakfile1_path = "path/to/peakfile1",
+#'            peakfile2_path = "path/to/peakfile2",
+#'            outpath = "path/for/output/report" )
 #'
 EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
 
-  # read as GRanges
+  # read peakfiles as GRanges
   peakfile1 <- ChIPseeker::readPeakFile(peakfile1_path, as = "GRanges")
   peakfile2 <- ChIPseeker::readPeakFile(peakfile2_path, as = "GRanges")
 
@@ -41,49 +41,31 @@ EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
   peakfile1_in_peakfile2_unique_name <- paste0(peakfile1_name,"_not_in_",peakfile2_name)
   peakfile2_in_peakfile1_unique_name <- paste0(peakfile2_name,"_not_in_",peakfile1_name)
 
-  # ChromHMM
+  # download ChromHMM annotation file
   chrHMM_url <- "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
   chrHMM <- genomation::readBed(chrHMM_url)
   chrHMM_list <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
 
-  plot_chrHMM <- function(chrHMMfile1,chrHMMfile1_name, chrHMMfile2, chrHMMfile2_name){
-    peak_list <- GenomicRanges::GRangesList(file1 = chrHMMfile1, file2 = chrHMMfile2)
-    chromHMM_annotation <- genomation::annotateWithFeatures(peak_list, chrHMM_list)
-    matrix <- genomation::heatTargetAnnotation(chromHMM_annotation, plot = FALSE)
-    rownames(matrix) <- c(chrHMMfile1_name, chrHMMfile2_name)
-    matrix_melt <- reshape2::melt(matrix)
-    colnames(matrix_melt) = c("Sample", "State", "value")
+  # ChromHMM for individual peak files
+  chrHMM_sample <- EpiCompare::plot_chrHMM(chrHMMfile1 = peakfile1,
+                                           chrHMMfile1_name = peakfile1_name,
+                                           chrHMMfile2 = peakfile2,
+                                           chrHMMfile2_name = peakfile2_name,
+                                           chrHMM_list = chrHMM_list)
 
-    # Plot
-    chrHMM_plot <- ggplot2::ggplot(matrix_melt) +
-      ggplot2::geom_tile(ggplot2::aes(x = State, y = Sample, fill = value)) +
-      ggplot2::ylab("") +
-      ggplot2::xlab("") +
-      viridis::scale_fill_viridis() +
-      ggplot2::theme_minimal() +
-      ggpubr::rotate_x_text(angle = 45) +
-      ggplot2::theme(axis.text = ggplot2::element_text(size = 11))
+  # ChromHMM for overlapping peaks
+  chrHMM_overlap <- EpiCompare::plot_chrHMM(chrHMMfile1 = peakfile1_in_peakfile2,
+                                            chrHMMfile1_name = peakfile1_in_peakfile2_name,
+                                            chrHMMfile2 = peakfile2_in_peakfile1,
+                                            chrHMMfile2_name = peakfile2_in_peakfile1_name,
+                                            chrHMM_list = chrHMM_list)
 
-    return(chrHMM_plot)
-  }
-
-  # sample
-  chrHMM_sample <- plot_chrHMM(chrHMMfile1 = peakfile1,
-                               chrHMMfile1_name = peakfile1_name,
-                               chrHMMfile2 = peakfile2,
-                               chrHMMfile2_name = peakfile2_name)
-
-  # overlapping
-  chrHMM_overlap <- plot_chrHMM(chrHMMfile1 = peakfile1_in_peakfile2,
-                                chrHMMfile1_name = peakfile1_in_peakfile2_name,
-                                chrHMMfile2 = peakfile2_in_peakfile1,
-                                chrHMMfile2_name = peakfile2_in_peakfile1_name)
-
-  # unique
+  # ChromHMM for unique peaks
   chrHMM_unique <- plot_chrHMM(chrHMMfile1 = peakfile1_in_peakfile2_unique,
                               chrHMMfile1_name = peakfile1_in_peakfile2_unique_name,
                               chrHMMfile2 = peakfile2_in_peakfile1_unique,
-                              chrHMMfile2_name = peakfile2_in_peakfile1_unique_name)
+                              chrHMMfile2_name = peakfile2_in_peakfile1_unique_name,
+                              chrHMM_list = chrHMM_list)
 
   # markdown object
   markobj <- c('---',
