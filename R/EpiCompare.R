@@ -4,22 +4,25 @@
 #' It also performs ChromHMM on individual peak files, overlapping and unique peaks.
 #' The output of this function is a knitted HTML file, which will be saved in the specified outpath.
 #'
-#' @param peakfile1_path Path to your peakfile 1
-#' @param peakfile2_path Path to your peakfile 2
+#' @param peakfile1 Peakfile1 as GRanges object
+#' @param peakfile1_name Name of peakfile1 as strings (inserted in single/double quotation marks)
+#' @param peakfile2 Peakfile2 as GRanges object
+#' @param peakfile2_name Name of peakfile2 as strings (inserted in single/double quotation marks)
 #' @param outpath Path to where you want the knitted HTML report
 #'
 #' @return a knitted HTML report containing results of the analysis
 #' @export
 #' @examples
-#' EpiCompare(peakfile1_path = "path/to/peakfile1",
-#'            peakfile2_path = "path/to/peakfile2",
-#'            outpath = "path/for/output/report" )
+#' library(EpiCompare)
+#' data(encode_H3K27ac) # example dataset as GRanges object
+#' data(CnT_H3K27ac) # example dataset as GRanges object
+#' EpiCompare(peakfile1 = encode_H3K27ac,
+#'            peakfile1_name = "ENCODE",
+#'            peakfile2 = CnT_H3K27ac,
+#'            peakfile2_name = "CUT&Tag",
+#'            outpath = "./EpiCompare.html" )
 #'
-EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
-
-  # read peakfiles as GRanges
-  peakfile1 <- ChIPseeker::readPeakFile(peakfile1_path, as = "GRanges")
-  peakfile2 <- ChIPseeker::readPeakFile(peakfile2_path, as = "GRanges")
+EpiCompare <- function(peakfile1, peakfile1_name, peakfile2, peakfile2_name, outpath){
 
   # subset overlapping peaks
   peakfile1_in_peakfile2 <- IRanges::subsetByOverlaps(x = peakfile1, ranges = peakfile2)
@@ -34,8 +37,6 @@ EpiCompare <- function(peakfile1_path, peakfile2_path, outpath){
   percent_overlap_peakfile2 <- length(peakfile2_in_peakfile1)/length(peakfile2)*100
 
   # file names
-  peakfile1_name <- basename(peakfile1_path)
-  peakfile2_name <- basename(peakfile2_path)
   peakfile1_in_peakfile2_name <- paste0(peakfile1_name,"_in_",peakfile2_name)
   peakfile2_in_peakfile1_name <- paste0(peakfile2_name,"_in_",peakfile1_name)
   peakfile1_in_peakfile2_unique_name <- paste0(peakfile1_name,"_not_in_",peakfile2_name)

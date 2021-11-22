@@ -4,12 +4,16 @@
 \alias{EpiCompare}
 \title{Compare Two Epigenetic Datasets}
 \usage{
-EpiCompare(peakfile1_path, peakfile2_path, outpath)
+EpiCompare(peakfile1, peakfile1_name, peakfile2, peakfile2_name, outpath)
 }
 \arguments{
-\item{peakfile1_path}{Path to your peakfile 1}
+\item{peakfile1}{Peakfile1 as GRanges object}
 
-\item{peakfile2_path}{Path to your peakfile 2}
+\item{peakfile1_name}{Name of peakfile1 as strings (inserted in single/double quotation marks)}
+
+\item{peakfile2}{Peakfile2 as GRanges object}
+
+\item{peakfile2_name}{Name of peakfile2 as strings (inserted in single/double quotation marks)}
 
 \item{outpath}{Path to where you want the knitted HTML report}
 }
@@ -22,8 +26,13 @@ It also performs ChromHMM on individual peak files, overlapping and unique peaks
 The output of this function is a knitted HTML file, which will be saved in the specified outpath.
 }
 \examples{
-EpiCompare(peakfile1_path = "path/to/peakfile1",
-           peakfile2_path = "path/to/peakfile2",
-           outpath = "path/for/output/report" )
+library(EpiCompare)
+data(encode_H3K27ac) # example dataset as GRanges object
+data(CnT_H3K27ac) # example dataset as GRanges object
+EpiCompare(peakfile1 = encode_H3K27ac,
+           peakfile1_name = "ENCODE",
+           peakfile2 = CnT_H3K27ac,
+           peakfile2_name = "CUT&Tag",
+           outpath = "./EpiCompare.html" )
 
 }
