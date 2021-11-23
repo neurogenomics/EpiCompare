@@ -16,6 +16,7 @@
 #' library(EpiCompare)
 #' data(encode_H3K27ac) # example dataset as GRanges object
 #' data(CnT_H3K27ac) # example dataset as GRanges object
+#'
 #' EpiCompare(peakfile1 = encode_H3K27ac,
 #'            peakfile1_name = "ENCODE",
 #'            peakfile2 = CnT_H3K27ac,
@@ -43,30 +44,32 @@ EpiCompare <- function(peakfile1, peakfile1_name, peakfile2, peakfile2_name, out
   peakfile2_in_peakfile1_unique_name <- paste0(peakfile2_name,"_not_in_",peakfile1_name)
 
   # download ChromHMM annotation file
-  chrHMM_url <- "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
-  chrHMM <- genomation::readBed(chrHMM_url)
-  chrHMM_list <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
+  #chrHMM_url <- "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
+  #chrHMM <- genomation::readBed(chrHMM_url)
+  #chromHMM_annotation_K562 <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
+
+  data("chromHMM_annotation_K562")
 
   # ChromHMM for individual peak files
   chrHMM_sample <- EpiCompare::plot_chrHMM(chrHMMfile1 = peakfile1,
                                            chrHMMfile1_name = peakfile1_name,
                                            chrHMMfile2 = peakfile2,
                                            chrHMMfile2_name = peakfile2_name,
-                                           chrHMM_list = chrHMM_list)
+                                           chrHMM_list = chromHMM_annotation_K562)
 
   # ChromHMM for overlapping peaks
   chrHMM_overlap <- EpiCompare::plot_chrHMM(chrHMMfile1 = peakfile1_in_peakfile2,
                                             chrHMMfile1_name = peakfile1_in_peakfile2_name,
                                             chrHMMfile2 = peakfile2_in_peakfile1,
                                             chrHMMfile2_name = peakfile2_in_peakfile1_name,
-                                            chrHMM_list = chrHMM_list)
+                                            chrHMM_list = chromHMM_annotation_K562)
 
   # ChromHMM for unique peaks
   chrHMM_unique <- plot_chrHMM(chrHMMfile1 = peakfile1_in_peakfile2_unique,
                               chrHMMfile1_name = peakfile1_in_peakfile2_unique_name,
                               chrHMMfile2 = peakfile2_in_peakfile1_unique,
                               chrHMMfile2_name = peakfile2_in_peakfile1_unique_name,
-                              chrHMM_list = chrHMM_list)
+                              chrHMM_list = chromHMM_annotation_K562)
 
   # markdown object
   markobj <- c('---',
@@ -122,4 +125,3 @@ EpiCompare <- function(peakfile1, peakfile1_name, peakfile2, peakfile2_name, out
   # knit into HTML
   markdown::markdownToHTML(text = knitr::knit(text = markobj), output = outpath)
 }
-

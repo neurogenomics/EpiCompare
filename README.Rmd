@@ -1,0 +1,68 @@
+---
+title: "`EpiCompare`: QC and Benchmarking of Epigenetic Datasets"
+author: "Sera Choi"
+date: "23/11/2021"
+output: 
+  github_document:
+editor_options:
+  chunk_output_type: inline
+---
+
+# Introduction 
+
+`EpiCompare` is an R package for QC and benchmarking epigenetic datasets. 
+It currently performs two functions:
+
+1. Calculates percentage of overlapping peaks in two peak files 
+2. Performs ChromHMM for individual peak files, overlapping and unique peaks. 
+
+The function outputs a report in HTML format. 
+
+# Installation 
+
+How to install the package. 
+
+# Usage 
+
+Load package and example datasets. The two example peakfiles have been 
+```{r setup}
+library(EpiCompare)
+data("encode_H3K27ac")
+data("CnT_H3K27ac")
+```
+
+The two example peakfiles have been transformed into GRanges object. 
+If your peak files are in BED format, simply use `ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")`.
+
+```{r, eval=FALSE}
+EpiCompare(peakfile1 = encode_H3K27ac,
+           peakfile1_name = "encode",
+           peakfile2 = CnT_H3K27ac,
+           peakfile2_name = "CUT&Tag",
+           outpath = "./EpiCompare.html")
+```
+
+
+# Session Info
+
+<details>
+
+```{r Session Info}
+utils::sessionInfo()
+```
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

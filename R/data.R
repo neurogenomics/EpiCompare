@@ -45,3 +45,18 @@
 #'
 "CnR_H3K27ac"
 
+#' ChromHMM annotation file
+#'
+#' ChromHMM annotation for human K562 cell-line.
+#' Obtained from \url{http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/}
+#'
+#' @source
+#' The code to prepare the .Rda file from the raw peak file is:
+#' \code{
+#' chrHMM_url <- "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
+#' chrHMM <- genomation::readBed(chrHMM_url)
+#' chrHMM_list <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
+#' }
+#'
+"chromHMM_annotation_K562"
+
