@@ -26,5 +26,7 @@ Imports:
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 Suggests: 
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
