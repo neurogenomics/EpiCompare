@@ -1,2 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^README.Rmd
+^\.github$
+^Dockerfile$
+^docs$
+^figure$
+^EpiCompare.html$
+

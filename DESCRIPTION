@@ -8,7 +8,7 @@ Authors@R:
            email = "serachoi1230@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Used to compare two different epigenetic datasets. The package provides tools to calculate percentage of overlapping peaks between two files and performs ChromHMM. The output of this function is a knitted HTML report. 
-License: Artistic-2.0
+License: GPL-3
 LazyData: TRUE
 Depends: R(>= 4.0)
 Imports:

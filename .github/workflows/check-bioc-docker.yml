@@ -34,7 +34,7 @@ name: R-CMD-check-bioc
 ## Note that you can always run a GHA test without the cache by using the word
 ## "/nocache" in the commit message.
 env:
-  run_bioccheck: 'true'
+  run_bioccheck: 'false'
   has_testthat: 'true'
   run_covr: 'true'
   run_pkgdown: 'true'
@@ -201,7 +201,7 @@ jobs:
           ## For running the checks
           ### hrbrthemes necessary to avoid ggplot2 errors on MacOS: https://stackoverflow.com/a/66423481/13214824
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
-          install.packages(c("rcmdcheck", "BiocCheck", repos = gha_repos)
+          install.packages(c("rcmdcheck", "BiocCheck") repos = gha_repos)
 
           ## Pass #1 at installing dependencies
           ## This pass uses AnVIL-powered fast binaries
