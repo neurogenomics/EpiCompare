@@ -43,12 +43,11 @@ EpiCompare <- function(peakfile1, peakfile1_name, peakfile2, peakfile2_name, out
   peakfile1_in_peakfile2_unique_name <- paste0(peakfile1_name,"_not_in_",peakfile2_name)
   peakfile2_in_peakfile1_unique_name <- paste0(peakfile2_name,"_not_in_",peakfile1_name)
 
-  # download ChromHMM annotation file
-  #chrHMM_url <- "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
-  #chrHMM <- genomation::readBed(chrHMM_url)
-  #chromHMM_annotation_K562 <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
 
-  data("chromHMM_annotation_K562")
+  #download ChromHMM annotation file
+  chrHMM_url <- "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
+  chrHMM <- genomation::readBed(chrHMM_url)
+  chromHMM_annotation_K562 <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
 
   # ChromHMM for individual peak files
   chrHMM_sample <- EpiCompare::plot_chrHMM(chrHMMfile1 = peakfile1,
