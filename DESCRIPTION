@@ -13,8 +13,6 @@ LazyData: TRUE
 Depends: R(>= 4.0)
 Imports:
 	GenomicRanges,
-	ChIPseeker,
-	dplyr,
 	genomation,
 	IRanges,
 	reshape2,
@@ -22,7 +20,8 @@ Imports:
 	viridis,
 	ggpubr,
 	markdown,
-	knitr
+	knitr,
+	utils
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 Suggests: 

@@ -14,8 +14,8 @@
 #' @export
 #' @examples
 #' library(EpiCompare)
-#' data(encode_H3K27ac) # example dataset as GRanges object
-#' data(CnT_H3K27ac) # example dataset as GRanges object
+#' data("encode_H3K27ac") # example dataset as GRanges object
+#' data("CnT_H3K27ac") # example dataset as GRanges object
 #'
 #' EpiCompare(peakfile1 = encode_H3K27ac,
 #'            peakfile1_name = "ENCODE",
