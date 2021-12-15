@@ -8,6 +8,16 @@ editor_options:
   chunk_output_type: inline
 ---
 
+<!-- badges: start -->
+<!-- badger::badge_codecov() -->
+<!-- copied from MungeSumstats README.Rmd -->
+<!-- badger::badge_lifecycle("stable", "green") -->
+<!-- badger::badge_last_commit()  -->
+<!-- badger::badge_license() -->
+[![R build status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions) 
+[![R build status](https://github.com/neurogenomics/EpiCompare/workflows/DockerHub/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions) 
+<!-- badges: end --> 
+
 # Introduction 
 
 `EpiCompare` is an R package for QC and benchmarking epigenetic datasets. 
