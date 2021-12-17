@@ -1,4 +1,4 @@
-EpiCompare <- function(peakfiles, file_names, output_dir){
+EpiCompare <- function(peakfiles, file_names, blacklist, output_dir){
 
   markdown_path <- system.file("markdown", "EpiCompare.Rmd", package = "EpiCompare")
 
@@ -8,9 +8,9 @@ EpiCompare <- function(peakfiles, file_names, output_dir){
     params = list(
       peakfile = peakfiles,
       file_name = file_names,
+      blacklist = blacklist,
       output_dir = output_dir
     )
-
   )
 }
 

@@ -9,7 +9,9 @@ params:
   file_name: 
    value: x
   output_dir:
-   value: x
+   value: "./"
+  blacklist:
+    value: x
 ---
 
 ```{r setup, include=FALSE}
@@ -32,9 +34,40 @@ for (name in params$file_name){
 
 ## Peakfile information
 
+### Summary 
+
 ```{r, echo=FALSE}
-peak_info(peakfiles = params$peakfile,
-          file_names = params$file_name)
+peak_info(peak_list = params$peakfile,
+          file_names = params$file_name,
+          blacklist = params$blacklist)
 ```
+
+### Peak widths 
+
+Peak width after removing blacklisted peaks. 
+
+```{r, echo=FALSE}
+# remove blacklist regions 
+peaklist_blrm <- list()
+for (sample in params$peakfile){
+  peak_blacklist_removed <- IRanges::subsetByOverlaps(sample, params$blacklist, invert = TRUE)
+  peaklist_blrm <- c(peaklist_blrm, peak_blacklist_removed)
+}
+
+peak_width <- list()
+for (sample in peaklist_blrm){
+  width <- list(GenomicRanges::width(sample))
+  peak_width <- c(peak_width, width)
+}
+
+boxplot(peak_width, names = params$file_name, ylab="Width (bp)", log = "y")
+```
+
+
+
+
+
+
+
 
 
