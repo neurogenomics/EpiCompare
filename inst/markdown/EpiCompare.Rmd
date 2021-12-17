@@ -1,0 +1,40 @@
+---
+title: "EpiCompare Report"
+author: "Sera Choi"
+date: "14/12/2021"
+output: html_document
+params:
+  peakfile: 
+   value: x
+  file_name: 
+   value: x
+  output_dir:
+   value: x
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+EpiCompare compares different epigenetic datasets for benchmarking and quality control purposes. 
+
+### Dataset summary
+
+Summary of input peak files 
+
+```{r name, echo=FALSE}
+n <- 1
+for (name in params$file_name){
+  print(paste0("File", n, ": ", name))
+  n <- n + 1
+}
+```
+
+## Peakfile information
+
+```{r, echo=FALSE}
+peak_info(peakfiles = params$peakfile,
+          file_names = params$file_name)
+```
+
+
