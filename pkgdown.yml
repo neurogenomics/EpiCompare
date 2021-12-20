@@ -1,7 +1,7 @@
 pandoc: 2.14.0.3
 pkgdown: 2.0.1.9000
-pkgdown_sha: 2cdb2e208661026722435f2fcda0d401f5c6d20f
+pkgdown_sha: 83ddb78f31dfeb6491ade584a720d5f101c54389
 articles:
   my-vignette: my-vignette.html
-last_built: 2021-12-15T12:24Z
+last_built: 2021-12-20T20:31Z
 
