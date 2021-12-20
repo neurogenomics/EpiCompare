@@ -10,6 +10,15 @@
 #' @export
 #'
 #' @examples
+#' library(EpiCompare)
+#' data("encode_H3K27ac") # example dataset as GRanges object
+#' data("CnT_H3K27ac") # example dataset as GRanges object
+#' data("hg19_blacklist") # example blacklist dataset as GRanges object
+#'
+#' peak_info(peak_list = list(encode_H3K27ac, CnT_H3K27ac),
+#'           file_names = c("ENCODE", "CnT"),
+#'           blacklist = hg19_blacklist)
+#'
 peak_info <- function(peak_list, file_names, blacklist){
 
   totalN <- c()
