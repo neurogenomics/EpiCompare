@@ -22,7 +22,7 @@ EpiCompare compares different epigenetic datasets for benchmarking and quality c
 
 ### Dataset summary
 
-Summary of input peak files 
+Summary of peak files 
 
 ```{r name, echo=FALSE}
 n <- 1
@@ -32,7 +32,7 @@ for (name in params$file_name){
 }
 ```
 
-## Peakfile information
+## Peakfile information {.tabset}
 
 ### Summary 
 
@@ -64,9 +64,21 @@ boxplot(peak_width, names = params$file_name, ylab="Width (bp)", log = "y")
 ```
 
 
+## Overlapping Peaks {.tabset}
 
+### Sample files
 
+```{r, echo=FALSE, fig.width=7}
+overlap_heatmap(peaklist = peaklist_blrm,
+                namelist = params$file_name)
+```
 
+### Sample files + other ENCODE datasets
+
+```{r, echo=FALSE, fig.width=7}
+overlap_heatmap(peaklist = peaklist_blrm,
+                namelist = params$file_name)
+```
 
 
 

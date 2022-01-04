@@ -21,7 +21,8 @@ Imports:
 	ggpubr,
 	markdown,
 	knitr,
-	utils
+	utils,
+	heatmaply
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 Suggests: 
