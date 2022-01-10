@@ -2,5 +2,6 @@
 
 export(EpiCompare)
 export(overlap_heatmap)
+export(overlap_stat_plot)
 export(peak_info)
 export(plot_chrHMM)

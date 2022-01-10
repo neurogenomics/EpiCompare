@@ -1,7 +1,7 @@
 ---
 title: "`EpiCompare`: QC and Benchmarking of Epigenetic Datasets"
 author: "Sera Choi"
-date: "23/11/2021"
+date: "<h5><i>Updated</i>: `r format(Sys.Date(), '%b-%d-%Y')`</h5>"
 output: 
   github_document:
 editor_options:
@@ -9,49 +9,51 @@ editor_options:
 ---
 
 <!-- badges: start -->
-<!-- badger::badge_codecov() -->
-<!-- copied from MungeSumstats README.Rmd -->
-<!-- badger::badge_lifecycle("stable", "green") -->
-<!-- badger::badge_last_commit()  -->
-<!-- badger::badge_license() -->
-[![R build status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions) 
-[![R build status](https://github.com/neurogenomics/EpiCompare/workflows/DockerHub/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions) 
+`r badger::badge_bioc_release(color = "black")`
+`r badger::badge_github_version(color = "black")`
+`r badger::badge_github_actions(action = "DockerHub")`
+`r badger::badge_github_actions(action = "R-CMD-check-bioc")`
+`r badger::badge_last_commit(branch = "master")`
+`r badger::badge_codecov(branch = "master")`
+`r badger::badge_license()`
 <!-- badges: end --> 
 
 # Introduction 
 
-`EpiCompare` is an R package for QC and benchmarking epigenetic datasets. 
-It currently performs two functions:
+`EpiCompare` is an R package for that compares different epigenetic datasets for quality control and benchmarking purposes. 
+The function outputs a report in HTML format consisting of three sections:
 
-1. Calculates percentage of overlapping peaks in two peak files 
-2. Performs ChromHMM for individual peak files, overlapping and unique peaks. 
-
-The function outputs a report in HTML format. 
+1. General Metrics: Metrics on fragments (mapped and unique fragments, duplication rate) and peaks (blacklisted peaks and widths)
+2. Peak Overlaps: Percentage and statistical significance of overlapping and non-overlapping peaks 
+3. Functional Annotation: Functional annotation (ChromHMM, motif and enrichment analysis) of peaks 
 
 # Installation 
 
-How to install the package. 
+[Include How to install the package!] 
 
 # Usage 
 
-Load package and example datasets. The two example peakfiles have been 
+Load package and example datasets.
 ```{r setup}
 library(EpiCompare)
 data("encode_H3K27ac")
 data("CnT_H3K27ac")
+data("CnR_H3K27ac")
+data("hg19_blacklist")
 ```
 
-The two example peakfiles have been transformed into GRanges object. 
-If your peak files are in BED format, simply use `ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")`.
+Input files must be in GRanges object. To convert BED file into GRanges, simply use `ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")`. If there are more than one peak files, the files must be listed. [UPDATE]
 
 ```{r, eval=FALSE}
-EpiCompare(peakfile1 = encode_H3K27ac,
-           peakfile1_name = "encode",
-           peakfile2 = CnT_H3K27ac,
-           peakfile2_name = "CUT&Tag",
-           outpath = "./EpiCompare.html")
+EpiCompare(peakfiles = list(encode_H3K27ac, CnT_H3K27ac, CnR_H3K27ac),
+           names = c("ENCODE", "CnT", "CnR"),
+           blacklist = hg19_blacklist,
+           picard = list(encode_picard, CnT_picard, CnR_picard),
+           picard_names = c("encode","CnT","CnR"),
+           reference = encode_H3K27ac,
+           stat_plot = TRUE,
+           output_dir = "./")
 ```
-
 
 # Session Info
 

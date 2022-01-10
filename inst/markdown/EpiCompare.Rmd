@@ -1,52 +1,94 @@
 ---
 title: "EpiCompare Report"
 author: "Sera Choi"
-date: "14/12/2021"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 params:
   peakfile: 
-   value: x
-  file_name: 
-   value: x
-  output_dir:
-   value: "./"
-  blacklist:
     value: x
+  names: 
+    value: x
+  output_dir: 
+    value: "./"
+  blacklist: 
+    value: x
+  picard_list:
+    value : NULL
+  picard_names:
+    value : NULL
+  reference: 
+    value: NULL
+  stat_plot:
+    value: FALSE
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 EpiCompare compares different epigenetic datasets for benchmarking and quality control purposes. 
+The report consists of three main sections:
 
-### Dataset summary
+1. **General Metrics:** Metrics on fragments (duplication rate) and peaks (blacklisted peaks and widths)
+2. **Peak Overlaps:** Percentage and statistical significance of overlapping and unique peaks
+3. **Functional Annotation:** Functional annotation (ChromHMM, motif and enrich) of peaks. 
 
-Summary of peak files 
+Input peak files. Total of `r length(params$names)` samples: 
 
 ```{r name, echo=FALSE}
 n <- 1
-for (name in params$file_name){
+for (name in params$names){
   print(paste0("File", n, ": ", name))
   n <- n + 1
 }
 ```
 
-## Peakfile information {.tabset}
+<br>
 
-### Summary 
+## 1. General Metrics {.tabset}
 
-```{r, echo=FALSE}
+<br>
+
+### Fragment Information
+
+This information is displayed only if summary metrics from Picard is provided. See help manual. 
+
+* Mapped_Fragments: Number of mapped read pairs in the file. 
+* Duplication_Rate: Percentage of mapped sequence that is marked as duplicate.
+* Unique_Fragments: Number of mapped sequence that is not marked as duplicate. 
+
+<br>
+
+```{r, echo=FALSE, warning=FALSE}
+if (is.null(params$picard_list) == FALSE){
+  fragment_info(picard_list = params$picard_list,
+                namelist = params$picard_names)
+}
+
+```
+
+### Peak Information 
+
+* Total_N: Total number of peaks including those blacklisted. 
+* Blacklisted_Peaks: Percentage of blacklisted peaks present in the sample. 
+
+<br>
+
+```{r, echo=FALSE, warning=FALSE}
 peak_info(peak_list = params$peakfile,
-          file_names = params$file_name,
+          file_names = params$names,
           blacklist = params$blacklist)
 ```
 
 ### Peak widths 
 
-Peak width after removing blacklisted peaks. 
+Distribution of peak widths in each sample after removing blacklisted peaks. 
 
-```{r, echo=FALSE}
+<br> 
+
+```{r, echo=FALSE, warning=FALSE}
 # remove blacklist regions 
 peaklist_blrm <- list()
 for (sample in params$peakfile){
@@ -54,32 +96,55 @@ for (sample in params$peakfile){
   peaklist_blrm <- c(peaklist_blrm, peak_blacklist_removed)
 }
 
-peak_width <- list()
-for (sample in peaklist_blrm){
-  width <- list(GenomicRanges::width(sample))
-  peak_width <- c(peak_width, width)
+width_boxplot(peaklist = peaklist_blrm,
+              namelist = params$names)
+```
+
+<br>
+
+## 2. Peak Overlaps {.tabset}
+
+### Individual samples 
+
+Heatmap of percentage overlaps between input peak files. 
+Hover over the heatmap for percentage values. 
+<br>
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE}
+overlap_heatmap(peaklist = peaklist_blrm,
+                namelist = params$names)
+```
+
+### Individual samples + other histone modifications
+
+Heatmap of percentage overlaps between input peak files and other histone marks from ENCODE. 
+Hover over the heatmap for percentage values. 
+<br>
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE}
+overlap_heatmap(peaklist = peaklist_blrm,
+                namelist = params$names)
+```
+
+### Significance of overlapping vs unique peaks 
+
+The plot is displayed only if a reference peak file is provided and `stat_plot = TRUE`. 
+Depending on the format of the reference file, the function output different plots:
+
+* If the reference file has BED6+4 format (peak called with MACS2), the plot is a paired boxplot showing a distribution 
+of $-log10(q-value)$ for overlapping and unique peaks per sample.
+* If the reference file does not have BED6+4 format, it generates a barplot of percentage overlap per sample, coloured by adjusted p-value.
+
+<br>
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE}
+if (is.null(params$reference) == FALSE){
+  if (params$stat_plot == TRUE){
+    overlap_stat_plot(reference = params$reference,
+                      peaklist = peaklist_blrm,
+                      namelist = params$names)
+  }
 }
-
-boxplot(peak_width, names = params$file_name, ylab="Width (bp)", log = "y")
 ```
-
-
-## Overlapping Peaks {.tabset}
-
-### Sample files
-
-```{r, echo=FALSE, fig.width=7}
-overlap_heatmap(peaklist = peaklist_blrm,
-                namelist = params$file_name)
-```
-
-### Sample files + other ENCODE datasets
-
-```{r, echo=FALSE, fig.width=7}
-overlap_heatmap(peaklist = peaklist_blrm,
-                namelist = params$file_name)
-```
-
-
 
 

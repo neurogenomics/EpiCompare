@@ -3,7 +3,7 @@
 #' @param peaklist A list of peaks as GRanges object. Objects in list using `list()`
 #' @param namelist A list of names. Names in list using `c()`
 #'
-#' @return A heatmap
+#' @return An interactive heatmap
 #' @export
 #'
 #' @examples
@@ -25,6 +25,7 @@ overlap_heatmap <- function(peaklist, namelist){
   df <- data.frame(matrix(unlist(overlap_list), ncol = max(lengths(overlap_list)), byrow = FALSE))
   colnames(df) <- namelist
   rownames(df) <- namelist
-  heatmap <- heatmaply::heatmaply(df)
+  heatmap <- heatmaply::heatmaply(df, Rowv = FALSE, Colv = FALSE)
   return(heatmap)
 }
+

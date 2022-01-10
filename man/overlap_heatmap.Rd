@@ -12,7 +12,7 @@ overlap_heatmap(peaklist, namelist)
 \item{namelist}{A list of names. Names in list using `c()`}
 }
 \value{
-A heatmap
+An interactive heatmap
 }
 \description{
 Generate heatmap of percentage overlap

@@ -21,10 +21,10 @@
 #'
 peak_info <- function(peak_list, file_names, blacklist){
 
-  totalN <- c()
+  Total_N <- c()
   for (sample in peak_list){
     N <- length(sample)
-    totalN <- c(totalN, N)
+    Total_N <- c(Total_N, N)
   }
 
   blacklist_percent <- c()
@@ -34,6 +34,7 @@ peak_info <- function(peak_list, file_names, blacklist){
     blacklist_percent <- c(blacklist_percent, signif(blacklistP, 3))
   }
 
-  df <- data.frame(file_names, totalN, blacklist_percent)
+  df <- data.frame(file_names, Total_N, blacklist_percent)
+  colnames(df) <- c("Sample", "Total_N", "Blacklisted_Peaks (%)")
   knitr::kable(df)
 }

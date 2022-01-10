@@ -4,15 +4,35 @@
 \alias{EpiCompare}
 \title{Compare epigenetic datasets}
 \usage{
-EpiCompare(peakfiles, file_names, blacklist, output_dir)
+EpiCompare(
+  peakfiles,
+  names,
+  blacklist,
+  picard = NULL,
+  picard_names = NULL,
+  reference = NULL,
+  stat_plot = FALSE,
+  output_dir
+)
 }
 \arguments{
 \item{peakfiles}{A list of peak files as GRanges object. Files must be listed using `list()`}
 
-\item{file_names}{A list of file names in the same order as the list of peak files.
+\item{names}{A list of file names in the same order as the list of peak files.
 Names must be specified using `c()`}
 
 \item{blacklist}{A GRanges object containing blacklisted regions.}
+
+\item{picard}{A list of summary metrics output from Picard.}
+
+\item{picard_names}{A list of names in the same order as the list of Picard summary output.}
+
+\item{reference}{A reference peak file as GRanges object.
+If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
+and (2) ChromHMM of overlapping/non-overlapping peaks}
+
+\item{stat_plot}{Default FALSE. If set TRUE, the function creates a plot showing the statistical significance of
+overlapping/non-overlapping peaks. Reference peak file must be provided.}
 
 \item{output_dir}{Path to where output HTML file should be saved.}
 }
@@ -20,7 +40,9 @@ Names must be specified using `c()`}
 An HTML report
 }
 \description{
-Compare epigenetic datasets
+This function compares different epigenetic datasets and performs various functional analyses.
+The function outputs an HTML report containing results from the analysis.
+The report is mainly divided into three areas: (1) Peakfile information, (2) Overlapping peaks and (3) Functional annotations.
 }
 \examples{
 library(EpiCompare)
@@ -29,8 +51,10 @@ data("CnT_H3K27ac") # example dataset as GRanges object
 data("hg19_blacklist") # example blacklist dataset as GRanges object
 
 EpiCompare(peakfiles = list(encode_H3K27ac, CnT_H3K27ac),
-           file_names = c("ENCODE", "CnT"),
+           names = c("ENCODE", "CnT"),
            blacklist = hg19_blacklist,
+           reference = encode_H3K27ac,
+           stat_plot = TRUE,
            output_dir = "./")
 
 }

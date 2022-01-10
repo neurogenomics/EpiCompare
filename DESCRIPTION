@@ -22,7 +22,9 @@ Imports:
 	markdown,
 	knitr,
 	utils,
-	heatmaply
+	heatmaply,
+	ChIPseeker,
+	TxDb.Hsapiens.UCSC.hg19.knownGene
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 Suggests: 
