@@ -8,6 +8,8 @@
 #' @param names A list of file names in the same order as the list of peak files.
 #' Names must be specified using `c()`
 #' @param blacklist A GRanges object containing blacklisted regions.
+#' @param picard A list of summary metrics output from Picard.
+#' @param picard_names A list of names in the same order as the list of Picard summary output.
 #' @param reference A reference peak file as GRanges object.
 #' If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
 #' and (2) ChromHMM of overlapping/non-overlapping peaks
