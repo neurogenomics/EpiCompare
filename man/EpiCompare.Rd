@@ -12,6 +12,7 @@ EpiCompare(
   picard_names = NULL,
   reference = NULL,
   stat_plot = FALSE,
+  save_output = FALSE,
   output_dir
 )
 }
@@ -31,8 +32,10 @@ Names must be specified using `c()`}
 If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
 and (2) ChromHMM of overlapping/non-overlapping peaks}
 
-\item{stat_plot}{Default FALSE. If set TRUE, the function creates a plot showing the statistical significance of
+\item{stat_plot}{Default FALSE. If TRUE, the function creates a plot showing the statistical significance of
 overlapping/non-overlapping peaks. Reference peak file must be provided.}
+
+\item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder.}
 
 \item{output_dir}{Path to where output HTML file should be saved.}
 }

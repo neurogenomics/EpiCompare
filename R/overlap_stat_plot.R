@@ -53,7 +53,13 @@ overlap_stat_plot <- function(reference, peaklist, namelist){
       overlap_unique_df <- rbind(overlap_df, unique_df)
       df <- rbind(df, overlap_unique_df)
     }
-    ggplot2::ggplot(df, ggplot2::aes(x=sample, y=qvalue, fill=group)) + ggplot2::geom_boxplot(outlier.shape = NA) + ggplot2::theme_light() + ggplot2::ylim(0, 500) + ggplot2::labs(x="",y="-log10(q)",fill="") + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1, hjust=1))
+    plot <- ggplot2::ggplot(df, ggplot2::aes(x=sample, y=qvalue, fill=group)) +
+            ggplot2::geom_boxplot(outlier.shape = NA) +
+            ggplot2::theme_light() + ggplot2::ylim(0, 500) +
+            ggplot2::labs(x="",y="-log10(q)",fill="") +
+            ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1, hjust=1))
+
+    return(list(plot, df))
 
    }else{
     txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
@@ -67,7 +73,11 @@ overlap_stat_plot <- function(reference, peaklist, namelist){
       percent_overlap <- c(percent_overlap, percent)
     }
     overlap_result$percent_overlap <- percent_overlap
-    ggplot2::ggplot(data=overlap_result, ggplot2::aes(x=tSample,y=percent_overlap,fill=p.adjust)) + ggplot2::geom_bar(stat="identity") + ggplot2::scale_fill_continuous(type="viridis") + ggplot2::theme_light() + ggplot2::labs(x="",y="Percentage overlap (%)") + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1, hjust=1))
+    plot <- ggplot2::ggplot(data=overlap_result, ggplot2::aes(x=tSample,y=percent_overlap,fill=p.adjust)) +
+            ggplot2::geom_bar(stat="identity") + ggplot2::scale_fill_continuous(type="viridis") +
+            ggplot2::theme_light() + ggplot2::labs(x="",y="Percentage overlap (%)") +
+            ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1, hjust=1))
+
+    return(list(plot, overlap_result))
   }
 }
-

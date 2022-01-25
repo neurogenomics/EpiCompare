@@ -1,6 +1,7 @@
 #' Summary of Peak Information
 #'
 #' This function outputs a table summarizing information on the peak files.
+#' Provides the total number of peaks and the percentage of peaks in blacklisted regions.
 #'
 #' @param peak_list A list of peak files as GRanges object. Objects in lists using `list()`.
 #' @param file_names A list of file names in the correct order of peak_list. Names in list using `c()`.
@@ -36,5 +37,5 @@ peak_info <- function(peak_list, file_names, blacklist){
 
   df <- data.frame(file_names, Total_N, blacklist_percent)
   colnames(df) <- c("Sample", "Total_N", "Blacklisted_Peaks (%)")
-  knitr::kable(df)
+  return(df)
 }

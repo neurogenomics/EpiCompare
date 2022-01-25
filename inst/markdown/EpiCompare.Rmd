@@ -2,18 +2,18 @@
 title: "EpiCompare Report"
 author: "Sera Choi"
 output: 
-  html_document:
-    toc: true
-    toc_float: true
+  html_document: 
+    toc: yes
+    toc_float: yes
 params:
   peakfile: 
-    value: x
+    value: NULL
   names: 
-    value: x
+    value: NULL
   output_dir: 
     value: "./"
   blacklist: 
-    value: x
+    value: NULL
   picard_list:
     value : NULL
   picard_names:
@@ -22,10 +22,18 @@ params:
     value: NULL
   stat_plot:
     value: FALSE
+  save_output:
+    value: FALSE
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+if(params$save_output){
+  outfile_dir <- paste0(params$output_dir,"/EpiCompare_file")
+  if(!dir.exists(outfile_dir)){
+    dir.create(outfile_dir)
+  }
+}
 ```
 
 EpiCompare compares different epigenetic datasets for benchmarking and quality control purposes. 
@@ -62,11 +70,15 @@ This information is displayed only if summary metrics from Picard is provided. S
 <br>
 
 ```{r, echo=FALSE, warning=FALSE}
-if (is.null(params$picard_list) == FALSE){
-  fragment_info(picard_list = params$picard_list,
-                namelist = params$picard_names)
-}
-
+if (!is.null(params$picard_list)){
+  fragment_info_df <- fragment_info(picard_list = params$picard_list,
+                                    namelist = params$picard_names)
+  knitr::kable(fragment_info_df)
+  
+  if(params$save_output){
+    write.table(fragment_info_df, file=paste0(outfile_dir,"/fragment_info"), sep="\t")
+    }
+}   
 ```
 
 ### Peak Information 
@@ -77,9 +89,14 @@ if (is.null(params$picard_list) == FALSE){
 <br>
 
 ```{r, echo=FALSE, warning=FALSE}
-peak_info(peak_list = params$peakfile,
-          file_names = params$names,
-          blacklist = params$blacklist)
+peak_info_df <- peak_info(peak_list = params$peakfile,
+                          file_names = params$names,
+                          blacklist = params$blacklist)
+knitr::kable(peak_info_df)
+
+if(params$save_output){
+  write.table(peak_info_df, file=paste0(outfile_dir,"/peak_info"), sep="\t")
+}
 ```
 
 ### Peak widths 
@@ -96,8 +113,14 @@ for (sample in params$peakfile){
   peaklist_blrm <- c(peaklist_blrm, peak_blacklist_removed)
 }
 
-width_boxplot(peaklist = peaklist_blrm,
-              namelist = params$names)
+width_plot <- width_boxplot(peaklist = peaklist_blrm,
+                            namelist = params$names)
+width_plot
+
+if(params$save_output){
+  ggplot2::ggsave(filename = "width_plot.png",plot = width_plot, device = "png", path = outfile_dir)
+  unlink("width_plot.png")
+}
 ```
 
 <br>
@@ -111,8 +134,16 @@ Hover over the heatmap for percentage values.
 <br>
 
 ```{r, echo=FALSE, fig.width=7, warning=FALSE}
-overlap_heatmap(peaklist = peaklist_blrm,
-                namelist = params$names)
+if(params$save_output){
+  overlap_heatmap(peaklist = peaklist_blrm,
+                  namelist = params$names,
+                  save_dir = paste0(outfile_dir,"/samples_percent_overlap.html"))
+  unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
+}else{
+  overlap_heatmap(peaklist = peaklist_blrm,
+                  namelist = params$names,
+                  save_dir = NULL)
+}
 ```
 
 ### Individual samples + other histone modifications
@@ -122,8 +153,16 @@ Hover over the heatmap for percentage values.
 <br>
 
 ```{r, echo=FALSE, fig.width=7, warning=FALSE}
-overlap_heatmap(peaklist = peaklist_blrm,
-                namelist = params$names)
+if(params$save_output){
+  overlap_heatmap(peaklist = peaklist_blrm,
+                  namelist = params$names,
+                  save_dir = paste0(outfile_dir,"/epimarks_percent_overlap.html"))
+  unlink(paste0(outfile_dir,"/epimarks_percent_overlap_files"), recursive = TRUE)
+}else{
+  overlap_heatmap(peaklist = peaklist_blrm,
+                  namelist = params$names,
+                  save_dir = NULL)
+}
 ```
 
 ### Significance of overlapping vs unique peaks 
@@ -140,9 +179,15 @@ of $-log10(q-value)$ for overlapping and unique peaks per sample.
 ```{r, echo=FALSE, fig.width=7, warning=FALSE}
 if (is.null(params$reference) == FALSE){
   if (params$stat_plot == TRUE){
-    overlap_stat_plot(reference = params$reference,
-                      peaklist = peaklist_blrm,
-                      namelist = params$names)
+    stat_plot <- overlap_stat_plot(reference = params$reference,
+                                   peaklist = peaklist_blrm,
+                                   namelist = params$names)
+    stat_plot[[1]]
+    
+    if(params$save_output){
+      ggplot2::ggsave(filename = "stat_plot.png", plot = stat_plot[[1]], device = "png", path = outfile_dir)
+      unlink("stat_plot.png")
+      }
   }
 }
 ```

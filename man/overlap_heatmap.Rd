@@ -4,16 +4,27 @@
 \alias{overlap_heatmap}
 \title{Generate heatmap of percentage overlap}
 \usage{
-overlap_heatmap(peaklist, namelist)
+overlap_heatmap(peaklist, namelist, save_dir = NULL)
 }
 \arguments{
 \item{peaklist}{A list of peaks as GRanges object. Objects in list using `list()`}
 
 \item{namelist}{A list of names. Names in list using `c()`}
+
+\item{save_dir}{Name of file to save the interactive heatmap output as HTML}
 }
 \value{
 An interactive heatmap
 }
 \description{
-Generate heatmap of percentage overlap
+This function generates a heatmap showing percentage of overlapping peaks between peak files.
+}
+\examples{
+library(EpiCompare)
+data("encode_H3K27ac") # example dataset as GRanges object
+data("CnT_H3K27ac") # example dataset as GRanges object
+
+overlap_heatmap(peaklist = list(encode_H3K27ac, CnT_H3K27ac),
+                namelist = c("ENCODE", "CnT"))
+
 }

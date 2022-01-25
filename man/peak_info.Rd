@@ -18,6 +18,7 @@ A summary table of peak information
 }
 \description{
 This function outputs a table summarizing information on the peak files.
+Provides the total number of peaks and the percentage of peaks in blacklisted regions.
 }
 \examples{
 library(EpiCompare)

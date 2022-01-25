@@ -13,8 +13,9 @@
 #' @param reference A reference peak file as GRanges object.
 #' If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
 #' and (2) ChromHMM of overlapping/non-overlapping peaks
-#' @param stat_plot Default FALSE. If set TRUE, the function creates a plot showing the statistical significance of
+#' @param stat_plot Default FALSE. If TRUE, the function creates a plot showing the statistical significance of
 #' overlapping/non-overlapping peaks. Reference peak file must be provided.
+#' @param save_output Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder.
 #' @param output_dir Path to where output HTML file should be saved.
 #'
 #' @return An HTML report
@@ -33,23 +34,24 @@
 #'            stat_plot = TRUE,
 #'            output_dir = "./")
 #'
-EpiCompare <- function(peakfiles, names, blacklist, picard=NULL, picard_names = NULL, reference = NULL, stat_plot = FALSE, output_dir){
+EpiCompare <- function(peakfiles, names, blacklist, picard=NULL, picard_names=NULL, reference=NULL, stat_plot = FALSE, save_output=FALSE, output_dir){
 
   markdown_path <- system.file("markdown", "EpiCompare.Rmd", package = "EpiCompare")
 
   rmarkdown::render(
-    input = markdown_path,
-    output_dir = output_dir,
-    params = list(
-      peakfile = peakfiles,
-      names = names,
-      blacklist = blacklist,
-      picard_list = picard,
-      picard_names = picard_names,
-      reference = reference,
-      stat_plot = stat_plot,
-      output_dir = output_dir
-    )
+      input = markdown_path,
+      output_dir = output_dir,
+      quiet = TRUE,
+      params = list(
+        peakfile = peakfiles,
+        names = names,
+        blacklist = blacklist,
+        picard_list = picard,
+        picard_names = picard_names,
+        reference = reference,
+        stat_plot = stat_plot,
+        save_output = save_output,
+        output_dir = output_dir)
   )
 }
 

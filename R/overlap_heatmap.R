@@ -1,13 +1,23 @@
 #' Generate heatmap of percentage overlap
 #'
+#' This function generates a heatmap showing percentage of overlapping peaks between peak files.
+#'
 #' @param peaklist A list of peaks as GRanges object. Objects in list using `list()`
 #' @param namelist A list of names. Names in list using `c()`
+#' @param save_dir Name of file to save the interactive heatmap output as HTML
 #'
 #' @return An interactive heatmap
 #' @export
 #'
 #' @examples
-overlap_heatmap <- function(peaklist, namelist){
+#' library(EpiCompare)
+#' data("encode_H3K27ac") # example dataset as GRanges object
+#' data("CnT_H3K27ac") # example dataset as GRanges object
+#'
+#' overlap_heatmap(peaklist = list(encode_H3K27ac, CnT_H3K27ac),
+#'                 namelist = c("ENCODE", "CnT"))
+#'
+overlap_heatmap <- function(peaklist, namelist, save_dir = NULL){
 
   overlap_list <- list() # empty list
   for(mainfile in peaklist){
@@ -26,6 +36,12 @@ overlap_heatmap <- function(peaklist, namelist){
   colnames(df) <- namelist
   rownames(df) <- namelist
   heatmap <- heatmaply::heatmaply(df, Rowv = FALSE, Colv = FALSE)
-  return(heatmap)
+
+  if(is.null(save_dir) == FALSE){
+    heatmaply::heatmaply(df, Rowv = FALSE, Colv = FALSE, file = save_dir)
+    return(heatmap)
+  }else{
+    return(heatmap)
+  }
 }
 
