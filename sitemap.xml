@@ -22,6 +22,12 @@
     <loc>/reference/CnT_H3K27ac.html</loc>
   </url>
   <url>
+    <loc>/reference/CnT_H3K27ac_picard.html</loc>
+  </url>
+  <url>
+    <loc>/reference/CnT_H3K27ac_seacr.html</loc>
+  </url>
+  <url>
     <loc>/reference/EpiCompare.html</loc>
   </url>
   <url>
@@ -29,6 +35,9 @@
   </url>
   <url>
     <loc>/reference/encode_H3K27ac.html</loc>
+  </url>
+  <url>
+    <loc>/reference/fragment_info.html</loc>
   </url>
   <url>
     <loc>/reference/hg19_blacklist.html</loc>
@@ -47,5 +56,8 @@
   </url>
   <url>
     <loc>/reference/plot_chrHMM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/width_boxplot.html</loc>
   </url>
 </urlset>
