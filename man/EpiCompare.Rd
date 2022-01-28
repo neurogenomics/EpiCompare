@@ -12,6 +12,7 @@ EpiCompare(
   picard_names = NULL,
   reference = NULL,
   stat_plot = FALSE,
+  chrmHMM_plot = FALSE,
   save_output = FALSE,
   output_dir
 )
@@ -35,7 +36,10 @@ and (2) ChromHMM of overlapping/non-overlapping peaks}
 \item{stat_plot}{Default FALSE. If TRUE, the function creates a plot showing the statistical significance of
 overlapping/non-overlapping peaks. Reference peak file must be provided.}
 
-\item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder.}
+\item{chrmHMM_plot}{Default FALSE. If TRUE, the function outputs ChromHMM heatmap of individual peak files.
+If a reference peak file is provided, ChromHMM annotation of overlapping and non-overlapping peaks is also provided.}
+
+\item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).}
 
 \item{output_dir}{Path to where output HTML file should be saved.}
 }
@@ -51,13 +55,17 @@ The report is mainly divided into three areas: (1) Peakfile information, (2) Ove
 library(EpiCompare)
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
+data("CnR_H3K27ac") # example dataset as GRanges object
 data("hg19_blacklist") # example blacklist dataset as GRanges object
+data("chromHMM_annotation_K562") # example of ChromHMM annotation file
 
-EpiCompare(peakfiles = list(encode_H3K27ac, CnT_H3K27ac),
-           names = c("ENCODE", "CnT"),
+EpiCompare(peakfiles = list(CnR_H3K27ac, CnT_H3K27ac),
+           names = c("CnR", "CnT"),
            blacklist = hg19_blacklist,
            reference = encode_H3K27ac,
            stat_plot = TRUE,
+           chrmHMM_plot = TRUE,
+           save_output = TRUE,
            output_dir = "./")
 
 }

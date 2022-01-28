@@ -39,7 +39,6 @@ overlap_heatmap <- function(peaklist, namelist, save_dir = NULL){
 
   if(is.null(save_dir) == FALSE){
     heatmaply::heatmaply(df, Rowv = FALSE, Colv = FALSE, file = save_dir)
-    return(heatmap)
   }else{
     return(heatmap)
   }

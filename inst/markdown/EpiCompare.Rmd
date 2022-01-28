@@ -22,6 +22,8 @@ params:
     value: NULL
   stat_plot:
     value: FALSE
+  chrmHMM_plot:
+    value: FALSE
   save_output:
     value: FALSE
 ---
@@ -105,7 +107,7 @@ Distribution of peak widths in each sample after removing blacklisted peaks.
 
 <br> 
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # remove blacklist regions 
 peaklist_blrm <- list()
 for (sample in params$peakfile){
@@ -115,7 +117,7 @@ for (sample in params$peakfile){
 
 width_plot <- width_boxplot(peaklist = peaklist_blrm,
                             namelist = params$names)
-width_plot
+print(width_plot)
 
 if(params$save_output){
   ggplot2::ggsave(filename = "width_plot.png",plot = width_plot, device = "png", path = outfile_dir)
@@ -134,16 +136,19 @@ Hover over the heatmap for percentage values.
 <br>
 
 ```{r, echo=FALSE, fig.width=7, warning=FALSE}
+
+overlap_heatmap <- overlap_heatmap(peaklist = peaklist_blrm,
+                  namelist = params$names,
+                  save_dir = NULL)
+overlap_heatmap
+
 if(params$save_output){
   overlap_heatmap(peaklist = peaklist_blrm,
                   namelist = params$names,
                   save_dir = paste0(outfile_dir,"/samples_percent_overlap.html"))
   unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
-}else{
-  overlap_heatmap(peaklist = peaklist_blrm,
-                  namelist = params$names,
-                  save_dir = NULL)
-}
+  }
+
 ```
 
 ### Individual samples + other histone modifications
@@ -153,16 +158,17 @@ Hover over the heatmap for percentage values.
 <br>
 
 ```{r, echo=FALSE, fig.width=7, warning=FALSE}
+overlap_heatmap <- overlap_heatmap(peaklist = peaklist_blrm,
+                  namelist = params$names,
+                  save_dir = NULL)
+overlap_heatmap
+
 if(params$save_output){
   overlap_heatmap(peaklist = peaklist_blrm,
                   namelist = params$names,
-                  save_dir = paste0(outfile_dir,"/epimarks_percent_overlap.html"))
-  unlink(paste0(outfile_dir,"/epimarks_percent_overlap_files"), recursive = TRUE)
-}else{
-  overlap_heatmap(peaklist = peaklist_blrm,
-                  namelist = params$names,
-                  save_dir = NULL)
-}
+                  save_dir = paste0(outfile_dir,"/samples_percent_overlap.html"))
+  unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
+  }
 ```
 
 ### Significance of overlapping vs unique peaks 
@@ -171,18 +177,18 @@ The plot is displayed only if a reference peak file is provided and `stat_plot =
 Depending on the format of the reference file, the function output different plots:
 
 * If the reference file has BED6+4 format (peak called with MACS2), the plot is a paired boxplot showing a distribution 
-of $-log10(q-value)$ for overlapping and unique peaks per sample.
+of -log10(q-value) for overlapping and unique peaks per sample.
 * If the reference file does not have BED6+4 format, it generates a barplot of percentage overlap per sample, coloured by adjusted p-value.
 
 <br>
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE}
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
 if (is.null(params$reference) == FALSE){
-  if (params$stat_plot == TRUE){
+  if (params$stat_plot){
     stat_plot <- overlap_stat_plot(reference = params$reference,
                                    peaklist = peaklist_blrm,
                                    namelist = params$names)
-    stat_plot[[1]]
+    print(stat_plot[[1]])
     
     if(params$save_output){
       ggplot2::ggsave(filename = "stat_plot.png", plot = stat_plot[[1]], device = "png", path = outfile_dir)
@@ -193,3 +199,92 @@ if (is.null(params$reference) == FALSE){
 ```
 
 
+## 3. Functional Annotation 
+
+### 3.1 ChromHMM {.tabset}
+
+ChromHMM annotates different chromatin states [(ChromHMM)](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning%20and%20characterizing%20chromatin%20states.&text=ChromHMM%20is%20based%20on%20a,one%20or%20more%20cell%20types.). The annotation used were obtained from [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).   
+
+
+#### All samples 
+
+ChromHMM annotation of individual peak files. 
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+if (params$chrmHMM_plot){
+  chrHMM_url = "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
+  chrHMM = genomation::readBed(chrHMM_url)
+  chrHMM_list = GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE) 
+  
+  samples_chrmHMM <- plot_chrmHMM(peaklist = peaklist_blrm,
+                                  namelist = params$names,
+                                  chrmHMM_annotation = chrHMM_list)
+  print(samples_chrmHMM)
+  
+  if(params$save_output){
+      ggplot2::ggsave(filename = "samples_chromHMM.png", plot = samples_chrmHMM, device = "png", path = outfile_dir)
+      unlink("samples_chromHMM.png")
+  }
+}
+```
+
+#### Overlapping peaks 
+
+ChromHMM annotation of peaks overlapping with the reference peak file. 
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+if (params$chrmHMM_plot){
+  if (is.null(params$reference)==FALSE){
+    overlap_list <- list()
+    
+    for(file in peaklist_blrm){
+      overlap <- IRanges::subsetByOverlaps(x = file, ranges = params$reference)
+      overlap_list <- c(overlap_list, overlap)
+      }
+    
+    overlap_chrmHMM <- plot_chrmHMM(peaklist = overlap_list,
+                                    namelist = params$names,
+                                    chrmHMM_annotation = chrHMM_list)
+    
+    print(overlap_chrmHMM)
+
+    if(params$save_output){
+      ggplot2::ggsave(filename = "overlap_chromHMM.png", plot = overlap_chrmHMM, device = "png", path = outfile_dir)
+      unlink("overlap_chromHMM.png")
+    }
+  }
+}
+```
+
+
+#### Unique peaks 
+
+ChromHMM annotation of peaks non-overlapping with the reference peak file. 
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+
+if (params$chrmHMM_plot){
+  if (is.null(params$reference)==FALSE){
+      unique_list <- list()
+    
+  for(file in peaklist_blrm){
+    unique <- IRanges::subsetByOverlaps(x = file, ranges = params$reference, invert = TRUE)
+    unique_list <- c(unique_list, unique)
+    }
+    
+    unique_chrmHMM <- plot_chrmHMM(peaklist = unique_list,
+                                   namelist = params$names,
+                                   chrmHMM_annotation = chrHMM_list)
+    print(unique_chrmHMM)
+
+    if(params$save_output){
+      ggplot2::ggsave(filename = "unique_chromHMM.png", plot = unique_chrmHMM, device = "png", path = outfile_dir)
+      unlink("unique_chromHMM.png")
+    }
+  }
+}
+```
+
+### 3.2 Enrichment analysis 
+
+### 3.3 Motif analysis
