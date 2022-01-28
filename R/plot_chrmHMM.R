@@ -11,10 +11,8 @@
 #' @return ChromHMM heatmap
 #' @export
 #'
-#' @examples
-#'
 plot_chrmHMM <- function(peaklist, namelist, chrmHMM_annotation){
-  grange_list <- GenomicRanges::GenomicRangesList(peaklist)
+  grange_list <- GenomicRanges::GRangesList(peaklist, compress = FALSE)
   annotation <- genomation::annotateWithFeatures(grange_list, chrmHMM_annotation)
   matrix <- genomation::heatTargetAnnotation(annotation, plot = FALSE)
   rownames(matrix) <- namelist # set row names

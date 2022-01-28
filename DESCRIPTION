@@ -19,12 +19,10 @@ Imports:
 	ggplot2,
 	viridis,
 	ggpubr,
-	markdown,
-	knitr,
-	utils,
 	heatmaply,
 	ChIPseeker,
-	TxDb.Hsapiens.UCSC.hg19.knownGene
+	TxDb.Hsapiens.UCSC.hg19.knownGene,
+	knitr
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 Suggests: 

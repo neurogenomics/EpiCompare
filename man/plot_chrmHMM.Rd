@@ -21,6 +21,3 @@ Creates a heatmap using outputs from ChromHMM using ggplot2.
 The function takes a list of peakfiles, performs ChromHMM and outputs a heatmap.
 ChromHMM annotation file must be loaded prior to using this function.
 }
-\examples{
-
-}
