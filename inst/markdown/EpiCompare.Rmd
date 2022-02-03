@@ -37,6 +37,9 @@ if(params$save_output){
     dir.create(outfile_dir)
   }
 }
+# tidy input peakfiles to remove peaks in blacklisted regions and non-standard chromosomes 
+peaklist_tidy <- tidy_peakfile(peaklist = params$peakfile,
+                               blacklist = params$blacklist)
 ```
 
 EpiCompare compares different epigenetic datasets for benchmarking and quality control purposes. 
@@ -89,8 +92,10 @@ if (!is.null(params$picard_list)){
 
 ### Peak Information 
 
-* Total_N: Total number of peaks including those blacklisted. 
-* Blacklisted_Peaks: Percentage of blacklisted peaks present in the sample [(blacklist)](https://www.encodeproject.org/files/ENCFF000KJP/).ENCODE blacklist includes regions of the genome that have anomalous and/or unstructured signals independent of the cell-line or experiment.
+* PeakN before tidy: Total number of peaks including those blacklisted and those in non-standard chromosomes. 
+* Blacklisted peaks removed (%): Percentage of blacklisted peaks present in the sample [(blacklist)](https://www.encodeproject.org/files/ENCFF000KJP/).ENCODE blacklist includes regions of the genome that have anomalous and/or unstructured signals independent of the cell-line or experiment.
+* Non-standard peaks removes (%): Percentage of peaks identified in non-standard and mitochondrial chromosomes.
+* PeakN after tidy: Total number of peaks after removing blacklisted peaks and those in non-standard chromosomes. 
 
 <br>
 
@@ -113,14 +118,8 @@ Distribution of peak widths in each sample after removing blacklisted peaks.
 <br> 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-# remove blacklist regions 
-peaklist_blrm <- list()
-for (sample in params$peakfile){
-  peak_blacklist_removed <- IRanges::subsetByOverlaps(sample, params$blacklist, invert = TRUE)
-  peaklist_blrm <- c(peaklist_blrm, peak_blacklist_removed)
-}
 # create boxplot of peak widths 
-width_plot <- width_boxplot(peaklist = peaklist_blrm,
+width_plot <- width_boxplot(peaklist = peaklist_tidy,
                             namelist = params$names)
 print(width_plot)
 # save boxplot output 
@@ -141,38 +140,18 @@ Hover over the heatmap for percentage values.
 <br>
 
 ```{r, echo=FALSE, fig.width=7, warning=FALSE}
-overlap_heatmap <- overlap_heatmap(peaklist = peaklist_blrm,
+overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
                   namelist = params$names,
                   save_dir = NULL)
 overlap_heatmap
 # save output 
 if(params$save_output){
-  overlap_heatmap(peaklist = peaklist_blrm,
+  overlap_heatmap(peaklist = peaklist_tidy,
                   namelist = params$names,
                   save_dir = paste0(outfile_dir,"/samples_percent_overlap.html"))
   unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
   }
 
-```
-
-### Individual samples + other histone modifications
-
-Heatmap of percentage overlaps between input peak files and other histone marks from ENCODE. 
-Hover over the heatmap for percentage values. 
-<br>
-
-```{r, echo=FALSE, fig.width=7, warning=FALSE}
-overlap_heatmap <- overlap_heatmap(peaklist = peaklist_blrm,
-                  namelist = params$names,
-                  save_dir = NULL)
-overlap_heatmap
-# save output 
-if(params$save_output){
-  overlap_heatmap(peaklist = peaklist_blrm,
-                  namelist = params$names,
-                  save_dir = paste0(outfile_dir,"/samples_percent_overlap.html"))
-  unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
-  }
 ```
 
 ### Significance of overlapping vs unique peaks 
@@ -191,7 +170,7 @@ of -log10(q-value) for overlapping and unique peaks per sample.
 if (is.null(params$reference) == FALSE){
   if (params$stat_plot){
     stat_plot <- overlap_stat_plot(reference = params$reference,
-                                   peaklist = peaklist_blrm,
+                                   peaklist = peaklist_tidy,
                                    namelist = params$names)
     print(stat_plot[[1]])
     # save output 
@@ -223,7 +202,7 @@ if (params$chrmHMM_plot){
   chrHMM = genomation::readBed(chrHMM_url)
   chrHMM_list = GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE) 
   # plot chromHMM
-  samples_chrmHMM <- plot_chrmHMM(peaklist = peaklist_blrm,
+  samples_chrmHMM <- plot_chrmHMM(peaklist = peaklist_tidy,
                                   namelist = params$names,
                                   chrmHMM_annotation = chrHMM_list)
   print(samples_chrmHMM)
@@ -244,7 +223,7 @@ if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     overlap_list <- list()
     # obtain overlapping peaks 
-    for(file in peaklist_blrm){
+    for(file in peaklist_tidy){
       overlap <- IRanges::subsetByOverlaps(x = file, ranges = params$reference)
       overlap_list <- c(overlap_list, overlap)
       }
@@ -273,7 +252,7 @@ if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
       unique_list <- list()
       # obtain unique peaks 
-      for(file in peaklist_blrm){
+      for(file in peaklist_tidy){
         unique <- IRanges::subsetByOverlaps(x = file, ranges = params$reference, invert = TRUE)
         unique_list <- c(unique_list, unique)
       }

@@ -22,7 +22,8 @@ Imports:
 	heatmaply,
 	ChIPseeker,
 	TxDb.Hsapiens.UCSC.hg19.knownGene,
-	knitr
+	knitr,
+	BRGenomics
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 Suggests: 
