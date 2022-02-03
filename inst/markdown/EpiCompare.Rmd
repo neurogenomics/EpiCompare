@@ -272,21 +272,21 @@ ChromHMM annotation of peaks non-overlapping with the reference peak file.
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
       unique_list <- list()
-  # obtain unique peaks 
-  for(file in peaklist_blrm){
-    unique <- IRanges::subsetByOverlaps(x = file, ranges = params$reference, invert = TRUE)
-    unique_list <- c(unique_list, unique)
-    }
-    # annotate unique peaks with chromHMM annotations
-    unique_chrmHMM <- plot_chrmHMM(peaklist = unique_list,
-                                   namelist = params$names,
-                                   chrmHMM_annotation = chrHMM_list)
-    print(unique_chrmHMM)
-    # save output 
-    if(params$save_output){
-      ggplot2::ggsave(filename = "unique_chromHMM.png", plot = unique_chrmHMM, device = "png", path = outfile_dir)
-      unlink("unique_chromHMM.png")
-    }
+      # obtain unique peaks 
+      for(file in peaklist_blrm){
+        unique <- IRanges::subsetByOverlaps(x = file, ranges = params$reference, invert = TRUE)
+        unique_list <- c(unique_list, unique)
+      }
+      # annotate unique peaks with chromHMM annotations
+      unique_chrmHMM <- plot_chrmHMM(peaklist = unique_list,
+                                     namelist = params$names,
+                                     chrmHMM_annotation = chrHMM_list)
+      print(unique_chrmHMM)
+      # save output 
+      if(params$save_output){
+        ggplot2::ggsave(filename = "unique_chromHMM.png", plot = unique_chrmHMM, device = "png", path = outfile_dir)
+        unlink("unique_chromHMM.png")
+      }
   }
 }
 ```

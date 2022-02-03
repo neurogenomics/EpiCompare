@@ -12,6 +12,19 @@
 #' @export
 #'
 plot_chrmHMM <- function(peaklist, namelist, chrmHMM_annotation){
+
+  # check that there are no empty values
+  # if there are, remove them
+  i <- 1
+  while(i < length(peaklist)){
+    if (length(peaklist[[i]])==0){
+      peaklist[[i]] <- NULL
+      namelist <- namelist[-i]
+    }else{
+      i <- i + 1
+    }
+  }
+
   # create GRangeList from GRanges objects
   grange_list <- GenomicRanges::GRangesList(peaklist, compress = FALSE)
   # annotate peakfiles with chromHMM annotations
