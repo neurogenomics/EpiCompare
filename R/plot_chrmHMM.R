@@ -24,7 +24,6 @@ plot_chrmHMM <- function(peaklist, namelist, chrmHMM_annotation){
       i <- i + 1
     }
   }
-
   # create GRangeList from GRanges objects
   grange_list <- GenomicRanges::GRangesList(peaklist, compress = FALSE)
   # annotate peakfiles with chromHMM annotations

@@ -90,7 +90,7 @@ if (!is.null(params$picard_list)){
 ### Peak Information 
 
 * Total_N: Total number of peaks including those blacklisted. 
-* Blacklisted_Peaks: Percentage of blacklisted peaks present in the sample. 
+* Blacklisted_Peaks: Percentage of blacklisted peaks present in the sample [(blacklist)](https://www.encodeproject.org/files/ENCFF000KJP/).ENCODE blacklist includes regions of the genome that have anomalous and/or unstructured signals independent of the cell-line or experiment.
 
 <br>
 

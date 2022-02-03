@@ -65,7 +65,7 @@ EpiCompare(peakfiles = list(CnR_H3K27ac, CnT_H3K27ac),
            reference = encode_H3K27ac,
            stat_plot = TRUE,
            chrmHMM_plot = TRUE,
-           save_output = TRUE,
+           save_output = FALSE,
            output_dir = "./")
 
 }

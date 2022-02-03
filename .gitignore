@@ -20,5 +20,7 @@ outs/
 docs/
 papers/
 figure/
+EpiCompare_file/
+EpiCompare.html
 
 inst/doc
