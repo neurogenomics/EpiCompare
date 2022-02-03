@@ -37,13 +37,13 @@
 #'            reference = encode_H3K27ac,
 #'            stat_plot = TRUE,
 #'            chrmHMM_plot = TRUE,
-#'            save_output = TRUE,
+#'            save_output = FALSE,
 #'            output_dir = "./")
 #'
 EpiCompare <- function(peakfiles, names, blacklist, picard=NULL, picard_names=NULL, reference=NULL, stat_plot = FALSE, chrmHMM_plot = FALSE, save_output=FALSE, output_dir){
-
+  # locate Rmd file
   markdown_path <- system.file("markdown", "EpiCompare.Rmd", package = "EpiCompare")
-
+  # parse parameters into markdown and render HTML
   rmarkdown::render(
       input = markdown_path,
       output_dir = output_dir,

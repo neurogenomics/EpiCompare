@@ -21,20 +21,21 @@
 #'           blacklist = hg19_blacklist)
 #'
 peak_info <- function(peak_list, file_names, blacklist){
-
+  # for each peakfile retrieve the number of peaks and store in list
   Total_N <- c()
   for (sample in peak_list){
     N <- length(sample)
     Total_N <- c(Total_N, N)
   }
-
+  # for each peakfile calculate the percentage of overlapping peaks with
+  # blacklisted region
   blacklist_percent <- c()
   for (sample in peak_list){
     blacklistN <- length(IRanges::subsetByOverlaps(sample, blacklist))
     blacklistP <- blacklistN/length(sample)*100
     blacklist_percent <- c(blacklist_percent, signif(blacklistP, 3))
   }
-
+  # combine two metrics into a data frame
   df <- data.frame(file_names, Total_N, blacklist_percent)
   colnames(df) <- c("Sample", "Total_N", "Blacklisted_Peaks (%)")
   return(df)
