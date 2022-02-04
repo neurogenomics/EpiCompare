@@ -55,7 +55,16 @@
     <loc>/reference/peak_info.html</loc>
   </url>
   <url>
+    <loc>/reference/plot_ChIPseeker_annotation.html</loc>
+  </url>
+  <url>
     <loc>/reference/plot_chrmHMM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_enrichment.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tidy_peakfile.html</loc>
   </url>
   <url>
     <loc>/reference/width_boxplot.html</loc>
