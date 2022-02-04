@@ -13,6 +13,8 @@ EpiCompare(
   reference = NULL,
   stat_plot = FALSE,
   chrmHMM_plot = FALSE,
+  chipseeker_plot = FALSE,
+  enrichment_plot = FALSE,
   save_output = FALSE,
   output_dir
 )
@@ -38,6 +40,10 @@ overlapping/non-overlapping peaks. Reference peak file must be provided.}
 
 \item{chrmHMM_plot}{Default FALSE. If TRUE, the function outputs ChromHMM heatmap of individual peak files.
 If a reference peak file is provided, ChromHMM annotation of overlapping and non-overlapping peaks is also provided.}
+
+\item{chipseeker_plot}{Default FALSE. If TRUE, the report includes a barplot of ChIPseeker annotation of peak files.}
+
+\item{enrichment_plot}{Default FALSE. If TRUE, the report includes dotplots of KEGG and GO enrichment analysis of peak files.}
 
 \item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).}
 
@@ -65,6 +71,7 @@ EpiCompare(peakfiles = list(CnR_H3K27ac, CnT_H3K27ac),
            reference = encode_H3K27ac,
            stat_plot = TRUE,
            chrmHMM_plot = TRUE,
+           chipseeker_plot = FALSE,
            save_output = FALSE,
            output_dir = "./")
 

@@ -24,6 +24,10 @@ params:
     value: FALSE
   chrmHMM_plot:
     value: FALSE
+  chipseeker_plot:
+    value: FALSE
+  enrichment_plot:
+    value: FALSE
   save_output:
     value: FALSE
 ---
@@ -40,6 +44,10 @@ if(params$save_output){
 # tidy input peakfiles to remove peaks in blacklisted regions and non-standard chromosomes 
 peaklist_tidy <- tidy_peakfile(peaklist = params$peakfile,
                                blacklist = params$blacklist)
+if (is.null(params$reference) == FALSE){
+  reference_tidy <- tidy_peakfile(peaklist = params$reference,
+                                  blacklist = params$blacklist)
+}
 ```
 
 EpiCompare compares different epigenetic datasets for benchmarking and quality control purposes. 
@@ -113,7 +121,7 @@ if(params$save_output){
 
 ### Peak widths 
 
-Distribution of peak widths in each sample after removing blacklisted peaks. 
+Distribution of peak widths in each sample after tidying.
 
 <br> 
 
@@ -169,7 +177,7 @@ of -log10(q-value) for overlapping and unique peaks per sample.
 # if reference is provided AND stat_plot=TRUE, run the function 
 if (is.null(params$reference) == FALSE){
   if (params$stat_plot){
-    stat_plot <- overlap_stat_plot(reference = params$reference,
+    stat_plot <- overlap_stat_plot(reference = reference_tidy,
                                    peaklist = peaklist_tidy,
                                    namelist = params$names)
     print(stat_plot[[1]])
@@ -185,7 +193,7 @@ if (is.null(params$reference) == FALSE){
 
 ## 3. Functional Annotation 
 
-### 3.1 ChromHMM {.tabset}
+### 3.1 ChromHMM Annotation{.tabset}
 
 ChromHMM annotates different chromatin states [(ChromHMM)](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning%20and%20characterizing%20chromatin%20states.&text=ChromHMM%20is%20based%20on%20a,one%20or%20more%20cell%20types.). The annotation used were obtained from [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).   
 
@@ -214,62 +222,170 @@ if (params$chrmHMM_plot){
 }
 ```
 
-#### Overlapping peaks 
+#### Overlap: Sample peaks in Reference peaks 
 
-ChromHMM annotation of peaks overlapping with the reference peak file. 
+ChromHMM annotation of sample peaks found in reference peaks.   
 
 ```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
-    overlap_list <- list()
+    sample_in_ref_list <- list()
     # obtain overlapping peaks 
     for(file in peaklist_tidy){
-      overlap <- IRanges::subsetByOverlaps(x = file, ranges = params$reference)
-      overlap_list <- c(overlap_list, overlap)
+      sample_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy)
+      sample_in_ref_list <- c(sample_in_ref_list, sample_in_ref)
       }
     # annotate overlapping peaks with chromHMM annotations
-    overlap_chrmHMM <- plot_chrmHMM(peaklist = overlap_list,
-                                    namelist = params$names,
-                                    chrmHMM_annotation = chrHMM_list)
-    print(overlap_chrmHMM)
+    sample_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_in_ref_list,
+                                          namelist = params$names,
+                                          chrmHMM_annotation = chrHMM_list)
+    print(sample_in_ref_chrmHMM)
     # save output 
     if(params$save_output){
-      ggplot2::ggsave(filename = "overlap_chromHMM.png", plot = overlap_chrmHMM, device = "png", path = outfile_dir)
-      unlink("overlap_chromHMM.png")
+      ggplot2::ggsave(filename = "sample_in_ref_chromHMM.png", plot = sample_in_ref_chrmHMM, device = "png", path = outfile_dir)
+      unlink("sample_in_ref_chromHMM.png")
     }
   }
 }
 ```
 
+#### Overlap: Reference peaks in Sample peaks 
 
-#### Unique peaks 
-
-ChromHMM annotation of peaks non-overlapping with the reference peak file. 
+ChromHMM annotation of reference peaks found in sample peaks.   
 
 ```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
-
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
-      unique_list <- list()
+    ref_in_sample_list <- list()
+    # obtain overlapping peaks 
+    for(file in peaklist_tidy){
+      ref_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy, ranges = file)
+      ref_in_sample_list <- c(ref_in_sample_list, ref_in_sample)
+      }
+    # annotate overlapping peaks with chromHMM annotations
+    ref_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_in_sample_list,
+                                          namelist = params$names,
+                                          chrmHMM_annotation = chrHMM_list)
+    print(ref_in_sample_chrmHMM)
+    # save output 
+    if(params$save_output){
+      ggplot2::ggsave(filename = "ref_in_sample_chromHMM.png", plot = ref_in_sample_chrmHMM, device = "png", path = outfile_dir)
+      unlink("ref_in_sample_chromHMM.png")
+    }
+  }
+}
+```
+
+#### Unique: Sample peaks not in Reference peaks 
+
+ChromHMM annotation of sample peaks not found in reference peaks. 
+
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+if (params$chrmHMM_plot){
+  if (is.null(params$reference)==FALSE){
+      sample_not_in_ref_list <- list()
       # obtain unique peaks 
       for(file in peaklist_tidy){
-        unique <- IRanges::subsetByOverlaps(x = file, ranges = params$reference, invert = TRUE)
-        unique_list <- c(unique_list, unique)
+        sample_not_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy, invert = TRUE)
+        sample_not_in_ref_list <- c(sample_not_in_ref_list, sample_not_in_ref)
       }
       # annotate unique peaks with chromHMM annotations
-      unique_chrmHMM <- plot_chrmHMM(peaklist = unique_list,
-                                     namelist = params$names,
-                                     chrmHMM_annotation = chrHMM_list)
-      print(unique_chrmHMM)
+      sample_not_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_not_in_ref_list,
+                                                namelist = params$names,
+                                                chrmHMM_annotation = chrHMM_list)
+      print(sample_not_in_ref_chrmHMM)
       # save output 
       if(params$save_output){
-        ggplot2::ggsave(filename = "unique_chromHMM.png", plot = unique_chrmHMM, device = "png", path = outfile_dir)
-        unlink("unique_chromHMM.png")
+        ggplot2::ggsave(filename = "sample_not_in_ref_chromHMM.png", plot = sample_not_in_ref_chrmHMM, device = "png", path = outfile_dir)
+        unlink("sample_not_in_ref_chromHMM.png")
       }
   }
 }
 ```
 
-### 3.2 Enrichment analysis 
+#### Unique: Reference peaks not in Sample peaks 
 
-### 3.3 Motif analysis
+ChromHMM annotation of reference peaks not found in sample peaks. 
+
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+if (params$chrmHMM_plot){
+  if (is.null(params$reference)==FALSE){
+      ref_not_in_sample_list <- list()
+      # obtain unique peaks 
+      for(file in peaklist_tidy){
+        ref_not_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy, ranges = file, invert = TRUE)
+        ref_not_in_sample_list <- c(ref_not_in_sample_list, ref_not_in_sample)
+      }
+      # annotate unique peaks with chromHMM annotations
+      ref_not_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_not_in_sample_list,
+                                                namelist = params$names,
+                                                chrmHMM_annotation = chrHMM_list)
+      print(ref_not_in_sample_chrmHMM)
+      # save output 
+      if(params$save_output){
+        ggplot2::ggsave(filename = "ref_not_in_sample_chromHMM.png", plot = ref_not_in_sample_chrmHMM, device = "png", path = outfile_dir)
+        unlink("ref_not_in_sample_chromHMM.png")
+      }
+  }
+}
+```
+
+### 3.2 ChIPseeker Annotation
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+# if set TRUE, generate chipseeker annotation plot 
+if (params$chipseeker_plot){
+  chipseeker_plot <- plot_ChIPseeker_annotation(peaklist = peaklist_tidy,
+                                                namelist = params$names)
+  
+  print(chipseeker_plot)
+  # save output 
+  if(params$save_output){
+    ggplot2::ggsave(filename = "chipseeker_annotation.png", plot = chipseeker_plot, device = "png", path = outfile_dir)
+    unlink("chipseeker_annotation.png")
+    }
+}
+```
+
+### 3.3 Enrichment analysis {.tabset}
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+if (params$enrichment_plot){
+  enrichment_plots <- plot_enrichment(peaklist = peaklist_tidy,
+                                      namelist = params$names)
+}
+```
+
+#### KEGG Enrichment Analysis 
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+if (params$enrichment_plot){
+  KEGG_plot <- enrichment_plots[[1]]
+  print(KEGG_plot)
+  # save output 
+  if(params$save_output){
+    ggplot2::ggsave(filename = "KEGG_analysis.png", plot = KEGG_plot, device = "png", path = outfile_dir)
+    unlink("KEGG_analysis.png")
+  }
+}
+```
+
+#### GO Enrichment Analysis
+
+```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+if (params$enrichment_plot){
+  GO_plot <- enrichment_plots[[2]]
+  print(GO_plot)
+  # save output 
+  if(params$save_output){
+    ggplot2::ggsave(filename = "GO_analysis.png", plot = GO_plot, device = "png", path = outfile_dir)
+    unlink("GO_analysis.png")
+  }
+}
+
+```
+
+
+### 3.4 Motif analysis

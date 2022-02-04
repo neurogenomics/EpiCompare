@@ -23,7 +23,9 @@ Imports:
 	ChIPseeker,
 	TxDb.Hsapiens.UCSC.hg19.knownGene,
 	knitr,
-	BRGenomics
+	BRGenomics,
+	clusterProfiler,
+	stats
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 Suggests: 

@@ -1,6 +1,6 @@
 #' Tidy peakfiles in GRanges
 #'
-#' @param peaklist A list of peak files as GRanges object. Objects in lists using `list()`.
+#' @param peaklist A list of peak files as GRanges object. If more than one, objects in lists using `list()`.
 #' @param blacklist Peakfile specifying blacklisted regions as GRanges object.
 #'
 #' @return list of GRanges object
@@ -18,12 +18,20 @@
 tidy_peakfile <- function(peaklist, blacklist){
   # for each peakfile, remove peaks in blacklisted region
   # and remove non-standard and mitochondrial chromosomes
-  peaklist_tidy <- list()
-  for(sample in peaklist){
-    blacklist_removed <- IRanges::subsetByOverlaps(sample, blacklist, invert = TRUE)
-    blacklist_removed_tidy <- BRGenomics::tidyChromosomes(blacklist_removed, keep.X = TRUE, keep.Y = TRUE)
-    peaklist_tidy <- c(peaklist_tidy, blacklist_removed_tidy)
+  # if there are more than one peakfiles, run through loop and output list
+  if(is.list(peaklist)){
+    peaklist_tidy <- list()
+    for(sample in peaklist){
+      blacklist_removed <- IRanges::subsetByOverlaps(sample, blacklist, invert = TRUE)
+      blacklist_removed_tidy <- BRGenomics::tidyChromosomes(blacklist_removed, keep.X = TRUE, keep.Y = TRUE)
+      peaklist_tidy <- c(peaklist_tidy, blacklist_removed_tidy)
+    }
+    return(peaklist_tidy)
+  }else{
+    # if only one file, tidy and output one file
+    blacklist_removed <- IRanges::subsetByOverlaps(peaklist, blacklist, invert = TRUE)
+    peaklist_tidy <- BRGenomics::tidyChromosomes(blacklist_removed, keep.X = TRUE, keep.Y = TRUE)
+    return(peaklist_tidy)
   }
-  return(peaklist_tidy)
 }
 

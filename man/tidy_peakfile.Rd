@@ -7,7 +7,7 @@
 tidy_peakfile(peaklist, blacklist)
 }
 \arguments{
-\item{peaklist}{A list of peak files as GRanges object. Objects in lists using `list()`.}
+\item{peaklist}{A list of peak files as GRanges object. If more than one, objects in lists using `list()`.}
 
 \item{blacklist}{Peakfile specifying blacklisted regions as GRanges object.}
 }

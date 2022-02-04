@@ -17,6 +17,8 @@
 #' overlapping/non-overlapping peaks. Reference peak file must be provided.
 #' @param chrmHMM_plot Default FALSE. If TRUE, the function outputs ChromHMM heatmap of individual peak files.
 #' If a reference peak file is provided, ChromHMM annotation of overlapping and non-overlapping peaks is also provided.
+#' @param chipseeker_plot Default FALSE. If TRUE, the report includes a barplot of ChIPseeker annotation of peak files.
+#' @param enrichment_plot Default FALSE. If TRUE, the report includes dotplots of KEGG and GO enrichment analysis of peak files.
 #' @param save_output Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).
 #' @param output_dir Path to where output HTML file should be saved.
 #'
@@ -37,10 +39,22 @@
 #'            reference = encode_H3K27ac,
 #'            stat_plot = TRUE,
 #'            chrmHMM_plot = TRUE,
+#'            chipseeker_plot = FALSE,
 #'            save_output = FALSE,
 #'            output_dir = "./")
 #'
-EpiCompare <- function(peakfiles, names, blacklist, picard=NULL, picard_names=NULL, reference=NULL, stat_plot = FALSE, chrmHMM_plot = FALSE, save_output=FALSE, output_dir){
+EpiCompare <- function(peakfiles,
+                       names,
+                       blacklist,
+                       picard=NULL,
+                       picard_names=NULL,
+                       reference=NULL,
+                       stat_plot = FALSE,
+                       chrmHMM_plot = FALSE,
+                       chipseeker_plot = FALSE,
+                       enrichment_plot = FALSE,
+                       save_output=FALSE,
+                       output_dir){
   # locate Rmd file
   markdown_path <- system.file("markdown", "EpiCompare.Rmd", package = "EpiCompare")
   # parse parameters into markdown and render HTML
@@ -57,6 +71,8 @@ EpiCompare <- function(peakfiles, names, blacklist, picard=NULL, picard_names=NU
         reference = reference,
         stat_plot = stat_plot,
         chrmHMM_plot= chrmHMM_plot,
+        chipseeker_plot = chipseeker_plot,
+        enrichment_plot = enrichment_plot,
         save_output = save_output,
         output_dir = output_dir)
   )
