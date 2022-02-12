@@ -10,7 +10,7 @@
 #' \code{
 #' encode_H3K27ac <- ChIPseeker::readPeakFile("./data/ENCODE_H3K27ac.bed", as = "GRanges")
 #' encode_H3K27ac <- encode_H3K27ac[encode_H3K27ac@seqnames == "chr1"]
-#' usethis::use_data(encode_H3K27ac)
+#' usethis::use_data(encode_H3K27ac, overwrite = TRUE)
 #' }
 #'
 "encode_H3K27ac"
@@ -46,12 +46,12 @@
 #' \code{
 #' CnR_H3K27ac <- ChIPseeker::readPeakFile("./data/CnR_H3K27ac_MACS2.bed", as = "GRanges")
 #' CnR_H3K27ac <- CnR_H3K27ac[CnR_H3K27ac@seqnames== "chr1"]
-#' usethis::use_data(CnR_H3K27ac)
+#' usethis::use_data(CnR_H3K27ac, overwrite = TRUE)
 #' }
 #'
 "CnR_H3K27ac"
 
-#' ChromHMM annotation file
+#' ChromHMM annotation file subset
 #'
 #' ChromHMM annotation for human K562 cell-line.
 #' Obtained from \url{http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/}
@@ -100,7 +100,7 @@
 #' \code{
 #' picard <- read.table("path/to/picard/duplication/output", header = TRUE, fill = TRUE)
 #' CnT_H3K27ac_picard <- picard[1,]
-#' usethis::use_data(CnT_H3K27ac_picard)
+#' usethis::use_data(CnT_H3K27ac_picard, overwrite = TRUE)
 #' }
 "CnT_H3K27ac_picard"
 
@@ -116,7 +116,7 @@
 #' \code{
 #' CnT_H3K27ac_seacr <- ChIPseeker::readPeakFile("path/to/peak/file", as="GRanges")
 #' CnT_H3K27ac_seacr <- CnT_H3K27ac_seacr[CnT_H3K27ac_seacr@seqnames == "chr1"]
-#' usethis::use_data(CnT_H3K27ac_seacr)
+#' usethis::use_data(CnT_H3K27ac_seacr, overwrite = TRUE)
 #' }
 "CnT_H3K27ac_seacr"
 

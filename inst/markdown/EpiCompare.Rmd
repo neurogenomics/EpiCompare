@@ -354,7 +354,7 @@ if (params$chrmHMM_plot){
 ### 3.2 ChIPseeker 
 
 EpiCompare uses `annotatePeak` function in `ChIPseeker` package to annotate peaks with the nearest gene and 
-genomic region where the peak is located. The [transcript-related features](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) are taken from the annotations of human genome hg19 provided by Bioconductor.
+genomic region where the peak is located. The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
 
 ```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
 # if set TRUE, generate chipseeker annotation plot 
@@ -375,7 +375,9 @@ if (params$chipseeker_plot){
 
 EpiCompare performs KEGG pathway and GO enrichment analysis using `clusterProfiler`. 
 `annotatePeak` function in `ChIPseeker` package is first used to assign peaks to nearest genes 
-and biological themes amongst the genes are identified using ontologies (KEGG and GO). 
+and biological themes amongst the genes are identified using ontologies (KEGG and GO).
+The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
+
 
 ```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
 if (params$enrichment_plot){

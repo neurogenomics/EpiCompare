@@ -2,7 +2,7 @@
 ================
 Sera Choi
 <h5>
-<i>Updated</i>: Feb-08-2022
+<i>Updated</i>: Feb-12-2022
 </h5>
 
 <!-- badges: start -->
@@ -36,14 +36,11 @@ report in HTML format consisting of three sections:
 
 # Installation
 
-### R
-
 To install `EpiCompare` use:
 
 ``` r
 if(!require("remotes")) install.packages("remotes")
-remotes::install_github("NA")
-library(EpiCompare)
+remotes::install_github("neurogenomics/EpiCompare")
 ```
 
 # Usage
@@ -73,7 +70,7 @@ EpiCompare(peakfiles = peaklist,
            output_dir = "./")
 ```
 
-##### Mandatory Inputs
+#### Mandatory Inputs
 
 These input parameters must be provided:
 
@@ -89,7 +86,7 @@ These input parameters must be provided:
     cell-line or experiment. For human genome hg19, use
     `data(hg19_blacklist)` stored in the package.
 
-##### Optional Plots
+#### Optional Plots
 
 By default, these plots will not be included in the report unless set
 `TRUE`.
@@ -105,7 +102,7 @@ By default, these plots will not be included in the report unless set
 -   `enrichment_plot` : KEGG pathway and GO enrichment analysis of
     peaks.
 
-##### Outputs
+#### Outputs
 
 `EpiCompare` outputs the following:
 
@@ -116,6 +113,8 @@ By default, these plots will not be included in the report unless set
     specified `output_dir`
 
 # Example
+
+\[add an example report\]
 
 # Documentation
 

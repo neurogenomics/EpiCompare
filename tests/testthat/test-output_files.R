@@ -5,7 +5,7 @@ data("CnT_H3K27ac")
 data("hg19_blacklist")
 
 # Create directory for test outputs
-outpath <- paste0(getwd(),"/EpiCompare_test")
+outpath <- paste0(tempdir(),"/EpiCompare_test")
 if(!dir.exists(outpath)){
   dir.create(outpath)
 }

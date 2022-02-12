@@ -31,7 +31,6 @@
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #' data("CnR_H3K27ac") # example dataset as GRanges object
 #' data("hg19_blacklist") # example blacklist dataset as GRanges object
-#' data("chromHMM_annotation_K562") # example of ChromHMM annotation file
 #'
 #' EpiCompare(peakfiles = list(CnR_H3K27ac, CnT_H3K27ac),
 #'            names = c("CnR", "CnT"),
@@ -39,21 +38,22 @@
 #'            reference = encode_H3K27ac,
 #'            stat_plot = TRUE,
 #'            chrmHMM_plot = TRUE,
-#'            chipseeker_plot = FALSE,
-#'            save_output = FALSE,
-#'            output_dir = "./")
+#'            chipseeker_plot = TRUE,
+#'            enrichment_plot = TRUE,
+#'            save_output = TRUE,
+#'            output_dir = tempdir())
 #'
 EpiCompare <- function(peakfiles,
                        names,
                        blacklist,
-                       picard=NULL,
-                       picard_names=NULL,
-                       reference=NULL,
+                       picard = NULL,
+                       picard_names = NULL,
+                       reference = NULL,
                        stat_plot = FALSE,
                        chrmHMM_plot = FALSE,
                        chipseeker_plot = FALSE,
                        enrichment_plot = FALSE,
-                       save_output=FALSE,
+                       save_output = FALSE,
                        output_dir){
   # locate Rmd file
   markdown_path <- system.file("markdown", "EpiCompare.Rmd", package = "EpiCompare")
