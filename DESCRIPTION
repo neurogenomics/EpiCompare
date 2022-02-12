@@ -11,6 +11,7 @@ Description: Used to compare two different epigenetic datasets. The package prov
 License: GPL-3
 LazyData: TRUE
 Depends: R(>= 4.0)
+biocViews:
 Imports:
 	GenomicRanges,
 	genomation,
