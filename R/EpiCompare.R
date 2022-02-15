@@ -55,6 +55,7 @@ EpiCompare <- function(peakfiles,
                        enrichment_plot = FALSE,
                        save_output = FALSE,
                        output_dir){
+
   # locate Rmd file
   markdown_path <- system.file("markdown", "EpiCompare.Rmd", package = "EpiCompare")
   # parse parameters into markdown and render HTML
@@ -77,5 +78,7 @@ EpiCompare <- function(peakfiles,
         output_dir = output_dir)
   )
 }
+
+
 
 

@@ -215,7 +215,7 @@ if (is.null(params$reference) == FALSE){
 ### 3.1 ChromHMM {.tabset}
 
 [ChromHMM](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning%20and%20characterizing%20chromatin%20states.&text=ChromHMM%20is%20based%20on%20a,one%20or%20more%20cell%20types.) annotates and characterises peaks into different chromatin states.
-The annotation used in EpiCompare were obtained from [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).   f
+The annotation used in EpiCompare were obtained from [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).
 
 #### All samples 
 
