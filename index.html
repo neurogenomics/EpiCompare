@@ -74,7 +74,7 @@
 </h1></div>
 Sera Choi
 <h5 id="epicompare-qc-and-benchmarking-of-epigenetic-datasets-1">
-<i>Updated</i>: Feb-12-2022
+<i>Updated</i>: Feb-15-2022
 <a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets-1"></a>
 </h5>
 <!-- badges: start -->
@@ -94,19 +94,15 @@ Sera Choi
 <li>Peak Overlap: Percentage and statistical significance of overlapping and non-overlapping peaks</li>
 <li>Functional Annotation: Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks</li>
 </ol>
+<p>N.B. All functional analyses performed by EpiCompare uses annotations for human genome hg19. N.B. Peaks in blacklisted regions and non-standard chromosomes are removed from peak files before any analysis</p>
 </div>
 <div class="section level1">
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h1>
-<div class="section level3">
-<h3 id="r">R<a class="anchor" aria-label="anchor" href="#r"></a>
-</h3>
 <p>To install <code>EpiCompare</code> use:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://remotes.r-lib.org" class="external-link">"remotes"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"NA"</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">EpiCompare</span><span class="op">)</span></code></pre></div>
-</div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"neurogenomics/EpiCompare"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -118,21 +114,23 @@ Sera Choi
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># example blacklist </span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>peaklist <span class="ot">&lt;-</span> <span class="fu">list</span>(encode_H3K27ac, CnT_H3K27ac, CnR_H3K27ac) </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>namelist <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"encode"</span>, <span class="st">"CnT"</span>, <span class="st">"CnR"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">EpiCompare</span>(<span class="at">peakfiles =</span> peaklist,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">names =</span> namelist,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">blacklist =</span> hg19_blacklist,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">reference =</span> encode_H3K27ac,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">stat_plot =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">chrmHMM_plot =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">chipseeker_plot =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">enrichment_plot =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">save_output =</span> <span class="cn">TRUE</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">output_dir =</span> <span class="st">"./"</span>)</span></code></pre></div>
-<div class="section level5">
-<h5 id="mandatory-inputs">Mandatory Inputs<a class="anchor" aria-label="anchor" href="#mandatory-inputs"></a>
-</h5>
+<p>Run EpiCompare:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">peaklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">encode_H3K27ac</span>, <span class="va">CnT_H3K27ac</span>, <span class="va">CnR_H3K27ac</span><span class="op">)</span> 
+<span class="va">namelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"encode"</span>, <span class="st">"CnT"</span>, <span class="st">"CnR"</span><span class="op">)</span>
+<span class="fu"><a href="reference/EpiCompare.html">EpiCompare</a></span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peaklist</span>,
+           names <span class="op">=</span> <span class="va">namelist</span>,
+           blacklist <span class="op">=</span> <span class="va">hg19_blacklist</span>,
+           reference <span class="op">=</span> <span class="va">encode_H3K27ac</span>,
+           stat_plot <span class="op">=</span> <span class="cn">TRUE</span>,
+           chrmHMM_plot <span class="op">=</span> <span class="cn">TRUE</span>,
+           chipseeker_plot <span class="op">=</span> <span class="cn">TRUE</span>,
+           enrichment_plot <span class="op">=</span> <span class="cn">TRUE</span>,
+           save_output <span class="op">=</span> <span class="cn">TRUE</span>,
+           output_dir <span class="op">=</span> <span class="st">"/path/to/output"</span><span class="op">)</span></code></pre></div>
+<div class="section level4">
+<h4 id="mandatory-inputs">Mandatory Inputs<a class="anchor" aria-label="anchor" href="#mandatory-inputs"></a>
+</h4>
 <p>These input parameters must be provided:</p>
 <ul>
 <li>
@@ -143,9 +141,9 @@ Sera Choi
 <code>blacklist</code> : Peakfile as GRanges object specifying genomic regions that have anomalous and/or unstructured signals independent of the cell-line or experiment. For human genome hg19, use <code>data(hg19_blacklist)</code> stored in the package.</li>
 </ul>
 </div>
-<div class="section level5">
-<h5 id="optional-plots">Optional Plots<a class="anchor" aria-label="anchor" href="#optional-plots"></a>
-</h5>
+<div class="section level4">
+<h4 id="optional-plots">Optional Plots<a class="anchor" aria-label="anchor" href="#optional-plots"></a>
+</h4>
 <p>By default, these plots will not be included in the report unless set <code>TRUE</code>.</p>
 <ul>
 <li>
@@ -158,9 +156,9 @@ Sera Choi
 <code>enrichment_plot</code> : KEGG pathway and GO enrichment analysis of peaks.</li>
 </ul>
 </div>
-<div class="section level5">
-<h5 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
-</h5>
+<div class="section level4">
+<h4 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
+</h4>
 <p><code>EpiCompare</code> outputs the following:</p>
 <ul>
 <li>HTML report: A summary of all analyses saved in specified <code>output_dir</code>
@@ -171,14 +169,14 @@ Sera Choi
 </div>
 </div>
 <div class="section level1">
-<h1 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h1>
-<p>[add an example report]</p>
-</div>
-<div class="section level1">
 <h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h1>
 <p><a href="https://neurogenomics.github.io/EpiCompare" class="external-link">EpiCompare Website</a></p>
+</div>
+<div class="section level1">
+<h1 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h1>
+<p>[how to run and link to an example html ]</p>
 </div>
 <div class="section level1">
 <h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
@@ -204,10 +202,10 @@ Sera Choi
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="do">## other attached packages:</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] EpiCompare_0.99.0 rmarkdown_2.11   </span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] rmarkdown_2.11</span></span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="do">## loaded via a namespace (and not attached):</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] compiler_4.2.0  magrittr_2.0.2  fastmap_1.1.0   cli_3.1.1      </span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] compiler_4.2.0  magrittr_2.0.2  fastmap_1.1.0   cli_3.2.0      </span></span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5] tools_4.2.0     htmltools_0.5.2 yaml_2.2.2      stringi_1.7.6  </span></span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] knitr_1.37      stringr_1.4.0   xfun_0.29       digest_0.6.29  </span></span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [13] rlang_1.0.1     evaluate_0.14</span></span></code></pre></div>
