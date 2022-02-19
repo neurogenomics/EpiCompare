@@ -81,9 +81,8 @@ These input parameters must be provided:
     GRanges object. To convert BED files into GRanges, use
     `ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")`. If
     there are more than one peakfiles, the files must be listed using
-    `list()`.
--   `namelist` : Names of peakfiles. If there are more than one, must be
-    listed in the same order as peakfiles are listed using `c()`.
+    `list()` and named using for example,
+    `names(peaklist) <- c("sample1","sample2)`
 -   `blacklist` : Peakfile as GRanges object specifying genomic regions
     that have anomalous and/or unstructured signals independent of the
     cell-line or experiment. For human genome hg19, use
@@ -101,11 +100,22 @@ By default, these plots will not be included in the report unless set
     dataset is provided, ChromHMM annotation of overlapping and
     non-overlapping peaks with the `reference` is also included in the
     report.
--   `reference` : Reference peak file used in `stat_plot` and
-    `chrmHMM_plot`. File must be in GRanges object.  
 -   `chipseeker_plot` : ChIPseeker annotation of peaks.
 -   `enrichment_plot` : KEGG pathway and GO enrichment analysis of
     peaks.
+
+#### Optional Inputs
+
+-   `picard_files` : A list of summary metrics output from Picard. If
+    provided, metrics on fragments (e.g. mapped fragments and
+    duplication rate) will be included in the report. Files must be in
+    data.frame format and listed using `list()` and named using
+    `names()`. To import Picard duplication metrics (.txt file) into R
+    as data frame, use
+    `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
+-   `reference` : Reference peak file used in `stat_plot` and
+    `chrmHMM_plot`. File must be in GRanges object and named using
+    `names()`.
 
 #### Outputs
 
