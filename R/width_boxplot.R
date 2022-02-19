@@ -2,8 +2,10 @@
 #'
 #' This function creates boxplots showing the distribution of widths in each peak file.
 #'
-#' @param peaklist A list of peak files as GRanges object. Files must be listed using `list()`
-#' @param namelist A list of file names in the same order as the list of peak files. Use `c()` for multiple.
+#' @param peaklist A list of peak files as GRanges object.
+#' Files must be listed using `list()`.
+#' Files must be named using `names(peaklist) <- c("sample1","sample2)`.
+#' If not named, default file names will be assigned.
 #'
 #' @return A boxplot of peak widths.
 #' @export
@@ -13,14 +15,18 @@
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #'
-#' width_boxplot(peaklist = list(encode_H3K27ac, CnT_H3K27ac),
-#'               namelist = c("ENCODE", "CnT"))
+#' peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
+#' names(peaks) <- c("encode", "CnT") # set names
 #'
-width_boxplot <- function(peaklist, namelist){
-  df <- NULL
+#' width_boxplot(peaklist = peaks)
+#'
+width_boxplot <- function(peaklist){
+  # check that peaklist is named, if not, default names assigned
+  peaklist <- EpiCompare::check_list_names(peaklist)
   # for each peakfile retrieve widths and combine in data frame
+  df <- NULL
   for (i in 1:length(peaklist)){
-    sample <- namelist[i]
+    sample <- names(peaklist)[i]
     width <- GenomicRanges::width(peaklist[[i]])
     width_df <- data.frame(sample, width)
     df <- rbind(df, width_df)

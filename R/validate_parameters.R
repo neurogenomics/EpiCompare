@@ -1,6 +1,5 @@
 #' Validate input parameters
 #'
-#' @inheritParams
 #' @return No return
 #' @keywords internal
 validate_parameters <- function(peaklist, namelist, reference, stat_plot){

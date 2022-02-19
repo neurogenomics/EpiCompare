@@ -4,12 +4,11 @@
 \alias{peak_info}
 \title{Summary of Peak Information}
 \usage{
-peak_info(peak_list, file_names, blacklist)
+peak_info(peak_list, blacklist)
 }
 \arguments{
-\item{peak_list}{A list of peak files as GRanges object. Objects in lists using `list()`.}
-
-\item{file_names}{A list of file names in the correct order of peak_list. Names in list using `c()`.}
+\item{peak_list}{A named list of peak files as GRanges object.
+Objects listed using `list()` and named using `names()`.}
 
 \item{blacklist}{A GRanges object containing blacklisted regions.}
 }
@@ -26,8 +25,10 @@ data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("hg19_blacklist") # example blacklist dataset as GRanges object
 
-peak_info(peak_list = list(encode_H3K27ac, CnT_H3K27ac),
-          file_names = c("ENCODE", "CnT"),
+peaklist <- list(encode_H3K27ac, CnT_H3K27ac) # list two peakfiles
+names(peaklist) <- c("encode", "CnT") # set names
+
+peak_info(peak_list = peaklist,
           blacklist = hg19_blacklist)
 
 }

@@ -15,7 +15,7 @@ The code to prepare the .Rda file is:
 \code{
 picard <- read.table("path/to/picard/duplication/output", header = TRUE, fill = TRUE)
 CnT_H3K27ac_picard <- picard[1,]
-usethis::use_data(CnT_H3K27ac_picard)
+usethis::use_data(CnT_H3K27ac_picard, overwrite = TRUE)
 }
 }
 \usage{

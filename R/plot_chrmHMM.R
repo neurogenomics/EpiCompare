@@ -4,22 +4,23 @@
 #' The function takes a list of peakfiles, performs ChromHMM and outputs a heatmap.
 #' ChromHMM annotation file must be loaded prior to using this function.
 #'
-#' @param peaklist A list of peaks as GRanges object. Objects in list using `list()`
-#' @param namelist A list of names. Names in list using `c()`
+#' @param peaklist A list of peak files as GRanges object.
+#' Files must be listed using `list()` and named using `names()`
+#' If not named, default file names will be assigned.
 #' @param chrmHMM_annotation ChromHMM annotation list
 #'
 #' @return ChromHMM heatmap
 #' @export
 #'
-plot_chrmHMM <- function(peaklist, namelist, chrmHMM_annotation){
-
+plot_chrmHMM <- function(peaklist, chrmHMM_annotation){
+  # check that peaklist is named, if not, default names assigned
+  peaklist <- EpiCompare::check_list_names(peaklist)
   # check that there are no empty values
   # if there are, remove them
   i <- 1
   while(i < length(peaklist)){
     if (length(peaklist[[i]])==0){
       peaklist[[i]] <- NULL
-      namelist <- namelist[-i]
     }else{
       i <- i + 1
     }
@@ -30,9 +31,11 @@ plot_chrmHMM <- function(peaklist, namelist, chrmHMM_annotation){
   annotation <- genomation::annotateWithFeatures(grange_list, chrmHMM_annotation)
   # obtain matrix
   matrix <- genomation::heatTargetAnnotation(annotation, plot = FALSE)
-  rownames(matrix) <- namelist # set row names
+  rownames(matrix) <- names(peaklist) # set row names
   matrix_melt <- reshape2::melt(matrix) # convert matrix into molten data frame
   colnames(matrix_melt) = c("Sample", "State", "value") # set column names
+  state_corrected <- gsub('X[0-9]*_', '', matrix_melt$State) # remove numbers in front of states
+  matrix_melt$State <- state_corrected
   # create heatmap
   chrHMM_plot <- ggplot2::ggplot(matrix_melt) +
     ggplot2::geom_tile(ggplot2::aes(x = State, y = Sample, fill = value)) +

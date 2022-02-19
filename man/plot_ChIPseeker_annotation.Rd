@@ -4,12 +4,12 @@
 \alias{plot_ChIPseeker_annotation}
 \title{Create ChIPseeker annotation plot}
 \usage{
-plot_ChIPseeker_annotation(peaklist, namelist)
+plot_ChIPseeker_annotation(peaklist)
 }
 \arguments{
-\item{peaklist}{A list of peak files as GRanges object. Files must be listed using `list()`}
-
-\item{namelist}{A list of file names in the same order as the list of peak files. Use `c()` for multiple.}
+\item{peaklist}{A list of peak files as GRanges object.
+Files must be listed using `list()` and named using `names()`
+If not named, default file names will be assigned.}
 }
 \value{
 barplot

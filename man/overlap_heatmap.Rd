@@ -4,12 +4,12 @@
 \alias{overlap_heatmap}
 \title{Generate heatmap of percentage overlap}
 \usage{
-overlap_heatmap(peaklist, namelist, save_dir = NULL)
+overlap_heatmap(peaklist, save_dir = NULL)
 }
 \arguments{
-\item{peaklist}{A list of peaks as GRanges object. Objects in list using `list()`}
-
-\item{namelist}{A list of names. Names in list using `c()`}
+\item{peaklist}{A list of peak files as GRanges object.
+Files must be listed using `list()` and named using `names()`
+If not named, default file names will be assigned.}
 
 \item{save_dir}{Name of file to save the interactive heatmap output as HTML}
 }
@@ -24,7 +24,9 @@ library(EpiCompare)
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 
-overlap_heatmap(peaklist = list(encode_H3K27ac, CnT_H3K27ac),
-                namelist = c("ENCODE", "CnT"))
+peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
+names(peaks) <- c("encode", "CnT") # set names
+
+overlap_heatmap(peaklist = peaks)
 
 }

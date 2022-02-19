@@ -3,7 +3,7 @@
 \docType{data}
 \name{chromHMM_annotation_K562}
 \alias{chromHMM_annotation_K562}
-\title{ChromHMM annotation file}
+\title{ChromHMM annotation file subset}
 \format{
 An object of class \code{CompressedGRangesList} of length 15.
 }

@@ -12,7 +12,7 @@ The code to prepare the .Rda file from the raw peak file is:
 \code{
 CnR_H3K27ac <- ChIPseeker::readPeakFile("./data/CnR_H3K27ac_MACS2.bed", as = "GRanges")
 CnR_H3K27ac <- CnR_H3K27ac[CnR_H3K27ac@seqnames== "chr1"]
-usethis::use_data(CnR_H3K27ac)
+usethis::use_data(CnR_H3K27ac, overwrite = TRUE)
 }
 }
 \usage{

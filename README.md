@@ -2,7 +2,7 @@
 ================
 Sera Choi
 <h5>
-<i>Updated</i>: Feb-12-2022
+<i>Updated</i>: Feb-16-2022
 </h5>
 
 <!-- badges: start -->
@@ -34,6 +34,10 @@ report in HTML format consisting of three sections:
 3.  Functional Annotation: Functional annotation (ChromHMM, ChIPseeker
     and enrichment analysis) of peaks
 
+N.B. All functional analyses performed by EpiCompare uses annotations
+for human genome hg19. N.B. Peaks in blacklisted regions and
+non-standard chromosomes are removed from peak files before any analysis
+
 # Installation
 
 To install `EpiCompare` use:
@@ -55,6 +59,8 @@ data("CnR_H3K27ac") # example peakfile
 data("hg19_blacklist") # example blacklist 
 ```
 
+Run EpiCompare:
+
 ``` r
 peaklist <- list(encode_H3K27ac, CnT_H3K27ac, CnR_H3K27ac) 
 namelist <- c("encode", "CnT", "CnR")
@@ -66,8 +72,8 @@ EpiCompare(peakfiles = peaklist,
            chrmHMM_plot = TRUE,
            chipseeker_plot = TRUE,
            enrichment_plot = TRUE,
-           save_output = TRUE
-           output_dir = "./")
+           save_output = TRUE,
+           output_dir = "/path/to/output")
 ```
 
 #### Mandatory Inputs
@@ -91,13 +97,15 @@ These input parameters must be provided:
 By default, these plots will not be included in the report unless set
 `TRUE`.
 
--   `stat_plot` : included only if a reference dataset is provided. The
-    plot shows statistical significance (p/q-values) of sample peaks
-    that are overlapping/non-overlapping with the reference dataset.
--   `chrmHMM_plot` : ChromHMM annotation of peaks. If a reference
+-   `stat_plot` : included only if a `reference` dataset is provided.
+    The plot shows statistical significance (p/q-values) of sample peaks
+    that are overlapping/non-overlapping with the `reference` dataset.
+-   `chrmHMM_plot` : ChromHMM annotation of peaks. If a `reference`
     dataset is provided, ChromHMM annotation of overlapping and
-    non-overlapping peaks with the reference is also included in the
+    non-overlapping peaks with the `reference` is also included in the
     report.
+-   `reference` : Reference peak file used in `stat_plot` and
+    `chrmHMM_plot`. File must be in GRanges object.  
 -   `chipseeker_plot` : ChIPseeker annotation of peaks.
 -   `enrichment_plot` : KEGG pathway and GO enrichment analysis of
     peaks.
@@ -112,13 +120,13 @@ By default, these plots will not be included in the report unless set
     EpiCompare will be saved in EpiCompare_file directory also in
     specified `output_dir`
 
-# Example
-
-\[add an example report\]
-
 # Documentation
 
 [EpiCompare Website](https://neurogenomics.github.io/EpiCompare)
+
+# Example
+
+\[how to run and link to an example html \]
 
 # Session Info
 
@@ -141,9 +149,6 @@ utils::sessionInfo()
     ## 
     ## attached base packages:
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
-    ## 
-    ## other attached packages:
-    ## [1] EpiCompare_0.99.0
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] compiler_4.0.2   magrittr_2.0.1   fastmap_1.1.0    tools_4.0.2     

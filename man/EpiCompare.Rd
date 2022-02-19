@@ -6,10 +6,8 @@
 \usage{
 EpiCompare(
   peakfiles,
-  names,
   blacklist,
-  picard = NULL,
-  picard_names = NULL,
+  picard_files = NULL,
   reference = NULL,
   stat_plot = FALSE,
   chrmHMM_plot = FALSE,
@@ -20,16 +18,14 @@ EpiCompare(
 )
 }
 \arguments{
-\item{peakfiles}{A list of peak files as GRanges object. Files must be listed using `list()`}
-
-\item{names}{A list of file names in the same order as the list of peak files.
-Names must be specified using `c()`}
+\item{peakfiles}{A list of peak files as GRanges object.
+Files must be listed using `list()` and named using `names()`
+If not named, default file names will be assigned.}
 
 \item{blacklist}{A GRanges object containing blacklisted regions.}
 
-\item{picard}{A list of summary metrics output from Picard.}
-
-\item{picard_names}{A list of names in the same order as the list of Picard summary output.}
+\item{picard_files}{A list of summary metrics output from Picard.
+Files must be in data.frame format and listed using `list()` and named using `names()`.}
 
 \item{reference}{A reference peak file as GRanges object.
 If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
@@ -63,16 +59,18 @@ data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object
 data("hg19_blacklist") # example blacklist dataset as GRanges object
-data("chromHMM_annotation_K562") # example of ChromHMM annotation file
 
-EpiCompare(peakfiles = list(CnR_H3K27ac, CnT_H3K27ac),
-           names = c("CnR", "CnT"),
+peaks <- list(CnR_H3K27ac, CnT_H3K27ac) # create list
+names(peaks) <- c("CnR", "CnT") # set names
+
+EpiCompare(peakfiles = peaks,
            blacklist = hg19_blacklist,
            reference = encode_H3K27ac,
            stat_plot = TRUE,
            chrmHMM_plot = TRUE,
-           chipseeker_plot = FALSE,
-           save_output = FALSE,
-           output_dir = "./")
+           chipseeker_plot = TRUE,
+           enrichment_plot = TRUE,
+           save_output = TRUE,
+           output_dir = tempdir())
 
 }

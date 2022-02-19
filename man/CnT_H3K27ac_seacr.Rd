@@ -17,7 +17,7 @@ THe code to prepare the .Rda file is:
 \code{
 CnT_H3K27ac_seacr <- ChIPseeker::readPeakFile("path/to/peak/file", as="GRanges")
 CnT_H3K27ac_seacr <- CnT_H3K27ac_seacr[CnT_H3K27ac_seacr@seqnames == "chr1"]
-usethis::use_data(CnT_H3K27ac_seacr)
+usethis::use_data(CnT_H3K27ac_seacr, overwrite = TRUE)
 }
 }
 \usage{

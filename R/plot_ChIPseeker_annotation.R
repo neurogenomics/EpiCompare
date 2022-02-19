@@ -4,17 +4,19 @@
 #' It uses annotation `TxDb.Hsapiens.UCSC.hg19.knownGene` provided by Bioconductor.
 #' It outputs functional annotation of each peak file in a barplot.
 #'
-#' @param peaklist A list of peak files as GRanges object. Files must be listed using `list()`
-#' @param namelist A list of file names in the same order as the list of peak files. Use `c()` for multiple.
+#' @param peaklist A list of peak files as GRanges object.
+#' Files must be listed using `list()` and named using `names()`
+#' If not named, default file names will be assigned.
 #'
 #' @return barplot
 #' @export
-plot_ChIPseeker_annotation <- function(peaklist, namelist){
-  peaklist_named <- stats::setNames(peaklist, namelist) # set names
-  # transcript-realted features of hg19 genome
+plot_ChIPseeker_annotation <- function(peaklist){
+  # check that peaklist is named, if not, default names assigned
+  peaklist <- EpiCompare::check_list_names(peaklist)
+  # transcript-realted features of hg19 genomes
   txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
   # annotate features
-  peak_annotated <- lapply(peaklist_named,
+  peak_annotated <- lapply(peaklist,
                            ChIPseeker::annotatePeak,
                            TxDb = txdb,
                            tssRegion = c(-3000, 3000),

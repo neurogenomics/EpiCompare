@@ -4,14 +4,14 @@
 \alias{overlap_stat_plot}
 \title{Statistical significance of overlapping peaks}
 \usage{
-overlap_stat_plot(reference, peaklist, namelist)
+overlap_stat_plot(reference, peaklist)
 }
 \arguments{
 \item{reference}{A reference peak file as GRanges object.}
 
-\item{peaklist}{A list of peak files as GRanges object. Objects in lists using `list()`.}
-
-\item{namelist}{A list of file names in the correct order of peak_list. Names in list using `c()`.}
+\item{peaklist}{A list of peak files as GRanges object.
+Files must be listed using `list()` and named using `names()`
+If not named, default file names will be assigned.}
 }
 \value{
 A boxplot or barplot showing the statistical significance of overlapping/non-overlapping peaks.
@@ -19,8 +19,8 @@ A boxplot or barplot showing the statistical significance of overlapping/non-ove
 \description{
 This function calculates the statistical significance of overlapping/non-overlapping peaks against a reference peak file.
 If the reference peak file has the BED6+4 format (peak called by MACS2), the function generates a series of boxplots showing
-the distribution of q-values for overlapping and non-overlapping peaks for each sample.
-If the reference peak file does not have the BED6+4 format, the function uses `enrichPeakOverlap()` from ChIPseeker package
+the distribution of q-values for sample peaks that are overlapping and non-overlapping with the reference.
+If the reference peak file does not have the BED6+4 format, the function uses `enrichPeakOverlap()` from `ChIPseeker` package
 to calculate the statistical significance of overlapping peaks only.
 }
 \examples{
@@ -29,8 +29,10 @@ data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object
 
+peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
+names(peaks) <- c("CnT", "CnR") # set names
+
 overlap_stat_plot(reference = encode_H3K27ac,
-                  peaklist = list(CnT_H3K27ac, CnR_H3K27ac),
-                  namelist = c("CnT","CnR"))
+                  peaklist = peaks)
 
 }

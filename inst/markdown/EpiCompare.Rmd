@@ -8,15 +8,11 @@ output:
 params:
   peakfile: 
     value: NULL
-  names: 
-    value: NULL
   output_dir: 
-    value: "./"
+    value: NULL
   blacklist: 
     value: NULL
-  picard_list:
-    value : NULL
-  picard_names:
+  picard_files:
     value : NULL
   reference: 
     value: NULL
@@ -42,6 +38,7 @@ if(params$save_output){
   }
 }
 # tidy input peakfiles to remove peaks in blacklisted regions and non-standard chromosomes 
+# and check that the list is named, if not default filenames are used 
 peaklist_tidy <- tidy_peakfile(peaklist = params$peakfile,
                                blacklist = params$blacklist)
 # tidy input reference peakfile if provided
@@ -62,16 +59,18 @@ The report is divided into three sections:
 
 ##### Input Datasets 
 
-Total of `r length(params$names)` peak files: 
+* Total of `r length(peaklist_tidy)` peak files: 
 
 ```{r name, echo=FALSE}
 # print peak file names and numerate 
 n <- 1
-for (name in params$names){
+for (name in names(peaklist_tidy)){
   print(paste0("File", n, ": ", name))
   n <- n + 1
 }
 ```
+
+* Reference peakfile: 
 
 ***
 
@@ -94,7 +93,6 @@ Identified using `BRGenomics::tidyChromosomes()`.
 
 ```{r, echo=FALSE, warning=FALSE}
 peak_info_df <- peak_info(peak_list = params$peakfile,
-                          file_names = params$names,
                           blacklist = params$blacklist)
 # create table 
 knitr::kable(peak_info_df)
@@ -119,10 +117,9 @@ Column Description:
 <br>
 
 ```{r, echo=FALSE, warning=FALSE}
-# only if picard_list is provided, run the function 
-if (!is.null(params$picard_list)){
-  fragment_info_df <- fragment_info(picard_list = params$picard_list,
-                                    namelist = params$picard_names)
+# only if picard_files is provided, run the function 
+if (!is.null(params$picard_files)){
+  fragment_info_df <- fragment_info(picard_list = params$picard_files)
   # create data frame 
   knitr::kable(fragment_info_df)
   # save output 
@@ -142,8 +139,7 @@ Distribution of peak widths in each sample.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # create boxplot of peak widths 
-width_plot <- width_boxplot(peaklist = peaklist_tidy,
-                            namelist = params$names)
+width_plot <- width_boxplot(peaklist = peaklist_tidy)
 print(width_plot)
 # save boxplot output 
 if(params$save_output){
@@ -163,15 +159,13 @@ Hover over the heatmap for percentage values.
 
 <br>
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE}
+```{r, echo=FALSE, fig.width= 9, warning=FALSE}
 overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
-                  namelist = params$names,
                   save_dir = NULL)
 overlap_heatmap
 # save output 
 if(params$save_output){
   overlap_heatmap(peaklist = peaklist_tidy,
-                  namelist = params$names,
                   save_dir = paste0(outfile_dir,"/samples_percent_overlap.html"))
   unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
   }
@@ -189,15 +183,18 @@ Depending on the format of the reference file, EpiCompare outputs different plot
 per sample showing the distribution of -log10(q-value) of reference peaks that are overlapping and non-overlapping with the sample dataset. 
 * Reference dataset does not have BED6+4 format: EpiCompare generates a barplot of percentage of overlapping sample peaks with the reference, coloured by statistical significance (adjusted p-value) of the overlap. 
 
+Keys:
+* Overlap: Sample peaks in Reference peaks 
+* Unique: Sample peaks not in Reference peaks  
+
 <br>
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 # if reference is provided AND stat_plot=TRUE, run the function 
 if (is.null(params$reference) == FALSE){
   if (params$stat_plot){
     stat_plot <- overlap_stat_plot(reference = reference_tidy,
-                                   peaklist = peaklist_tidy,
-                                   namelist = params$names)
+                                   peaklist = peaklist_tidy)
     print(stat_plot[[1]])
     # save output 
     if(params$save_output){
@@ -221,7 +218,7 @@ The annotation used in EpiCompare were obtained from [here](http://hgdownload.cs
 
 ChromHMM annotation of individual samples. 
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 # if chrmHMM_plot=TRUE, create ChromHMM heatmaps 
 if (params$chrmHMM_plot){
   # download chromHMM annotation files 
@@ -230,7 +227,6 @@ if (params$chrmHMM_plot){
   chrHMM_list = GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE) 
   # plot chromHMM
   samples_chrmHMM <- plot_chrmHMM(peaklist = peaklist_tidy,
-                                  namelist = params$names,
                                   chrmHMM_annotation = chrHMM_list)
   print(samples_chrmHMM)
   # save output 
@@ -245,7 +241,7 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of sample peaks found in reference peaks.   
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     sample_in_ref_list <- list()
@@ -253,10 +249,10 @@ if (params$chrmHMM_plot){
     for(file in peaklist_tidy){
       sample_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy)
       sample_in_ref_list <- c(sample_in_ref_list, sample_in_ref)
-      }
+    }
+    names(sample_in_ref_list) <- names(peaklist_tidy)
     # annotate overlapping peaks with chromHMM annotations
     sample_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_in_ref_list,
-                                          namelist = params$names,
                                           chrmHMM_annotation = chrHMM_list)
     print(sample_in_ref_chrmHMM)
     # save output 
@@ -272,7 +268,7 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of reference peaks found in sample peaks.   
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     ref_in_sample_list <- list()
@@ -280,10 +276,10 @@ if (params$chrmHMM_plot){
     for(file in peaklist_tidy){
       ref_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy, ranges = file)
       ref_in_sample_list <- c(ref_in_sample_list, ref_in_sample)
-      }
+    }
+    names(ref_in_sample_list) <- names(peaklist_tidy)
     # annotate overlapping peaks with chromHMM annotations
     ref_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_in_sample_list,
-                                          namelist = params$names,
                                           chrmHMM_annotation = chrHMM_list)
     print(ref_in_sample_chrmHMM)
     # save output 
@@ -300,7 +296,7 @@ if (params$chrmHMM_plot){
 ChromHMM annotation of sample peaks not found in reference peaks. 
 
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
       sample_not_in_ref_list <- list()
@@ -309,9 +305,9 @@ if (params$chrmHMM_plot){
         sample_not_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy, invert = TRUE)
         sample_not_in_ref_list <- c(sample_not_in_ref_list, sample_not_in_ref)
       }
+      names(sample_not_in_ref_list) <- names(peaklist_tidy)
       # annotate unique peaks with chromHMM annotations
       sample_not_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_not_in_ref_list,
-                                                namelist = params$names,
                                                 chrmHMM_annotation = chrHMM_list)
       print(sample_not_in_ref_chrmHMM)
       # save output 
@@ -328,7 +324,7 @@ if (params$chrmHMM_plot){
 ChromHMM annotation of reference peaks not found in sample peaks. 
 
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
       ref_not_in_sample_list <- list()
@@ -337,9 +333,9 @@ if (params$chrmHMM_plot){
         ref_not_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy, ranges = file, invert = TRUE)
         ref_not_in_sample_list <- c(ref_not_in_sample_list, ref_not_in_sample)
       }
+      names(ref_not_in_sample_list) <- names(peaklist_tidy)
       # annotate unique peaks with chromHMM annotations
       ref_not_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_not_in_sample_list,
-                                                namelist = params$names,
                                                 chrmHMM_annotation = chrHMM_list)
       print(ref_not_in_sample_chrmHMM)
       # save output 
@@ -356,11 +352,10 @@ if (params$chrmHMM_plot){
 EpiCompare uses `annotatePeak` function in `ChIPseeker` package to annotate peaks with the nearest gene and 
 genomic region where the peak is located. The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 # if set TRUE, generate chipseeker annotation plot 
 if (params$chipseeker_plot){
-  chipseeker_plot <- plot_ChIPseeker_annotation(peaklist = peaklist_tidy,
-                                                namelist = params$names)
+  chipseeker_plot <- plot_ChIPseeker_annotation(peaklist = peaklist_tidy)
   
   print(chipseeker_plot)
   # save output 
@@ -379,18 +374,23 @@ and biological themes amongst the genes are identified using ontologies (KEGG an
 The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
 
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+fig_height <- 8
 if (params$enrichment_plot){
-  enrichment_plots <- plot_enrichment(peaklist = peaklist_tidy,
-                                      namelist = params$names)
+  enrichment_plots <- plot_enrichment(peaklist = peaklist_tidy)
+  KEGG_plot <- enrichment_plots[[1]]
+  GO_plot <- enrichment_plots[[2]]
+  kegg_terms <- length(unique(KEGG_plot$data$Description))
+  go_terms <- length(unique(GO_plot$data$Description))
+  if(kegg_terms > 20 | go_terms > 20){
+    fig_height <- 10}
 }
 ```
 
 #### KEGG
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width= 10, fig.height = fig_height, warning=FALSE, message=FALSE}
 if (params$enrichment_plot){
-  KEGG_plot <- enrichment_plots[[1]]
   print(KEGG_plot)
   # save output 
   if(params$save_output){
@@ -402,9 +402,8 @@ if (params$enrichment_plot){
 
 #### GO 
 
-```{r, echo=FALSE, fig.width=7, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=10,fig.height = fig_height, warning=FALSE, message=FALSE}
 if (params$enrichment_plot){
-  GO_plot <- enrichment_plots[[2]]
   print(GO_plot)
   # save output 
   if(params$save_output){

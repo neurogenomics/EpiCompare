@@ -2,8 +2,9 @@
 #'
 #' This function generates a heatmap showing percentage of overlapping peaks between peak files.
 #'
-#' @param peaklist A list of peaks as GRanges object. Objects in list using `list()`
-#' @param namelist A list of names. Names in list using `c()`
+#' @param peaklist A list of peak files as GRanges object.
+#' Files must be listed using `list()` and named using `names()`
+#' If not named, default file names will be assigned.
 #' @param save_dir Name of file to save the interactive heatmap output as HTML
 #'
 #' @return An interactive heatmap
@@ -14,11 +15,15 @@
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #'
-#' overlap_heatmap(peaklist = list(encode_H3K27ac, CnT_H3K27ac),
-#'                 namelist = c("ENCODE", "CnT"))
+#' peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
+#' names(peaks) <- c("encode", "CnT") # set names
 #'
-overlap_heatmap <- function(peaklist, namelist, save_dir = NULL){
-  ##  cross-compare peakfiles and calculate overlap percentage
+#' overlap_heatmap(peaklist = peaks)
+#'
+overlap_heatmap <- function(peaklist, save_dir = NULL){
+  # check that peaklist is named, if not, default names assigned
+  peaklist <- EpiCompare::check_list_names(peaklist)
+  # cross-compare peakfiles and calculate overlap percentage
   overlap_list <- list() # empty list
   for(mainfile in peaklist){
     percent_list <- c()
@@ -32,8 +37,8 @@ overlap_heatmap <- function(peaklist, namelist, save_dir = NULL){
   }
   # convert list into data frame (matrix of overlap percentages)
   df <- data.frame(matrix(unlist(overlap_list), ncol = max(lengths(overlap_list)), byrow = FALSE))
-  colnames(df) <- namelist # set colnames as sample names
-  rownames(df) <- namelist # set rownames as sample names
+  colnames(df) <- names(peaklist) # set colnames as sample names
+  rownames(df) <- names(peaklist) # set rownames as sample names
   heatmap <- heatmaply::heatmaply(df, Rowv = FALSE, Colv = FALSE)
   # if save_dir is provided save the plot as html
   # if not, return the heatmap without saving the plot

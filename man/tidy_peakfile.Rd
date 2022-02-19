@@ -7,7 +7,9 @@
 tidy_peakfile(peaklist, blacklist)
 }
 \arguments{
-\item{peaklist}{A list of peak files as GRanges object. If more than one, objects in lists using `list()`.}
+\item{peaklist}{A named list of peak files as GRanges object.
+Objects listed using `list()` and named using `names()`.
+If not named, default file names are assigned.}
 
 \item{blacklist}{Peakfile specifying blacklisted regions as GRanges object.}
 }
@@ -15,7 +17,9 @@ tidy_peakfile(peaklist, blacklist)
 list of GRanges object
 }
 \description{
-Tidy peakfiles in GRanges
+This function filters peak files by removing peaks in blacklisted regions
+and in non-standard chromosomes. It also checks that the input list of peakfiles
+is named. If no names are provided, default file names will be used.
 }
 \examples{
 library(EpiCompare)
@@ -23,7 +27,10 @@ data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("hg19_blacklist") # blacklist region for hg19 genome
 
-tidy_peakfile(peaklist = list(encode_H3K27ac, CnT_H3K27ac),
-                     blacklist = hg19_blacklist)
+peaklist <- list(encode_H3K27ac, CnT_H3K27ac) # list two peakfiles
+names(peaklist) <- c("encode", "CnT") # set names
+
+tidy_peakfile(peaklist = peaklist,
+              blacklist = hg19_blacklist)
 
 }

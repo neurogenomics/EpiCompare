@@ -4,12 +4,12 @@
 \alias{plot_chrmHMM}
 \title{Plot ChromHMM heatmap}
 \usage{
-plot_chrmHMM(peaklist, namelist, chrmHMM_annotation)
+plot_chrmHMM(peaklist, chrmHMM_annotation)
 }
 \arguments{
-\item{peaklist}{A list of peaks as GRanges object. Objects in list using `list()`}
-
-\item{namelist}{A list of names. Names in list using `c()`}
+\item{peaklist}{A list of peak files as GRanges object.
+Files must be listed using `list()` and named using `names()`
+If not named, default file names will be assigned.}
 
 \item{chrmHMM_annotation}{ChromHMM annotation list}
 }

@@ -4,12 +4,13 @@
 \alias{width_boxplot}
 \title{Peak width boxplot}
 \usage{
-width_boxplot(peaklist, namelist)
+width_boxplot(peaklist)
 }
 \arguments{
-\item{peaklist}{A list of peak files as GRanges object. Files must be listed using `list()`}
-
-\item{namelist}{A list of file names in the same order as the list of peak files. Use `c()` for multiple.}
+\item{peaklist}{A list of peak files as GRanges object.
+Files must be listed using `list()`.
+Files must be named using `names(peaklist) <- c("sample1","sample2)`.
+If not named, default file names will be assigned.}
 }
 \value{
 A boxplot of peak widths.
@@ -22,7 +23,9 @@ library(EpiCompare)
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 
-width_boxplot(peaklist = list(encode_H3K27ac, CnT_H3K27ac),
-              namelist = c("ENCODE", "CnT"))
+peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
+names(peaks) <- c("encode", "CnT") # set names
+
+width_boxplot(peaklist = peaks)
 
 }

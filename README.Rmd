@@ -81,8 +81,9 @@ GRanges, use `ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")`. I
 
 By default, these plots will not be included in the report unless set `TRUE`. 
 
-* `stat_plot` : included only if a reference dataset is provided. The plot shows statistical significance (p/q-values) of sample peaks that are overlapping/non-overlapping with the reference dataset. 
-* `chrmHMM_plot` : ChromHMM annotation of peaks. If a reference dataset is provided, ChromHMM annotation of overlapping and non-overlapping peaks with the reference is also included in the report. 
+* `stat_plot` : included only if a `reference` dataset is provided. The plot shows statistical significance (p/q-values) of sample peaks that are overlapping/non-overlapping with the `reference` dataset. 
+* `chrmHMM_plot` : ChromHMM annotation of peaks. If a `reference` dataset is provided, ChromHMM annotation of overlapping and non-overlapping peaks with the `reference` is also included in the report. 
+* `reference` : Reference peak file used in `stat_plot` and `chrmHMM_plot`. File must be in GRanges object.  
 * `chipseeker_plot` : ChIPseeker annotation of peaks.
 * `enrichment_plot` : KEGG pathway and GO enrichment analysis of peaks. 
 
