@@ -43,6 +43,7 @@ tidy_peakfile <- function(peaklist, blacklist){
     # if only one file, tidy and output one file
     tidy_peak <- BRGenomics::tidyChromosomes(peaklist, keep.X = TRUE, keep.Y = TRUE)
     peaklist_tidy<- IRanges::subsetByOverlaps(tidy_peak, blacklist, invert = TRUE)
+    names(peaklist_tidy)[1] <- names(peaklist)[1]
     return(peaklist_tidy)
   }
 }

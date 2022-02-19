@@ -7,17 +7,13 @@ output:
 editor_options:
   chunk_output_type: inline
 ---
-
 <!-- badges: start -->
-<!-- badger::badge_codecov() -->
-<!-- copied from MungeSumstats README.Rmd -->
-<!-- badger::badge_lifecycle("stable", "green") -->
-<!-- badger::badge_last_commit()  -->
-<!-- badger::badge_license() -->
-[![R build status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions) 
-[![R build status](https://github.com/neurogenomics/EpiCompare/workflows/DockerHub/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions) 
-[![License: GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
-<!-- badges: end --> 
+`r badger::badge_github_version("neurogenomics/EpiCompare", color = 'black')` 
+`r badger::badge_github_actions("neurogenomics/EpiCompare", action = 'R-CMD-check-bioc')`
+`r badger::badge_github_actions("neurogenomics/EpiCompare", action = "DockerHub")`
+`r badger::badge_codecov("neurogenomics/EpiCompare")` 
+`r badger::badge_license()`
+<!-- badges: end -->
 
 # Introduction 
 
@@ -83,9 +79,13 @@ By default, these plots will not be included in the report unless set `TRUE`.
 
 * `stat_plot` : included only if a `reference` dataset is provided. The plot shows statistical significance (p/q-values) of sample peaks that are overlapping/non-overlapping with the `reference` dataset. 
 * `chrmHMM_plot` : ChromHMM annotation of peaks. If a `reference` dataset is provided, ChromHMM annotation of overlapping and non-overlapping peaks with the `reference` is also included in the report. 
-* `reference` : Reference peak file used in `stat_plot` and `chrmHMM_plot`. File must be in GRanges object.  
 * `chipseeker_plot` : ChIPseeker annotation of peaks.
 * `enrichment_plot` : KEGG pathway and GO enrichment analysis of peaks. 
+
+#### Optional Inputs
+
+* `picard_files` : A list of summary metrics output from Picard. If provided, metrics on fragments (e.g. mapped fragments and duplication rate) will be included in the report. Files must be in data.frame format and listed using `list()` and named using `names()`. To import Picard duplication metrics (.txt file) into R as data frame, use `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
+* `reference` : Reference peak file used in `stat_plot` and `chrmHMM_plot`. File must be in GRanges object.  
 
 #### Outputs 
 
@@ -112,7 +112,18 @@ utils::sessionInfo()
 
 </details>
 
+## Contact
+ 
+### [Neurogenomics Lab](https://www.neurogenomics.co.uk/)
 
+UK Dementia Research Institute  
+Department of Brain Sciences  
+Faculty of Medicine  
+Imperial College London   
+[GitHub](https://github.com/neurogenomics)  
+[DockerHub](https://hub.docker.com/orgs/neurogenomicslab)  
+
+<br>
 
 
 

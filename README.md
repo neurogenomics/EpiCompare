@@ -2,20 +2,17 @@
 ================
 Sera Choi
 <h5>
-<i>Updated</i>: Feb-16-2022
+<i>Updated</i>: Feb-19-2022
 </h5>
 
 <!-- badges: start -->
-<!-- badger::badge_codecov() -->
-<!-- copied from MungeSumstats README.Rmd -->
-<!-- badger::badge_lifecycle("stable", "green") -->
-<!-- badger::badge_last_commit()  -->
-<!-- badger::badge_license() -->
 
+[![](https://img.shields.io/badge/devel%20version-0.99.0-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/DockerHub/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
+[![](https://codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://codecov.io/gh/neurogenomics/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 <!-- badges: end -->
@@ -151,9 +148,38 @@ utils::sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] compiler_4.0.2   magrittr_2.0.1   fastmap_1.1.0    tools_4.0.2     
-    ##  [5] htmltools_0.5.2  yaml_2.2.1       stringi_1.7.6    rmarkdown_2.11.3
-    ##  [9] knitr_1.37       stringr_1.4.0    xfun_0.29        digest_0.6.29   
-    ## [13] rlang_0.4.12     evaluate_0.14
+    ##  [1] tidyselect_1.1.1    xfun_0.29           purrr_0.3.4        
+    ##  [4] colorspace_2.0-2    vctrs_0.3.8         generics_0.1.1     
+    ##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.2.1         
+    ## [10] utf8_1.2.2          rlang_0.4.12        gert_1.4.3         
+    ## [13] pillar_1.6.4        glue_1.6.0          DBI_1.1.2          
+    ## [16] RColorBrewer_1.1-2  rvcheck_0.2.1       lifecycle_1.0.1    
+    ## [19] stringr_1.4.0       dlstats_0.1.4       munsell_0.5.0      
+    ## [22] gtable_0.3.0        evaluate_0.14       knitr_1.37         
+    ## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            
+    ## [28] fansi_0.5.0         openssl_1.4.6       scales_1.1.1       
+    ## [31] BiocManager_1.30.16 desc_1.4.0          jsonlite_1.7.2     
+    ## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      
+    ## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      
+    ## [40] gh_1.3.0            dplyr_1.0.7         grid_4.0.2         
+    ## [43] rprojroot_2.0.2     cli_3.1.0           tools_4.0.2        
+    ## [46] yulab.utils_0.0.4   magrittr_2.0.1      tibble_3.1.6       
+    ## [49] crayon_1.4.2        pkgconfig_2.0.3     ellipsis_0.3.2     
+    ## [52] assertthat_0.2.1    rmarkdown_2.11.3    httr_1.4.2         
+    ## [55] rstudioapi_0.13     gitcreds_0.1.1      badger_0.1.0       
+    ## [58] R6_2.5.1            compiler_4.0.2
 
 </details>
+
+## Contact
+
+### [Neurogenomics Lab](https://www.neurogenomics.co.uk/)
+
+UK Dementia Research Institute  
+Department of Brain Sciences  
+Faculty of Medicine  
+Imperial College London  
+[GitHub](https://github.com/neurogenomics)  
+[DockerHub](https://hub.docker.com/orgs/neurogenomicslab)
+
+<br>

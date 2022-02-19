@@ -48,7 +48,7 @@ if (is.null(params$reference) == FALSE){
 }
 ```
 
-EpiCompare compares different epigenetic datasets for quality control and benchmarking purposes. 
+[EpiCompare](https://github.com/neurogenomics/EpiCompare) compares different epigenetic datasets for quality control and benchmarking purposes. 
 The report is divided into three sections: 
 
 1. **General Metrics:** Metrics on fragments (duplication rate) and peaks (blacklisted peaks and peak widths) of input files
@@ -70,7 +70,7 @@ for (name in names(peaklist_tidy)){
 }
 ```
 
-* Reference peakfile: 
+* Reference peakfile: `r names(reference_tidy)[1]`
 
 ***
 
@@ -184,6 +184,9 @@ per sample showing the distribution of -log10(q-value) of reference peaks that a
 * Reference dataset does not have BED6+4 format: EpiCompare generates a barplot of percentage of overlapping sample peaks with the reference, coloured by statistical significance (adjusted p-value) of the overlap. 
 
 Keys:
+
+**Reference peakfile: `r names(reference_tidy)[1]`**
+
 * Overlap: Sample peaks in Reference peaks 
 * Unique: Sample peaks not in Reference peaks  
 
@@ -241,6 +244,8 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of sample peaks found in reference peaks.   
 
+**Reference peakfile: `r names(reference_tidy)[1]`**
+
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
@@ -266,7 +271,9 @@ if (params$chrmHMM_plot){
 
 #### **Overlap**: Reference peaks in Sample peaks 
 
-ChromHMM annotation of reference peaks found in sample peaks.   
+ChromHMM annotation of reference peaks found in sample peaks.
+
+**Reference peakfile: `r names(reference_tidy)[1]`**
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
@@ -295,6 +302,8 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of sample peaks not found in reference peaks. 
 
+**Reference peakfile: `r names(reference_tidy)[1]`**
+
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
@@ -322,6 +331,8 @@ if (params$chrmHMM_plot){
 #### **Unique**: Reference peaks not in Sample peaks 
 
 ChromHMM annotation of reference peaks not found in sample peaks. 
+
+**Reference peakfile: `r names(reference_tidy)[1]`**
 
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
@@ -413,3 +424,14 @@ if (params$enrichment_plot){
 }
 
 ```
+
+### 4. Session Info
+
+<details> 
+
+```{r Session Info}
+utils::sessionInfo()
+```
+
+</details>  
+
