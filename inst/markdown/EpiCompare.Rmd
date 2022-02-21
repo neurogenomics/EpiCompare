@@ -78,7 +78,7 @@ for (name in names(peaklist_tidy)){
 ```R
 EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
            blacklist = blacklist,
-           picard_files = `r names(params$picard_files)`,
+           picard_files = list(`r names(params$picard_files)`),
            reference = `r names(reference_tidy)[1]`,
            stat_plot = `r params$stat_plot`,
            chrmHMM_plot = `r params$chrmHMM_plot`,
@@ -114,7 +114,7 @@ Identified using `BRGenomics::tidyChromosomes()`.
 peak_info_df <- peak_info(peak_list = params$peakfile,
                           blacklist = params$blacklist)
 # create table 
-knitr::kable(peak_info_df)
+knitr::kable(peak_info_df, format = "markdown")
 # save output as table 
 if(params$save_output){
   write.table(peak_info_df, file=paste0(outfile_dir,"/peak_info"), sep="\t")
@@ -139,12 +139,13 @@ Column Description:
 # only if picard_files is provided, run the function 
 if (!is.null(params$picard_files)){
   fragment_info_df <- fragment_info(picard_list = params$picard_files)
-  # create data frame 
-  knitr::kable(fragment_info_df)
+  # output data frame 
+  knitr::kable(fragment_info_df, format = "markdown")
+  print(fragment_info_df)
   # save output 
   if(params$save_output){
     write.table(fragment_info_df, file=paste0(outfile_dir,"/fragment_info"), sep="\t")
-    }
+  }
 }   
 ```
 
@@ -272,7 +273,7 @@ if (params$chrmHMM_plot){
     sample_in_ref_df <- overlap_percent(peaklist = peaklist_tidy,
                                         reference = reference_tidy,
                                         invert = FALSE)
-    knitr::kable(sample_in_ref_df)
+    knitr::kable(sample_in_ref_df, format = "markdown")
     
   }
 }
@@ -314,7 +315,7 @@ if (params$chrmHMM_plot){
     ref_in_sample_df <- overlap_percent(peaklist = reference_tidy,
                                         reference = peaklist_tidy,
                                         invert = FALSE)
-    knitr::kable(ref_in_sample_df)
+    knitr::kable(ref_in_sample_df, format = "markdown")
     
   }
 }
@@ -356,7 +357,7 @@ if (params$chrmHMM_plot){
     sample_not_in_ref_df <- overlap_percent(peaklist = peaklist_tidy,
                                             reference = reference_tidy,
                                             invert = TRUE)
-    knitr::kable(sample_not_in_ref_df)
+    knitr::kable(sample_not_in_ref_df, format = "markdown")
   }
 }
 ```
@@ -397,7 +398,7 @@ if (params$chrmHMM_plot){
     ref_not_in_sample_df <- overlap_percent(peaklist = reference_tidy,
                                         reference = peaklist_tidy,
                                         invert = TRUE)
-    knitr::kable(ref_not_in_sample_df)
+    knitr::kable(ref_not_in_sample_df, format = "markdown")
   }
 }
 ```

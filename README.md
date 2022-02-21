@@ -52,15 +52,19 @@ data("encode_H3K27ac") # example peakfile
 data("CnT_H3K27ac") # example peakfile
 data("CnR_H3K27ac") # example peakfile
 data("hg19_blacklist") # example blacklist 
+data("CnT_H3K27ac_picard") # example Picard summary output
+data("CnR_H3K27ac_picard") # example Picard summary output
 ```
 
 Prepare input files:
 
 ``` r
-peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create list
+peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create list of peakfiles 
 names(peaklist) <- c("CnT", "CnR") # set names 
 reference_peak <- encode_H3K27ac # set reference file
 names(reference_peak) <- "encode" # set name
+picard <- list(CnT_H3K27ac_picard, CnR_H3K27ac_picard) # create list of Picard summary
+names(picard) <- c("CnT", "CnR") # set names 
 ```
 
 Run EpiCompare:
@@ -68,7 +72,7 @@ Run EpiCompare:
 ``` r
 EpiCompare(peakfiles = peaklist,
            blacklist = hg19_blacklist,
-          #picard_files = [add example files],
+           picard_files = picard,
            reference = reference_peak,
            stat_plot = TRUE,
            chrmHMM_plot = TRUE,

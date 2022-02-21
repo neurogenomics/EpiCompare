@@ -36,7 +36,7 @@ plot_enrichment <- function(peaklist){
   kegg_plot$data$Cluster <- sample_names
 
   #GO
- # names(genes) <- sub("_", "\n", names(genes))
+  requireNamespace("org.Hs.eg.db")
   compGO <- clusterProfiler::compareCluster(geneCluster = genes,
                                            OrgDb = "org.Hs.eg.db",
                                            fun = "enrichGO",
