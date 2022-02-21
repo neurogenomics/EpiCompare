@@ -28,8 +28,8 @@ overlap_heatmap <- function(peaklist, save_dir = NULL){
   for(mainfile in peaklist){
     percent_list <- c()
     for(subfile in peaklist){
-      overlap <- IRanges::subsetByOverlaps(x = mainfile, ranges = subfile) # overlapping peaks
-      percent <- length(overlap)/length(mainfile)*100 # calculate percentage overlap
+      overlap <- IRanges::subsetByOverlaps(x = subfile, ranges = mainfile) # overlapping peaks
+      percent <- length(overlap)/length(subfile)*100 # calculate percentage overlap
       percent_list <- c(percent_list, percent)
     }
     percent_list <- list(percent_list)

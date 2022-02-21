@@ -25,11 +25,13 @@ If not named, default file names will be assigned.}
 \item{blacklist}{A GRanges object containing blacklisted regions.}
 
 \item{picard_files}{A list of summary metrics output from Picard.
-Files must be in data.frame format and listed using `list()` and named using `names()`.}
+Files must be in data.frame format and listed using `list()` and named using `names()`.
+To import Picard duplication metrics (.txt file) into R as data frame,
+use `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.}
 
 \item{reference}{A reference peak file as GRanges object.
 If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
-and (2) ChromHMM of overlapping/non-overlapping peaks}
+and (2) ChromHMM of overlapping/non-overlapping peaks. Please ensure that reference file is named using `names()`}
 
 \item{stat_plot}{Default FALSE. If TRUE, the function creates a plot showing the statistical significance of
 overlapping/non-overlapping peaks. Reference peak file must be provided.}
@@ -70,7 +72,7 @@ EpiCompare(peakfiles = peaks,
            chrmHMM_plot = TRUE,
            chipseeker_plot = TRUE,
            enrichment_plot = TRUE,
-           save_output = TRUE,
+           save_output = FALSE,
            output_dir = tempdir())
 
 }

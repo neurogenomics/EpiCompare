@@ -47,11 +47,16 @@ data("CnR_H3K27ac") # example peakfile
 data("hg19_blacklist") # example blacklist 
 ```
 
+Prepare input files:
+```R
+peaklist <- list(encode_H3K27ac, CnT_H3K27ac, CnR_H3K27ac) # create list
+names(peaklist) <- c("encode", "CnT", "CnR") # set names 
+```
+
+
 Run EpiCompare: 
 
 ```R
-peaklist <- list(encode_H3K27ac, CnT_H3K27ac, CnR_H3K27ac) 
-namelist <- c("encode", "CnT", "CnR")
 EpiCompare(peakfiles = peaklist,
            names = namelist,
            blacklist = hg19_blacklist,

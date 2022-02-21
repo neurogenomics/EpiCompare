@@ -44,7 +44,7 @@
 #'            chrmHMM_plot = TRUE,
 #'            chipseeker_plot = TRUE,
 #'            enrichment_plot = TRUE,
-#'            save_output = TRUE,
+#'            save_output = FALSE,
 #'            output_dir = tempdir())
 #'
 EpiCompare <- function(peakfiles,

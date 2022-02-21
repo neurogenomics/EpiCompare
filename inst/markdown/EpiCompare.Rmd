@@ -55,10 +55,11 @@ The report is divided into three sections:
 2. **Peak Overlap:** Percentage and statistical significance of overlapping and unon-overlapping peaks.
 3. **Functional Annotation:** Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks. 
 
-<br>
+***
 
 ##### Input Datasets 
 
+* Reference peakfile: `r names(reference_tidy)[1]`
 * Total of `r length(peaklist_tidy)` peak files: 
 
 ```{r name, echo=FALSE}
@@ -70,7 +71,25 @@ for (name in names(peaklist_tidy)){
 }
 ```
 
-* Reference peakfile: `r names(reference_tidy)[1]`
+##### Code
+
+<details>
+
+```R
+EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
+           blacklist = blacklist,
+           picard_files = `r params$picard_files`,
+           reference = `r names(reference_tidy)[1]`,
+           stat_plot = `r params$stat_plot`,
+           chrmHMM_plot = `r params$chrmHMM_plot`,
+           chipseeker_plot = `r params$chipseeker_plot`,
+           enrichment_plot = `r params$enrichment_plot`,
+           save_output = `r params$save_output`,
+           output_dir = "`r params$output_dir`")
+```
+
+</details>
+
 
 ***
 
@@ -157,16 +176,18 @@ if(params$save_output){
 Heatmap of percentage of overlapping peaks between samples. 
 Hover over the heatmap for percentage values. 
 
+N.B. How to interpret heatmap: [Samples in x-axis of heatmap] peaks in [Samples in y-axis of heatmap] peaks 
+
 <br>
 
 ```{r, echo=FALSE, fig.width= 9, warning=FALSE}
 overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
-                  save_dir = NULL)
+                                   save_dir = NULL)
 overlap_heatmap
 # save output 
 if(params$save_output){
-  overlap_heatmap(peaklist = peaklist_tidy,
-                  save_dir = paste0(outfile_dir,"/samples_percent_overlap.html"))
+  overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
+                                     save_dir = paste0(outfile_dir,"/samples_percent_overlap.html"))
   unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
   }
 
@@ -242,15 +263,28 @@ if (params$chrmHMM_plot){
 
 #### **Overlap**: Sample peaks in Reference peaks 
 
-ChromHMM annotation of sample peaks found in reference peaks.   
-
-**Reference peakfile: `r names(reference_tidy)[1]`**
+Percentage of Sample peaks found in Reference peaks (**Reference peakfile: `r names(reference_tidy)[1]`**)
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
-    sample_in_ref_list <- list()
+    # table of percentage overlap
+    sample_in_ref_df <- overlap_percent(peaklist = peaklist_tidy,
+                                        reference = reference_tidy,
+                                        invert = FALSE)
+    knitr::kable(sample_in_ref_df)
+    
+  }
+}
+```
+
+ChromHMM annotation of sample peaks found in reference peaks.   
+
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+if (params$chrmHMM_plot){
+  if (is.null(params$reference)==FALSE){
     # obtain overlapping peaks 
+    sample_in_ref_list <- list()
     for(file in peaklist_tidy){
       sample_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy)
       sample_in_ref_list <- c(sample_in_ref_list, sample_in_ref)
@@ -271,9 +305,22 @@ if (params$chrmHMM_plot){
 
 #### **Overlap**: Reference peaks in Sample peaks 
 
-ChromHMM annotation of reference peaks found in sample peaks.
+Percentage of Reference peaks found in Sample peaks (**Reference peakfile: `r names(reference_tidy)[1]`**)
 
-**Reference peakfile: `r names(reference_tidy)[1]`**
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+if (params$chrmHMM_plot){
+  if (is.null(params$reference)==FALSE){
+    # table of percentage overlap
+    ref_in_sample_df <- overlap_percent(peaklist = reference_tidy,
+                                        reference = peaklist_tidy,
+                                        invert = FALSE)
+    knitr::kable(ref_in_sample_df)
+    
+  }
+}
+```
+
+ChromHMM annotation of reference peaks found in sample peaks.   
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
@@ -300,10 +347,21 @@ if (params$chrmHMM_plot){
 
 #### **Unique**: Sample peaks not in Reference peaks 
 
+Percentage of sample peaks not found in reference peaks (**Reference peakfile: `r names(reference_tidy)[1]`**)
+
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+if (params$chrmHMM_plot){
+  if (is.null(params$reference)==FALSE){
+    # table of percentage overlap
+    sample_not_in_ref_df <- overlap_percent(peaklist = peaklist_tidy,
+                                            reference = reference_tidy,
+                                            invert = TRUE)
+    knitr::kable(sample_not_in_ref_df)
+  }
+}
+```
+
 ChromHMM annotation of sample peaks not found in reference peaks. 
-
-**Reference peakfile: `r names(reference_tidy)[1]`**
-
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
@@ -330,10 +388,21 @@ if (params$chrmHMM_plot){
 
 #### **Unique**: Reference peaks not in Sample peaks 
 
+Percentage of reference peaks not found in sample peaks (**Reference peakfile: `r names(reference_tidy)[1]`**)
+
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+if (params$chrmHMM_plot){
+  if (is.null(params$reference)==FALSE){
+    # table of percentage overlap
+    ref_not_in_sample_df <- overlap_percent(peaklist = reference_tidy,
+                                        reference = peaklist_tidy,
+                                        invert = TRUE)
+    knitr::kable(ref_not_in_sample_df)
+  }
+}
+```
+
 ChromHMM annotation of reference peaks not found in sample peaks. 
-
-**Reference peakfile: `r names(reference_tidy)[1]`**
-
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 if (params$chrmHMM_plot){
