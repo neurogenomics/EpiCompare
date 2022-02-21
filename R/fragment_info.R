@@ -16,12 +16,13 @@
 #' @examples
 #' library(EpiCompare)
 #' data(CnT_H3K27ac_picard) # load example picard output
+#' data(CnR_H3K27ac_picard) # load example picard output
 #'
 #' # To import Picard duplication metrics (.txt file) into R as data frame
 #' # CnT_H3K27ac_picard <- read.table("/path/to/picard/output.txt", header = TRUE, fill = TRUE)
 #'
-#' picard <- list(CnT_H3K27ac_picard) # convert into list
-#' names(picard) <- "CnT_H3K27ac" # set names
+#' picard <- list(CnT_H3K27ac_picard, CnR_H3K27ac_picard) # convert into list
+#' names(picard) <- c("CnT_H3K27ac", "CnR_H3K27ac") # set names
 #' fragment_info(picard_list = picard)
 #'
 fragment_info <- function(picard_list){

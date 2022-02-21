@@ -78,7 +78,7 @@ for (name in names(peaklist_tidy)){
 ```R
 EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
            blacklist = blacklist,
-           picard_files = `r params$picard_files`,
+           picard_files = `r names(params$picard_files)`,
            reference = `r names(reference_tidy)[1]`,
            stat_plot = `r params$stat_plot`,
            chrmHMM_plot = `r params$chrmHMM_plot`,

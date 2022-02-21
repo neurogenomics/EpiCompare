@@ -33,13 +33,21 @@
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #' data("CnR_H3K27ac") # example dataset as GRanges object
 #' data("hg19_blacklist") # example blacklist dataset as GRanges object
+#' data("CnT_H3K27ac_picard") # example Picard summary output
+#' data("CnR_H3K27ac_picard") # example Picard summary output
 #'
-#' peaks <- list(CnR_H3K27ac, CnT_H3K27ac) # create list
+#' # prepare input data
+#' peaks <- list(CnR_H3K27ac, CnT_H3K27ac) # create list of peakfiles
 #' names(peaks) <- c("CnR", "CnT") # set names
+#' picard <- list(CnR_H3K27ac_picard, CnT_H3K27ac_picard) # create list of picard outputs
+#' names(picard) <- c("CnR", "CnT") # set names
+#' reference_peak <- encode_H3K27ac # reference peak file
+#' names(reference_peak)[1] <- "encode" # set name
 #'
 #' EpiCompare(peakfiles = peaks,
 #'            blacklist = hg19_blacklist,
-#'            reference = encode_H3K27ac,
+#'            picard_files = picard,
+#'            reference = reference_peak,
 #'            stat_plot = TRUE,
 #'            chrmHMM_plot = TRUE,
 #'            chipseeker_plot = TRUE,
