@@ -54,15 +54,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">width_boxplot</span><span class="op">(</span><span class="va">peaklist</span>, <span class="va">namelist</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">width_boxplot</span><span class="op">(</span><span class="va">peaklist</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>peaklist</dt>
-<dd><p>A list of peak files as GRanges object. Files must be listed using `list()`</p></dd>
-<dt>namelist</dt>
-<dd><p>A list of file names in the same order as the list of peak files. Use `c()` for multiple.</p></dd>
+<dd><p>A list of peak files as GRanges object.
+Files must be listed using `list()`.
+Files must be named using `names(peaklist) &lt;- c("sample1","sample2)`.
+If not named, default file names will be assigned.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -75,8 +76,10 @@
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu">width_boxplot</span><span class="op">(</span>peaklist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">encode_H3K27ac</span>, <span class="va">CnT_H3K27ac</span><span class="op">)</span>,</span>
-<span class="r-in">              namelist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ENCODE"</span>, <span class="st">"CnT"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">peaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">encode_H3K27ac</span>, <span class="va">CnT_H3K27ac</span><span class="op">)</span> <span class="co"># create list</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">peaks</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"encode"</span>, <span class="st">"CnT"</span><span class="op">)</span> <span class="co"># set names</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">width_boxplot</span><span class="op">(</span>peaklist <span class="op">=</span> <span class="va">peaks</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="width_boxplot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 </code></pre></div>
@@ -93,7 +96,8 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.9000.</p>
 </div>
 
       </footer></div>

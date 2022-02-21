@@ -70,31 +70,37 @@
 
 <div class="section level1">
 <div class="page-header"><h1 id="epicompare-qc-and-benchmarking-of-epigenetic-datasets">
-<code>EpiCompare</code>: QC and Benchmarking of Epigenetic Datasets<a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets"></a>
+<code>EpiCompare</code>: QC and Benchmarking of Epigenetic
+Datasets<a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets"></a>
 </h1></div>
 Sera Choi
 <h5 id="epicompare-qc-and-benchmarking-of-epigenetic-datasets-1">
-<i>Updated</i>: Feb-15-2022
+<i>Updated</i>: Feb-21-2022
 <a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets-1"></a>
 </h5>
 <!-- badges: start -->
-<!-- badger::badge_codecov() -->
-<!-- copied from MungeSumstats README.Rmd -->
-<!-- badger::badge_lifecycle("stable", "green") -->
-<!-- badger::badge_last_commit()  -->
-<!-- badger::badge_license() -->
 
 </div>
 <div class="section level1">
 <h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h1>
-<p><code>EpiCompare</code> is an R package for comparing different epigenetic datasets for quality control and benchmarking purposes. The function outputs a report in HTML format consisting of three sections:</p>
+<p><code>EpiCompare</code> is an R package for comparing different
+epigenetic datasets for quality control and benchmarking purposes. The
+function outputs a report in HTML format consisting of three
+sections:</p>
 <ol style="list-style-type: decimal">
-<li>General Metrics: Metrics on peaks (blacklisted peaks and peak widths) and fragments (duplication rate) of input epigenetic datasets</li>
-<li>Peak Overlap: Percentage and statistical significance of overlapping and non-overlapping peaks</li>
-<li>Functional Annotation: Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks</li>
+<li>General Metrics: Metrics on peaks (blacklisted peaks and peak
+widths) and fragments (duplication rate) of input epigenetic
+datasets</li>
+<li>Peak Overlap: Percentage and statistical significance of overlapping
+and non-overlapping peaks</li>
+<li>Functional Annotation: Functional annotation (ChromHMM, ChIPseeker
+and enrichment analysis) of peaks</li>
 </ol>
-<p>N.B. All functional analyses performed by EpiCompare uses annotations for human genome hg19. N.B. Peaks in blacklisted regions and non-standard chromosomes are removed from peak files before any analysis</p>
+<p>N.B. All functional analyses performed by EpiCompare uses annotations
+for human genome hg19. N.B. Peaks in blacklisted regions and
+non-standard chromosomes are removed from peak files before any
+analysis</p>
 </div>
 <div class="section level1">
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -113,15 +119,23 @@ Sera Choi
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># example blacklist </span></code></pre></div>
-<p>Run EpiCompare:</p>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># example blacklist </span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></code></pre></div>
+<p>Prepare input files:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">peaklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">encode_H3K27ac</span>, <span class="va">CnT_H3K27ac</span>, <span class="va">CnR_H3K27ac</span><span class="op">)</span> 
-<span class="va">namelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"encode"</span>, <span class="st">"CnT"</span>, <span class="st">"CnR"</span><span class="op">)</span>
-<span class="fu"><a href="reference/EpiCompare.html">EpiCompare</a></span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peaklist</span>,
-           names <span class="op">=</span> <span class="va">namelist</span>,
+<code class="sourceCode R"><span class="va">peaklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">CnT_H3K27ac</span>, <span class="va">CnR_H3K27ac</span><span class="op">)</span> <span class="co"># create list of peakfiles </span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">peaklist</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CnT"</span>, <span class="st">"CnR"</span><span class="op">)</span> <span class="co"># set names </span>
+<span class="va">reference_peak</span> <span class="op">&lt;-</span> <span class="va">encode_H3K27ac</span> <span class="co"># set reference file</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">reference_peak</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"encode"</span> <span class="co"># set name</span>
+<span class="va">picard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">CnT_H3K27ac_picard</span>, <span class="va">CnR_H3K27ac_picard</span><span class="op">)</span> <span class="co"># create list of Picard summary</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">picard</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CnT"</span>, <span class="st">"CnR"</span><span class="op">)</span> <span class="co"># set names </span></code></pre></div>
+<p>Run EpiCompare:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/EpiCompare.html">EpiCompare</a></span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peaklist</span>,
            blacklist <span class="op">=</span> <span class="va">hg19_blacklist</span>,
-           reference <span class="op">=</span> <span class="va">encode_H3K27ac</span>,
+           picard_files <span class="op">=</span> <span class="va">picard</span>,
+           reference <span class="op">=</span> <span class="va">reference_peak</span>,
            stat_plot <span class="op">=</span> <span class="cn">TRUE</span>,
            chrmHMM_plot <span class="op">=</span> <span class="cn">TRUE</span>,
            chipseeker_plot <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -134,26 +148,59 @@ Sera Choi
 <p>These input parameters must be provided:</p>
 <ul>
 <li>
-<code>peakfiles</code> : Peakfiles you want to analyse. The files must be in GRanges object. To convert BED files into GRanges, use <code>ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")</code>. If there are more than one peakfiles, the files must be listed using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.</li>
+<code>peakfiles</code> : Peakfiles you want to analyse. The files
+must be in GRanges object. To convert BED files into GRanges, use
+<code>ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")</code>.
+If there are more than one peakfiles, the files must be listed using
+<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and named using for example,
+<code>names(peaklist) &lt;- c("sample1","sample2)</code>
+</li>
 <li>
-<code>namelist</code> : Names of peakfiles. If there are more than one, must be listed in the same order as peakfiles are listed using <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>.</li>
+<code>blacklist</code> : Peakfile as GRanges object specifying
+genomic regions that have anomalous and/or unstructured signals
+independent of the cell-line or experiment. For human genome hg19, use
+<code>data(hg19_blacklist)</code> stored in the package.</li>
+</ul>
+</div>
+<div class="section level4">
+<h4 id="optional-inputs">Optional Inputs<a class="anchor" aria-label="anchor" href="#optional-inputs"></a>
+</h4>
+<ul>
 <li>
-<code>blacklist</code> : Peakfile as GRanges object specifying genomic regions that have anomalous and/or unstructured signals independent of the cell-line or experiment. For human genome hg19, use <code>data(hg19_blacklist)</code> stored in the package.</li>
+<code>picard_files</code> : A list of summary metrics output from
+Picard. If provided, metrics on fragments (e.g. mapped fragments and
+duplication rate) will be included in the report. Files must be in
+data.frame format and listed using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and named using
+<code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code>. To import Picard duplication metrics (.txt file)
+into R as data frame, use
+<code>picard &lt;- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)</code>.</li>
+<li>
+<code>reference</code> : Reference peak file used in
+<code>stat_plot</code> and <code>chrmHMM_plot</code>. File must be in
+GRanges object and named using <code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code>.</li>
 </ul>
 </div>
 <div class="section level4">
 <h4 id="optional-plots">Optional Plots<a class="anchor" aria-label="anchor" href="#optional-plots"></a>
 </h4>
-<p>By default, these plots will not be included in the report unless set <code>TRUE</code>.</p>
+<p>By default, these plots will not be included in the report unless set
+<code>TRUE</code>.</p>
 <ul>
 <li>
-<code>stat_plot</code> : included only if a reference dataset is provided. The plot shows statistical significance (p/q-values) of sample peaks that are overlapping/non-overlapping with the reference dataset.</li>
+<code>stat_plot</code> : included only if a <code>reference</code>
+dataset is provided. The plot shows statistical significance
+(p/q-values) of sample peaks that are overlapping/non-overlapping with
+the <code>reference</code> dataset.</li>
 <li>
-<code>chrmHMM_plot</code> : ChromHMM annotation of peaks. If a reference dataset is provided, ChromHMM annotation of overlapping and non-overlapping peaks with the reference is also included in the report.</li>
+<code>chrmHMM_plot</code> : ChromHMM annotation of peaks. If a
+<code>reference</code> dataset is provided, ChromHMM annotation of
+overlapping and non-overlapping peaks with the <code>reference</code> is
+also included in the report.</li>
 <li>
 <code>chipseeker_plot</code> : ChIPseeker annotation of peaks.</li>
 <li>
-<code>enrichment_plot</code> : KEGG pathway and GO enrichment analysis of peaks.</li>
+<code>enrichment_plot</code> : KEGG pathway and GO enrichment
+analysis of peaks.</li>
 </ul>
 </div>
 <div class="section level4">
@@ -161,9 +208,12 @@ Sera Choi
 </h4>
 <p><code>EpiCompare</code> outputs the following:</p>
 <ul>
-<li>HTML report: A summary of all analyses saved in specified <code>output_dir</code>
+<li>HTML report: A summary of all analyses saved in specified
+<code>output_dir</code>
 </li>
-<li>EpiCompare_file: if <code>save_output=TRUE</code>, all plots generated by EpiCompare will be saved in EpiCompare_file directory also in specified <code>output_dir</code>
+<li>EpiCompare_file: if <code>save_output=TRUE</code>, all plots
+generated by EpiCompare will be saved in EpiCompare_file directory also
+in specified <code>output_dir</code>
 </li>
 </ul>
 </div>
@@ -171,7 +221,8 @@ Sera Choi
 <div class="section level1">
 <h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h1>
-<p><a href="https://neurogenomics.github.io/EpiCompare" class="external-link">EpiCompare Website</a></p>
+<p><a href="https://neurogenomics.github.io/EpiCompare" class="external-link">EpiCompare
+Website</a></p>
 </div>
 <div class="section level1">
 <h1 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
@@ -181,35 +232,64 @@ Sera Choi
 <div class="section level1">
 <h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h1>
-<details><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<details><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## R Under development (unstable) (2022-02-10 r81713)</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Running under: Ubuntu 20.04.3 LTS</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Matrix products: default</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## locale:</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="do">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="do">## attached base packages:</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="do">## other attached packages:</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] rmarkdown_2.11</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="do">## loaded via a namespace (and not attached):</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] compiler_4.2.0  magrittr_2.0.2  fastmap_1.1.0   cli_3.2.0      </span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5] tools_4.2.0     htmltools_0.5.2 yaml_2.2.2      stringi_1.7.6  </span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] knitr_1.37      stringr_1.4.0   xfun_0.29       digest_0.6.29  </span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [13] rlang_1.0.1     evaluate_0.14</span></span></code></pre></div>
-</details>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## R Under development (unstable) (2022-02-17 r81757)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Running under: Ubuntu 20.04.3 LTS</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Matrix products: default</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">## locale:</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## attached base packages:</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="do">## other attached packages:</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] rmarkdown_2.11</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="do">## loaded via a namespace (and not attached):</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] tidyselect_1.1.1    xfun_0.29           purrr_0.3.4        </span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4] colorspace_2.0-3    vctrs_0.3.8         generics_0.1.2     </span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.3.5         </span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [10] utf8_1.2.2          rlang_1.0.1         gert_1.5.0         </span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [13] pillar_1.7.0        glue_1.6.1          DBI_1.1.2          </span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [16] RColorBrewer_1.1-2  rvcheck_0.2.1       lifecycle_1.0.1    </span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [19] stringr_1.4.0       dlstats_0.1.4       munsell_0.5.0      </span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [22] gtable_0.3.0        evaluate_0.15       knitr_1.37         </span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            </span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [28] fansi_1.0.2         openssl_1.4.6       scales_1.1.1       </span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [31] BiocManager_1.30.16 desc_1.4.0          jsonlite_1.7.3     </span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      </span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      </span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [40] gh_1.3.0            dplyr_1.0.8         grid_4.2.0         </span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [43] rprojroot_2.0.2     cli_3.2.0           tools_4.2.0        </span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [46] yulab.utils_0.0.4   magrittr_2.0.2      tibble_3.1.6       </span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="do">## [49] crayon_1.5.0        pkgconfig_2.0.3     ellipsis_0.3.2     </span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="do">## [52] assertthat_0.2.1    httr_1.4.2          badger_0.1.0       </span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="do">## [55] R6_2.5.1            gitcreds_0.1.1      compiler_4.2.0</span></span></code></pre></div>
+</details><div class="section level2">
+<h2 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
+</h2>
+<div class="section level3">
+<h3 id="neurogenomics-lab">
+<a href="https://www.neurogenomics.co.uk/" class="external-link">Neurogenomics
+Lab</a><a class="anchor" aria-label="anchor" href="#neurogenomics-lab"></a>
+</h3>
+<p>UK Dementia Research Institute<br>
+Department of Brain Sciences<br>
+Faculty of Medicine<br>
+Imperial College London<br><a href="https://github.com/neurogenomics" class="external-link">GitHub</a><br><a href="https://hub.docker.com/orgs/neurogenomicslab" class="external-link">DockerHub</a></p>
+<p><br></p>
+</div>
+</div>
 </div>
 
   </div>
@@ -240,8 +320,9 @@ Sera Choi
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://github.com/neurogenomics/EpiCompare" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.99.0-black.svg"></a></li>
 <li><a href="https://github.com/neurogenomics/EpiCompare/actions" class="external-link"><img src="https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg" alt="R build status"></a></li>
-<li><a href="https://github.com/neurogenomics/EpiCompare/actions" class="external-link"><img src="https://github.com/neurogenomics/EpiCompare/workflows/DockerHub/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/gh/neurogenomics/EpiCompare" class="external-link"><img src="https://codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg"></a></li>
 <li><a href="https://cran.r-project.org/web/licenses/GPL-3" class="external-link"><img src="https://img.shields.io/badge/license-GPL--3-blue.svg" alt="License: GPL-3"></a></li>
 </ul>
 </div>
@@ -257,7 +338,8 @@ Sera Choi
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.9000.</p>
 </div>
 
       </footer>

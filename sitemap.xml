@@ -19,16 +19,19 @@
     <loc>/reference/CnR_H3K27ac.html</loc>
   </url>
   <url>
+    <loc>/reference/CnR_H3K27ac_picard.html</loc>
+  </url>
+  <url>
     <loc>/reference/CnT_H3K27ac.html</loc>
   </url>
   <url>
     <loc>/reference/CnT_H3K27ac_picard.html</loc>
   </url>
   <url>
-    <loc>/reference/CnT_H3K27ac_seacr.html</loc>
+    <loc>/reference/EpiCompare.html</loc>
   </url>
   <url>
-    <loc>/reference/EpiCompare.html</loc>
+    <loc>/reference/check_list_names.html</loc>
   </url>
   <url>
     <loc>/reference/chromHMM_annotation_K562.html</loc>
@@ -49,6 +52,9 @@
     <loc>/reference/overlap_heatmap.html</loc>
   </url>
   <url>
+    <loc>/reference/overlap_percent.html</loc>
+  </url>
+  <url>
     <loc>/reference/overlap_stat_plot.html</loc>
   </url>
   <url>
@@ -65,6 +71,9 @@
   </url>
   <url>
     <loc>/reference/tidy_peakfile.html</loc>
+  </url>
+  <url>
+    <loc>/reference/validate_parameters.html</loc>
   </url>
   <url>
     <loc>/reference/width_boxplot.html</loc>
