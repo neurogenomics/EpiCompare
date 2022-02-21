@@ -10,6 +10,7 @@
 #' \code{
 #' encode_H3K27ac <- ChIPseeker::readPeakFile("./data/ENCODE_H3K27ac.bed", as = "GRanges")
 #' encode_H3K27ac <- encode_H3K27ac[encode_H3K27ac@seqnames == "chr1"]
+#' colnames(GenomicRanges::mcols(encode_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 #' usethis::use_data(encode_H3K27ac, overwrite = TRUE)
 #' }
 #'
@@ -28,6 +29,7 @@
 #' \code{
 #' CnT_H3K27ac <- ChIPseeker::readPeakFile("./data/CnT_H3K27ac_MACS2.bed", as = "GRanges")
 #' CnT_H3K27ac <- CnT_H3K27ac[CnT_H3K27ac@seqnames== "chr1"]
+#' colnames(GenomicRanges::mcols(CnT_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 #' usethis::use_data(CnT_H3K27ac)
 #' }
 #'
@@ -46,6 +48,7 @@
 #' \code{
 #' CnR_H3K27ac <- ChIPseeker::readPeakFile("./data/CnR_H3K27ac_MACS2.bed", as = "GRanges")
 #' CnR_H3K27ac <- CnR_H3K27ac[CnR_H3K27ac@seqnames== "chr1"]
+#' colnames(GenomicRanges::mcols(CnR_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 #' usethis::use_data(CnR_H3K27ac, overwrite = TRUE)
 #' }
 #'
@@ -103,20 +106,3 @@
 #' usethis::use_data(CnT_H3K27ac_picard, overwrite = TRUE)
 #' }
 "CnT_H3K27ac_picard"
-
-#' Example CUT&Tag SEACR called
-#' Human H3K27ac peak file generated with CUT&Tag using K562 cell-line from Kaya-Okur et al., (2019).
-#' Raw peak file (.BED) was obtained from GEO (sample accession: SRR8383507).
-#' Peak calling was performed by Leyla Abbasova using SEACR.
-#' The peak file was then processed into GRanges object.
-#' Peaks located on chromosome 1 were subsetted to reduce the dataset size.
-#'
-#' @source
-#' THe code to prepare the .Rda file is:
-#' \code{
-#' CnT_H3K27ac_seacr <- ChIPseeker::readPeakFile("path/to/peak/file", as="GRanges")
-#' CnT_H3K27ac_seacr <- CnT_H3K27ac_seacr[CnT_H3K27ac_seacr@seqnames == "chr1"]
-#' usethis::use_data(CnT_H3K27ac_seacr, overwrite = TRUE)
-#' }
-"CnT_H3K27ac_seacr"
-

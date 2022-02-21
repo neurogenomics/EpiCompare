@@ -10,8 +10,6 @@ Sera Choi
 [![](https://img.shields.io/badge/devel%20version-0.99.0-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
-[![R build
-status](https://github.com/neurogenomics/EpiCompare/workflows/DockerHub/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://codecov.io/gh/neurogenomics/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)

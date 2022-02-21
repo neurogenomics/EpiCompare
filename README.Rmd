@@ -10,7 +10,6 @@ editor_options:
 <!-- badges: start -->
 `r badger::badge_github_version("neurogenomics/EpiCompare", color = 'black')` 
 `r badger::badge_github_actions("neurogenomics/EpiCompare", action = 'R-CMD-check-bioc')`
-`r badger::badge_github_actions("neurogenomics/EpiCompare", action = "DockerHub")`
 `r badger::badge_codecov("neurogenomics/EpiCompare")` 
 `r badger::badge_license()`
 <!-- badges: end -->

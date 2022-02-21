@@ -12,6 +12,7 @@ The code to prepare the .Rda file from the raw peak file is:
 \code{
 CnR_H3K27ac <- ChIPseeker::readPeakFile("./data/CnR_H3K27ac_MACS2.bed", as = "GRanges")
 CnR_H3K27ac <- CnR_H3K27ac[CnR_H3K27ac@seqnames== "chr1"]
+colnames(GenomicRanges::mcols(CnR_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 usethis::use_data(CnR_H3K27ac, overwrite = TRUE)
 }
 }

@@ -37,24 +37,25 @@ overlap_stat_plot <- function(reference, peaklist){
     for (i in 1:length(peaklist)){
       # reference peaks found in sample peaks
       overlap <- IRanges::subsetByOverlaps(x = reference, ranges = peaklist[[i]])
+      colnames(GenomicRanges::mcols(overlap)) <- c("V4","V5","V6","V7","V8","V9","V10")
       unique <- IRanges::subsetByOverlaps(x = reference, ranges = peaklist[[i]], invert = TRUE)
+      colnames(GenomicRanges::mcols(unique)) <- c("V4","V5","V6","V7","V8","V9","V10")
       # if no overlap, set q-value as 0 to avoid error
       # else, obtain q-value from field V9
+      overlap_qvalue <- overlap$V9
       if (length(overlap) == 0){
         overlap_qvalue <- 0
-      }else{
-        overlap_qvalue <- overlap$V9
-      }
-      if(length(unique) == 0){
-        unique_qvalue <- 0
-      }else{
-        unique_qvalue <- unique$V9
       }
       # create data frame of q-values for overlapping peaks
       sample <- names(peaklist)[i]
       group <- "overlap"
       overlap_df <- data.frame(overlap_qvalue, sample, group)
       colnames(overlap_df) <- c("qvalue", "sample", "group")
+      #
+      unique_qvalue <- unique$V9
+      if(length(unique) == 0){
+        unique_qvalue <- 0
+      }
       # create data frame of q-values for unique peaks
       group <- "unique"
       unique_df <- data.frame(unique_qvalue, sample, group)
