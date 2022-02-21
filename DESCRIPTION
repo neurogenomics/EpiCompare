@@ -12,6 +12,7 @@ License: GPL-3
 LazyData: TRUE
 Depends: R(>= 4.0)
 biocViews:
+SystemRequirements: GNU make
 Imports:
 	GenomicRanges,
 	genomation,
