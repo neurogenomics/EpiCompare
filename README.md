@@ -2,7 +2,7 @@
 ================
 Sera Choi
 <h5>
-<i>Updated</i>: Feb-19-2022
+<i>Updated</i>: Feb-21-2022
 </h5>
 
 <!-- badges: start -->
@@ -56,15 +56,22 @@ data("CnR_H3K27ac") # example peakfile
 data("hg19_blacklist") # example blacklist 
 ```
 
+Prepare input files:
+
+``` r
+peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create list
+names(peaklist) <- c("CnT", "CnR") # set names 
+reference_peak <- encode_H3K27ac # set reference file
+names(reference_peak) <- "encode" # set name
+```
+
 Run EpiCompare:
 
 ``` r
-peaklist <- list(encode_H3K27ac, CnT_H3K27ac, CnR_H3K27ac) 
-namelist <- c("encode", "CnT", "CnR")
 EpiCompare(peakfiles = peaklist,
-           names = namelist,
            blacklist = hg19_blacklist,
-           reference = encode_H3K27ac,
+          #picard_files = [add example files],
+           reference = reference_peak,
            stat_plot = TRUE,
            chrmHMM_plot = TRUE,
            chipseeker_plot = TRUE,
@@ -88,6 +95,19 @@ These input parameters must be provided:
     cell-line or experiment. For human genome hg19, use
     `data(hg19_blacklist)` stored in the package.
 
+#### Optional Inputs
+
+-   `picard_files` : A list of summary metrics output from Picard. If
+    provided, metrics on fragments (e.g. mapped fragments and
+    duplication rate) will be included in the report. Files must be in
+    data.frame format and listed using `list()` and named using
+    `names()`. To import Picard duplication metrics (.txt file) into R
+    as data frame, use
+    `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
+-   `reference` : Reference peak file used in `stat_plot` and
+    `chrmHMM_plot`. File must be in GRanges object and named using
+    `names()`.
+
 #### Optional Plots
 
 By default, these plots will not be included in the report unless set
@@ -103,19 +123,6 @@ By default, these plots will not be included in the report unless set
 -   `chipseeker_plot` : ChIPseeker annotation of peaks.
 -   `enrichment_plot` : KEGG pathway and GO enrichment analysis of
     peaks.
-
-#### Optional Inputs
-
--   `picard_files` : A list of summary metrics output from Picard. If
-    provided, metrics on fragments (e.g. mapped fragments and
-    duplication rate) will be included in the report. Files must be in
-    data.frame format and listed using `list()` and named using
-    `names()`. To import Picard duplication metrics (.txt file) into R
-    as data frame, use
-    `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
--   `reference` : Reference peak file used in `stat_plot` and
-    `chrmHMM_plot`. File must be in GRanges object and named using
-    `names()`.
 
 #### Outputs
 
