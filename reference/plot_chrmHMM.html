@@ -58,7 +58,7 @@ ChromHMM annotation file must be loaded prior to using this function.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_chrmHMM</span><span class="op">(</span><span class="va">peaklist</span>, <span class="va">chrmHMM_annotation</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_chrmHMM</span><span class="op">(</span><span class="va">peaklist</span>, <span class="va">chrmHMM_annotation</span>, interact <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -69,6 +69,9 @@ Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.</p></dd>
 <dt>chrmHMM_annotation</dt>
 <dd><p>ChromHMM annotation list</p></dd>
+<dt>interact</dt>
+<dd><p>Default TRUE. By default, the heatmaps are interactive.
+If set FALSE, the function generates a static ChromHMM heatmap.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

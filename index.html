@@ -75,7 +75,7 @@ Datasets<a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmark
 </h1></div>
 Sera Choi
 <h5 id="epicompare-qc-and-benchmarking-of-epigenetic-datasets-1">
-<i>Updated</i>: Feb-21-2022
+<i>Updated</i>: Mar-01-2022
 <a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets-1"></a>
 </h5>
 <!-- badges: start -->
@@ -130,16 +130,27 @@ analysis</p>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">reference_peak</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"encode"</span> <span class="co"># set name</span>
 <span class="va">picard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">CnT_H3K27ac_picard</span>, <span class="va">CnR_H3K27ac_picard</span><span class="op">)</span> <span class="co"># create list of Picard summary</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">picard</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CnT"</span>, <span class="st">"CnR"</span><span class="op">)</span> <span class="co"># set names </span></code></pre></div>
-<p>Run EpiCompare:</p>
+<p>Additional helps on preparing files:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># To import BED files as GRanges object</span>
+<span class="va">peak</span> <span class="op">&lt;-</span>  <span class="fu">ChIPseeker</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ChIPseeker/man/readPeakFile.html" class="external-link">readPeakFile</a></span><span class="op">(</span><span class="st">"/path/to/peak/file.bed"</span>, as <span class="op">=</span> <span class="st">"GRanges"</span><span class="op">)</span>
+<span class="co"># EpiCompare also accepts paths (to BED files) as input </span>
+<span class="va">peaklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"/path/to/BED/file1.bed"</span>, <span class="st">"/path/to/BED/file2.bed"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">peaklist</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sample1"</span>,<span class="st">"sample2"</span><span class="op">)</span>
+<span class="co"># To import Picard summary output txt file as data frame </span>
+<span class="va">picard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">"/path/to/Picard/summary.txt"</span>, header <span class="op">=</span> <span class="cn">TRUE</span>, fill <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<p>Run EpiCompare:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/EpiCompare.html">EpiCompare</a></span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peaklist</span>,
            blacklist <span class="op">=</span> <span class="va">hg19_blacklist</span>,
            picard_files <span class="op">=</span> <span class="va">picard</span>,
            reference <span class="op">=</span> <span class="va">reference_peak</span>,
            stat_plot <span class="op">=</span> <span class="cn">TRUE</span>,
            chrmHMM_plot <span class="op">=</span> <span class="cn">TRUE</span>,
+           chrmHMM_annotation <span class="op">=</span> <span class="st">"K562"</span>,
            chipseeker_plot <span class="op">=</span> <span class="cn">TRUE</span>,
            enrichment_plot <span class="op">=</span> <span class="cn">TRUE</span>,
+           interact <span class="op">=</span> <span class="cn">TRUE</span>,
            save_output <span class="op">=</span> <span class="cn">TRUE</span>,
            output_dir <span class="op">=</span> <span class="st">"/path/to/output"</span><span class="op">)</span></code></pre></div>
 <div class="section level4">
@@ -148,11 +159,9 @@ analysis</p>
 <p>These input parameters must be provided:</p>
 <ul>
 <li>
-<code>peakfiles</code> : Peakfiles you want to analyse. The files
-must be in GRanges object. To convert BED files into GRanges, use
-<code>ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")</code>.
-If there are more than one peakfiles, the files must be listed using
-<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and named using for example,
+<code>peakfiles</code> : Peakfiles you want to analyse. EpiCompare
+accepts peakfiles as GRanges object and/or as paths to BED files. Files
+must be listed using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and named using for example,
 <code>names(peaklist) &lt;- c("sample1","sample2)</code>
 </li>
 <li>
@@ -204,6 +213,33 @@ analysis of peaks.</li>
 </ul>
 </div>
 <div class="section level4">
+<h4 id="other-options">Other Options<a class="anchor" aria-label="anchor" href="#other-options"></a>
+</h4>
+<ul>
+<li>
+<code>chrmHMM_annotation</code> : Cell-line annotation for ChromHMM.
+Default is K562. Options are:
+<ul>
+<li>“K562” = K-562 cells</li>
+<li>“Gm12878” = Cellosaurus cell-line GM12878</li>
+<li>“H1hesc” = H1 Human Embryonic Stem Cell</li>
+<li>“Hepg2” = Hep G2 cell</li>
+<li>“Hmec” = Human Mammary Epithelial Cell</li>
+<li>“Hsmm” = Human Skeletal Muscle Myoblasts</li>
+<li>“Huvec” = Human Umbilical Vein Endothelial Cells</li>
+<li>“Nhek” = Normal Human Epidermal Keratinocytes</li>
+<li>“Nhlf” = Normal Human Lung Fibroblasts</li>
+</ul>
+</li>
+<li>
+<code>interact</code> : By default, all heatmaps (percentage overlap
+and ChromHMM heatmaps) in the report will be interactive. If set FALSE,
+all heatmaps will be static. N.B. If <code>interact=TRUE</code>,
+interactive heatmaps will be saved as html files, which may take time
+for larger sample sizes.</li>
+</ul>
+</div>
+<div class="section level4">
 <h4 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
 </h4>
 <p><code>EpiCompare</code> outputs the following:</p>
@@ -232,49 +268,49 @@ Website</a></p>
 <div class="section level1">
 <h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h1>
-<details><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<details><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## R Under development (unstable) (2022-02-17 r81757)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Running under: Ubuntu 20.04.3 LTS</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Matrix products: default</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">## locale:</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## attached base packages:</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="do">## other attached packages:</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] rmarkdown_2.11</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="do">## loaded via a namespace (and not attached):</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] tidyselect_1.1.1    xfun_0.29           purrr_0.3.4        </span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4] colorspace_2.0-3    vctrs_0.3.8         generics_0.1.2     </span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.3.5         </span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [10] utf8_1.2.2          rlang_1.0.1         gert_1.5.0         </span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [13] pillar_1.7.0        glue_1.6.1          DBI_1.1.2          </span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [16] RColorBrewer_1.1-2  rvcheck_0.2.1       lifecycle_1.0.1    </span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [19] stringr_1.4.0       dlstats_0.1.4       munsell_0.5.0      </span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [22] gtable_0.3.0        evaluate_0.15       knitr_1.37         </span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            </span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [28] fansi_1.0.2         openssl_1.4.6       scales_1.1.1       </span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [31] BiocManager_1.30.16 desc_1.4.0          jsonlite_1.7.3     </span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      </span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      </span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [40] gh_1.3.0            dplyr_1.0.8         grid_4.2.0         </span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [43] rprojroot_2.0.2     cli_3.2.0           tools_4.2.0        </span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [46] yulab.utils_0.0.4   magrittr_2.0.2      tibble_3.1.6       </span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="do">## [49] crayon_1.5.0        pkgconfig_2.0.3     ellipsis_0.3.2     </span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="do">## [52] assertthat_0.2.1    httr_1.4.2          badger_0.1.0       </span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="do">## [55] R6_2.5.1            gitcreds_0.1.1      compiler_4.2.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## R Under development (unstable) (2022-02-25 r81808)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Running under: Ubuntu 20.04.3 LTS</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Matrix products: default</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="do">## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">## locale:</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="do">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="do">## attached base packages:</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="do">## other attached packages:</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] rmarkdown_2.11</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="do">## loaded via a namespace (and not attached):</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] tidyselect_1.1.2    xfun_0.29           purrr_0.3.4        </span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4] colorspace_2.0-3    vctrs_0.3.8         generics_0.1.2     </span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.3.5         </span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [10] utf8_1.2.2          rlang_1.0.1         gert_1.5.0         </span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [13] pillar_1.7.0        glue_1.6.2          DBI_1.1.2          </span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [16] RColorBrewer_1.1-2  rvcheck_0.2.1       lifecycle_1.0.1    </span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [19] stringr_1.4.0       dlstats_0.1.4       munsell_0.5.0      </span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [22] gtable_0.3.0        evaluate_0.15       knitr_1.37         </span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            </span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [28] fansi_1.0.2         openssl_1.4.6       scales_1.1.1       </span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [31] BiocManager_1.30.16 desc_1.4.0          jsonlite_1.8.0     </span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      </span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      </span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [40] gh_1.3.0            dplyr_1.0.8         grid_4.2.0         </span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [43] rprojroot_2.0.2     cli_3.2.0           tools_4.2.0        </span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [46] yulab.utils_0.0.4   magrittr_2.0.2      tibble_3.1.6       </span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="do">## [49] crayon_1.5.0        pkgconfig_2.0.3     ellipsis_0.3.2     </span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="do">## [52] assertthat_0.2.1    httr_1.4.2          badger_0.1.0       </span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="do">## [55] R6_2.5.1            gitcreds_0.1.1      compiler_4.2.0</span></span></code></pre></div>
 </details><div class="section level2">
 <h2 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
 </h2>
