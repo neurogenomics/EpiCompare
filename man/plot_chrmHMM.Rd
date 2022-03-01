@@ -4,7 +4,7 @@
 \alias{plot_chrmHMM}
 \title{Plot ChromHMM heatmap}
 \usage{
-plot_chrmHMM(peaklist, chrmHMM_annotation)
+plot_chrmHMM(peaklist, chrmHMM_annotation, interact = TRUE)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
@@ -12,6 +12,9 @@ Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
 
 \item{chrmHMM_annotation}{ChromHMM annotation list}
+
+\item{interact}{Default TRUE. By default, the heatmaps are interactive.
+If set FALSE, the function generates a static ChromHMM heatmap.}
 }
 \value{
 ChromHMM heatmap

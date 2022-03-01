@@ -7,14 +7,14 @@
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
-#'
+#' @param txdb A TxDb object.
 #' @return barplot
 #' @export
-plot_ChIPseeker_annotation <- function(peaklist){
+plot_ChIPseeker_annotation <- function(peaklist, txdb){
   # check that peaklist is named, if not, default names assigned
   peaklist <- EpiCompare::check_list_names(peaklist)
   # transcript-realted features of hg19 genomes
-  txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+  txdb <-   txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
   # annotate features
   peak_annotated <- lapply(peaklist,
                            ChIPseeker::annotatePeak,

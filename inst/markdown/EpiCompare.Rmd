@@ -20,10 +20,14 @@ params:
     value: FALSE
   chrmHMM_plot:
     value: FALSE
+  chrmHMM_annotation:
+    value: "K562"
   chipseeker_plot:
     value: FALSE
   enrichment_plot:
     value: FALSE
+  interact:
+    value: TRUE
   save_output:
     value: FALSE
 ---
@@ -37,9 +41,11 @@ if(params$save_output){
     dir.create(outfile_dir)
   }
 }
-# tidy input peakfiles to remove peaks in blacklisted regions and non-standard chromosomes 
+# prepare a list of GRange object
 # and check that the list is named, if not default filenames are used 
-peaklist_tidy <- tidy_peakfile(peaklist = params$peakfile,
+peaklist <- prepare_peaklist(params$peakfile)
+# tidy input peakfiles to remove peaks in blacklisted regions and non-standard chromosomes 
+peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
                                blacklist = params$blacklist)
 # tidy input reference peakfile if provided
 if (is.null(params$reference) == FALSE){
@@ -82,8 +88,10 @@ EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
            reference = `r names(reference_tidy)[1]`,
            stat_plot = `r params$stat_plot`,
            chrmHMM_plot = `r params$chrmHMM_plot`,
+           chrmHMM_annotation = "`r params$chrmHMM_annotation`",
            chipseeker_plot = `r params$chipseeker_plot`,
            enrichment_plot = `r params$enrichment_plot`,
+           interact = `r params$interact`,
            save_output = `r params$save_output`,
            output_dir = "`r params$output_dir`")
 ```
@@ -111,7 +119,7 @@ Identified using `BRGenomics::tidyChromosomes()`.
 <br>
 
 ```{r, echo=FALSE, warning=FALSE}
-peak_info_df <- peak_info(peak_list = params$peakfile,
+peak_info_df <- peak_info(peak_list = peaklist,
                           blacklist = params$blacklist)
 # create table 
 knitr::kable(peak_info_df, format = "markdown")
@@ -135,13 +143,12 @@ Column Description:
 
 <br>
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE, warning=FALSE, results='asis'}
 # only if picard_files is provided, run the function 
 if (!is.null(params$picard_files)){
   fragment_info_df <- fragment_info(picard_list = params$picard_files)
   # output data frame 
-  knitr::kable(fragment_info_df, format = "markdown")
-  print(fragment_info_df)
+  print(knitr::kable(fragment_info_df, format = "markdown"))
   # save output 
   if(params$save_output){
     write.table(fragment_info_df, file=paste0(outfile_dir,"/fragment_info"), sep="\t")
@@ -236,30 +243,35 @@ if (is.null(params$reference) == FALSE){
 
 ### 3.1 ChromHMM {.tabset}
 
-[ChromHMM](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning%20and%20characterizing%20chromatin%20states.&text=ChromHMM%20is%20based%20on%20a,one%20or%20more%20cell%20types.) annotates and characterises peaks into different chromatin states.
-The annotation used in EpiCompare were obtained from [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).
+[ChromHMM](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning%20and%20characterizing%20chromatin%20states.&text=ChromHMM%20is%20based%20on%20a,one%20or%20more%20cell%20types.) annotates and characterises peaks into different chromatin states. ChromHMM annotations used in EpiCompare were obtained from [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).
+
+* Cell-type annotation file used in this analysis: `r params$chrmHMM_annotation`
 
 #### All samples 
 
 ChromHMM annotation of individual samples. 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 # if chrmHMM_plot=TRUE, create ChromHMM heatmaps 
 if (params$chrmHMM_plot){
-  # download chromHMM annotation files 
-  chrHMM_url = "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
-  chrHMM = genomation::readBed(chrHMM_url)
-  chrHMM_list = GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE) 
+  # user-specified ChromHMM annotation file 
+  chrHMM_list <- get_chrHMM_annotation(cell_line = params$chrmHMM_annotation)
   # plot chromHMM
-  samples_chrmHMM <- plot_chrmHMM(peaklist = peaklist_tidy,
-                                  chrmHMM_annotation = chrHMM_list)
-  print(samples_chrmHMM)
+  samples_chrmHMM <- plot_chrmHMM(peaklist = peaklist_tidy, chrmHMM_annotation = chrHMM_list, interact = params$interact)
   # save output 
   if(params$save_output){
+    if(params$interact){
+      htmlwidgets::saveWidget(plotly::as_widget(samples_chrmHMM), file = paste0(outfile_dir,"/samples_chromHMM.html"))
+      unlink(paste0(outfile_dir,"/samples_chromHMM_files"), recursive = TRUE)
+    }else{
       ggplot2::ggsave(filename = "samples_chromHMM.png", plot = samples_chrmHMM, device = "png", path = outfile_dir)
       unlink("samples_chromHMM.png")
+    }
   }
+}else{
+  samples_chrmHMM <- "No plot"
 }
+samples_chrmHMM
 ```
 
 #### **Overlap**: Sample peaks in Reference peaks 
@@ -274,14 +286,13 @@ if (params$chrmHMM_plot){
                                         reference = reference_tidy,
                                         invert = FALSE)
     knitr::kable(sample_in_ref_df, format = "markdown")
-    
   }
 }
 ```
 
 ChromHMM annotation of sample peaks found in reference peaks.   
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     # obtain overlapping peaks 
@@ -293,15 +304,24 @@ if (params$chrmHMM_plot){
     names(sample_in_ref_list) <- names(peaklist_tidy)
     # annotate overlapping peaks with chromHMM annotations
     sample_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_in_ref_list,
-                                          chrmHMM_annotation = chrHMM_list)
-    print(sample_in_ref_chrmHMM)
+                                          chrmHMM_annotation = chrHMM_list,
+                                          interact = params$interact)
     # save output 
     if(params$save_output){
-      ggplot2::ggsave(filename = "sample_in_ref_chromHMM.png", plot = sample_in_ref_chrmHMM, device = "png", path = outfile_dir)
-      unlink("sample_in_ref_chromHMM.png")
+      if(params$interact){
+        htmlwidgets::saveWidget(plotly::as_widget(sample_in_ref_chrmHMM), file = paste0(outfile_dir,"/sample_in_ref_chromHMM.html"))
+        unlink(paste0(outfile_dir,"/sample_in_ref_chromHMM_files"), recursive = TRUE)
+      }else{
+        ggplot2::ggsave(filename = "sample_in_ref_chromHMM.png", plot = sample_in_ref_chrmHMM, device = "png", path = outfile_dir)
+        unlink("sample_in_ref_chromHMM.png")
+      }
     }
   }
+}else{
+  sample_in_ref_chrmHMM <- "No plot"
 }
+sample_in_ref_chrmHMM
+
 ```
 
 #### **Overlap**: Reference peaks in Sample peaks 
@@ -323,7 +343,7 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of reference peaks found in sample peaks.   
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     ref_in_sample_list <- list()
@@ -335,15 +355,23 @@ if (params$chrmHMM_plot){
     names(ref_in_sample_list) <- names(peaklist_tidy)
     # annotate overlapping peaks with chromHMM annotations
     ref_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_in_sample_list,
-                                          chrmHMM_annotation = chrHMM_list)
-    print(ref_in_sample_chrmHMM)
+                                          chrmHMM_annotation = chrHMM_list,
+                                          interact = params$interact)
     # save output 
     if(params$save_output){
-      ggplot2::ggsave(filename = "ref_in_sample_chromHMM.png", plot = ref_in_sample_chrmHMM, device = "png", path = outfile_dir)
-      unlink("ref_in_sample_chromHMM.png")
+      if(params$interact){
+        htmlwidgets::saveWidget(plotly::as_widget(ref_in_sample_chrmHMM), file = paste0(outfile_dir,"/ref_in_sample_chrmHMM.html"))
+        unlink(paste0(outfile_dir,"/ref_in_sample_chrmHMM_files"), recursive = TRUE)
+      }else{
+        ggplot2::ggsave(filename = "ref_in_sample_chromHMM.png", plot = ref_in_sample_chrmHMM, device = "png", path = outfile_dir)
+        unlink("ref_in_sample_chromHMM.png")
+      }
     }
   }
+}else{
+  ref_in_sample_chrmHMM <- "No plot"
 }
+ref_in_sample_chrmHMM
 ```
 
 #### **Unique**: Sample peaks not in Reference peaks 
@@ -364,7 +392,7 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of sample peaks not found in reference peaks. 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
       sample_not_in_ref_list <- list()
@@ -376,15 +404,25 @@ if (params$chrmHMM_plot){
       names(sample_not_in_ref_list) <- names(peaklist_tidy)
       # annotate unique peaks with chromHMM annotations
       sample_not_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_not_in_ref_list,
-                                                chrmHMM_annotation = chrHMM_list)
-      print(sample_not_in_ref_chrmHMM)
+                                                chrmHMM_annotation = chrHMM_list,
+                                                interact = params$interact)
       # save output 
       if(params$save_output){
-        ggplot2::ggsave(filename = "sample_not_in_ref_chromHMM.png", plot = sample_not_in_ref_chrmHMM, device = "png", path = outfile_dir)
-        unlink("sample_not_in_ref_chromHMM.png")
+        if(params$interact){
+          htmlwidgets::saveWidget(plotly::as_widget(ref_in_sample_chrmHMM), file = paste0(outfile_dir,"/ref_in_sample_chrmHMM.html"))
+          unlink(paste0(outfile_dir,"/ref_in_sample_chrmHMM_files"), recursive = TRUE)
+
+        }else{
+          ggplot2::ggsave(filename = "sample_not_in_ref_chromHMM.png", plot = sample_not_in_ref_chrmHMM, device = "png", path = outfile_dir)
+          unlink("sample_not_in_ref_chromHMM.png")
+          }
       }
   }
+}else{
+  sample_not_in_ref_chrmHMM <- "No plot"
 }
+sample_not_in_ref_chrmHMM
+
 ```
 
 #### **Unique**: Reference peaks not in Sample peaks 
@@ -405,7 +443,7 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of reference peaks not found in sample peaks. 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
       ref_not_in_sample_list <- list()
@@ -417,15 +455,23 @@ if (params$chrmHMM_plot){
       names(ref_not_in_sample_list) <- names(peaklist_tidy)
       # annotate unique peaks with chromHMM annotations
       ref_not_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_not_in_sample_list,
-                                                chrmHMM_annotation = chrHMM_list)
-      print(ref_not_in_sample_chrmHMM)
+                                                chrmHMM_annotation = chrHMM_list,
+                                                interact = params$interact)
       # save output 
       if(params$save_output){
-        ggplot2::ggsave(filename = "ref_not_in_sample_chromHMM.png", plot = ref_not_in_sample_chrmHMM, device = "png", path = outfile_dir)
-        unlink("ref_not_in_sample_chromHMM.png")
+        if(params$interact){
+          htmlwidgets::saveWidget(plotly::as_widget(ref_not_in_sample_chrmHMM), file = paste0(outfile_dir,"/ref_not_in_sample_chrmHMM.html"))
+          unlink(paste0(outfile_dir,"/ref_not_in_sample_chrmHMM_files"), recursive = TRUE)
+        }else{
+          ggplot2::ggsave(filename = "ref_not_in_sample_chromHMM.png", plot = ref_not_in_sample_chrmHMM, device = "png", path = outfile_dir)
+          unlink("ref_not_in_sample_chromHMM.png")
+        }
       }
   }
+}else{
+  ref_not_in_sample_chrmHMM <- "No plot"
 }
+ref_not_in_sample_chrmHMM
 ```
 
 ### 3.2 ChIPseeker 
@@ -437,7 +483,6 @@ genomic region where the peak is located. The peaks are annotated with [genes](h
 # if set TRUE, generate chipseeker annotation plot 
 if (params$chipseeker_plot){
   chipseeker_plot <- plot_ChIPseeker_annotation(peaklist = peaklist_tidy)
-  
   print(chipseeker_plot)
   # save output 
   if(params$save_output){

@@ -4,8 +4,10 @@
 #' The function outputs an HTML report containing results from the analysis.
 #' The report is mainly divided into three areas: (1) Peakfile information, (2) Overlapping peaks and (3) Functional annotations.
 #'
-#' @param peakfiles A list of peak files as GRanges object.
-#' Files must be listed using `list()` and named using `names()`
+#' @param peakfiles A list of peak files as GRanges object and/or as paths to BED files.
+#' If paths are provided, EpiCompare creates GRanges object.
+#' #' EpiCompare also accepts a list containing a mix of GRanges object and paths.
+#' Files must be listed using `list()` and named using `names()`.
 #' If not named, default file names will be assigned.
 #' @param blacklist A GRanges object containing blacklisted regions.
 #' @param picard_files A list of summary metrics output from Picard.
@@ -19,8 +21,21 @@
 #' overlapping/non-overlapping peaks. Reference peak file must be provided.
 #' @param chrmHMM_plot Default FALSE. If TRUE, the function outputs ChromHMM heatmap of individual peak files.
 #' If a reference peak file is provided, ChromHMM annotation of overlapping and non-overlapping peaks is also provided.
+#' @param chrmHMM_annotation ChromHMM annotation for ChromHMM plots. Default K562 cell-line. Cell-line options are:
+#' \itemize{
+#'   \item "K562" = K-562 cells
+#'   \item "Gm12878" = Cellosaurus cell-line GM12878
+#'   \item "H1hesc" = H1 Human Embryonic Stem Cell
+#'   \item "Hepg2" = Hep G2 cell
+#'   \item "Hmec" = Human Mammary Epithelial Cell
+#'   \item "Hsmm" = Human Skeletal Muscle Myoblasts
+#'   \item "Huvec" = Human Umbilical Vein Endothelial Cells
+#'   \item "Nhek" = Normal Human Epidermal Keratinocytes
+#'   \item "Nhlf" = Normal Human Lung Fibroblasts
+#' }
 #' @param chipseeker_plot Default FALSE. If TRUE, the report includes a barplot of ChIPseeker annotation of peak files.
 #' @param enrichment_plot Default FALSE. If TRUE, the report includes dotplots of KEGG and GO enrichment analysis of peak files.
+#' @param interact Default TRUE. By default, all heatmaps are interactive. If set FALSE, all heatmaps in the report will be static.
 #' @param save_output Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).
 #' @param output_dir Path to where output HTML file should be saved.
 #'
@@ -50,8 +65,10 @@
 #'            reference = reference_peak,
 #'            stat_plot = TRUE,
 #'            chrmHMM_plot = TRUE,
+#'            chrmHMM_annotation = "K562",
 #'            chipseeker_plot = TRUE,
 #'            enrichment_plot = TRUE,
+#'            interact = TRUE,
 #'            save_output = FALSE,
 #'            output_dir = tempdir())
 #'
@@ -61,8 +78,10 @@ EpiCompare <- function(peakfiles,
                        reference = NULL,
                        stat_plot = FALSE,
                        chrmHMM_plot = FALSE,
+                       chrmHMM_annotation = "K562",
                        chipseeker_plot = FALSE,
                        enrichment_plot = FALSE,
+                       interact = TRUE,
                        save_output = FALSE,
                        output_dir){
 
@@ -80,13 +99,11 @@ EpiCompare <- function(peakfiles,
         reference = reference,
         stat_plot = stat_plot,
         chrmHMM_plot= chrmHMM_plot,
+        chrmHMM_annotation = chrmHMM_annotation,
         chipseeker_plot = chipseeker_plot,
         enrichment_plot = enrichment_plot,
+        interact = interact,
         save_output = save_output,
         output_dir = output_dir)
   )
 }
-
-
-
-

@@ -6,11 +6,13 @@
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
+#' @param txdb A TxDb object
+#' @param annotation A genome wide annotation file
 #'
 #' @return KEGG and GO dot plots
 #' @export
 #'
-plot_enrichment <- function(peaklist){
+plot_enrichment <- function(peaklist, txdb, annotation){
   # check that peaklist is named, if not, default names assigned
   peaklist <- EpiCompare::check_list_names(peaklist)
   txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene # annotation for hg19 genome

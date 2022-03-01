@@ -28,6 +28,10 @@
 #'                   peaklist = peaks)
 #'
 overlap_stat_plot <- function(reference, peaklist){
+  # define variables
+  qvalue <- NULL
+  tSample <- NULL
+  p.adjust <- NULL
   # check that peaklist is named, if not, default names assigned
   peaklist <- EpiCompare::check_list_names(peaklist)
   # check if the file has BED6+4 format
@@ -65,7 +69,7 @@ overlap_stat_plot <- function(reference, peaklist){
       main_df <- rbind(main_df, sample_df)
     }
     # remove values greater than 95% quantile
-    max_val <- quantile(main_df$qvalue, 0.95) # find value at 95th percentile
+    max_val <- stats::quantile(main_df$qvalue, 0.95) # find value at 95th percentile
     main_df <- main_df[main_df$qvalue<max_val,] # remove values greater than 95th quantile
 
     # create paired boxplot for each peak file (sample)

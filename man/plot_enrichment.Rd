@@ -4,12 +4,16 @@
 \alias{plot_enrichment}
 \title{Generate enrichment analysis plots}
 \usage{
-plot_enrichment(peaklist)
+plot_enrichment(peaklist, txdb, annotation)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
+
+\item{txdb}{A TxDb object}
+
+\item{annotation}{A genome wide annotation file}
 }
 \value{
 KEGG and GO dot plots

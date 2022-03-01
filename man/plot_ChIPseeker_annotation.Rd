@@ -4,12 +4,14 @@
 \alias{plot_ChIPseeker_annotation}
 \title{Create ChIPseeker annotation plot}
 \usage{
-plot_ChIPseeker_annotation(peaklist)
+plot_ChIPseeker_annotation(peaklist, txdb)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
+
+\item{txdb}{A TxDb object.}
 }
 \value{
 barplot

@@ -58,6 +58,17 @@ picard <- list(CnT_H3K27ac_picard, CnR_H3K27ac_picard) # create list of Picard s
 names(picard) <- c("CnT", "CnR") # set names 
 ```
 
+Additional helps on preparing files: 
+```R
+# To import BED files as GRanges object
+peak <-  ChIPseeker::readPeakFile("/path/to/peak/file.bed", as = "GRanges")
+# EpiCompare also accepts paths (to BED files) as input 
+peaklist <- list("/path/to/BED/file1.bed", "/path/to/BED/file2.bed")
+names(peaklist) <- c("sample1","sample2")
+# To import Picard summary output txt file as data frame 
+picard <- read.table("/path/to/Picard/summary.txt", header = TRUE, fill = TRUE)
+```
+
 Run EpiCompare: 
 
 ```R
@@ -67,8 +78,10 @@ EpiCompare(peakfiles = peaklist,
            reference = reference_peak,
            stat_plot = TRUE,
            chrmHMM_plot = TRUE,
+           chrmHMM_annotation = "K562",
            chipseeker_plot = TRUE,
            enrichment_plot = TRUE,
+           interact = TRUE,
            save_output = TRUE,
            output_dir = "/path/to/output")
 ```
@@ -77,8 +90,8 @@ EpiCompare(peakfiles = peaklist,
 
 These input parameters must be provided: 
 
-* `peakfiles` : Peakfiles you want to analyse. The files must be in GRanges object. To convert BED files into 
-GRanges, use `ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")`. If there are more than one peakfiles, the files must be listed using `list()` and named using for example, `names(peaklist) <- c("sample1","sample2)`
+* `peakfiles` : Peakfiles you want to analyse. EpiCompare accepts peakfiles as GRanges object and/or as paths to BED files. 
+Files must be listed using `list()` and named using for example, `names(peaklist) <- c("sample1","sample2)`
 * `blacklist` : Peakfile as GRanges object specifying genomic regions that have anomalous and/or unstructured signals independent of the cell-line or experiment. For human genome hg19, use `data(hg19_blacklist)` stored in the package.
 
 #### Optional Inputs
@@ -94,6 +107,19 @@ By default, these plots will not be included in the report unless set `TRUE`.
 * `chrmHMM_plot` : ChromHMM annotation of peaks. If a `reference` dataset is provided, ChromHMM annotation of overlapping and non-overlapping peaks with the `reference` is also included in the report. 
 * `chipseeker_plot` : ChIPseeker annotation of peaks.
 * `enrichment_plot` : KEGG pathway and GO enrichment analysis of peaks. 
+
+#### Other Options 
+* `chrmHMM_annotation` : Cell-line annotation for ChromHMM. Default is K562. Options are: 
+  + "K562" = K-562 cells
+  + "Gm12878" = Cellosaurus cell-line GM12878
+  + "H1hesc" = H1 Human Embryonic Stem Cell
+  + "Hepg2" = Hep G2 cell
+  + "Hmec" = Human Mammary Epithelial Cell
+  + "Hsmm" = Human Skeletal Muscle Myoblasts
+  + "Huvec" = Human Umbilical Vein Endothelial Cells
+  + "Nhek" = Normal Human Epidermal Keratinocytes
+  + "Nhlf" = Normal Human Lung Fibroblasts
+* `interact` : By default, all heatmaps (percentage overlap and ChromHMM heatmaps) in the report will be interactive. If set FALSE, all heatmaps will be static. N.B. If `interact=TRUE`, interactive heatmaps will be saved as html files, which may take time for larger sample sizes.
 
 #### Outputs 
 

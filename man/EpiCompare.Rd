@@ -11,15 +11,19 @@ EpiCompare(
   reference = NULL,
   stat_plot = FALSE,
   chrmHMM_plot = FALSE,
+  chrmHMM_annotation = "K562",
   chipseeker_plot = FALSE,
   enrichment_plot = FALSE,
+  interact = TRUE,
   save_output = FALSE,
   output_dir
 )
 }
 \arguments{
-\item{peakfiles}{A list of peak files as GRanges object.
-Files must be listed using `list()` and named using `names()`
+\item{peakfiles}{A list of peak files as GRanges object and/or as paths to BED files.
+If paths are provided, EpiCompare creates GRanges object.
+#' EpiCompare also accepts a list containing a mix of GRanges object and paths.
+Files must be listed using `list()` and named using `names()`.
 If not named, default file names will be assigned.}
 
 \item{blacklist}{A GRanges object containing blacklisted regions.}
@@ -39,9 +43,24 @@ overlapping/non-overlapping peaks. Reference peak file must be provided.}
 \item{chrmHMM_plot}{Default FALSE. If TRUE, the function outputs ChromHMM heatmap of individual peak files.
 If a reference peak file is provided, ChromHMM annotation of overlapping and non-overlapping peaks is also provided.}
 
+\item{chrmHMM_annotation}{ChromHMM annotation for ChromHMM plots. Default K562 cell-line. Cell-line options are:
+\itemize{
+  \item "K562" = K-562 cells
+  \item "Gm12878" = Cellosaurus cell-line GM12878
+  \item "H1hesc" = H1 Human Embryonic Stem Cell
+  \item "Hepg2" = Hep G2 cell
+  \item "Hmec" = Human Mammary Epithelial Cell
+  \item "Hsmm" = Human Skeletal Muscle Myoblasts
+  \item "Huvec" = Human Umbilical Vein Endothelial Cells
+  \item "Nhek" = Normal Human Epidermal Keratinocytes
+  \item "Nhlf" = Normal Human Lung Fibroblasts
+}}
+
 \item{chipseeker_plot}{Default FALSE. If TRUE, the report includes a barplot of ChIPseeker annotation of peak files.}
 
 \item{enrichment_plot}{Default FALSE. If TRUE, the report includes dotplots of KEGG and GO enrichment analysis of peak files.}
+
+\item{interact}{Default TRUE. By default, all heatmaps are interactive. If set FALSE, all heatmaps in the report will be static.}
 
 \item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).}
 
@@ -78,8 +97,10 @@ EpiCompare(peakfiles = peaks,
            reference = reference_peak,
            stat_plot = TRUE,
            chrmHMM_plot = TRUE,
+           chrmHMM_annotation = "K562",
            chipseeker_plot = TRUE,
            enrichment_plot = TRUE,
+           interact = TRUE,
            save_output = FALSE,
            output_dir = tempdir())
 
