@@ -3,7 +3,6 @@
 export(EpiCompare)
 export(check_list_names)
 export(fragment_info)
-export(get_annotation)
 export(get_chrHMM_annotation)
 export(overlap_heatmap)
 export(overlap_percent)

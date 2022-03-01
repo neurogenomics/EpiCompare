@@ -183,13 +183,13 @@ By default, these plots will not be included in the report unless set
 utils::sessionInfo()
 ```
 
-    ## R version 4.0.2 (2020-06-22)
+    ## R version 4.1.2 (2021-11-01)
     ## Platform: x86_64-apple-darwin17.0 (64-bit)
-    ## Running under: macOS  10.16
+    ## Running under: macOS Big Sur 10.16
     ## 
     ## Matrix products: default
-    ## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
-    ## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+    ## BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib
+    ## LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
     ## 
     ## locale:
     ## [1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
@@ -202,7 +202,7 @@ utils::sessionInfo()
     ##  [4] colorspace_2.0-3    vctrs_0.3.8         generics_0.1.2     
     ##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.3.5         
     ## [10] utf8_1.2.2          rlang_1.0.1         gert_1.5.0         
-    ## [13] pillar_1.7.0        glue_1.6.1          DBI_1.1.2          
+    ## [13] pillar_1.7.0        glue_1.6.2          DBI_1.1.2          
     ## [16] RColorBrewer_1.1-2  rvcheck_0.2.1       lifecycle_1.0.1    
     ## [19] stringr_1.4.0       dlstats_0.1.4       munsell_0.5.0      
     ## [22] gtable_0.3.0        evaluate_0.15       knitr_1.37         
@@ -211,13 +211,13 @@ utils::sessionInfo()
     ## [31] BiocManager_1.30.16 desc_1.4.0          jsonlite_1.8.0     
     ## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      
     ## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      
-    ## [40] gh_1.3.0            dplyr_1.0.8         grid_4.0.2         
-    ## [43] rprojroot_2.0.2     cli_3.2.0           tools_4.0.2        
+    ## [40] gh_1.3.0            dplyr_1.0.8         grid_4.1.2         
+    ## [43] rprojroot_2.0.2     cli_3.2.0           tools_4.1.2        
     ## [46] yulab.utils_0.0.4   magrittr_2.0.2      tibble_3.1.6       
     ## [49] crayon_1.5.0        pkgconfig_2.0.3     ellipsis_0.3.2     
-    ## [52] assertthat_0.2.1    rmarkdown_2.11.3    httr_1.4.2         
+    ## [52] assertthat_0.2.1    rmarkdown_2.11      httr_1.4.2         
     ## [55] rstudioapi_0.13     gitcreds_0.1.1      badger_0.1.0       
-    ## [58] R6_2.5.1            compiler_4.0.2
+    ## [58] R6_2.5.1            compiler_4.1.2
 
 </details>
 
