@@ -2,7 +2,7 @@
 ================
 Sera Choi
 <h5>
-<i>Updated</i>: Mar-01-2022
+<i>Updated</i>: Mar-03-2022
 </h5>
 
 <!-- badges: start -->
@@ -61,8 +61,7 @@ Prepare input files:
 ``` r
 peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create list of peakfiles 
 names(peaklist) <- c("CnT", "CnR") # set names 
-reference_peak <- encode_H3K27ac # set reference file
-names(reference_peak) <- "encode" # set name
+reference_peak <- list("ENCODE_H3K27ac" = encode_H3K27ac) # set ref file and name 
 picard <- list(CnT_H3K27ac_picard, CnR_H3K27ac_picard) # create list of Picard summary
 names(picard) <- c("CnT", "CnR") # set names 
 ```
@@ -118,9 +117,9 @@ These input parameters must be provided:
     `names()`. To import Picard duplication metrics (.txt file) into R
     as data frame, use
     `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
--   `reference` : Reference peak file used in `stat_plot` and
-    `chrmHMM_plot`. File must be in GRanges object and named using
-    `names()`.
+-   `reference` : Reference peak file is used in `stat_plot` and
+    `chrmHMM_plot`. File must be in GRanges object, listed and named
+    using `list("reference_name" = GRanges_obect)`
 
 #### Optional Plots
 
