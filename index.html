@@ -43,7 +43,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -75,7 +75,7 @@ Datasets<a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmark
 </h1></div>
 Sera Choi
 <h5 id="epicompare-qc-and-benchmarking-of-epigenetic-datasets-1">
-<i>Updated</i>: Mar-01-2022
+<i>Updated</i>: Mar-03-2022
 <a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets-1"></a>
 </h5>
 <!-- badges: start -->
@@ -126,8 +126,7 @@ analysis</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">peaklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">CnT_H3K27ac</span>, <span class="va">CnR_H3K27ac</span><span class="op">)</span> <span class="co"># create list of peakfiles </span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">peaklist</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CnT"</span>, <span class="st">"CnR"</span><span class="op">)</span> <span class="co"># set names </span>
-<span class="va">reference_peak</span> <span class="op">&lt;-</span> <span class="va">encode_H3K27ac</span> <span class="co"># set reference file</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">reference_peak</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"encode"</span> <span class="co"># set name</span>
+<span class="va">reference_peak</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"ENCODE_H3K27ac"</span> <span class="op">=</span> <span class="va">encode_H3K27ac</span><span class="op">)</span> <span class="co"># set ref file and name </span>
 <span class="va">picard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">CnT_H3K27ac_picard</span>, <span class="va">CnR_H3K27ac_picard</span><span class="op">)</span> <span class="co"># create list of Picard summary</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">picard</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CnT"</span>, <span class="st">"CnR"</span><span class="op">)</span> <span class="co"># set names </span></code></pre></div>
 <p>Additional helps on preparing files:</p>
@@ -184,9 +183,11 @@ data.frame format and listed using <code><a href="https://rdrr.io/r/base/list.ht
 into R as data frame, use
 <code>picard &lt;- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)</code>.</li>
 <li>
-<code>reference</code> : Reference peak file used in
+<code>reference</code> : Reference peak file is used in
 <code>stat_plot</code> and <code>chrmHMM_plot</code>. File must be in
-GRanges object and named using <code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code>.</li>
+GRanges object, listed and named using
+<code>list("reference_name" = GRanges_obect)</code>
+</li>
 </ul>
 </div>
 <div class="section level4">
@@ -289,10 +290,10 @@ Website</a></p>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="do">## other attached packages:</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] rmarkdown_2.11</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] rmarkdown_2.12</span></span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="do">## loaded via a namespace (and not attached):</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] tidyselect_1.1.2    xfun_0.29           purrr_0.3.4        </span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] tidyselect_1.1.2    xfun_0.30           purrr_0.3.4        </span></span>
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4] colorspace_2.0-3    vctrs_0.3.8         generics_0.1.2     </span></span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.3.5         </span></span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [10] utf8_1.2.2          rlang_1.0.1         gert_1.5.0         </span></span>
@@ -301,7 +302,7 @@ Website</a></p>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [19] stringr_1.4.0       dlstats_0.1.4       munsell_0.5.0      </span></span>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [22] gtable_0.3.0        evaluate_0.15       knitr_1.37         </span></span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            </span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [28] fansi_1.0.2         openssl_1.4.6       scales_1.1.1       </span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [28] fansi_1.0.2         openssl_2.0.0       scales_1.1.1       </span></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [31] BiocManager_1.30.16 desc_1.4.0          jsonlite_1.8.0     </span></span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      </span></span>
 <span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      </span></span>
