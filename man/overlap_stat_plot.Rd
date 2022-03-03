@@ -31,8 +31,9 @@ data("CnR_H3K27ac") # example dataset as GRanges object
 
 peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 names(peaks) <- c("CnT", "CnR") # set names
+reference_peak <- list("ENCODE"=encode_H3K27ac)
 
-overlap_stat_plot(reference = encode_H3K27ac,
+overlap_stat_plot(reference = reference_peak,
                   peaklist = peaks)
 
 }

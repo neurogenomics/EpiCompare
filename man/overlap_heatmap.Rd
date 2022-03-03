@@ -4,14 +4,14 @@
 \alias{overlap_heatmap}
 \title{Generate heatmap of percentage overlap}
 \usage{
-overlap_heatmap(peaklist, save_dir = NULL)
+overlap_heatmap(peaklist, interact = TRUE)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
 
-\item{save_dir}{Name of file to save the interactive heatmap output as HTML}
+\item{interact}{Default TRUE. By default heatmap is interactive. If FALSE, heatmap is static.}
 }
 \value{
 An interactive heatmap

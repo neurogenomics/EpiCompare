@@ -1,13 +1,15 @@
 #' Example ChIP-seq peak file
 #'
 #' Human H3K27ac peak file generated with ChIP-seq using K562 cell-line.
-#' Raw peak file (.BED) was obtained from ENCODE project (data accession: ENCFF044JNJ).
+#' Raw peak file (.BED) was obtained from ENCODE project
+#' (data accession: \href{https://www.encodeproject.org/files/ENCFF044JNJ/}(ENCFF044JNJ)).
 #' The BED file was then processed into GRanges object.
 #' Peaks located on chromosome 1 were subsetted to reduce the dataset size.
 #'
 #' @source
 #' The code to prepare the .Rda file from the raw peak file is:
 #' \code{
+#' # dataset was directly downloaded from \href{https://www.encodeproject.org/files/ENCFF044JNJ/}(ENCODE)
 #' encode_H3K27ac <- ChIPseeker::readPeakFile("./data/ENCODE_H3K27ac.bed", as = "GRanges")
 #' encode_H3K27ac <- encode_H3K27ac[encode_H3K27ac@seqnames == "chr1"]
 #' colnames(GenomicRanges::mcols(encode_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
@@ -19,7 +21,8 @@
 #' Example CUT&Tag peak file
 #'
 #' Human H3K27ac peak file generated with CUT&Tag using K562 cell-line from Kaya-Okur et al., (2019).
-#' Raw peak file (.BED) was obtained from GEO (sample accession: SRR8383507).
+#' Raw peak file (.BED) was obtained from GEO
+#' (sample accession: \href{https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8383507}(SRR8383507)).
 #' Peak calling was performed by Leyla Abbasova using MACS2.
 #' The peak file was then processed into GRanges object.
 #' Peaks located on chromosome 1 were subsetted to reduce the dataset size.
@@ -27,6 +30,7 @@
 #' @source
 #' The code to prepare the .Rda file from the raw peak file is:
 #' \code{
+#' # dataset was directly downloaded from \href{https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8383507}(here)
 #' CnT_H3K27ac <- ChIPseeker::readPeakFile("./data/CnT_H3K27ac_MACS2.bed", as = "GRanges")
 #' CnT_H3K27ac <- CnT_H3K27ac[CnT_H3K27ac@seqnames== "chr1"]
 #' colnames(GenomicRanges::mcols(CnT_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
@@ -38,7 +42,8 @@
 #' Example CUT&Run peak file
 #'
 #' Human H3K27ac peak file generated with CUT&Run using K562 cell-line from Meers et al., (2019).
-#' Raw peak file (.BED) was obtained from GEO (sample accession: SRR8581604).
+#' Raw peak file (.BED) was obtained from GEO
+#' (sample accession: \href{https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8581604}(SRR8581604)).
 #' Peak calling was performed by Leyla Abbasova using MACS2.
 #' The peak file was then processed into GRanges object.
 #' Peaks located on chromosome 1 were subsetted to reduce the dataset size.
@@ -80,7 +85,7 @@
 "chromHMM_annotation_K562"
 
 #' Human genome hg19 blacklisted regions
-#' Obtained from \url{https://www.encodeproject.org/files/ENCFF000KJP/}
+#' Obtained from \url{https://www.encodeproject.org/files/ENCFF000KJP/}(here)
 #' The ENCODE blacklist includes regions of the genome that have anomalous and/or unstructured signals
 #' independent of the cell-line or experiment. Removal of ENCODE blacklist is recommended for quality measure.
 #'

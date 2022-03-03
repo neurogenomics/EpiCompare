@@ -33,7 +33,8 @@ plot_enrichment <- function(peaklist, txdb, annotation){
     font_size <- 8
   }
   kegg_plot <- clusterProfiler::dotplot(compKEGG) +
-               ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1, hjust=1, size = font_size))
+               ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1, hjust=1, size = font_size)) +
+               ggplot2::labs(x="")
   sample_names <- gsub('\n([0-9]*)','',kegg_plot$data$Cluster) # remove new line
   kegg_plot$data$Cluster <- sample_names
 
@@ -45,7 +46,8 @@ plot_enrichment <- function(peaklist, txdb, annotation){
                                            pvalueCutoff = 0.05,
                                            pAdjustMethod = "BH")
   go_plot <- clusterProfiler::dotplot(compGO) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1, hjust=1, size = font_size))
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1, hjust=1, size = font_size)) +
+    ggplot2::labs(x="")
   sample_names <- gsub('\n([0-9]*)','',go_plot$data$Cluster) # remove new line
   go_plot$data$Cluster <- sample_names
   return(list(kegg_plot, go_plot))

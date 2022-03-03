@@ -22,9 +22,8 @@ plot_chrmHMM <- function(peaklist, chrmHMM_annotation, interact = TRUE){
   # check that peaklist is named, if not, default names assigned
   peaklist <- EpiCompare::check_list_names(peaklist)
   # check that there are no empty values
-  # if there are, remove them
   i <- 1
-  while(i < length(peaklist)){
+  while(i <= length(peaklist)){
     if (length(peaklist[[i]])==0){
       peaklist[[i]] <- NULL
     }else{

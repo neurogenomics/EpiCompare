@@ -1,6 +1,6 @@
 ---
 title: "EpiCompare Report"
-author: "Sera Choi"
+date: "`r format(Sys.Date(), '%b-%d-%Y')`"
 output: 
   html_document: 
     toc: yes
@@ -52,6 +52,13 @@ if (is.null(params$reference) == FALSE){
   reference_tidy <- tidy_peakfile(peaklist = params$reference,
                                   blacklist = params$blacklist)
 }
+# adjust figure height depending on sample size  
+fig_height <- 7
+if(length(peaklist_tidy)>10){
+  extra_n <- length(peaklist_tidy) - 10
+  extra_height <- extra_n*0.25
+  fig_height <- fig_height + extra_height 
+}
 ```
 
 [EpiCompare](https://github.com/neurogenomics/EpiCompare) compares different epigenetic datasets for quality control and benchmarking purposes. 
@@ -65,7 +72,7 @@ The report is divided into three sections:
 
 ##### Input Datasets 
 
-* Reference peakfile: `r names(reference_tidy)[1]`
+* Reference peakfile: `r names(reference_tidy)`
 * Total of `r length(peaklist_tidy)` peak files: 
 
 ```{r name, echo=FALSE}
@@ -85,7 +92,7 @@ for (name in names(peaklist_tidy)){
 EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
            blacklist = blacklist,
            picard_files = list(`r names(params$picard_files)`),
-           reference = `r names(reference_tidy)[1]`,
+           reference = `r names(reference_tidy)`,
            stat_plot = `r params$stat_plot`,
            chrmHMM_plot = `r params$chrmHMM_plot`,
            chrmHMM_annotation = "`r params$chrmHMM_annotation`",
@@ -164,7 +171,7 @@ Distribution of peak widths in each sample.
 
 <br> 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=10, fig.height= fig_height}
 # create boxplot of peak widths 
 width_plot <- width_boxplot(peaklist = peaklist_tidy)
 print(width_plot)
@@ -188,17 +195,20 @@ N.B. How to interpret heatmap: [Samples in x-axis of heatmap] peaks in [Samples 
 
 <br>
 
-```{r, echo=FALSE, fig.width= 9, warning=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=10, fig.height=fig_height}
 overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
-                                   save_dir = NULL)
+                                   interact = params$interact)
 overlap_heatmap
 # save output 
 if(params$save_output){
-  overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
-                                     save_dir = paste0(outfile_dir,"/samples_percent_overlap.html"))
-  unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
-  }
-
+  if(params$interact){
+    htmlwidgets::saveWidget(plotly::as_widget(overlap_heatmap), file = paste0(outfile_dir,"/samples_percent_overlap.html"))
+    unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
+  }else{
+    ggplot2::ggsave(filename = "samples_percent_overlap.png", plot = overlap_heatmap, device = "png", path = outfile_dir)
+    unlink("samples_percent_overlap.png")
+    }
+}
 ```
 
 ***
@@ -214,14 +224,14 @@ per sample showing the distribution of -log10(q-value) of reference peaks that a
 
 Keys:
 
-**Reference peakfile: `r names(reference_tidy)[1]`**
+**Reference peakfile: `r names(reference_tidy)`**
 
 * Overlap: Sample peaks in Reference peaks 
 * Unique: Sample peaks not in Reference peaks  
 
 <br>
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=10, warning=FALSE, message=FALSE, fig.height= fig_height}
 # if reference is provided AND stat_plot=TRUE, run the function 
 if (is.null(params$reference) == FALSE){
   if (params$stat_plot){
@@ -251,7 +261,7 @@ if (is.null(params$reference) == FALSE){
 
 ChromHMM annotation of individual samples. 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 # if chrmHMM_plot=TRUE, create ChromHMM heatmaps 
 if (params$chrmHMM_plot){
   # user-specified ChromHMM annotation file 
@@ -276,14 +286,14 @@ samples_chrmHMM
 
 #### **Overlap**: Sample peaks in Reference peaks 
 
-Percentage of Sample peaks found in Reference peaks (**Reference peakfile: `r names(reference_tidy)[1]`**)
+Percentage of Sample peaks found in Reference peaks (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     # table of percentage overlap
     sample_in_ref_df <- overlap_percent(peaklist = peaklist_tidy,
-                                        reference = reference_tidy,
+                                        reference = reference_tidy[[1]],
                                         invert = FALSE)
     knitr::kable(sample_in_ref_df, format = "markdown")
   }
@@ -292,13 +302,13 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of sample peaks found in reference peaks.   
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     # obtain overlapping peaks 
     sample_in_ref_list <- list()
     for(file in peaklist_tidy){
-      sample_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy)
+      sample_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy[[1]])
       sample_in_ref_list <- c(sample_in_ref_list, sample_in_ref)
     }
     names(sample_in_ref_list) <- names(peaklist_tidy)
@@ -326,13 +336,13 @@ sample_in_ref_chrmHMM
 
 #### **Overlap**: Reference peaks in Sample peaks 
 
-Percentage of Reference peaks found in Sample peaks (**Reference peakfile: `r names(reference_tidy)[1]`**)
+Percentage of Reference peaks found in Sample peaks (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     # table of percentage overlap
-    ref_in_sample_df <- overlap_percent(peaklist = reference_tidy,
+    ref_in_sample_df <- overlap_percent(peaklist = reference_tidy[[1]],
                                         reference = peaklist_tidy,
                                         invert = FALSE)
     knitr::kable(ref_in_sample_df, format = "markdown")
@@ -343,13 +353,13 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of reference peaks found in sample peaks.   
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     ref_in_sample_list <- list()
     # obtain overlapping peaks 
     for(file in peaklist_tidy){
-      ref_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy, ranges = file)
+      ref_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy[[1]], ranges = file)
       ref_in_sample_list <- c(ref_in_sample_list, ref_in_sample)
     }
     names(ref_in_sample_list) <- names(peaklist_tidy)
@@ -376,14 +386,14 @@ ref_in_sample_chrmHMM
 
 #### **Unique**: Sample peaks not in Reference peaks 
 
-Percentage of sample peaks not found in reference peaks (**Reference peakfile: `r names(reference_tidy)[1]`**)
+Percentage of sample peaks not found in reference peaks (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     # table of percentage overlap
     sample_not_in_ref_df <- overlap_percent(peaklist = peaklist_tidy,
-                                            reference = reference_tidy,
+                                            reference = reference_tidy[[1]],
                                             invert = TRUE)
     knitr::kable(sample_not_in_ref_df, format = "markdown")
   }
@@ -392,13 +402,13 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of sample peaks not found in reference peaks. 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
       sample_not_in_ref_list <- list()
       # obtain unique peaks 
       for(file in peaklist_tidy){
-        sample_not_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy, invert = TRUE)
+        sample_not_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy[[1]], invert = TRUE)
         sample_not_in_ref_list <- c(sample_not_in_ref_list, sample_not_in_ref)
       }
       names(sample_not_in_ref_list) <- names(peaklist_tidy)
@@ -427,13 +437,13 @@ sample_not_in_ref_chrmHMM
 
 #### **Unique**: Reference peaks not in Sample peaks 
 
-Percentage of reference peaks not found in sample peaks (**Reference peakfile: `r names(reference_tidy)[1]`**)
+Percentage of reference peaks not found in sample peaks (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
     # table of percentage overlap
-    ref_not_in_sample_df <- overlap_percent(peaklist = reference_tidy,
+    ref_not_in_sample_df <- overlap_percent(peaklist = reference_tidy[[1]],
                                         reference = peaklist_tidy,
                                         invert = TRUE)
     knitr::kable(ref_not_in_sample_df, format = "markdown")
@@ -443,13 +453,13 @@ if (params$chrmHMM_plot){
 
 ChromHMM annotation of reference peaks not found in sample peaks. 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
+```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if (params$chrmHMM_plot){
   if (is.null(params$reference)==FALSE){
       ref_not_in_sample_list <- list()
       # obtain unique peaks 
       for(file in peaklist_tidy){
-        ref_not_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy, ranges = file, invert = TRUE)
+        ref_not_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy[[1]], ranges = file, invert = TRUE)
         ref_not_in_sample_list <- c(ref_not_in_sample_list, ref_not_in_sample)
       }
       names(ref_not_in_sample_list) <- names(peaklist_tidy)
@@ -500,8 +510,8 @@ and biological themes amongst the genes are identified using ontologies (KEGG an
 The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
-fig_height <- 8
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+fig_height <- 10
 if (params$enrichment_plot){
   enrichment_plots <- plot_enrichment(peaklist = peaklist_tidy)
   KEGG_plot <- enrichment_plots[[1]]
@@ -509,7 +519,10 @@ if (params$enrichment_plot){
   kegg_terms <- length(unique(KEGG_plot$data$Description))
   go_terms <- length(unique(GO_plot$data$Description))
   if(kegg_terms > 20 | go_terms > 20){
-    fig_height <- 10}
+    maxN <- max(kegg_terms, go_terms)
+    extraN <- maxN - 20
+    fig_height <- fig_height + extraN*0.25
+  }
 }
 ```
 

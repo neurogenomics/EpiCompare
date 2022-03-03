@@ -35,7 +35,8 @@ use `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`
 
 \item{reference}{A reference peak file as GRanges object.
 If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
-and (2) ChromHMM of overlapping/non-overlapping peaks. Please ensure that reference file is named using `names()`}
+and (2) ChromHMM of overlapping/non-overlapping peaks.
+Please make sure that the reference file is listed and named i.e. `list("reference_name" = reference_peak)`.}
 
 \item{stat_plot}{Default FALSE. If TRUE, the function creates a plot showing the statistical significance of
 overlapping/non-overlapping peaks. Reference peak file must be provided.}
@@ -88,8 +89,7 @@ peaks <- list(CnR_H3K27ac, CnT_H3K27ac) # create list of peakfiles
 names(peaks) <- c("CnR", "CnT") # set names
 picard <- list(CnR_H3K27ac_picard, CnT_H3K27ac_picard) # create list of picard outputs
 names(picard) <- c("CnR", "CnT") # set names
-reference_peak <- encode_H3K27ac # reference peak file
-names(reference_peak)[1] <- "encode" # set name
+reference_peak <- list("ENCODE" = encode_H3K27ac) # reference peak file
 
 EpiCompare(peakfiles = peaks,
            blacklist = hg19_blacklist,

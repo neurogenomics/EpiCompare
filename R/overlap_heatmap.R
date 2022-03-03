@@ -5,7 +5,7 @@
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
-#' @param save_dir Name of file to save the interactive heatmap output as HTML
+#' @param interact Default TRUE. By default heatmap is interactive. If FALSE, heatmap is static.
 #'
 #' @return An interactive heatmap
 #' @export
@@ -20,7 +20,7 @@
 #'
 #' overlap_heatmap(peaklist = peaks)
 #'
-overlap_heatmap <- function(peaklist, save_dir = NULL){
+overlap_heatmap <- function(peaklist, interact=TRUE){
   # check that peaklist is named, if not, default names assigned
   peaklist <- EpiCompare::check_list_names(peaklist)
   # cross-compare peakfiles and calculate overlap percentage
@@ -35,16 +35,15 @@ overlap_heatmap <- function(peaklist, save_dir = NULL){
     percent_list <- list(percent_list)
     overlap_list <- c(overlap_list, percent_list)
   }
-  # convert list into data frame (matrix of overlap percentages)
-  df <- data.frame(matrix(unlist(overlap_list), ncol = max(lengths(overlap_list)), byrow = FALSE))
-  colnames(df) <- names(peaklist) # set colnames as sample names
-  rownames(df) <- names(peaklist) # set rownames as sample names
-  heatmap <- heatmaply::heatmaply(df, Rowv = FALSE, Colv = FALSE)
-  # if save_dir is provided save the plot as html
-  # if not, return the heatmap without saving the plot
-  if(is.null(save_dir) == FALSE){
-    heatmaply::heatmaply(df, Rowv = FALSE, Colv = FALSE, file = save_dir)
+  # crete matrix of overlap percentages
+  overlap_matrix <- matrix(unlist(overlap_list), ncol = max(lengths(overlap_list)), byrow = FALSE)
+  colnames(overlap_matrix) <- names(peaklist) # set colnames as sample names
+  rownames(overlap_matrix) <- names(peaklist) # set rownames as sample names
+  # static heatmap
+  if(!interact){
+    overlap_heatmap <- stats::heatmap(overlap_matrix, Rowv = NA, Colv = NA)
   }else{
-    return(heatmap)
+    overlap_heatmap <- plotly::plot_ly(x=stringr::str_wrap(colnames(overlap_matrix), 10), y=stringr::str_wrap(rownames(overlap_matrix), 10), z=overlap_matrix, type="heatmap")
   }
+  return(overlap_heatmap)
 }

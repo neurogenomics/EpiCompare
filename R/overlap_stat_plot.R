@@ -23,8 +23,9 @@
 #'
 #' peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 #' names(peaks) <- c("CnT", "CnR") # set names
+#' reference_peak <- list("ENCODE"=encode_H3K27ac)
 #'
-#' overlap_stat_plot(reference = encode_H3K27ac,
+#' overlap_stat_plot(reference = reference_peak,
 #'                   peaklist = peaks)
 #'
 overlap_stat_plot <- function(reference, peaklist){
@@ -35,14 +36,14 @@ overlap_stat_plot <- function(reference, peaklist){
   # check that peaklist is named, if not, default names assigned
   peaklist <- EpiCompare::check_list_names(peaklist)
   # check if the file has BED6+4 format
-  if(ncol(reference@elementMetadata) == 7){
+  if(ncol(reference[[1]]@elementMetadata) == 7 | ncol(reference[[1]]@elementMetadata) == 6){
     main_df <- NULL
     # for each peakfile, obtain overlapping and unique peaks
     for (i in 1:length(peaklist)){
       # reference peaks found in sample peaks
-      overlap <- IRanges::subsetByOverlaps(x = reference, ranges = peaklist[[i]])
+      overlap <- IRanges::subsetByOverlaps(x = reference[[1]], ranges = peaklist[[i]])
       colnames(GenomicRanges::mcols(overlap)) <- c("V4","V5","V6","V7","V8","V9","V10")
-      unique <- IRanges::subsetByOverlaps(x = reference, ranges = peaklist[[i]], invert = TRUE)
+      unique <- IRanges::subsetByOverlaps(x = reference[[1]], ranges = peaklist[[i]], invert = TRUE)
       colnames(GenomicRanges::mcols(unique)) <- c("V4","V5","V6","V7","V8","V9","V10")
       # if no overlap, set q-value as 0 to avoid error
       # else, obtain q-value from field V9
@@ -73,18 +74,19 @@ overlap_stat_plot <- function(reference, peaklist){
     main_df <- main_df[main_df$qvalue<max_val,] # remove values greater than 95th quantile
 
     # create paired boxplot for each peak file (sample)
-    sample_plot <- ggplot2::ggplot(main_df, ggplot2::aes(x=sample, y=qvalue, fill=group)) +
+    sample_plot <- ggplot2::ggplot(main_df, ggplot2::aes(x=stringr::str_wrap(sample, 10), y=qvalue, fill=group)) +
                    ggplot2::geom_boxplot(outlier.shape = NA) +
                    ggplot2::theme_light() +
                    ggplot2::labs(x="",y="-log10(q)",fill="") +
-                   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1, hjust=1))
+                   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 270, vjust = 0, hjust=0)) +
+                   ggplot2::coord_flip()
 
     return(list(sample_plot, main_df))
     # for files not in BED6+4 format
     }else{
       # calculate significance of overlapping peaks using enrichPeakOverlap()
       txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
-      overlap_result <- ChIPseeker::enrichPeakOverlap(queryPeak = reference, targetPeak = peaklist, TxDb = txdb, nShuffle = 50, pAdjustMethod = "BH", chainFile =NULL, verbose = FALSE)
+      overlap_result <- ChIPseeker::enrichPeakOverlap(queryPeak = reference[[1]], targetPeak = peaklist, TxDb = txdb, nShuffle = 50, pAdjustMethod = "BH", chainFile =NULL, verbose = FALSE)
       overlap_result$tSample <- names(peaklist) # set names with sample names
       percent_overlap <- c()
       # for each peakfile, calculate percentage overlap

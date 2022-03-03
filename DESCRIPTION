@@ -32,8 +32,9 @@ Imports:
 	stats,
 	methods,
 	plotly,
-	htmlwidgets
-RoxygenNote: 7.1.2
+	htmlwidgets,
+	stringr
+RoxygenNote: 7.1.2.9000
 Encoding: UTF-8
 Suggests: 
     rmarkdown,
