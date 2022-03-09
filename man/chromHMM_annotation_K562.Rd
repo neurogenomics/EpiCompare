@@ -9,6 +9,7 @@ An object of class \code{CompressedGRangesList} of length 15.
 }
 \source{
 The code to prepare the .Rda file from the raw peak file is:
+
 \code{
 chrHMM_url <- "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
 chrHMM <- genomation::readBed(chrHMM_url)
@@ -29,7 +30,7 @@ chromHMM_annotation_K562
 }
 \description{
 ChromHMM annotation for human K562 cell-line.
-Obtained from \url{http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/}
+Obtained from \url{http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/}.
 The annotation was subset for chromosome 1 only to reduce the size of data.
 }
 \keyword{datasets}

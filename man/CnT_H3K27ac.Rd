@@ -9,7 +9,9 @@ An object of class \code{GRanges} of length 1670.
 }
 \source{
 The code to prepare the .Rda file from the raw peak file is:
+
 \code{
+# dataset was directly downloaded from \url{https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8383507}
 CnT_H3K27ac <- ChIPseeker::readPeakFile("./data/CnT_H3K27ac_MACS2.bed", as = "GRanges")
 CnT_H3K27ac <- CnT_H3K27ac[CnT_H3K27ac@seqnames== "chr1"]
 colnames(GenomicRanges::mcols(CnT_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
@@ -21,7 +23,8 @@ CnT_H3K27ac
 }
 \description{
 Human H3K27ac peak file generated with CUT&Tag using K562 cell-line from Kaya-Okur et al., (2019).
-Raw peak file (.BED) was obtained from GEO (sample accession: SRR8383507).
+Raw peak file (.BED) was obtained from GEO
+(\url{https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8383507}).
 Peak calling was performed by Leyla Abbasova using MACS2.
 The peak file was then processed into GRanges object.
 Peaks located on chromosome 1 were subsetted to reduce the dataset size.

@@ -16,6 +16,8 @@ EpiCompare(
   enrichment_plot = FALSE,
   interact = TRUE,
   save_output = FALSE,
+  output_filename = "EpiCompare",
+  output_timestamp = FALSE,
   output_dir
 )
 }
@@ -64,6 +66,10 @@ If a reference peak file is provided, ChromHMM annotation of overlapping and non
 \item{interact}{Default TRUE. By default, all heatmaps are interactive. If set FALSE, all heatmaps in the report will be static.}
 
 \item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).}
+
+\item{output_filename}{Default EpiCompare.html. If otherwise, the html report will be saved in the specified name.}
+
+\item{output_timestamp}{Default FALSE. If TRUE, date will be included in the file name.}
 
 \item{output_dir}{Path to where output HTML file should be saved.}
 }

@@ -9,7 +9,9 @@ An object of class \code{GRanges} of length 5142.
 }
 \source{
 The code to prepare the .Rda file from the raw peak file is:
+
 \code{
+# dataset was directly downloaded from \url{https://www.encodeproject.org/files/ENCFF044JNJ/}
 encode_H3K27ac <- ChIPseeker::readPeakFile("./data/ENCODE_H3K27ac.bed", as = "GRanges")
 encode_H3K27ac <- encode_H3K27ac[encode_H3K27ac@seqnames == "chr1"]
 colnames(GenomicRanges::mcols(encode_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
@@ -21,7 +23,8 @@ encode_H3K27ac
 }
 \description{
 Human H3K27ac peak file generated with ChIP-seq using K562 cell-line.
-Raw peak file (.BED) was obtained from ENCODE project (data accession: ENCFF044JNJ).
+Raw peak file (.BED) was obtained from ENCODE project
+(\url{https://www.encodeproject.org/files/ENCFF044JNJ/}).
 The BED file was then processed into GRanges object.
 Peaks located on chromosome 1 were subsetted to reduce the dataset size.
 }

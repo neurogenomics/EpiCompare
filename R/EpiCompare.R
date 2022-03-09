@@ -38,6 +38,8 @@
 #' @param enrichment_plot Default FALSE. If TRUE, the report includes dotplots of KEGG and GO enrichment analysis of peak files.
 #' @param interact Default TRUE. By default, all heatmaps are interactive. If set FALSE, all heatmaps in the report will be static.
 #' @param save_output Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).
+#' @param output_filename Default EpiCompare.html. If otherwise, the html report will be saved in the specified name.
+#' @param output_timestamp Default FALSE. If TRUE, date will be included in the file name.
 #' @param output_dir Path to where output HTML file should be saved.
 #'
 #' @return An HTML report
@@ -83,7 +85,15 @@ EpiCompare <- function(peakfiles,
                        enrichment_plot = FALSE,
                        interact = TRUE,
                        save_output = FALSE,
+                       output_filename = "EpiCompare",
+                       output_timestamp = FALSE,
                        output_dir){
+
+  # output file name
+  if(output_timestamp){
+    date <- format(Sys.Date(), '%b_%d_%Y')
+    output_filename <- paste0(output_filename,"_",date)
+  }
 
   # locate Rmd file
   markdown_path <- system.file("markdown", "EpiCompare.Rmd", package = "EpiCompare")
@@ -91,6 +101,7 @@ EpiCompare <- function(peakfiles,
   rmarkdown::render(
       input = markdown_path,
       output_dir = output_dir,
+      output_file = output_filename,
       quiet = TRUE,
       params = list(
         peakfile = peakfiles,

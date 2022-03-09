@@ -25,5 +25,3 @@ plot_ChIPseeker_annotation <- function(peaklist, txdb){
   anno_barplot <- ChIPseeker::plotAnnoBar(peak_annotated)
   return(anno_barplot)
 }
-
-
