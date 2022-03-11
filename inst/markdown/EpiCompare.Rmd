@@ -16,6 +16,8 @@ params:
     value : NULL
   reference: 
     value: NULL
+  upset_plot:
+    value: FALSE
   stat_plot:
     value: FALSE
   chrmHMM_plot:
@@ -51,6 +53,7 @@ peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
 if (is.null(params$reference) == FALSE){
   reference_tidy <- tidy_peakfile(peaklist = params$reference,
                                   blacklist = params$blacklist)
+  peaklist_tidy <- c(peaklist_tidy, reference_tidy)
 }
 # adjust figure height depending on sample size  
 fig_height <- 7
@@ -65,7 +68,7 @@ if(length(peaklist_tidy)>10){
 The report is divided into three sections: 
 
 1. **General Metrics:** Metrics on fragments (duplication rate) and peaks (blacklisted peaks and peak widths) of input files
-2. **Peak Overlap:** Percentage and statistical significance of overlapping and unon-overlapping peaks.
+2. **Peak Overlap:** Percentage and statistical significance of overlapping and non-overlapping peaks.
 3. **Functional Annotation:** Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks. 
 
 ***
@@ -209,6 +212,27 @@ if(params$save_output){
     unlink("samples_percent_overlap.png")
     }
 }
+```
+
+***
+
+### Upset Plot 
+
+Upset plot of overlapping peaks between samples. 
+See [here](https://jokergoo.github.io/ComplexHeatmap-reference/book/upset-plot.html) on how to interpret upset plots.   
+
+```{r, echo=FALSE, fig.width=10, fig.height = fig_height, warning=FALSE, message=FALSE, results='asis'}
+if(params$upset_plot){
+  upset_plot <- overlap_upset_plot(peaklist = peaklist_tidy)
+  print(upset_plot)
+  # save output 
+  if(params$save_output){
+    png(paste0(outfile_dir,"/upset_plot.png"))
+    print(upset_plot)
+    dev.off()
+  }
+}
+
 ```
 
 ***

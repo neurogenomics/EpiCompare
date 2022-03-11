@@ -43,7 +43,10 @@ overlap_heatmap <- function(peaklist, interact=TRUE){
   if(!interact){
     overlap_heatmap <- stats::heatmap(overlap_matrix, Rowv = NA, Colv = NA)
   }else{
-    overlap_heatmap <- plotly::plot_ly(x=stringr::str_wrap(colnames(overlap_matrix), 10), y=stringr::str_wrap(rownames(overlap_matrix), 10), z=overlap_matrix, type="heatmap")
+    overlap_heatmap <- plotly::plot_ly(x=stringr::str_wrap(colnames(overlap_matrix), 10),
+                                       y=stringr::str_wrap(rownames(overlap_matrix), 10),
+                                       z=overlap_matrix,
+                                       type="heatmap")
   }
   return(overlap_heatmap)
 }

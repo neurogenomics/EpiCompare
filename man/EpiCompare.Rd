@@ -9,6 +9,7 @@ EpiCompare(
   blacklist,
   picard_files = NULL,
   reference = NULL,
+  upset_plot = FALSE,
   stat_plot = FALSE,
   chrmHMM_plot = FALSE,
   chrmHMM_annotation = "K562",
@@ -39,6 +40,8 @@ use `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`
 If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
 and (2) ChromHMM of overlapping/non-overlapping peaks.
 Please make sure that the reference file is listed and named i.e. `list("reference_name" = reference_peak)`.}
+
+\item{upset_plot}{Default FALSE. If TRUE, the report includes upset plot of overlapping peaks.}
 
 \item{stat_plot}{Default FALSE. If TRUE, the function creates a plot showing the statistical significance of
 overlapping/non-overlapping peaks. Reference peak file must be provided.}
@@ -101,6 +104,7 @@ EpiCompare(peakfiles = peaks,
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
+           upset_plot = TRUE,
            stat_plot = TRUE,
            chrmHMM_plot = TRUE,
            chrmHMM_annotation = "K562",

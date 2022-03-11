@@ -23,9 +23,6 @@ Imports:
 	ggpubr,
 	heatmaply,
 	ChIPseeker,
-	TxDb.Hsapiens.UCSC.hg19.knownGene,
-	TxDb.Hsapiens.UCSC.hg38.knownGene,
-	org.Hs.eg.db,
 	knitr,
 	BRGenomics,
 	clusterProfiler,
@@ -33,12 +30,18 @@ Imports:
 	methods,
 	plotly,
 	htmlwidgets,
-	stringr
+	stringr,
+	dplyr,
+	tidyr,
+	UpSetR
 RoxygenNote: 7.1.2.9000
 Encoding: UTF-8
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),
-    badger
+    badger,
+    TxDb.Hsapiens.UCSC.hg19.knownGene,
+    TxDb.Hsapiens.UCSC.hg38.knownGene,
+    org.Hs.eg.db
 Config/testthat/edition: 3
 VignetteBuilder: knitr
