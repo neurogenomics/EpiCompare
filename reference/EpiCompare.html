@@ -63,6 +63,7 @@ The report is mainly divided into three areas: (1) Peakfile information, (2) Ove
   <span class="va">blacklist</span>,
   picard_files <span class="op">=</span> <span class="cn">NULL</span>,
   reference <span class="op">=</span> <span class="cn">NULL</span>,
+  upset_plot <span class="op">=</span> <span class="cn">FALSE</span>,
   stat_plot <span class="op">=</span> <span class="cn">FALSE</span>,
   chrmHMM_plot <span class="op">=</span> <span class="cn">FALSE</span>,
   chrmHMM_annotation <span class="op">=</span> <span class="st">"K562"</span>,
@@ -96,6 +97,8 @@ use `picard &lt;- read.table("/path/to/picard/output", header = TRUE, fill = TRU
 If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
 and (2) ChromHMM of overlapping/non-overlapping peaks.
 Please make sure that the reference file is listed and named i.e. `list("reference_name" = reference_peak)`.</p></dd>
+<dt>upset_plot</dt>
+<dd><p>Default FALSE. If TRUE, the report includes upset plot of overlapping peaks.</p></dd>
 <dt>stat_plot</dt>
 <dd><p>Default FALSE. If TRUE, the function creates a plot showing the statistical significance of
 overlapping/non-overlapping peaks. Reference peak file must be provided.</p></dd>
@@ -154,6 +157,7 @@ If a reference peak file is provided, ChromHMM annotation of overlapping and non
 <span class="r-in">           blacklist <span class="op">=</span> <span class="va">hg19_blacklist</span>,</span>
 <span class="r-in">           picard_files <span class="op">=</span> <span class="va">picard</span>,</span>
 <span class="r-in">           reference <span class="op">=</span> <span class="va">reference_peak</span>,</span>
+<span class="r-in">           upset_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">           stat_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">           chrmHMM_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">           chrmHMM_annotation <span class="op">=</span> <span class="st">"K562"</span>,</span>
@@ -173,10 +177,13 @@ If a reference peak file is provided, ChromHMM annotation of overlapping and non
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnR</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnT</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: ENCODE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnR</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnT</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: ENCODE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnR</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnT</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: ENCODE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnR</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnT</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnR</span>
