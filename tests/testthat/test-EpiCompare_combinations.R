@@ -1,17 +1,19 @@
-# library(EpiCompare)
-# data("encode_H3K27ac")
-# data("CnR_H3K27ac")
-# data("CnT_H3K27ac")
-# data("CnT_H3K27ac_seacr")
-# data("hg19_blacklist")
-# data("CnT_H3K27ac_picard")
-#
-# # Create directory for test outputs
-# outpath <- paste0(tempdir(),"/EpiCompare_test")
-# if(!dir.exists(outpath)){
-#   dir.create(outpath)
-# }
-#
+library(EpiCompare)
+data("encode_H3K27ac")
+data("CnT_H3K27ac")
+data("CnR_H3K27ac")
+data("hg19_blacklist")
+
+# Create directory for test outputs
+outpath <- paste0(tempdir(),"/EpiCompare_test")
+if(!dir.exists(outpath)){
+  dir.create(outpath)
+}
+
+
+
+
+
 # test_that("when all options are true, correct outputs created", {
 #   peaklist <- list(CnT_H3K27ac_seacr, CnR_H3K27ac, CnT_H3K27ac)
 #   namelist <- c("CnT_seacr", "CnR", "CnT_macs")

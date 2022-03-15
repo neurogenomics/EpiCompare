@@ -2,7 +2,7 @@
 ================
 Sera Choi
 <h5>
-<i>Updated</i>: Mar-10-2022
+<i>Updated</i>: Mar-15-2022
 </h5>
 
 <!-- badges: start -->
@@ -21,21 +21,22 @@ GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-pro
 for quality control and benchmarking purposes. The function outputs a
 report in HTML format consisting of three sections:
 
-1.  General Metrics: Metrics on peaks (blacklisted peaks and peak
-    widths) and fragments (duplication rate) of input epigenetic
-    datasets
-2.  Peak Overlap: Percentage and statistical significance of overlapping
-    and non-overlapping peaks
+1.  General Metrics: Metrics on peaks (percentage of blacklisted and
+    non-standard peaks, and peak widths) and fragments (duplication
+    rate) of samples.
+2.  Peak Overlap: Percetnage and statistical significance of overlapping
+    and non-overlapping peaks. Also includes upset plot.
 3.  Functional Annotation: Functional annotation (ChromHMM, ChIPseeker
-    and enrichment analysis) of peaks
+    and enrichment analysis) of peaks. Also includes peak enrichment
+    around TSS.
 
 N.B. All functional analyses performed by EpiCompare uses annotations
-for human genome hg19. N.B. Peaks in blacklisted regions and
+for human genome hg19. <br> N.B. Peaks in blacklisted regions and
 non-standard chromosomes are removed from peak files before any analysis
 
 # Installation
 
-To install `EpiCompare` use:
+To install EpiCompare use:
 
 ``` r
 if(!require("remotes")) install.packages("remotes")
@@ -91,6 +92,7 @@ EpiCompare(peakfiles = peaklist,
            chrmHMM_annotation = "K562",
            chipseeker_plot = TRUE,
            enrichment_plot = TRUE,
+           tss_plot = TRUE,
            interact = TRUE,
            save_output = TRUE,
            output_dir = "/path/to/output")
@@ -106,8 +108,8 @@ These input parameters must be provided:
     `names(peaklist) <- c("sample1","sample2)`
 -   `blacklist` : Peakfile as GRanges object specifying genomic regions
     that have anomalous and/or unstructured signals independent of the
-    cell-line or experiment. For human genome hg19, use
-    `data(hg19_blacklist)` stored in the package.
+    cell-line or experiment. For human hg19 genome, use built-in data
+    `data(hg19_blacklist)` in the package.
 
 #### Optional Inputs
 
@@ -138,6 +140,9 @@ By default, these plots will not be included in the report unless set
 -   `chipseeker_plot` : ChIPseeker annotation of peaks.
 -   `enrichment_plot` : KEGG pathway and GO enrichment analysis of
     peaks.
+-   `tss_plot` : Peak frequency around (+/- 3000bp) transcriptional
+    start site. Note that it may take awhile to generate this plot for
+    large sample sizes.
 
 #### Other Options
 

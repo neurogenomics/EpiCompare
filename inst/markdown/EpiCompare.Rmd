@@ -28,6 +28,8 @@ params:
     value: FALSE
   enrichment_plot:
     value: FALSE
+  tss_plot:
+    value: FALSE
   interact:
     value: TRUE
   save_output:
@@ -49,7 +51,8 @@ peaklist <- prepare_peaklist(params$peakfile)
 # tidy input peakfiles to remove peaks in blacklisted regions and non-standard chromosomes 
 peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
                                blacklist = params$blacklist)
-# tidy input reference peakfile if provided
+# tidy input reference peakfile if provided and include in peaklist
+reference_tidy <- params$reference
 if (is.null(params$reference) == FALSE){
   reference_tidy <- tidy_peakfile(peaklist = params$reference,
                                   blacklist = params$blacklist)
@@ -64,12 +67,13 @@ if(length(peaklist_tidy)>10){
 }
 ```
 
-[EpiCompare](https://github.com/neurogenomics/EpiCompare) compares different epigenetic datasets for quality control and benchmarking purposes. 
-The report is divided into three sections: 
+[EpiCompare](https://github.com/neurogenomics/EpiCompare) compares epigenetic datasets for quality control and benchmarking purposes. 
+The report consists of three sections: 
 
-1. **General Metrics:** Metrics on fragments (duplication rate) and peaks (blacklisted peaks and peak widths) of input files
-2. **Peak Overlap:** Percentage and statistical significance of overlapping and non-overlapping peaks.
-3. **Functional Annotation:** Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks. 
+1. **General Metrics:** Metrics on peaks (percentage of blacklisted and non-standard peaks, and peak widths) 
+and fragments (duplication rate) of samples.
+2. **Peak Overlap:** Percetnage and statistical significance of overlapping and non-overlapping peaks. Also includes upset plot. 
+3. **Functional Annotation:** Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks. Also includes peak enrichment around TSS. 
 
 ***
 
@@ -118,13 +122,13 @@ EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
 Column Description:
 
 * PeakN before tidy: Total number of peaks including those blacklisted and those in non-standard chromosomes. 
-* Blacklisted peaks removed (%): Percentage of blacklisted peaks present in the sample. [ENCODE blacklist](https://www.encodeproject.org/files/ENCFF000KJP/) includes regions in the hg19 genome that have 
-anomalous and/or unstructured signals independent of the cell-line or experiment.
-* Non-standard peaks removed (%): Percentage of peaks identified in non-standard and/or mitochondrial chromosomes.
+* Blacklisted peaks removed (%): Percentage of blacklisted peaks in samples. E.g. [ENCODE hg19 blacklist](https://www.encodeproject.org/files/ENCFF000KJP/) 
+includes regions in the hg19 genome that have anomalous and/or unstructured signals independent of the cell-line or experiment.
+* Non-standard peaks removed (%): Percentage of peaks in non-standard and/or mitochondrial chromosomes.
 Identified using `BRGenomics::tidyChromosomes()`.  
-* PeakN after tidy: Total number of peaks after filtering blacklisted peaks and those in non-standard chromosomes. 
+* PeakN after tidy: Total number of peaks after removing those in blacklisted regions and non-standard chromosomes. 
 
-  NB: All analyses in EpiCompare are conducted on *tidied* datasets (i.e. blacklisted peaks and those in non-standard chromosomes removed)
+**NB**: EpiCompare uses *filtered* peakfiles (i.e. datasets after removing peaks in blacklisted regions and non-standard chromosomes)
 
 <br>
 
@@ -170,7 +174,7 @@ if (!is.null(params$picard_files)){
 
 ### Peak widths 
 
-Distribution of peak widths in each sample. 
+Distribution of peak widths in samples 
 
 <br> 
 
@@ -191,8 +195,8 @@ if(params$save_output){
 
 ### Percentage Overlap  
 
-Heatmap of percentage of overlapping peaks between samples. 
-Hover over the heatmap for percentage values. 
+Percentage of overlapping peaks between samples. 
+Hover over heatmap for percentage values. 
 
 N.B. How to interpret heatmap: [Samples in x-axis of heatmap] peaks in [Samples in y-axis of heatmap] peaks 
 
@@ -219,7 +223,7 @@ if(params$save_output){
 ### Upset Plot 
 
 Upset plot of overlapping peaks between samples. 
-See [here](https://jokergoo.github.io/ComplexHeatmap-reference/book/upset-plot.html) on how to interpret upset plots.   
+See [here](https://jokergoo.github.io/ComplexHeatmap-reference/book/upset-plot.html) on how to interpret the plot.   
 
 ```{r, echo=FALSE, fig.width=10, fig.height = fig_height, warning=FALSE, message=FALSE, results='asis'}
 if(params$upset_plot){
@@ -239,16 +243,15 @@ if(params$upset_plot){
 
 ### Statistical Significance  
 
-The plot is shown only if a reference peak file is provided and `stat_plot = TRUE`. 
 Depending on the format of the reference file, EpiCompare outputs different plots: 
 
 * Reference dataset has BED6+4 format (peakcalling performed with MACS2): EpiCompare generates paired boxplot 
 per sample showing the distribution of -log10(q-value) of reference peaks that are overlapping and non-overlapping with the sample dataset. 
 * Reference dataset does not have BED6+4 format: EpiCompare generates a barplot of percentage of overlapping sample peaks with the reference, coloured by statistical significance (adjusted p-value) of the overlap. 
 
-Keys:
-
 **Reference peakfile: `r names(reference_tidy)`**
+
+Keys:
 
 * Overlap: Sample peaks in Reference peaks 
 * Unique: Sample peaks not in Reference peaks  
@@ -508,10 +511,13 @@ if (params$chrmHMM_plot){
 ref_not_in_sample_chrmHMM
 ```
 
+***
+
 ### 3.2 ChIPseeker 
 
-EpiCompare uses `annotatePeak` function in `ChIPseeker` package to annotate peaks with the nearest gene and 
-genomic region where the peak is located. The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
+EpiCompare uses `ChIPseeker::annotatePeak()` to annotate peaks with the nearest gene and genomic regions where 
+the peak is located. 
+The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 # if set TRUE, generate chipseeker annotation plot 
@@ -526,11 +532,13 @@ if (params$chipseeker_plot){
 }
 ```
 
+***
+
 ### 3.3 Functional Enrichment Analysis {.tabset}
 
 EpiCompare performs KEGG pathway and GO enrichment analysis using `clusterProfiler`. 
-`annotatePeak` function in `ChIPseeker` package is first used to assign peaks to nearest genes 
-and biological themes amongst the genes are identified using ontologies (KEGG and GO).
+`ChIPseeker::annotatePeak()` is first used to assign peaks to nearest genes.
+Biological themes amongst the genes are identified using ontologies (KEGG and GO). 
 The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
 
 
@@ -550,6 +558,8 @@ if (params$enrichment_plot){
 }
 ```
 
+***
+
 #### KEGG
 
 ```{r, echo=FALSE, fig.width= 10, fig.height = fig_height, warning=FALSE, message=FALSE}
@@ -562,6 +572,8 @@ if (params$enrichment_plot){
   }
 }
 ```
+
+***
 
 #### GO 
 
@@ -576,6 +588,28 @@ if (params$enrichment_plot){
 }
 
 ```
+
+***
+
+### 3.4 Peak Frequency around TSS 
+
+This plots peaks that are mapping to transcriptional start sites (TSS). TSS regions are defined as the flanking sequence of the TSS sites. 
+The frequency of peaks in downstream (-3000bp) and upstream (+3000bp) of TSS is plotted. 
+Faint color line around the main frequency line represents the the 95% confidence interval estimated by bootstrap method. 
+
+
+```{r, echo=FALSE, fig.width=10, fig.height = fig_height, warning=FALSE, message=FALSE}
+if (params$tss_plot){
+  tss_plot <- tss_plot(peaklist = peaklist_tidy)
+  print(tss_plot)
+  # save output 
+  if(params$save_output){
+    ggplot2::ggsave(filename = "TSS.png", plot = tss_plot, device = "png", path = outfile_dir)
+    unlink("TSS.png")
+  }
+}
+```
+
 
 ### 4. Session Info
 

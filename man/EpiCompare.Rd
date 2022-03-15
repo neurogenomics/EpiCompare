@@ -15,6 +15,7 @@ EpiCompare(
   chrmHMM_annotation = "K562",
   chipseeker_plot = FALSE,
   enrichment_plot = FALSE,
+  tss_plot = FALSE,
   interact = TRUE,
   save_output = FALSE,
   output_filename = "EpiCompare",
@@ -66,6 +67,9 @@ If a reference peak file is provided, ChromHMM annotation of overlapping and non
 
 \item{enrichment_plot}{Default FALSE. If TRUE, the report includes dotplots of KEGG and GO enrichment analysis of peak files.}
 
+\item{tss_plot}{Default FALSE. If TRUE, the report includes peak count frequency around transcriptional start site.
+Note that this can take awhile.}
+
 \item{interact}{Default TRUE. By default, all heatmaps are interactive. If set FALSE, all heatmaps in the report will be static.}
 
 \item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).}
@@ -110,6 +114,7 @@ EpiCompare(peakfiles = peaks,
            chrmHMM_annotation = "K562",
            chipseeker_plot = TRUE,
            enrichment_plot = TRUE,
+           tss_plot = FALSE,
            interact = TRUE,
            save_output = FALSE,
            output_dir = tempdir())

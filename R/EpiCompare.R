@@ -37,6 +37,8 @@
 #' }
 #' @param chipseeker_plot Default FALSE. If TRUE, the report includes a barplot of ChIPseeker annotation of peak files.
 #' @param enrichment_plot Default FALSE. If TRUE, the report includes dotplots of KEGG and GO enrichment analysis of peak files.
+#' @param tss_plot Default FALSE. If TRUE, the report includes peak count frequency around transcriptional start site.
+#' Note that this can take awhile.
 #' @param interact Default TRUE. By default, all heatmaps are interactive. If set FALSE, all heatmaps in the report will be static.
 #' @param save_output Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).
 #' @param output_filename Default EpiCompare.html. If otherwise, the html report will be saved in the specified name.
@@ -72,6 +74,7 @@
 #'            chrmHMM_annotation = "K562",
 #'            chipseeker_plot = TRUE,
 #'            enrichment_plot = TRUE,
+#'            tss_plot = FALSE,
 #'            interact = TRUE,
 #'            save_output = FALSE,
 #'            output_dir = tempdir())
@@ -86,6 +89,7 @@ EpiCompare <- function(peakfiles,
                        chrmHMM_annotation = "K562",
                        chipseeker_plot = FALSE,
                        enrichment_plot = FALSE,
+                       tss_plot = FALSE,
                        interact = TRUE,
                        save_output = FALSE,
                        output_filename = "EpiCompare",
@@ -117,6 +121,7 @@ EpiCompare <- function(peakfiles,
         chrmHMM_annotation = chrmHMM_annotation,
         chipseeker_plot = chipseeker_plot,
         enrichment_plot = enrichment_plot,
+        tss_plot = tss_plot,
         interact = interact,
         save_output = save_output,
         output_dir = output_dir)

@@ -33,7 +33,8 @@ Imports:
 	stringr,
 	dplyr,
 	tidyr,
-	UpSetR
+	UpSetR,
+	org.Hs.eg.db
 RoxygenNote: 7.1.2.9000
 Encoding: UTF-8
 Suggests: 
@@ -41,7 +42,5 @@ Suggests:
     testthat (>= 3.0.0),
     badger,
     TxDb.Hsapiens.UCSC.hg19.knownGene,
-    TxDb.Hsapiens.UCSC.hg38.knownGene,
-    org.Hs.eg.db
 Config/testthat/edition: 3
 VignetteBuilder: knitr
