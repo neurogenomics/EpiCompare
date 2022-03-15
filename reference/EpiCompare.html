@@ -69,6 +69,7 @@ The report is mainly divided into three areas: (1) Peakfile information, (2) Ove
   chrmHMM_annotation <span class="op">=</span> <span class="st">"K562"</span>,
   chipseeker_plot <span class="op">=</span> <span class="cn">FALSE</span>,
   enrichment_plot <span class="op">=</span> <span class="cn">FALSE</span>,
+  tss_plot <span class="op">=</span> <span class="cn">FALSE</span>,
   interact <span class="op">=</span> <span class="cn">TRUE</span>,
   save_output <span class="op">=</span> <span class="cn">FALSE</span>,
   output_filename <span class="op">=</span> <span class="st">"EpiCompare"</span>,
@@ -120,6 +121,9 @@ If a reference peak file is provided, ChromHMM annotation of overlapping and non
 <dd><p>Default FALSE. If TRUE, the report includes a barplot of ChIPseeker annotation of peak files.</p></dd>
 <dt>enrichment_plot</dt>
 <dd><p>Default FALSE. If TRUE, the report includes dotplots of KEGG and GO enrichment analysis of peak files.</p></dd>
+<dt>tss_plot</dt>
+<dd><p>Default FALSE. If TRUE, the report includes peak count frequency around transcriptional start site.
+Note that this can take awhile.</p></dd>
 <dt>interact</dt>
 <dd><p>Default TRUE. By default, all heatmaps are interactive. If set FALSE, all heatmaps in the report will be static.</p></dd>
 <dt>save_output</dt>
@@ -163,6 +167,7 @@ If a reference peak file is provided, ChromHMM annotation of overlapping and non
 <span class="r-in">           chrmHMM_annotation <span class="op">=</span> <span class="st">"K562"</span>,</span>
 <span class="r-in">           chipseeker_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">           enrichment_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">           tss_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span class="r-in">           interact <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">           save_output <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span class="r-in">           output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
