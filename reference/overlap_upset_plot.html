@@ -35,7 +35,13 @@
       <a href="../articles/my-vignette.html">EpiCompare</a>
     </li>
   </ul></li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/neurogenomics/EpiCompare/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -45,7 +51,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate Upset plot for overlapping peaks</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/neurogenomics/EpiCompare/blob/HEAD/R/overlap_upset_plot.R" class="external-link"><code>R/overlap_upset_plot.R</code></a></small>
     <div class="hidden name"><code>overlap_upset_plot.Rd</code></div>
     </div>
 
@@ -71,13 +77,11 @@ If not named, default file names are assigned.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">EpiCompare</span><span class="op">)</span> <span class="co"># load EpiCompare</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># load example data</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># load example data</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># load example data</span></span>
 <span class="r-in"><span class="va">peakfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">encode_H3K27ac</span>, <span class="va">CnT_H3K27ac</span><span class="op">)</span> <span class="co"># create list</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">peakfile</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ENCODE"</span>,<span class="st">"CnT"</span><span class="op">)</span> <span class="co"># name list</span></span>
-<span class="r-in"><span class="fu">overlap_upset_plot</span><span class="op">(</span>peaklist <span class="op">=</span> <span class="va">peakfile</span><span class="op">)</span> <span class="co"># run function</span></span>
-<span class="r-plt img"><img src="overlap_upset_plot-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="va">my_plot</span> <span class="op">&lt;-</span> <span class="fu">overlap_upset_plot</span><span class="op">(</span>peaklist <span class="op">=</span> <span class="va">peakfile</span><span class="op">)</span> <span class="co"># run function</span></span>
 </code></pre></div>
     </div>
   </div>
