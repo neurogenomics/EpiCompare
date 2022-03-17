@@ -4,20 +4,28 @@
 \alias{plot_ChIPseeker_annotation}
 \title{Create ChIPseeker annotation plot}
 \usage{
-plot_ChIPseeker_annotation(peaklist, txdb)
+plot_ChIPseeker_annotation(peaklist)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
-
-\item{txdb}{A TxDb object.}
 }
 \value{
 barplot
 }
 \description{
 This function annotates peaks using `annotatePeak` from `ChIPseeker` package.
-It uses annotation `TxDb.Hsapiens.UCSC.hg19.knownGene` provided by Bioconductor.
-It outputs functional annotation of each peak file in a barplot.
+It uses annotation `TxDb.Hsapiens.UCSC.hg19.knownGene` provided by
+Bioconductor.It outputs functional annotation of each peak file in a barplot.
+}
+\examples{
+data("CnT_H3K27ac") # example dataset as GRanges object
+data("CnR_H3K27ac") # example dataset as GRanges object
+
+peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
+names(peaks) <- c("CnT", "CnR") # set names
+
+#my_plot <- plot_ChIPseeker_annotation(peaks)
+
 }

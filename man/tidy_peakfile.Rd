@@ -22,7 +22,6 @@ and in non-standard chromosomes. It also checks that the input list of peakfiles
 is named. If no names are provided, default file names will be used.
 }
 \examples{
-library(EpiCompare)
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("hg19_blacklist") # blacklist region for hg19 genome
@@ -30,7 +29,7 @@ data("hg19_blacklist") # blacklist region for hg19 genome
 peaklist <- list(encode_H3K27ac, CnT_H3K27ac) # list two peakfiles
 names(peaklist) <- c("encode", "CnT") # set names
 
-tidy_peakfile(peaklist = peaklist,
-              blacklist = hg19_blacklist)
+peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
+                               blacklist = hg19_blacklist)
 
 }

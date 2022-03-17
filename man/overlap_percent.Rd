@@ -21,3 +21,16 @@ data frame
 \description{
 Calculate percentage of overlapping peaks
 }
+\examples{
+data("encode_H3K27ac") # example dataset as GRanges object
+data("CnT_H3K27ac") # example dataset as GRanges object
+data("CnR_H3K27ac") # example dataset as GRanges object
+
+peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
+names(peaks) <- c("CnT", "CnR") # set names
+reference_peak <- list("ENCODE"=encode_H3K27ac)
+
+overlap <- overlap_percent(peaklist=peaks,
+                           reference=reference_peak[[1]])
+
+}

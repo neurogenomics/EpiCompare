@@ -17,3 +17,11 @@ profile plot
 \description{
 This function generates a plot of read count frequency around TSS.
 }
+\examples{
+data("CnT_H3K27ac") # example dataset as GRanges object
+data("CnR_H3K27ac") # example dataset as GRanges object
+peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
+names(peaks) <- c("CnT", "CnR") # set names
+#my_plot <- tss_plot(peaks)
+
+}

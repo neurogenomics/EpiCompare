@@ -5,31 +5,43 @@
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
-#' @param interact Default TRUE. By default heatmap is interactive. If FALSE, heatmap is static.
+#' @param interact Default TRUE. By default heatmap is interactive.
+#' If FALSE, heatmap is static.
 #'
 #' @return An interactive heatmap
-#' @export
 #'
+#' @importFrom IRanges subsetByOverlaps
+#' @importFrom ggplot2 ggplot aes geom_tile
+#' @importFrom reshape2 melt
+#' @importFrom plotly plot_ly
+#' @importFrom stringr str_wrap
+#'
+#' @export
 #' @examples
-#' library(EpiCompare)
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #'
 #' peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
 #' names(peaks) <- c("encode", "CnT") # set names
 #'
-#' overlap_heatmap(peaklist = peaks)
+#' my_heatmap <- overlap_heatmap(peaklist = peaks)
 #'
 overlap_heatmap <- function(peaklist, interact=TRUE){
+  # define variables
+  Var1 <- NULL
+  Var2 <- NULL
+  value <- NULL
   # check that peaklist is named, if not, default names assigned
-  peaklist <- EpiCompare::check_list_names(peaklist)
+  peaklist <- check_list_names(peaklist)
   # cross-compare peakfiles and calculate overlap percentage
   overlap_list <- list() # empty list
   for(mainfile in peaklist){
     percent_list <- c()
     for(subfile in peaklist){
-      overlap <- IRanges::subsetByOverlaps(x = subfile, ranges = mainfile) # overlapping peaks
-      percent <- length(overlap)/length(subfile)*100 # calculate percentage overlap
+      # overlapping peaks
+      overlap <- IRanges::subsetByOverlaps(x = subfile, ranges = mainfile)
+      # calculate percentage overlap
+      percent <- length(overlap)/length(subfile)*100
       percent_list <- c(percent_list, percent)
     }
     percent_list <- list(percent_list)
@@ -41,7 +53,8 @@ overlap_heatmap <- function(peaklist, interact=TRUE){
   rownames(overlap_matrix) <- names(peaklist) # set rownames as sample names
   # static heatmap
   if(!interact){
-    overlap_heatmap <- stats::heatmap(overlap_matrix, Rowv = NA, Colv = NA)
+    melt <- reshape2::melt(overlap_matrix)
+    overlap_heatmap <- ggplot2::ggplot(data = melt, ggplot2::aes(x=Var1, y=Var2, fill=value)) + ggplot2::geom_tile()
   }else{
     overlap_heatmap <- plotly::plot_ly(x=stringr::str_wrap(colnames(overlap_matrix), 10),
                                        y=stringr::str_wrap(rownames(overlap_matrix), 10),

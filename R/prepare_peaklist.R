@@ -3,10 +3,12 @@
 #' @param peaklist A named list of peaks as GRanges or paths to BED files
 #'
 #' @return A list of GRanges objects
-#' @export
+#'
+#' @importFrom methods is
+#' @keywords internal
 prepare_peaklist <- function(peaklist){
   # check that peaklist is named, if not, default names assigned
-  peaklist <- EpiCompare::check_list_names(peaklist)
+  peaklist <- check_list_names(peaklist)
   peaklist_checked <- list() # empty list
   for(file in peaklist){
     # if path is provided, create GRangees onject

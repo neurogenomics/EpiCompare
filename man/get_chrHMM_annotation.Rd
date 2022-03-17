@@ -10,7 +10,8 @@ get_chrHMM_annotation(cell_line)
 \item{cell_line}{ChromHMM annotation for user-specified cell-line}
 }
 \value{
-cell-line specific ChromHMM annotation file. Default K562 cell-line. Cell-line options are:
+cell-line specific ChromHMM annotation file. Default K562 cell-line.
+Cell-line options are:
 \itemize{
   \item "K562" = K-562 cells
   \item "Gm12878" = Cellosaurus cell-line GM12878
@@ -26,3 +27,4 @@ cell-line specific ChromHMM annotation file. Default K562 cell-line. Cell-line o
 \description{
 Download ChromHMM annotation file
 }
+\keyword{internal}

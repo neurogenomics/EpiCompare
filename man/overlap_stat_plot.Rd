@@ -14,17 +14,20 @@ Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
 }
 \value{
-A boxplot or barplot showing the statistical significance of overlapping/non-overlapping peaks.
+A boxplot or barplot showing the statistical significance of
+overlapping/non-overlapping peaks.
 }
 \description{
-This function calculates the statistical significance of overlapping/non-overlapping peaks against a reference peak file.
-If the reference peak file has the BED6+4 format (peak called by MACS2), the function generates a series of boxplots showing
-the distribution of q-values for sample peaks that are overlapping and non-overlapping with the reference.
-If the reference peak file does not have the BED6+4 format, the function uses `enrichPeakOverlap()` from `ChIPseeker` package
-to calculate the statistical significance of overlapping peaks only.
+This function calculates the statistical significance of overlapping/
+non-overlapping peaks against a reference peak file.If the reference peak
+file has the BED6+4 format (peak called by MACS2), the function generates a
+series of boxplots showing the distribution of q-values for sample peaks that
+are overlapping and non-overlapping with the reference. If the reference peak
+file does not have the BED6+4 format, the function uses `enrichPeakOverlap()`
+from `ChIPseeker` package to calculate the statistical significance of
+overlapping peaks only.
 }
 \examples{
-library(EpiCompare)
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object
@@ -33,7 +36,9 @@ peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 names(peaks) <- c("CnT", "CnR") # set names
 reference_peak <- list("ENCODE"=encode_H3K27ac)
 
-overlap_stat_plot(reference = reference_peak,
-                  peaklist = peaks)
+out <- overlap_stat_plot(reference = reference_peak,
+                         peaklist = peaks)
+stat_plot <- out[[1]] # plot
+stat_df <- out[[2]] # df
 
 }

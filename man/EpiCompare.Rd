@@ -89,7 +89,6 @@ The function outputs an HTML report containing results from the analysis.
 The report is mainly divided into three areas: (1) Peakfile information, (2) Overlapping peaks and (3) Functional annotations.
 }
 \examples{
-library(EpiCompare)
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object
@@ -108,14 +107,14 @@ EpiCompare(peakfiles = peaks,
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
-           upset_plot = TRUE,
-           stat_plot = TRUE,
-           chrmHMM_plot = TRUE,
+           upset_plot = FALSE,
+           stat_plot = FALSE,
+           chrmHMM_plot = FALSE,
            chrmHMM_annotation = "K562",
-           chipseeker_plot = TRUE,
-           enrichment_plot = TRUE,
+           chipseeker_plot = FALSE,
+           enrichment_plot = FALSE,
            tss_plot = FALSE,
-           interact = TRUE,
+           interact = FALSE,
            save_output = FALSE,
            output_dir = tempdir())
 

@@ -11,7 +11,8 @@ overlap_heatmap(peaklist, interact = TRUE)
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
 
-\item{interact}{Default TRUE. By default heatmap is interactive. If FALSE, heatmap is static.}
+\item{interact}{Default TRUE. By default heatmap is interactive.
+If FALSE, heatmap is static.}
 }
 \value{
 An interactive heatmap
@@ -20,13 +21,12 @@ An interactive heatmap
 This function generates a heatmap showing percentage of overlapping peaks between peak files.
 }
 \examples{
-library(EpiCompare)
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 
 peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
 names(peaks) <- c("encode", "CnT") # set names
 
-overlap_heatmap(peaklist = peaks)
+my_heatmap <- overlap_heatmap(peaklist = peaks)
 
 }

@@ -18,10 +18,9 @@ Upset plot of overlapping peaks
 This function generates upset plot (UpSetR package) of overlapping peaks.
 }
 \examples{
-library(EpiCompare) # load EpiCompare
 data("encode_H3K27ac") # load example data
 data("CnT_H3K27ac") # load example data
 peakfile <- list(encode_H3K27ac, CnT_H3K27ac) # create list
 names(peakfile) <- c("ENCODE","CnT") # name list
-overlap_upset_plot(peaklist = peakfile) # run function
+my_plot <- overlap_upset_plot(peaklist = peakfile) # run function
 }

@@ -8,24 +8,4 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-# Introduction
-
-Load package and example datasets. The two example peakfiles have been 
-```{r setup}
-library(EpiCompare)
-data("encode_H3K27ac")
-data("CnT_H3K27ac")
-```
-
-The two example peakfiles have been transformed into GRanges object. 
-If your peak files are in BED format, simply use `ChIPseeker::readPeakFile("/path/to/peak/file", as = "GRanges")`.
-
-```{r, eval=FALSE}
-EpiCompare(peakfile1 = encode_H3K27ac,
-           peakfile1_name = "encode",
-           peakfile2 = CnT_H3K27ac,
-           peakfile2_name = "CUT&Tag",
-           outpath = "./EpiCompare.html")
-```
-
 

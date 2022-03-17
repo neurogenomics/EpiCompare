@@ -133,6 +133,7 @@ Identified using `BRGenomics::tidyChromosomes()`.
 <br>
 
 ```{r, echo=FALSE, warning=FALSE}
+
 peak_info_df <- peak_info(peak_list = peaklist,
                           blacklist = params$blacklist)
 # create table 
@@ -212,9 +213,9 @@ if(params$save_output){
     htmlwidgets::saveWidget(plotly::as_widget(overlap_heatmap), file = paste0(outfile_dir,"/samples_percent_overlap.html"))
     unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
   }else{
-    ggplot2::ggsave(filename = "samples_percent_overlap.png", plot = overlap_heatmap, device = "png", path = outfile_dir)
+    ggplot2::ggsave(filename = "samples_percent_overlap.png",plot = overlap_heatmap, device = "png", path = outfile_dir)
     unlink("samples_percent_overlap.png")
-    }
+  }
 }
 ```
 
@@ -298,11 +299,11 @@ if (params$chrmHMM_plot){
   # save output 
   if(params$save_output){
     if(params$interact){
-      htmlwidgets::saveWidget(plotly::as_widget(samples_chrmHMM), file = paste0(outfile_dir,"/samples_chromHMM.html"))
-      unlink(paste0(outfile_dir,"/samples_chromHMM_files"), recursive = TRUE)
+      htmlwidgets::saveWidget(plotly::as_widget(samples_chrmHMM), file = paste0(outfile_dir,"/samples_chrmHMM.html"))
+      unlink(paste0(outfile_dir,"/samples_chrmHMM_files"), recursive = TRUE)
     }else{
-      ggplot2::ggsave(filename = "samples_chromHMM.png", plot = samples_chrmHMM, device = "png", path = outfile_dir)
-      unlink("samples_chromHMM.png")
+      ggplot2::ggsave(filename = "samples_chrmHMM.png", plot = samples_chrmHMM, device = "png", path = outfile_dir)
+      unlink("samples_chrmHMM.png")
     }
   }
 }else{
@@ -343,22 +344,24 @@ if (params$chrmHMM_plot){
     sample_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_in_ref_list,
                                           chrmHMM_annotation = chrHMM_list,
                                           interact = params$interact)
+    if(params$interact){
+      sample_in_ref_chrmHMM_plot <- htmltools::tagList(plotly::as_widget(sample_in_ref_chrmHMM))
+      print(sample_in_ref_chrmHMM_plot)
+    }else{
+      print(sample_in_ref_chrmHMM)
+    }
     # save output 
     if(params$save_output){
       if(params$interact){
-        htmlwidgets::saveWidget(plotly::as_widget(sample_in_ref_chrmHMM), file = paste0(outfile_dir,"/sample_in_ref_chromHMM.html"))
-        unlink(paste0(outfile_dir,"/sample_in_ref_chromHMM_files"), recursive = TRUE)
+        htmlwidgets::saveWidget(plotly::as_widget(sample_in_ref_chrmHMM), file = paste0(outfile_dir,"/sample_in_ref_chrmHMM.html"))
+        unlink(paste0(outfile_dir,"/sample_in_ref_chrmHMM_files"), recursive = TRUE)
       }else{
-        ggplot2::ggsave(filename = "sample_in_ref_chromHMM.png", plot = sample_in_ref_chrmHMM, device = "png", path = outfile_dir)
-        unlink("sample_in_ref_chromHMM.png")
+        ggplot2::ggsave(filename = "sample_in_ref_chrmHMM.png", plot = sample_in_ref_chrmHMM, device = "png", path = outfile_dir)
+        unlink("sample_in_ref_chrmHMM.png")
       }
     }
   }
-}else{
-  sample_in_ref_chrmHMM <- "No plot"
 }
-sample_in_ref_chrmHMM
-
 ```
 
 #### **Overlap**: Reference peaks in Sample peaks 
@@ -394,21 +397,24 @@ if (params$chrmHMM_plot){
     ref_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_in_sample_list,
                                           chrmHMM_annotation = chrHMM_list,
                                           interact = params$interact)
+    if(params$interact){
+      ref_in_sample_chrmHMM_plot <- htmltools::tagList(plotly::as_widget(ref_in_sample_chrmHMM))
+      print(ref_in_sample_chrmHMM_plot)
+    }else{
+      print(ref_in_sample_chrmHMM)
+    }
     # save output 
     if(params$save_output){
       if(params$interact){
         htmlwidgets::saveWidget(plotly::as_widget(ref_in_sample_chrmHMM), file = paste0(outfile_dir,"/ref_in_sample_chrmHMM.html"))
         unlink(paste0(outfile_dir,"/ref_in_sample_chrmHMM_files"), recursive = TRUE)
       }else{
-        ggplot2::ggsave(filename = "ref_in_sample_chromHMM.png", plot = ref_in_sample_chrmHMM, device = "png", path = outfile_dir)
-        unlink("ref_in_sample_chromHMM.png")
+        ggplot2::ggsave(filename = "ref_in_sample_chrmHMM.png", plot = ref_in_sample_chrmHMM, device = "png", path = outfile_dir)
+        unlink("ref_in_sample_chrmHMM.png")
       }
     }
   }
-}else{
-  ref_in_sample_chrmHMM <- "No plot"
 }
-ref_in_sample_chrmHMM
 ```
 
 #### **Unique**: Sample peaks not in Reference peaks 
@@ -443,22 +449,25 @@ if (params$chrmHMM_plot){
       sample_not_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_not_in_ref_list,
                                                 chrmHMM_annotation = chrHMM_list,
                                                 interact = params$interact)
+      if(params$interact){
+        sample_not_in_ref_chrmHMM_plot <- htmltools::tagList(plotly::as_widget(sample_not_in_ref_chrmHMM))
+        print(sample_not_in_ref_chrmHMM_plot)
+      }else{
+        print(sample_not_in_ref_chrmHMM)
+      }
       # save output 
       if(params$save_output){
         if(params$interact){
-          htmlwidgets::saveWidget(plotly::as_widget(ref_in_sample_chrmHMM), file = paste0(outfile_dir,"/ref_in_sample_chrmHMM.html"))
-          unlink(paste0(outfile_dir,"/ref_in_sample_chrmHMM_files"), recursive = TRUE)
+          htmlwidgets::saveWidget(plotly::as_widget(sample_not_in_ref_chrmHMM), file = paste0(outfile_dir,"/sample_not_in_ref_chrmHMM.html"))
+          unlink(paste0(outfile_dir,"/sample_not_in_ref_chrmHMM_files"), recursive = TRUE)
 
         }else{
-          ggplot2::ggsave(filename = "sample_not_in_ref_chromHMM.png", plot = sample_not_in_ref_chrmHMM, device = "png", path = outfile_dir)
-          unlink("sample_not_in_ref_chromHMM.png")
+          ggplot2::ggsave(filename = "sample_not_in_ref_chrmHMM.png", plot = sample_not_in_ref_chrmHMM, device = "png", path = outfile_dir)
+          unlink("sample_not_in_ref_chrmHMM.png")
           }
       }
   }
-}else{
-  sample_not_in_ref_chrmHMM <- "No plot"
 }
-sample_not_in_ref_chrmHMM
 
 ```
 
@@ -494,21 +503,24 @@ if (params$chrmHMM_plot){
       ref_not_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_not_in_sample_list,
                                                 chrmHMM_annotation = chrHMM_list,
                                                 interact = params$interact)
+      if(params$interact){
+        ref_not_in_sample_chrmHMM_plot <- htmltools::tagList(plotly::as_widget(ref_not_in_sample_chrmHMM))
+        print(ref_not_in_sample_chrmHMM_plot)
+      }else{
+        print(ref_not_in_sample_chrmHMM)
+      }
       # save output 
       if(params$save_output){
         if(params$interact){
           htmlwidgets::saveWidget(plotly::as_widget(ref_not_in_sample_chrmHMM), file = paste0(outfile_dir,"/ref_not_in_sample_chrmHMM.html"))
           unlink(paste0(outfile_dir,"/ref_not_in_sample_chrmHMM_files"), recursive = TRUE)
         }else{
-          ggplot2::ggsave(filename = "ref_not_in_sample_chromHMM.png", plot = ref_not_in_sample_chrmHMM, device = "png", path = outfile_dir)
-          unlink("ref_not_in_sample_chromHMM.png")
+          ggplot2::ggsave(filename = "ref_not_in_sample_chrmHMM.png", plot = ref_not_in_sample_chrmHMM, device = "png", path = outfile_dir)
+          unlink("ref_not_in_sample_chrmHMM.png")
         }
       }
   }
-}else{
-  ref_not_in_sample_chrmHMM <- "No plot"
 }
-ref_not_in_sample_chrmHMM
 ```
 
 ***

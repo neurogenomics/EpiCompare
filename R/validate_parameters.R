@@ -1,13 +1,14 @@
 #' Validate input parameters
 #'
 #' @return No return
+#' @importFrom methods is
 #' @keywords internal
 validate_parameters <- function(peaklist, namelist, reference, stat_plot){
   # check that outpath exists
 
 
   # Check that peakfiles are in lists
-  if(class(peaklist) != "list"){
+  if(!methods::is(peaklist, "list")){
     stop("peak files must be listed using list()")
   }
   # Check number of peakfiles and number of names is same
@@ -17,15 +18,13 @@ validate_parameters <- function(peaklist, namelist, reference, stat_plot){
   }
   # check all peak files are in GRanges
   for(file in peaklist){
-    class <- class(file)
-    if(!grepl("GRanges", class)){
+    if(!methods::is(file,"GRanges")){
       stop("peak files must be GRanges object")
     }
   }
   # check reference file is GRanges
   if(!is.null(reference)){
-    class <- class(reference)
-    if(!grepl("GRanges", class)){
+    if(!methods::is(reference,"GRanges")){
       stop("reference peak file must be GRanges object")
     }
   }

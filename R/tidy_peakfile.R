@@ -12,8 +12,10 @@
 #' @return list of GRanges object
 #' @export
 #'
+#' @importFrom BRGenomics tidyChromosomes
+#' @importFrom IRanges subsetByOverlaps
+
 #' @examples
-#' library(EpiCompare)
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #' data("hg19_blacklist") # blacklist region for hg19 genome
@@ -21,12 +23,12 @@
 #' peaklist <- list(encode_H3K27ac, CnT_H3K27ac) # list two peakfiles
 #' names(peaklist) <- c("encode", "CnT") # set names
 #'
-#' tidy_peakfile(peaklist = peaklist,
-#'               blacklist = hg19_blacklist)
+#' peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
+#'                                blacklist = hg19_blacklist)
 #'
 tidy_peakfile <- function(peaklist, blacklist){
   # check that peaklist is named, if not, default names assigned
-  peaklist <- EpiCompare::check_list_names(peaklist)
+  peaklist <- check_list_names(peaklist)
   # for each peakfile, remove peaks in blacklisted region
   # and remove non-standard and mitochondrial chromosomes
   # if there are more than one peakfiles, run through loop and output list

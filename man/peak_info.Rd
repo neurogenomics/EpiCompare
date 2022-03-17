@@ -20,7 +20,6 @@ This function outputs a table summarizing information on the peak files.
 Provides the total number of peaks and the percentage of peaks in blacklisted regions.
 }
 \examples{
-library(EpiCompare)
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("hg19_blacklist") # example blacklist dataset as GRanges object
@@ -28,7 +27,7 @@ data("hg19_blacklist") # example blacklist dataset as GRanges object
 peaklist <- list(encode_H3K27ac, CnT_H3K27ac) # list two peakfiles
 names(peaklist) <- c("encode", "CnT") # set names
 
-peak_info(peak_list = peaklist,
-          blacklist = hg19_blacklist)
+df <- peak_info(peak_list = peaklist,
+                blacklist = hg19_blacklist)
 
 }

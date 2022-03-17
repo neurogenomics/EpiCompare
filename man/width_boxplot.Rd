@@ -16,16 +16,16 @@ If not named, default file names will be assigned.}
 A boxplot of peak widths.
 }
 \description{
-This function creates boxplots showing the distribution of widths in each peak file.
+This function creates boxplots showing the distribution of widths in
+each peak file.
 }
 \examples{
-library(EpiCompare)
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 
 peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
 names(peaks) <- c("encode", "CnT") # set names
 
-width_boxplot(peaklist = peaks)
+my_plot <- width_boxplot(peaklist = peaks)
 
 }

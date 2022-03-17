@@ -2,7 +2,8 @@
 #'
 #' @param cell_line ChromHMM annotation for user-specified cell-line
 #'
-#' @return cell-line specific ChromHMM annotation file. Default K562 cell-line. Cell-line options are:
+#' @return cell-line specific ChromHMM annotation file. Default K562 cell-line.
+#' Cell-line options are:
 #' \itemize{
 #'   \item "K562" = K-562 cells
 #'   \item "Gm12878" = Cellosaurus cell-line GM12878
@@ -14,7 +15,9 @@
 #'   \item "Nhek" = Normal Human Epidermal Keratinocytes
 #'   \item "Nhlf" = Normal Human Lung Fibroblasts
 #' }
-#' @export
+#' @importFrom genomation readBed
+#' @importFrom GenomicRanges split
+#' @keywords internal
 get_chrHMM_annotation <- function(cell_line){
   if (cell_line == "K562"){
     cell <- "K562"

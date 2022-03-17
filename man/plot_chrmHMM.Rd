@@ -20,7 +20,19 @@ If set FALSE, the function generates a static ChromHMM heatmap.}
 ChromHMM heatmap
 }
 \description{
-Creates a heatmap using outputs from ChromHMM using ggplot2.
-The function takes a list of peakfiles, performs ChromHMM and outputs a heatmap.
-ChromHMM annotation file must be loaded prior to using this function.
+Creates a heatmap using outputs from ChromHMM using ggplot2.The function
+takes a list of peakfiles, performs ChromHMM and outputs a heatmap. ChromHMM
+annotation file must be loaded prior to using this function.
+}
+\examples{
+data("CnT_H3K27ac") # example dataset as GRanges object
+data("CnR_H3K27ac") # example dataset as GRanges object
+data("chromHMM_annotation_K562") # example chromHMM annotation
+
+peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
+names(peaks) <- c("CnT", "CnR") # set names
+
+my_plot <- plot_chrmHMM(peaklist=peaks,
+                        chrmHMM_annotation=chromHMM_annotation_K562)
+
 }

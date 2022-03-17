@@ -7,19 +7,24 @@
 #' If not named, default file names are assigned.
 #'
 #' @return Upset plot of overlapping peaks
+#'
+#' @importFrom IRanges findOverlaps
+#' @importFrom dplyr mutate
+#' @importFrom tidyr spread
+#' @importFrom UpSetR upset
+#'
 #' @export
 #' @examples
-#' library(EpiCompare) # load EpiCompare
 #' data("encode_H3K27ac") # load example data
 #' data("CnT_H3K27ac") # load example data
 #' peakfile <- list(encode_H3K27ac, CnT_H3K27ac) # create list
 #' names(peakfile) <- c("ENCODE","CnT") # name list
-#' overlap_upset_plot(peaklist = peakfile) # run function
+#' my_plot <- overlap_upset_plot(peaklist = peakfile) # run function
 overlap_upset_plot <- function(peaklist){
   # define variables
   value <- NULL
   # check that peaklist is named, if not, default names assigned
-  peaklist <- EpiCompare::check_list_names(peaklist)
+  peaklist <- check_list_names(peaklist)
   # change metadata column names so it doesn't interfere
   for(i in 1:length(peaklist)){
     my_label <- make.unique(rep("name", ncol(peaklist[[i]]@elementMetadata)))
@@ -52,6 +57,7 @@ overlap_upset_plot <- function(peaklist){
                               mb.ratio = c(0.60, 0.40),
                               sets = peaklist_names,
                               number.angles = 30,
-                              text.scale = c(1, 1, 1, font_size, font_size+0.15, font_size))
+                              text.scale = c(1, 1, 1, font_size,
+                                             font_size+0.15, font_size))
   return(upset_plot)
 }

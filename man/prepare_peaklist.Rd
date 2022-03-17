@@ -15,3 +15,4 @@ A list of GRanges objects
 \description{
 Prepare peaklist as GRanges
 }
+\keyword{internal}

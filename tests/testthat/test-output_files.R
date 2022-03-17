@@ -1,4 +1,3 @@
-library(EpiCompare)
 data("encode_H3K27ac")
 data("CnT_H3K27ac")
 data("CnR_H3K27ac")
