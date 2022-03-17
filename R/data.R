@@ -16,7 +16,7 @@
 #' colnames(GenomicRanges::mcols(encode_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 #' usethis::use_data(encode_H3K27ac, overwrite = TRUE)
 #' }
-#'
+#' @usage data("encode_H3K27ac")
 "encode_H3K27ac"
 
 #' Example CUT&Tag peak file
@@ -38,7 +38,7 @@
 #' colnames(GenomicRanges::mcols(CnT_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 #' usethis::use_data(CnT_H3K27ac)
 #' }
-#'
+#' @usage data("CnT_H3K27ac")
 "CnT_H3K27ac"
 
 #' Example CUT&Run peak file
@@ -59,7 +59,7 @@
 #' colnames(GenomicRanges::mcols(CnR_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 #' usethis::use_data(CnR_H3K27ac, overwrite = TRUE)
 #' }
-#'
+#' @usage data("CnR_H3K27ac")
 "CnR_H3K27ac"
 
 #' ChromHMM annotation file subset
@@ -85,7 +85,7 @@
 #' chromHMM_annotation_K562 <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
 #' usethis::use_data(chromHMM_annotation_K562, overwrite = TRUE)
 #' }
-#'
+#' @usage data("chromHMM_annotation_K562")
 "chromHMM_annotation_K562"
 
 #' Human genome hg19 blacklisted regions
@@ -101,7 +101,7 @@
 #' hg19_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")
 #' usethis::use_data(hg19_blacklist, overwrite = TRUE)
 #' }
-#'
+#' @usage data("hg19_blacklist")
 "hg19_blacklist"
 
 #' Example Picard duplication metrics file 1
@@ -118,6 +118,7 @@
 #' CnT_H3K27ac_picard <- picard[1,]
 #' usethis::use_data(CnT_H3K27ac_picard, overwrite = TRUE)
 #' }
+#' @usage data("CnT_H3K27ac_picard")
 "CnT_H3K27ac_picard"
 
 #' Example Picard duplication metrics file 2
@@ -134,5 +135,6 @@
 #' CnR_H3K27ac_picard <- picard[1,]
 #' usethis::use_data(CnR_H3K27ac_picard, overwrite = TRUE)
 #' }
+#' @usage data("CnR_H3K27ac_picard")
 "CnR_H3K27ac_picard"
 

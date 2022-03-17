@@ -2,7 +2,7 @@
 ================
 Sera Choi
 <h5>
-<i>Updated</i>: Mar-15-2022
+<i>Updated</i>: Mar-17-2022
 </h5>
 
 <!-- badges: start -->
@@ -183,7 +183,7 @@ By default, these plots will not be included in the report unless set
 
 # Example
 
-\[how to run and link to an example html \]
+[Example report](https://neurogenomics.github.io/EpiCompare/)
 
 # Session Info
 
@@ -233,7 +233,7 @@ utils::sessionInfo()
 
 ## Contact
 
-### [Neurogenomics Lab](https://www.neurogenomics.co.uk/)
+### [Neurogenomics Lab](https://www.neurogenomics.co.uk/inst/report/EpiCompare.html)
 
 UK Dementia Research Institute  
 Department of Brain Sciences  

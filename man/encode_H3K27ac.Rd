@@ -19,7 +19,7 @@ usethis::use_data(encode_H3K27ac, overwrite = TRUE)
 }
 }
 \usage{
-encode_H3K27ac
+data("encode_H3K27ac")
 }
 \description{
 Human H3K27ac peak file generated with ChIP-seq using K562 cell-line.

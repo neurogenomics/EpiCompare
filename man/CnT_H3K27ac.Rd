@@ -19,7 +19,7 @@ usethis::use_data(CnT_H3K27ac)
 }
 }
 \usage{
-CnT_H3K27ac
+data("CnT_H3K27ac")
 }
 \description{
 Human H3K27ac peak file generated with CUT&Tag using K562 cell-line from Kaya-Okur et al., (2019).

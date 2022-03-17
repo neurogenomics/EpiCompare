@@ -17,7 +17,7 @@ usethis::use_data(CnR_H3K27ac_picard, overwrite = TRUE)
 }
 }
 \usage{
-CnR_H3K27ac_picard
+data("CnR_H3K27ac_picard")
 }
 \description{
 Duplication metrics output on CUT&Run H3K27ac file (sample accession: SRR8581604).

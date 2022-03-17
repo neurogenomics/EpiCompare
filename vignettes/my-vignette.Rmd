@@ -8,4 +8,13 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
+### Session Info
+
+<details> 
+
+```{r Session Info}
+utils::sessionInfo()
+```
+
+</details>  
 

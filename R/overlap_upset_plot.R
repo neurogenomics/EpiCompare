@@ -26,7 +26,7 @@ overlap_upset_plot <- function(peaklist){
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
   # change metadata column names so it doesn't interfere
-  for(i in 1:length(peaklist)){
+  for(i in seq_len(length(peaklist))){
     my_label <- make.unique(rep("name", ncol(peaklist[[i]]@elementMetadata)))
     colnames(peaklist[[i]]@elementMetadata) <- my_label
   }
@@ -37,7 +37,7 @@ overlap_upset_plot <- function(peaklist){
   merged_peakfile <- do.call(c, peaklist)
   # calculate overlap and create data frame
   overlap_df <- NULL
-  for(i in 1:length(peaklist)){
+  for(i in seq_len(length(peaklist))){
    overlap <- IRanges::findOverlaps(merged_peakfile, peaklist[[i]])
    sample_name <- rep(peaklist_names[i], length(overlap@to))
    df <- data.frame(peak=overlap@from, sample=sample_name)

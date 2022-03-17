@@ -18,7 +18,7 @@ usethis::use_data(CnR_H3K27ac, overwrite = TRUE)
 }
 }
 \usage{
-CnR_H3K27ac
+data("CnR_H3K27ac")
 }
 \description{
 Human H3K27ac peak file generated with CUT&Run using K562 cell-line from Meers et al., (2019).

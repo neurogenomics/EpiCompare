@@ -26,7 +26,7 @@ usethis::use_data(chromHMM_annotation_K562, overwrite = TRUE)
 }
 }
 \usage{
-chromHMM_annotation_K562
+data("chromHMM_annotation_K562")
 }
 \description{
 ChromHMM annotation for human K562 cell-line.

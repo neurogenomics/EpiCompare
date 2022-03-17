@@ -16,7 +16,7 @@ usethis::use_data(hg19_blacklist, overwrite = TRUE)
 }
 }
 \usage{
-hg19_blacklist
+data("hg19_blacklist")
 }
 \description{
 Obtained from \url{https://www.encodeproject.org/files/ENCFF000KJP/}.

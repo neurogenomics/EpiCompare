@@ -28,7 +28,7 @@ width_boxplot <- function(peaklist){
   peaklist <- check_list_names(peaklist)
   # for each peakfile retrieve widths and combine in data frame
   df <- NULL
-  for (i in 1:length(peaklist)){
+  for (i in seq_len(length(peaklist))){
     sample <- names(peaklist)[i]
     width <- GenomicRanges::width(peaklist[[i]])
     width_df <- data.frame(sample, width)

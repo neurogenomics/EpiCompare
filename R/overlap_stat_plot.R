@@ -51,7 +51,7 @@ overlap_stat_plot <- function(reference, peaklist){
      ncol(reference[[1]]@elementMetadata) == 6){
     main_df <- NULL
     # for each peakfile, obtain overlapping and unique peaks
-    for (i in 1:length(peaklist)){
+    for (i in seq_len(length(peaklist))){
       # reference peaks found in sample peaks
       overlap <- IRanges::subsetByOverlaps(x = reference[[1]],
                                            ranges = peaklist[[i]])
@@ -118,7 +118,7 @@ overlap_stat_plot <- function(reference, peaklist){
       overlap_result$tSample <- names(peaklist) # set names with sample names
       percent_overlap <- c()
       # for each peakfile, calculate percentage overlap
-      for (i in 1:nrow(overlap_result)){
+      for (i in seq_len(nrow(overlap_result))){
         percent <- overlap_result[i,5]/overlap_result[i,3]*100
         percent_overlap <- c(percent_overlap, percent)
       }

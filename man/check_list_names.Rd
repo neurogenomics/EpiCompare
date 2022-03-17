@@ -9,8 +9,11 @@ check_list_names(peaklist)
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.}
 }
+\value{
+named peaklist
+}
 \description{
-This function checks whether the peaklist is named.
-If not, default file names are assigned.
+This function checks whether the peaklist is named. If not, default file
+names are assigned.
 }
 \keyword{internal}
