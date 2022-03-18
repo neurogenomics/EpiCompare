@@ -140,7 +140,7 @@ By default, these plots will not be included in the report unless set `TRUE`.
 
 # Example 
 
-[Example report](https://neurogenomics.github.io/EpiCompare/)
+[Example report](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare.html)
 
 # Session Info
 

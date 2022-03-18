@@ -2,7 +2,7 @@
 ================
 Sera Choi
 <h5>
-<i>Updated</i>: Mar-17-2022
+<i>Updated</i>: Mar-18-2022
 </h5>
 
 <!-- badges: start -->
@@ -183,7 +183,8 @@ By default, these plots will not be included in the report unless set
 
 # Example
 
-[Example report](https://neurogenomics.github.io/EpiCompare/)
+[Example
+report](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare.html)
 
 # Session Info
 
