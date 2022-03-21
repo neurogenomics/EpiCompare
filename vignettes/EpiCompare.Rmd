@@ -1,0 +1,285 @@
+---
+title: "`EpiCompare`: Getting started"
+author: "<h5><i>Authors</i>: Sera Choi</h5>"
+date: "<h5><i>Updated</i>: `r format(Sys.Date(), '%b-%d-%Y')`</h5>"
+csl: nature.csl
+output:
+  BiocStyle::html_document:
+vignette: >
+    %\VignetteIndexEntry{MungeSumstats} 
+    %\usepackage[utf8]{inputenc}
+    %\VignetteEngine{knitr::rmarkdown} 
+---
+
+# Overview
+
+The *EpiCompare* package is designed to facilitate the comparison of epigenetic 
+datasets for quality control and benchmarking purposes. The package combines 
+several downstream analysis tools for epigenetic data and generates a single 
+report that collates all results of the analysis. This allows users to conduct 
+downstream analysis of multiple epigenetic datasets simultaneously and compare
+the results in a simple and efficient way. 
+
+## Introduction
+
+For many years, ChIP-seq has been the standard method for epigenomic profiling,
+but it suffers from a host of limitations. Recently, many other epigenetic 
+technologies (e.g. CUT&Run, CUT&Tag and TIP-seq etc.), designed to overcome 
+these constraints, have been developed. Therefore, to better understand the 
+performance of these novel approaches, it is important that we systematically 
+compare these technologies and benchmark against a “gold-standard”.
+
+There are many tools in R (e.g. *ChIPseeker*) that can be used to conduct 
+downstream analysis and comparison of epigenetic datasets. However, these are 
+often scattered across different packages and difficult to use for researchers
+with none or little computational experience. 
+
+*EpiCompare* is designed to provide a simple and comprehensive way of analysing
+and comparing epigenetic datasets. It combines many useful downstream analysis
+tools, which can easily be controlled by users and it collates the results in a
+single report. This allows researchers to systematically compare different
+epigenetic technologies.
+
+While the main functionality of *EpiCompare* is to contrast epigenetic
+technologies, it can also be used to compare datasets generated using different
+experimental conditions and data analysis workflows of one technology. This
+allows researchers to establish a consensus regarding the optimal use of the 
+method. 
+
+Currently, *EpiCompare* only works for human genome as it uses human-based 
+hg19 genome references. 
+
+# Data 
+
+The *EpiCompare* package contains a small subset of histone mark H3K27ac profile
+data obtained/generated from: 
+
+* ENCODE (data accession: ENCFF044JNJ)
+* CUT&Tag from Kaya-Okur et al., (2019). (PMID: 31036827)
+* CUT&Run from Meers et al., (2019). (PMID: 31232687)
+
+It also contains human genome hg19 blacklisted regions obtained from ENCODE. 
+The ENCODE blacklist includes regions of the genome that have anomalous and/or
+unstructured signals independent of the cell-line or experiment. Removal of 
+ENCODE blacklist is recommended for quality measure.
+
+These dataset will be used to showcase *EpiCompare* functionality
+
+# Running *EpiCompare*
+
+In this example analysis, we will compare CUT&Run and CUT&Tag of histone mark
+H3K27ac against ENCODE ChIP-seq. 
+
+## Install package and example datasets
+
+To install the package, run the following: 
+
+```R
+if(!require("remotes")) install.packages("remotes")
+remotes::install_github("neurogenomics/EpiCompare")
+```
+
+Once installed, load the package: 
+
+```{r setup}
+library(EpiCompare)
+```
+
+Load example datasets used in this analysis:
+
+```{r}
+data("encode_H3K27ac") # ENCODE ChIP-seq
+data("CnT_H3K27ac") # CUT&Tag
+data("CnR_H3K27ac") # CUT&Run
+data("hg19_blacklist") # hg19 genome blacklist 
+data("CnT_H3K27ac_picard") # CUT&Tag Picard summary output
+data("CnR_H3K27ac_picard") # CUT&Run Picard summary output
+```
+
+## Prepare input data
+
+### Peaklist
+
+*EpiCompare* accepts datasets both as `GRanges` object and as paths to BED 
+files. Peakfiles (`GRanges` or paths) that you would like to analyse must be
+listed and named (see below). 
+
+```R
+# To import BED files as GRanges object
+peak_GRanges <-ChIPseeker::readPeakFile("/path/to/peak/file.bed",as = "GRanges")
+# EpiCompare also accepts paths (to BED files) as input 
+peak_path <- "/path/to/BED/file1.bed"
+# Create named peak list
+peaklist <- list(peak_GRanges, peak_path)
+names(peaklist) <- c("sample1", "sample2")
+```
+
+In this example, we will use built-in data, which have been converted into 
+`GRanges` object previously (`CnT_H3K27ac` and `CnR_H3K27ac`). 
+
+```{r}
+peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create list of peakfiles 
+names(peaklist) <- c("CnT", "CnR") # set names 
+```
+
+### Picard summary files
+
+Note that this is *OPTIONAL*. If you want the report to include metrics on
+DNA fragments (e.g. mapped fragments and duplication rate), please input summary
+files from Picard. 
+
+[Picard](https://broadinstitute.github.io/picard/) can be used to mark duplicate
+reads. This outputs a metrics file with ending `.MarkDuplicates.metrics.txt`. To
+import this text file into R as data frame, use:
+
+```R
+picard <- read.table("/path/to/Picard/summary.txt", header = TRUE, fill = TRUE)
+```
+
+In this example. we will use built-in data, which have been converted into data
+frame previously (`CnT_H3K27ac_picard` and `CnR_H3K27ac_picard`). The files
+must be listed and named: 
+
+```{r}
+# create list of Picard summary
+picard <- list(CnT_H3K27ac_picard, CnR_H3K27ac_picard) 
+names(picard) <- c("CnT", "CnR") # set names 
+```
+
+### Reference file
+
+This is OPTIONAL. If reference peak file is provided, `stat_plot` and 
+`chrmHMM_plot` of overlapping peaks are included in the report (see 
+*Optional plots* section below).
+
+Reference file must be listed and named. In this example, we will use built-in 
+data (`encode_H3K27ac`), which has been converted to `GRanges` previously:
+
+```{r}
+reference_peak <- list("ENCODE_H3K27ac" = encode_H3K27ac)
+```
+
+## Run EpiCompare
+
+Running EpiCompare is done using the function, `EpiCompare()` . Users can choose
+which analyses to run and include in the report by setting parameters to `TRUE` 
+or `FALSE`.
+
+```R
+EpiCompare(peakfiles = peaklist,
+           blacklist = hg19_blacklist,
+           picard_files = picard,
+           reference = reference_peak,
+           upset_plot = TRUE,
+           stat_plot = TRUE,
+           chrmHMM_plot = TRUE,
+           chrmHMM_annotation = "K562",
+           chipseeker_plot = TRUE,
+           enrichment_plot = TRUE,
+           tss_plot = TRUE,
+           interact = TRUE,
+           save_output = TRUE,
+           output_filename = "EpiCompare",
+           output_timestamp = FALSE,
+           output_dir = "/path/to/output")
+```
+
+*EpiCompare* result of this example analysis can be found
+[here](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare.html)
+
+### Optional plots
+
+By default, these plots will not be included in the report unless set `TRUE`.
+
+* `upset_plot` : Upset plot showing the number of overlapping peaks between
+samples. *EpiCompare* uses `UpSetR` package.  
+* `stat_plot` : A `reference` peakfile must be included for this plot. The plot
+displays distribution of statistical significance (q-values) of sample peaks
+that are overlapping/non-overlapping with the `reference` dataset. 
+* `chrmHMM_plot` : [ChromHMM](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning,and%20spatial%20patterns%20of%20marks.)
+annotation of peaks. If `reference` is provided, ChromHMM annotation of 
+overlapping and non-overlapping peaks with the `reference` is also included in 
+the report. 
+* `chipseeker_plot` : `ChIPseeker` functional annotation of peaks.
+* `enrichment_plot` : KEGG pathway and GO enrichment analysis of peaks.
+* `tss_plot` : Peak frequency around (+/- 3000bp) transcriptional start site.
+Note that it may take awhile to generate this plot for large sample sizes.
+
+### Other options 
+
+* `chrmHMM_annotation` : Cell-line annotation for ChromHMM. Default is K562. 
+Options are: 
+  + "K562" = K-562 cells
+  + "Gm12878" = Cellosaurus cell-line GM12878
+  + "H1hesc" = H1 Human Embryonic Stem Cell
+  + "Hepg2" = Hep G2 cell
+  + "Hmec" = Human Mammary Epithelial Cell
+  + "Hsmm" = Human Skeletal Muscle Myoblasts
+  + "Huvec" = Human Umbilical Vein Endothelial Cells
+  + "Nhek" = Normal Human Epidermal Keratinocytes
+  + "Nhlf" = Normal Human Lung Fibroblasts
+* `interact` : By default, all heatmaps (percentage overlap and 
+ChromHMM heatmaps) in the report will be interactive. If set FALSE, all heatmaps
+will be static. N.B. If `interact=TRUE`, interactive heatmaps will be saved as 
+html files, which may take time for larger sample sizes.
+* `output_filename` : By default, the report is named EpiCompare.html. You can 
+specify the filename of the report here. 
+* `output_timestamp` : By default FALSE. If TRUE, the filename of the report 
+includes the date. 
+
+## Output
+
+*EpiCompare* outputs
+
+* An HTML report consisting of three sections:
+  + 1. **General Metrics**: Metrics on peaks (percentage of blacklisted and 
+  non-standard peaks, and peak widths) and fragments (duplication rate) of 
+  samples.
+  + 2. **Peak Overlap**: Percetnage and statistical significance of overlapping
+  and non-overlapping peaks. Also includes upset plot.
+  + 3. **Functional Annotation**: Functional annotation (ChromHMM, ChIPseeker 
+  and enrichment analysis) of peaks. Also includes peak enrichment around TSS.
+* `EpiCompare_file` containing all plots generated by EpiCompare if 
+`save_output = TRUE`. 
+
+Both outputs are saved in the specified `output_dir`. 
+
+# Example report 
+
+*EpiCompare* report for this example analysis can be found at 
+[here](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare.html)
+
+
+# Future Enhancements 
+
+In the current version, EpiCompare only recognizes certain BED formats. We hope
+to improve this. Moreover, if there are other downstream analysis tools that may
+be suitable in EpiCompare, feel free to report this through 
+[Github](https://github.com/neurogenomics/EpiCompare).  
+
+# Session Information
+
+<details>
+
+```{r Session Info}
+utils::sessionInfo()
+```
+
+</details>
+
+# Contact
+ 
+### [Neurogenomics Lab](https://www.neurogenomics.co.uk/inst/report/EpiCompare.html)
+
+UK Dementia Research Institute  
+Department of Brain Sciences  
+Faculty of Medicine  
+Imperial College London   
+[GitHub](https://github.com/neurogenomics)  
+[DockerHub](https://hub.docker.com/orgs/neurogenomicslab)  
+
+<br>
+
+
+
+
