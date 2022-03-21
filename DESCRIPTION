@@ -45,6 +45,7 @@ Suggests:
     testthat (>= 3.0.0),
     badger,
     knitr,
-    htmlwidgets
+    htmlwidgets,
+    BiocStyle
 Config/testthat/edition: 3
 VignetteBuilder: knitr
