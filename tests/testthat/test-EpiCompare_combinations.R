@@ -18,6 +18,7 @@ picard_list <- list("CnT"=CnT_H3K27ac_picard, "CnR"=CnR_H3K27ac_picard)
 
 test_that("All options TRUE (interact=T), correct outputs generated",{
   EpiCompare::EpiCompare(peakfiles = peaklist,
+                         genome_build = "hg19",
                          blacklist = hg19_blacklist,
                          picard_files = picard_list,
                          reference = reference,
@@ -57,6 +58,7 @@ if(!dir.exists(outpath)){
 
 test_that("All options TRUE (interact=F), correct outputs generated",{
   EpiCompare::EpiCompare(peakfiles = peaklist,
+                         genome_build = "hg19",
                          blacklist = hg19_blacklist,
                          picard_files = picard_list,
                          reference = reference,
@@ -88,6 +90,7 @@ if(!dir.exists(outpath)){
 
 test_that("All options TRUE (reference=NULL,interact=F), correct outputs generated",{
   EpiCompare::EpiCompare(peakfiles = peaklist,
+                         genome_build = "hg19",
                          blacklist = hg19_blacklist,
                          picard_files = picard_list,
                          reference = NULL,

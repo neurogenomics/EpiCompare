@@ -2,12 +2,12 @@
 ================
 Sera Choi
 <h5>
-<i>Updated</i>: Mar-18-2022
+<i>Updated</i>: Mar-25-2022
 </h5>
 
 <!-- badges: start -->
 
-[![](https://img.shields.io/badge/devel%20version-0.99.0-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-0.99.1-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://codecov.io/gh/neurogenomics/EpiCompare)
@@ -31,8 +31,9 @@ report in HTML format consisting of three sections:
     around TSS.
 
 N.B. All functional analyses performed by EpiCompare uses annotations
-for human genome hg19. <br> N.B. Peaks in blacklisted regions and
-non-standard chromosomes are removed from peak files before any analysis
+for human genome hg19 or hg38. <br> N.B. Peaks in blacklisted regions
+and non-standard chromosomes are removed from peak files before any
+analysis
 
 # Installation
 
@@ -52,7 +53,7 @@ library(EpiCompare)
 data("encode_H3K27ac") # example peakfile
 data("CnT_H3K27ac") # example peakfile
 data("CnR_H3K27ac") # example peakfile
-data("hg19_blacklist") # example blacklist 
+data("hg19_blacklist") # hg19 blacklist 
 data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
 ```
@@ -83,6 +84,7 @@ Run EpiCompare:
 
 ``` r
 EpiCompare(peakfiles = peaklist,
+           genome_build = "hg19",
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
@@ -106,10 +108,13 @@ These input parameters must be provided:
     peakfiles as GRanges object and/or as paths to BED files. Files must
     be listed using `list()` and named using for example,
     `names(peaklist) <- c("sample1","sample2)`
+-   `genome_build` Human genome reference build used to generate
+    peakfiles. Options are “hg19” or “hg38”.
 -   `blacklist` : Peakfile as GRanges object specifying genomic regions
     that have anomalous and/or unstructured signals independent of the
-    cell-line or experiment. For human hg19 genome, use built-in data
-    `data(hg19_blacklist)` in the package.
+    cell-line or experiment. For human hg19 and hg38 genome, use
+    built-in data `data(hg19_blacklist)` and `data(hg38_blacklist)`
+    respectively.
 
 #### Optional Inputs
 
@@ -181,11 +186,6 @@ By default, these plots will not be included in the report unless set
 
 [EpiCompare Website](https://neurogenomics.github.io/EpiCompare)
 
-# Example
-
-[Example
-report](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare.html)
-
 # Session Info
 
 <details>
@@ -226,7 +226,7 @@ utils::sessionInfo()
     ## [43] rprojroot_2.0.2     cli_3.2.0           tools_4.1.2        
     ## [46] yulab.utils_0.0.4   magrittr_2.0.2      tibble_3.1.6       
     ## [49] crayon_1.5.0        pkgconfig_2.0.3     ellipsis_0.3.2     
-    ## [52] assertthat_0.2.1    rmarkdown_2.12      httr_1.4.2         
+    ## [52] assertthat_0.2.1    rmarkdown_2.13      httr_1.4.2         
     ## [55] rstudioapi_0.13     gitcreds_0.1.1      badger_0.1.0       
     ## [58] R6_2.5.1            compiler_4.1.2
 

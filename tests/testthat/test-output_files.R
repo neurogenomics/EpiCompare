@@ -13,6 +13,7 @@ peaklist <- list(CnT_H3K27ac, CnR_H3K27ac)
 
 test_that("outputs are saved in EpiCompare_file", {
   EpiCompare::EpiCompare(peakfiles = peaklist,
+                         genome_build = "hg19",
                          blacklist = hg19_blacklist,
                          save_output = TRUE,
                         output_dir = outpath )
@@ -24,6 +25,7 @@ test_that("outputs are saved in EpiCompare_file", {
 
 test_that("outputs are saved in EpiCompare_file", {
   EpiCompare::EpiCompare(peakfiles = peaklist,
+                         genome_build = "hg19",
                          blacklist = hg19_blacklist,
                          save_output = FALSE,
                          output_dir = outpath )
@@ -32,6 +34,7 @@ test_that("outputs are saved in EpiCompare_file", {
 
 test_that("output filename set by users",{
   EpiCompare::EpiCompare(peakfiles = peaklist,
+                         genome_build = "hg19",
                          blacklist = hg19_blacklist,
                          save_output = TRUE,
                          output_dir = outpath,

@@ -16,15 +16,21 @@ editor_options:
 
 # Introduction 
 
-`EpiCompare` is an R package for comparing different epigenetic datasets for quality control and benchmarking purposes. The function outputs a report in HTML format consisting of three sections:
+`EpiCompare` is an R package for comparing different epigenetic datasets for 
+quality control and benchmarking purposes. The function outputs a report in HTML
+format consisting of three sections:
 
-1. General Metrics: Metrics on peaks (percentage of blacklisted and non-standard peaks, and peak widths) 
-and fragments (duplication rate) of samples.
-2. Peak Overlap: Percetnage and statistical significance of overlapping and non-overlapping peaks. Also includes upset plot. 
-3. Functional Annotation: Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks. Also includes peak enrichment around TSS. 
+1. General Metrics: Metrics on peaks (percentage of blacklisted and non-standard
+peaks, and peak widths) and fragments (duplication rate) of samples.
+2. Peak Overlap: Percetnage and statistical significance of overlapping and 
+non-overlapping peaks. Also includes upset plot. 
+3. Functional Annotation: Functional annotation (ChromHMM, ChIPseeker and 
+enrichment analysis) of peaks. Also includes peak enrichment around TSS. 
 
-N.B. All functional analyses performed by EpiCompare uses annotations for human genome hg19. <br>
-N.B. Peaks in blacklisted regions and non-standard chromosomes are removed from peak files before any analysis
+N.B. All functional analyses performed by EpiCompare uses annotations for human 
+genome hg19 or hg38. <br>
+N.B. Peaks in blacklisted regions and non-standard chromosomes are removed 
+from peak files before any analysis
 
 # Installation 
 
@@ -44,7 +50,7 @@ library(EpiCompare)
 data("encode_H3K27ac") # example peakfile
 data("CnT_H3K27ac") # example peakfile
 data("CnR_H3K27ac") # example peakfile
-data("hg19_blacklist") # example blacklist 
+data("hg19_blacklist") # hg19 blacklist 
 data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
 ```
@@ -59,6 +65,7 @@ names(picard) <- c("CnT", "CnR") # set names
 ```
 
 Additional helps on preparing files: 
+
 ```R
 # To import BED files as GRanges object
 peak <-  ChIPseeker::readPeakFile("/path/to/peak/file.bed", as = "GRanges")
@@ -73,6 +80,7 @@ Run EpiCompare:
 
 ```R
 EpiCompare(peakfiles = peaklist,
+           genome_build = "hg19",
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
@@ -94,7 +102,8 @@ These input parameters must be provided:
 
 * `peakfiles` : Peakfiles you want to analyse. EpiCompare accepts peakfiles as GRanges object and/or as paths to BED files. 
 Files must be listed using `list()` and named using for example, `names(peaklist) <- c("sample1","sample2)`
-* `blacklist` : Peakfile as GRanges object specifying genomic regions that have anomalous and/or unstructured signals independent of the cell-line or experiment. For human hg19 genome, use built-in data `data(hg19_blacklist)` in the package.
+* `genome_build` Human genome reference build used to generate peakfiles. Options are "hg19" or "hg38".
+* `blacklist` : Peakfile as GRanges object specifying genomic regions that have anomalous and/or unstructured signals independent of the cell-line or experiment. For human hg19 and hg38 genome, use built-in data `data(hg19_blacklist)` and  `data(hg38_blacklist)` respectively. 
 
 #### Optional Inputs
 
@@ -137,10 +146,6 @@ By default, these plots will not be included in the report unless set `TRUE`.
 # Documentation
 
 [EpiCompare Website](https://neurogenomics.github.io/EpiCompare)
-
-# Example 
-
-[Example report](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare.html)
 
 # Session Info
 

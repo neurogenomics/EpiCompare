@@ -4,12 +4,14 @@
 \alias{plot_enrichment}
 \title{Generate enrichment analysis plots}
 \usage{
-plot_enrichment(peaklist)
+plot_enrichment(peaklist, annotation)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
+
+\item{annotation}{A TxDb annotation object from Bioconductor.}
 }
 \value{
 KEGG and GO dot plots
@@ -24,6 +26,10 @@ data("CnR_H3K27ac") # example dataset as GRanges object
 
 peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 names(peaks) <- c("CnT", "CnR") # set names
-#my_plot <- plot_enrichment(peaks)
+
+## not run
+# txdb<-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+# my_plot <- plot_enrichment(peaklist = peaks,
+#                            annotation = txdb)
 
 }

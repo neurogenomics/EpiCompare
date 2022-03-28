@@ -1,16 +1,15 @@
 #' Create ChIPseeker annotation plot
 #'
 #' This function annotates peaks using `annotatePeak` from `ChIPseeker` package.
-#' It uses annotation `TxDb.Hsapiens.UCSC.hg19.knownGene` provided by
-#' Bioconductor.It outputs functional annotation of each peak file in a barplot.
+#' It outputs functional annotation of each peak file in a barplot.
 #'
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
+#' @param annotation A TxDb annotation object from Bioconductor.
 #'
 #' @return barplot
 #'
-#' @importFrom TxDb.Hsapiens.UCSC.hg19.knownGene TxDb.Hsapiens.UCSC.hg19.knownGene
 #' @importFrom ChIPseeker annotatePeak plotAnnoBar
 #'
 #' @export
@@ -21,13 +20,16 @@
 #' peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 #' names(peaks) <- c("CnT", "CnR") # set names
 #'
-#' #my_plot <- plot_ChIPseeker_annotation(peaks)
+#' ## not run
+#' # txdb<-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+#' # my_plot <- plot_ChIPseeker_annotation(peaklist = peaks
+#' #                                       annotation = txdb)
 #'
-plot_ChIPseeker_annotation <- function(peaklist){
+plot_ChIPseeker_annotation <- function(peaklist, annotation){
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
-  # transcript-realted features of hg19 genomes
-  txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+  # TxDb annotation
+  txdb <- annotation
   # annotate features
   peak_annotated <- lapply(peaklist,
                            ChIPseeker::annotatePeak,

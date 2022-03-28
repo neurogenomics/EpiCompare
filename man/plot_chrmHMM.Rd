@@ -4,7 +4,7 @@
 \alias{plot_chrmHMM}
 \title{Plot ChromHMM heatmap}
 \usage{
-plot_chrmHMM(peaklist, chrmHMM_annotation, interact = TRUE)
+plot_chrmHMM(peaklist, chrmHMM_annotation, genome_build, interact = TRUE)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
@@ -12,6 +12,9 @@ Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
 
 \item{chrmHMM_annotation}{ChromHMM annotation list}
+
+\item{genome_build}{The human genome reference build used to generate
+peakfiles. "hg19" or "hg38".}
 
 \item{interact}{Default TRUE. By default, the heatmaps are interactive.
 If set FALSE, the function generates a static ChromHMM heatmap.}
@@ -33,6 +36,7 @@ peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 names(peaks) <- c("CnT", "CnR") # set names
 
 my_plot <- plot_chrmHMM(peaklist=peaks,
-                        chrmHMM_annotation=chromHMM_annotation_K562)
+                        chrmHMM_annotation=chromHMM_annotation_K562,
+                        genome_build = "hg19")
 
 }

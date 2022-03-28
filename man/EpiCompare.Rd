@@ -6,6 +6,7 @@
 \usage{
 EpiCompare(
   peakfiles,
+  genome_build,
   blacklist,
   picard_files = NULL,
   reference = NULL,
@@ -24,33 +25,43 @@ EpiCompare(
 )
 }
 \arguments{
-\item{peakfiles}{A list of peak files as GRanges object and/or as paths to BED files.
-If paths are provided, EpiCompare creates GRanges object.
-#' EpiCompare also accepts a list containing a mix of GRanges object and paths.
+\item{peakfiles}{A list of peak files as GRanges object and/or as paths to
+BED files. If paths are provided, EpiCompare creates GRanges object.
+EpiCompare also accepts a list containing a mix of GRanges object and paths.
 Files must be listed using `list()` and named using `names()`.
 If not named, default file names will be assigned.}
+
+\item{genome_build}{The human genome reference build used to generate
+peakfiles. "hg19" or "hg38".}
 
 \item{blacklist}{A GRanges object containing blacklisted regions.}
 
 \item{picard_files}{A list of summary metrics output from Picard.
-Files must be in data.frame format and listed using `list()` and named using `names()`.
-To import Picard duplication metrics (.txt file) into R as data frame,
-use `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.}
+Files must be in data.frame format and listed using `list()`
+and named using `names()`.
+To import Picard duplication metrics (.txt file) into R as data frame, use
+`picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.}
 
 \item{reference}{A reference peak file as GRanges object.
-If a reference is specified, it enables two analyses: (1) plot showing statistical significance of overlapping/non-overlapping peaks;
-and (2) ChromHMM of overlapping/non-overlapping peaks.
-Please make sure that the reference file is listed and named i.e. `list("reference_name" = reference_peak)`.}
+If a reference is specified, it enables two analyses: (1) plot showing
+statistical significance of overlapping/non-overlapping peaks; and
+(2) ChromHMM of overlapping/non-overlapping peaks.
+Please make sure that the reference file is listed and named
+i.e. `list("reference_name" = reference_peak)`.}
 
-\item{upset_plot}{Default FALSE. If TRUE, the report includes upset plot of overlapping peaks.}
+\item{upset_plot}{Default FALSE. If TRUE, the report includes upset plot of
+overlapping peaks.}
 
-\item{stat_plot}{Default FALSE. If TRUE, the function creates a plot showing the statistical significance of
-overlapping/non-overlapping peaks. Reference peak file must be provided.}
+\item{stat_plot}{Default FALSE. If TRUE, the function creates a plot showing
+the statistical significance of overlapping/non-overlapping peaks.
+Reference peak file must be provided.}
 
-\item{chrmHMM_plot}{Default FALSE. If TRUE, the function outputs ChromHMM heatmap of individual peak files.
-If a reference peak file is provided, ChromHMM annotation of overlapping and non-overlapping peaks is also provided.}
+\item{chrmHMM_plot}{Default FALSE. If TRUE, the function outputs ChromHMM
+heatmap of individual peak files. If a reference peak file is provided,
+ChromHMM annotation of overlapping and non-overlapping peaks is also provided.}
 
-\item{chrmHMM_annotation}{ChromHMM annotation for ChromHMM plots. Default K562 cell-line. Cell-line options are:
+\item{chrmHMM_annotation}{ChromHMM annotation for ChromHMM plots.
+Default K562 cell-line. Cell-line options are:
 \itemize{
   \item "K562" = K-562 cells
   \item "Gm12878" = Cellosaurus cell-line GM12878
@@ -63,20 +74,26 @@ If a reference peak file is provided, ChromHMM annotation of overlapping and non
   \item "Nhlf" = Normal Human Lung Fibroblasts
 }}
 
-\item{chipseeker_plot}{Default FALSE. If TRUE, the report includes a barplot of ChIPseeker annotation of peak files.}
+\item{chipseeker_plot}{Default FALSE. If TRUE, the report includes a barplot
+of ChIPseeker annotation of peak files.}
 
-\item{enrichment_plot}{Default FALSE. If TRUE, the report includes dotplots of KEGG and GO enrichment analysis of peak files.}
+\item{enrichment_plot}{Default FALSE. If TRUE, the report includes dotplots
+of KEGG and GO enrichment analysis of peak files.}
 
-\item{tss_plot}{Default FALSE. If TRUE, the report includes peak count frequency around transcriptional start site.
-Note that this can take awhile.}
+\item{tss_plot}{Default FALSE. If TRUE, the report includes peak count
+frequency around transcriptional start site. Note that this can take awhile.}
 
-\item{interact}{Default TRUE. By default, all heatmaps are interactive. If set FALSE, all heatmaps in the report will be static.}
+\item{interact}{Default TRUE. By default, all heatmaps are interactive.
+If set FALSE, all heatmaps in the report will be static.}
 
-\item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of the analysis will be saved in a folder (EpiCompare_file).}
+\item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of
+the analysis will be saved in a folder (EpiCompare_file).}
 
-\item{output_filename}{Default EpiCompare.html. If otherwise, the html report will be saved in the specified name.}
+\item{output_filename}{Default EpiCompare.html. If otherwise, the html report
+will be saved in the specified name.}
 
-\item{output_timestamp}{Default FALSE. If TRUE, date will be included in the file name.}
+\item{output_timestamp}{Default FALSE. If TRUE, date will be included in the
+file name.}
 
 \item{output_dir}{Path to where output HTML file should be saved.}
 }
@@ -84,15 +101,17 @@ Note that this can take awhile.}
 An HTML report
 }
 \description{
-This function compares different epigenetic datasets and performs various functional analyses.
-The function outputs an HTML report containing results from the analysis.
-The report is mainly divided into three areas: (1) Peakfile information, (2) Overlapping peaks and (3) Functional annotations.
+This function compares epigenetic datasets and performs various
+functional analyses.The function outputs an HTML report containing results
+from the analysis. The report is mainly divided into three areas: (1)
+Peakfile information, (2) Overlapping peaks and (3) Functional annotations.
 }
 \examples{
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object
-data("hg19_blacklist") # example blacklist dataset as GRanges object
+data("hg19_blacklist") # hg19 blacklist dataset
+data("hg38_blacklist") # hg38 blacklist dataset
 data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
 
@@ -104,6 +123,7 @@ names(picard) <- c("CnR", "CnT") # set names
 reference_peak <- list("ENCODE" = encode_H3K27ac) # reference peak file
 
 EpiCompare(peakfiles = peaks,
+           genome_build = "hg19",
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,

@@ -8,6 +8,8 @@
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
 #' @param chrmHMM_annotation ChromHMM annotation list
+#' @param genome_build The human genome reference build used to generate
+#' peakfiles. "hg19" or "hg38".
 #' @param interact Default TRUE. By default, the heatmaps are interactive.
 #' If set FALSE, the function generates a static ChromHMM heatmap.
 #'
@@ -18,6 +20,8 @@
 #' @importFrom reshape2 melt
 #' @importFrom plotly plot_ly
 #' @import ggplot2
+#' @importFrom rtracklayer import.chain liftOver
+#' @importFrom R.utils gunzip
 #'
 #' @export
 #' @examples
@@ -29,10 +33,12 @@
 #' names(peaks) <- c("CnT", "CnR") # set names
 #'
 #' my_plot <- plot_chrmHMM(peaklist=peaks,
-#'                         chrmHMM_annotation=chromHMM_annotation_K562)
+#'                         chrmHMM_annotation=chromHMM_annotation_K562,
+#'                         genome_build = "hg19")
 #'
-plot_chrmHMM <- function(peaklist, chrmHMM_annotation, interact = TRUE){
+plot_chrmHMM <- function(peaklist, chrmHMM_annotation, genome_build, interact = TRUE){
   # define variables
+  chain <- NULL
   State <- NULL
   Sample <- NULL
   value <- NULL
@@ -46,6 +52,32 @@ plot_chrmHMM <- function(peaklist, chrmHMM_annotation, interact = TRUE){
     }else{
       i <- i + 1
     }
+  }
+  if(genome_build=="hg38"){
+    # obtain chain
+    chain_path_gz <- system.file("extdata",
+                                 "hg38ToHg19.over.chain.gz",
+                                 package = "EpiCompare")
+    chain_path <- R.utils::gunzip(chain_path_gz, temporary=TRUE, remove=FALSE,
+                                  overwrite=TRUE)
+    chain <- rtracklayer::import.chain(paste0(tempdir(),"/hg38ToHg19.over.chain"))
+    peaklist_hg38Tohg19 <- list()
+    for(peak in peaklist){
+      # reset names of metadata
+      n <- 4
+      my_label <- NULL
+      for (l in seq_len(ncol(peak@elementMetadata))){
+        label <- paste0("V",n)
+        my_label <- c(my_label, label)
+        n <- n + 1
+      }
+      colnames(GenomicRanges::mcols(peak)) <- my_label
+      peak_hg19 <- rtracklayer::liftOver(peak, chain)
+      peak_hg19 <- unlist(peak_hg19)
+      peaklist_hg38Tohg19 <- c(peaklist_hg38Tohg19, peak_hg19)
+    }
+    names(peaklist_hg38Tohg19) <- names(peaklist)
+    peaklist <- peaklist_hg38Tohg19
   }
   # create GRangeList from GRanges objects
   grange_list <- GenomicRanges::GRangesList(peaklist, compress = FALSE)
@@ -68,7 +100,7 @@ plot_chrmHMM <- function(peaklist, chrmHMM_annotation, interact = TRUE){
       ggplot2::geom_tile(ggplot2::aes(x = State, y = Sample, fill = value)) +
       ggplot2::ylab("") +
       ggplot2::xlab("") +
-      viridis::scale_fill_viridis() +
+      ggplot2::scale_fill_viridis_b() +
       ggplot2::theme_minimal() +
       ggpubr::rotate_x_text(angle = 45) +
       ggplot2::theme(axis.text = ggplot2::element_text(size = 11))

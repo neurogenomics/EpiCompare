@@ -4,15 +4,17 @@
 \alias{tss_plot}
 \title{Read count frequency around TSS}
 \usage{
-tss_plot(peaklist)
+tss_plot(peaklist, annotation)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
+
+\item{annotation}{A TxDb annotation object from Bioconductor.}
 }
 \value{
-profile plot
+profile plot in a list.
 }
 \description{
 This function generates a plot of read count frequency around TSS.
@@ -22,6 +24,12 @@ data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object
 peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 names(peaks) <- c("CnT", "CnR") # set names
-#my_plot <- tss_plot(peaks)
+
+## not run
+# txdb<-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+# my_plot <- tss_plot(peaklist = peaks,
+#                     annotation = txdb)
+## first plot
+# my_plot[1]
 
 }

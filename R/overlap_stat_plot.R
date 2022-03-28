@@ -21,6 +21,7 @@
 #' @importFrom GenomicRanges mcols
 #' @importFrom stats quantile
 #' @importFrom TxDb.Hsapiens.UCSC.hg19.knownGene TxDb.Hsapiens.UCSC.hg19.knownGene
+#' @importFrom TxDb.Hsapiens.UCSC.hg38.knownGene TxDb.Hsapiens.UCSC.hg38.knownGene
 #' @importFrom ChIPseeker enrichPeakOverlap
 #' @import ggplot2
 #'
@@ -55,12 +56,28 @@ overlap_stat_plot <- function(reference, peaklist){
       # reference peaks found in sample peaks
       overlap <- IRanges::subsetByOverlaps(x = reference[[1]],
                                            ranges = peaklist[[i]])
-      colnames(GenomicRanges::mcols(overlap)) <- c("V4","V5","V6","V7",
-                                                   "V8","V9","V10")
+      # reset names of metadata
+      n <- 4
+      my_label <- NULL
+      for (l in seq_len(ncol(overlap@elementMetadata))){
+        label <- paste0("V",n)
+        my_label <- c(my_label, label)
+        n <- n + 1
+      }
+      colnames(GenomicRanges::mcols(overlap)) <- my_label
+
+      # reference peaks not found in sample peaks
       unique <- IRanges::subsetByOverlaps(x = reference[[1]],
                                           ranges = peaklist[[i]], invert = TRUE)
-      colnames(GenomicRanges::mcols(unique)) <- c("V4","V5","V6","V7",
-                                                  "V8","V9","V10")
+      # reset names of metadata
+      n <- 4
+      my_label <- NULL
+      for (l in seq_len(ncol(unique@elementMetadata))){
+        label <- paste0("V",n)
+        my_label <- c(my_label, label)
+        n <- n + 1
+      }
+      colnames(GenomicRanges::mcols(unique)) <- my_label
       # if no overlap, set q-value as 0 to avoid error
       # else, obtain q-value from field V9
       overlap_qvalue <- overlap$V9

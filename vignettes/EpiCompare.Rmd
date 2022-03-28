@@ -25,9 +25,9 @@ the results in a simple and efficient way.
 For many years, ChIP-seq has been the standard method for epigenomic profiling,
 but it suffers from a host of limitations. Recently, many other epigenetic 
 technologies (e.g. CUT&Run, CUT&Tag and TIP-seq etc.), designed to overcome 
-these constraints, have been developed. Therefore, to better understand the 
-performance of these novel approaches, it is important that we systematically 
-compare these technologies and benchmark against a “gold-standard”.
+these constraints, have been developed. To better understand the performance of 
+these novel approaches, it is important that we systematically compare these 
+technologies and benchmark against a “gold-standard”.
 
 There are many tools in R (e.g. *ChIPseeker*) that can be used to conduct 
 downstream analysis and comparison of epigenetic datasets. However, these are 
@@ -43,11 +43,11 @@ epigenetic technologies.
 While the main functionality of *EpiCompare* is to contrast epigenetic
 technologies, it can also be used to compare datasets generated using different
 experimental conditions and data analysis workflows of one technology. This
-allows researchers to establish a consensus regarding the optimal use of the 
+can help researchers to establish a consensus regarding the optimal use of the 
 method. 
 
 Currently, *EpiCompare* only works for human genome as it uses human-based 
-hg19 genome references. 
+hg19 and/or hg38 genome references. 
 
 # Data 
 
@@ -58,10 +58,10 @@ data obtained/generated from:
 * CUT&Tag from Kaya-Okur et al., (2019). (PMID: 31036827)
 * CUT&Run from Meers et al., (2019). (PMID: 31232687)
 
-It also contains human genome hg19 blacklisted regions obtained from ENCODE. 
-The ENCODE blacklist includes regions of the genome that have anomalous and/or
-unstructured signals independent of the cell-line or experiment. Removal of 
-ENCODE blacklist is recommended for quality measure.
+It also contains human genome hg19 and hg38 blacklisted regions obtained from 
+ENCODE. The ENCODE blacklist includes regions of the genome that have anomalous 
+and/or unstructured signals independent of the cell-line or experiment. Removal 
+of ENCODE blacklist is recommended for quality measure.
 
 These dataset will be used to showcase *EpiCompare* functionality
 
@@ -122,6 +122,21 @@ peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create list of peakfiles
 names(peaklist) <- c("CnT", "CnR") # set names 
 ```
 
+### Blacklist 
+
+ENCODE blacklist contains regions of the genome that have anomalous 
+and/or unstructured signals independent of the cell-line or experiment. Removal 
+of these regions from peakfiles is recommended for quality measure.
+
+*EpiCompare* contains two blacklist files, hg19 and hg38, downloaded from
+[here](https://github.com/Boyle-Lab/Blacklist).
+
+In this example analysis, since all peakfiles (`encode_H3K27ac`, `CnT_H3K27ac`,
+`CnR_H3K27ac`)  were generated using human genome reference build hg19, 
+`hg19_blacklist` will be used. For hg38, use `data(hg38_blacklist)`.
+
+Please ensure that you specify the correct blacklist. 
+
 ### Picard summary files
 
 Note that this is *OPTIONAL*. If you want the report to include metrics on
@@ -167,6 +182,7 @@ or `FALSE`.
 
 ```R
 EpiCompare(peakfiles = peaklist,
+           genome_build = "hg19",
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
@@ -183,9 +199,6 @@ EpiCompare(peakfiles = peaklist,
            output_timestamp = FALSE,
            output_dir = "/path/to/output")
 ```
-
-*EpiCompare* result of this example analysis can be found
-[here](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare.html)
 
 ### Optional plots
 
@@ -243,12 +256,6 @@ includes the date.
 `save_output = TRUE`. 
 
 Both outputs are saved in the specified `output_dir`. 
-
-# Example report 
-
-*EpiCompare* report for this example analysis can be found at 
-[here](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare.html)
-
 
 # Future Enhancements 
 
