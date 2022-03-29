@@ -46,6 +46,12 @@
     <loc>/reference/fragment_info.html</loc>
   </url>
   <url>
+    <loc>/reference/gather_files.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gather_files_names.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_chrHMM_annotation.html</loc>
   </url>
   <url>
@@ -58,7 +64,13 @@
     <loc>/reference/hg38_blacklist.html</loc>
   </url>
   <url>
+    <loc>/reference/import_narrowPeak.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/message_parallel.html</loc>
   </url>
   <url>
     <loc>/reference/overlap_heatmap.html</loc>
@@ -98,5 +110,8 @@
   </url>
   <url>
     <loc>/reference/width_boxplot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/write_example_peaks.html</loc>
   </url>
 </urlset>
