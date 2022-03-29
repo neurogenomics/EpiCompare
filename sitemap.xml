@@ -52,6 +52,12 @@
     <loc>/reference/hg19_blacklist.html</loc>
   </url>
   <url>
+    <loc>/reference/hg38ToHg19.html</loc>
+  </url>
+  <url>
+    <loc>/reference/hg38_blacklist.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>

@@ -19,7 +19,7 @@ annotation file must be loaded prior to using this function."><!-- mathjax --><s
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.2</span>
       </span>
     </div>
 
@@ -60,7 +60,7 @@ annotation file must be loaded prior to using this function.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_chrmHMM</span><span class="op">(</span><span class="va">peaklist</span>, <span class="va">chrmHMM_annotation</span>, interact <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_chrmHMM</span><span class="op">(</span><span class="va">peaklist</span>, <span class="va">chrmHMM_annotation</span>, <span class="va">genome_build</span>, interact <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -71,6 +71,9 @@ Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.</p></dd>
 <dt>chrmHMM_annotation</dt>
 <dd><p>ChromHMM annotation list</p></dd>
+<dt>genome_build</dt>
+<dd><p>The human genome reference build used to generate
+peakfiles. "hg19" or "hg38".</p></dd>
 <dt>interact</dt>
 <dd><p>Default TRUE. By default, the heatmaps are interactive.
 If set FALSE, the function generates a static ChromHMM heatmap.</p></dd>
@@ -90,7 +93,8 @@ If set FALSE, the function generates a static ChromHMM heatmap.</p></dd>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">peaks</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CnT"</span>, <span class="st">"CnR"</span><span class="op">)</span> <span class="co"># set names</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">my_plot</span> <span class="op">&lt;-</span> <span class="fu">plot_chrmHMM</span><span class="op">(</span>peaklist<span class="op">=</span><span class="va">peaks</span>,</span>
-<span class="r-in">                        chrmHMM_annotation<span class="op">=</span><span class="va">chromHMM_annotation_K562</span><span class="op">)</span></span>
+<span class="r-in">                        chrmHMM_annotation<span class="op">=</span><span class="va">chromHMM_annotation_K562</span>,</span>
+<span class="r-in">                        genome_build <span class="op">=</span> <span class="st">"hg19"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnT</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: CnR</span>
 <span class="r-in"></span>

@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.2</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@ Datasets<a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmark
 </h1></div>
 Sera Choi
 <h5 id="epicompare-qc-and-benchmarking-of-epigenetic-datasets-1">
-<i>Updated</i>: Mar-21-2022
+<i>Updated</i>: Mar-29-2022
 <a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets-1"></a>
 </h5>
 <!-- badges: start -->
@@ -100,8 +100,8 @@ and enrichment analysis) of peaks. Also includes peak enrichment around
 TSS.</li>
 </ol>
 <p>N.B. All functional analyses performed by EpiCompare uses annotations
-for human genome hg19. <br> N.B. Peaks in blacklisted regions and
-non-standard chromosomes are removed from peak files before any
+for human genome hg19 or hg38. <br> N.B. Peaks in blacklisted regions
+and non-standard chromosomes are removed from peak files before any
 analysis</p>
 </div>
 <div class="section level1">
@@ -121,7 +121,7 @@ analysis</p>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># example blacklist </span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># hg19 blacklist </span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></code></pre></div>
 <p>Prepare input files:</p>
@@ -143,6 +143,7 @@ analysis</p>
 <p>Run EpiCompare:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/EpiCompare.html">EpiCompare</a></span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peaklist</span>,
+           genome_build <span class="op">=</span> <span class="st">"hg19"</span>,
            blacklist <span class="op">=</span> <span class="va">hg19_blacklist</span>,
            picard_files <span class="op">=</span> <span class="va">picard</span>,
            reference <span class="op">=</span> <span class="va">reference_peak</span>,
@@ -168,10 +169,14 @@ must be listed using <code><a href="https://rdrr.io/r/base/list.html" class="ext
 <code>names(peaklist) &lt;- c("sample1","sample2)</code>
 </li>
 <li>
+<code>genome_build</code> Human genome reference build used to
+generate peakfiles. Options are “hg19” or “hg38”.</li>
+<li>
 <code>blacklist</code> : Peakfile as GRanges object specifying
 genomic regions that have anomalous and/or unstructured signals
-independent of the cell-line or experiment. For human hg19 genome, use
-built-in data <code>data(hg19_blacklist)</code> in the package.</li>
+independent of the cell-line or experiment. For human hg19 and hg38
+genome, use built-in data <code>data(hg19_blacklist)</code> and
+<code>data(hg38_blacklist)</code> respectively.</li>
 </ul>
 </div>
 <div class="section level4">
@@ -279,12 +284,6 @@ in specified <code>output_dir</code>
 Website</a></p>
 </div>
 <div class="section level1">
-<h1 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h1>
-<p><a href="https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare.html" class="external-link">Example
-report</a></p>
-</div>
-<div class="section level1">
 <h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h1>
 <details><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -318,17 +317,17 @@ report</a></p>
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [13] pillar_1.7.0        glue_1.6.2          DBI_1.1.2          </span></span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [16] RColorBrewer_1.1-2  rvcheck_0.2.1       lifecycle_1.0.1    </span></span>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [19] stringr_1.4.0       dlstats_0.1.4       munsell_0.5.0      </span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [22] gtable_0.3.0        evaluate_0.15       knitr_1.37         </span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [22] gtable_0.3.0        evaluate_0.15       knitr_1.38         </span></span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            </span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [28] fansi_1.0.2         openssl_2.0.0       scales_1.1.1       </span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [28] fansi_1.0.3         openssl_2.0.0       scales_1.1.1       </span></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [31] BiocManager_1.30.16 desc_1.4.1          jsonlite_1.8.0     </span></span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      </span></span>
 <span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      </span></span>
 <span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [40] gh_1.3.0            dplyr_1.0.8         grid_4.2.0         </span></span>
 <span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [43] rprojroot_2.0.2     cli_3.2.0           tools_4.2.0        </span></span>
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [46] yulab.utils_0.0.4   magrittr_2.0.2      tibble_3.1.6       </span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="do">## [49] crayon_1.5.0        pkgconfig_2.0.3     ellipsis_0.3.2     </span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="do">## [52] assertthat_0.2.1    httr_1.4.2          badger_0.1.0       </span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="do">## [49] crayon_1.5.1        pkgconfig_2.0.3     ellipsis_0.3.2     </span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="do">## [52] assertthat_0.2.1    httr_1.4.2          badger_0.2.0       </span></span>
 <span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="do">## [55] R6_2.5.1            gitcreds_0.1.1      compiler_4.2.0</span></span></code></pre></div>
 </details><div class="section level2">
 <h2 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
@@ -383,9 +382,9 @@ Imperial College London<br><a href="https://github.com/neurogenomics" class="ext
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/neurogenomics/EpiCompare" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.99.1-black.svg"></a></li>
+<li><a href="https://github.com/neurogenomics/EpiCompare" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.99.2-black.svg"></a></li>
 <li><a href="https://github.com/neurogenomics/EpiCompare/actions" class="external-link"><img src="https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/gh/neurogenomics/EpiCompare" class="external-link"><img src="https://codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg"></a></li>
+<li><a href="https://app.codecov.io/gh/neurogenomics/EpiCompare" class="external-link"><img src="https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg"></a></li>
 <li><a href="https://cran.r-project.org/web/licenses/GPL-3" class="external-link"><img src="https://img.shields.io/badge/license-GPL--3-blue.svg" alt="License: GPL-3"></a></li>
 </ul>
 </div>
