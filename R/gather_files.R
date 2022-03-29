@@ -21,6 +21,8 @@
 #'  automatically generate more descriptive file names with sample IDs.
 #' @param mc.cores Number of cores to parallelise importing
 #'
+#' @returns A named list of \link[GenomicRanges]{GRanges} objects.
+#'
 #' @export
 #' @importFrom dplyr %>%
 #' @importFrom stringr str_split

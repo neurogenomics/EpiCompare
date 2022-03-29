@@ -33,6 +33,9 @@ Finds files ending in"*.consensus.peaks.filtered.awk.bed$"}
 
 \item{mc.cores}{Number of cores to parallelise importing}
 }
+\value{
+A named list of \link[GenomicRanges]{GRanges} objects.
+}
 \description{
 Recursively find peak/picard files stored within subdirectories and import
 them as a list of \link[GenomicRanges]{GRanges} objects.

@@ -21,7 +21,8 @@
 
 #' Example CUT&Tag peak file
 #'
-#' Human H3K27ac peak file generated with CUT&Tag using K562 cell-line from Kaya-Okur et al., (2019).
+#' Human H3K27ac peak file generated with CUT&Tag using K562 cell-line from
+#' Kaya-Okur et al., (2019).
 #' Raw peak file (.BED) was obtained from GEO
 #' (\url{https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8383507}).
 #' Peak calling was performed by Leyla Abbasova using MACS2.
@@ -43,7 +44,8 @@
 
 #' Example CUT&Run peak file
 #'
-#' Human H3K27ac peak file generated with CUT&Run using K562 cell-line from Meers et al., (2019).
+#' Human H3K27ac peak file generated with CUT&Run using K562 cell-line from
+#' Meers et al., (2019).
 #' Raw peak file (.BED) was obtained from GEO
 #' (\url{https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8581604}).
 #' Peak calling was performed by Leyla Abbasova using MACS2.
@@ -137,4 +139,39 @@
 #' }
 #' @usage data("CnR_H3K27ac_picard")
 "CnR_H3K27ac_picard"
+
+#' UCSC Chain file hg38 to hg19
+#'
+#' @description UCSC Chain file hg38 to hg19, .chain.gz file, downloaded from
+#' https://hgdownload.cse.ucsc.edu/goldenpath/hg19/liftOver/ on 09/10/21
+#'
+#' @name hg38ToHg19
+#' @section hg38ToHg19.over.chain.gz
+#' @details UCSC Chain file hg38 to hg19, .chain.gz file, downloaded on 09/10/21
+#' To be used as a back up if the download from UCSC fails.
+#' @source The chain file was downloaded from
+#' https://hgdownload.cse.ucsc.edu/goldenpath/hg38/liftOver/
+#' \code{
+#' utils::download.file('ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/liftOver/hg38ToHg19.over.chain.gz',tempdir())
+#' }
+#' @format gunzipped chain file
+#' @details NULL
+NULL
+
+#' Human genome hg38 blacklisted regions
+#'
+#' Obtained from \url{https://github.com/Boyle-Lab/Blacklist/tree/master/lists}.
+#' The ENCODE blacklist includes regions of the genome that have anomalous and/
+#' or unstructured signals.independent of the cell-line or experiment. Removal
+#' of ENCODE blacklist is recommended for quality measure.
+#'
+#' @source
+#' The code to prepare the .Rda file is:
+#'
+#' \code{
+#' hg38_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")
+#' usethis::use_data(hg38_blacklist, overwrite = TRUE)
+#' }
+#' @usage data("hg38_blacklist")
+"hg38_blacklist"
 

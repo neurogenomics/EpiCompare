@@ -26,6 +26,9 @@ Finds files ending in"*.consensus.peaks.filtered.awk.bed$"}
  If \code{TRUE}, can use the standardised folder structure to
  automatically generate more descriptive file names with sample IDs.}
 }
+\value{
+Character vector of file names.
+}
 \description{
 Support function for \link[EpiCompare]{gather_files}.
 }

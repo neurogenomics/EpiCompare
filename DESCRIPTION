@@ -1,7 +1,7 @@
 Package: EpiCompare
 Type: Package
 Title: Comparison, Benchmarking & QC of Epigenetic Datasets
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: 
     person(given = "Sera",
 	    family = "Choi",
@@ -29,12 +29,10 @@ biocViews:
 	QualityControl
 SystemRequirements: GNU make
 Imports:
-  methods,
 	GenomicRanges,
 	genomation,
 	IRanges,
 	reshape2,
-	viridis,
 	ggplot2,
 	ggpubr,
 	ChIPseeker,
@@ -45,17 +43,22 @@ Imports:
 	dplyr,
 	tidyr,
 	UpSetR,
+	rmarkdown,
+	rtracklayer,
+	R.utils,
+	utils,
+	stats,
+	methods,
 	org.Hs.eg.db,
 	TxDb.Hsapiens.UCSC.hg19.knownGene,
-	rmarkdown
+	TxDb.Hsapiens.UCSC.hg38.knownGene
 Suggests: 
   testthat (>= 3.0.0),
   badger,
   knitr,
   htmlwidgets,
   BiocStyle,
-  data.table,
-  rtracklayer,
+  data.table, 
   parallel
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2

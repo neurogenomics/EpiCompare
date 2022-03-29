@@ -14,6 +14,8 @@
 #'
 #' @source \href{https://support.bioconductor.org/p/80535/#80537}{
 #' Solution from Bioconductor forum}
+#' @returns \link[GenomicRanges]{GRanges} object.
+#'
 #' @export
 #' @importFrom dplyr %>% rename mutate
 #' @importFrom tidyr separate

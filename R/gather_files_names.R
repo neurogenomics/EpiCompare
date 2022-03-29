@@ -1,9 +1,12 @@
 #' Make file names
 #'
 #' Support function for \link[EpiCompare]{gather_files}.
+#'
 #' @keywords internal
 #' @param paths Character vector of file paths.
+#' @returns Character vector of file names.
 #' @inheritParams gather_files
+#' @importFrom stringr str_split
 gather_files_names <- function(paths,
                                type,
                                nfcore_cutandrun){

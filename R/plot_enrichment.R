@@ -6,10 +6,10 @@
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
+#' @param annotation A TxDb annotation object from Bioconductor.
 #'
 #' @return KEGG and GO dot plots
 #'
-#' @importFrom TxDb.Hsapiens.UCSC.hg19.knownGene TxDb.Hsapiens.UCSC.hg19.knownGene
 #' @importFrom org.Hs.eg.db org.Hs.eg.db
 #' @importFrom ChIPseeker annotatePeak
 #' @importFrom clusterProfiler compareCluster dotplot
@@ -21,13 +21,17 @@
 #'
 #' peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 #' names(peaks) <- c("CnT", "CnR") # set names
-#' #my_plot <- plot_enrichment(peaks)
 #'
-plot_enrichment <- function(peaklist){
+#' ## not run
+#' # txdb<-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+#' # my_plot <- plot_enrichment(peaklist = peaks,
+#' #                            annotation = txdb)
+#'
+plot_enrichment <- function(peaklist, annotation){
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
   # annotation for hg19 genome
-  txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+  txdb <- annotation
   peak_annotated <- lapply(peaklist,
                            ChIPseeker::annotatePeak,
                            TxDb = txdb,
@@ -45,10 +49,10 @@ plot_enrichment <- function(peaklist){
     font_size <- 8
   }
   kegg_plot <- clusterProfiler::dotplot(compKEGG) +
-               ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
-                                                                  vjust = 1,
-                                                                  hjust=1,
-                                                                  size = font_size)) +
+          ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                             vjust = 1,
+                                                             hjust = 1,
+                                                             size = font_size))+
                ggplot2::labs(x="")
   sample_names <- gsub('\n([0-9]*)','',kegg_plot$data$Cluster) # remove new line
   kegg_plot$data$Cluster <- sample_names

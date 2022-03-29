@@ -10,6 +10,8 @@ params:
     value: NULL
   output_dir: 
     value: NULL
+  genome_build:
+    value: NULL
   blacklist: 
     value: NULL
   picard_files:
@@ -38,7 +40,8 @@ params:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-# if save_output is TRUE, create a directory to save all outputs, if it doesn't exist already 
+# if save_output is TRUE, create a directory to save all outputs,
+# if it doesn't exist already 
 if(params$save_output){
   outfile_dir <- paste0(params$output_dir,"/EpiCompare_file")
   if(!dir.exists(outfile_dir)){
@@ -48,7 +51,8 @@ if(params$save_output){
 # prepare a list of GRange object
 # and check that the list is named, if not default filenames are used 
 peaklist <- prepare_peaklist(params$peakfile)
-# tidy input peakfiles to remove peaks in blacklisted regions and non-standard chromosomes 
+# tidy input peakfiles to remove peaks in blacklisted regions 
+# and non-standard chromosomes 
 peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
                                blacklist = params$blacklist)
 # tidy input reference peakfile if provided and include in peaklist
@@ -57,6 +61,12 @@ if (is.null(params$reference) == FALSE){
   reference_tidy <- tidy_peakfile(peaklist = params$reference,
                                   blacklist = params$blacklist)
   peaklist_tidy <- c(peaklist_tidy, reference_tidy)
+}
+# get appropriate genome annotation
+if(params$genome_build == "hg19"){
+  txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+}else if(params$genome_build == "hg38"){
+  txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene::TxDb.Hsapiens.UCSC.hg38.knownGene
 }
 # adjust figure height depending on sample size  
 fig_height <- 7
@@ -67,13 +77,17 @@ if(length(peaklist_tidy)>10){
 }
 ```
 
-[EpiCompare](https://github.com/neurogenomics/EpiCompare) compares epigenetic datasets for quality control and benchmarking purposes. 
+[EpiCompare](https://github.com/neurogenomics/EpiCompare) compares epigenetic 
+datasets for quality control and benchmarking purposes. 
 The report consists of three sections: 
 
-1. **General Metrics:** Metrics on peaks (percentage of blacklisted and non-standard peaks, and peak widths) 
+1. **General Metrics:** Metrics on peaks (percentage of blacklisted and 
+non-standard peaks, and peak widths) 
 and fragments (duplication rate) of samples.
-2. **Peak Overlap:** Percetnage and statistical significance of overlapping and non-overlapping peaks. Also includes upset plot. 
-3. **Functional Annotation:** Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks. Also includes peak enrichment around TSS. 
+2. **Peak Overlap:** Percetnage and statistical significance of overlapping and 
+non-overlapping peaks. Also includes upset plot. 
+3. **Functional Annotation:** Functional annotation (ChromHMM, ChIPseeker and 
+enrichment analysis) of peaks. Also includes peak enrichment around TSS. 
 
 ***
 
@@ -97,6 +111,7 @@ for (name in names(peaklist_tidy)){
 
 ```R
 EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
+           genome_build = `r params$genome_build`,
            blacklist = blacklist,
            picard_files = list(`r names(params$picard_files)`),
            reference = `r names(reference_tidy)`,
@@ -121,14 +136,20 @@ EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
 
 Column Description:
 
-* PeakN before tidy: Total number of peaks including those blacklisted and those in non-standard chromosomes. 
-* Blacklisted peaks removed (%): Percentage of blacklisted peaks in samples. E.g. [ENCODE hg19 blacklist](https://www.encodeproject.org/files/ENCFF000KJP/) 
-includes regions in the hg19 genome that have anomalous and/or unstructured signals independent of the cell-line or experiment.
-* Non-standard peaks removed (%): Percentage of peaks in non-standard and/or mitochondrial chromosomes.
+* PeakN before tidy: Total number of peaks including those blacklisted and those 
+in non-standard chromosomes. 
+* Blacklisted peaks removed (%): Percentage of blacklisted peaks in samples. 
+E.g. [ENCODE hg19 blacklist](https://www.encodeproject.org/files/ENCFF000KJP/) 
+includes regions in the hg19 genome that have anomalous and/or unstructured 
+signals independent of the cell-line or experiment.
+* Non-standard peaks removed (%): Percentage of peaks in non-standard and/or 
+mitochondrial chromosomes.
 Identified using `BRGenomics::tidyChromosomes()`.  
-* PeakN after tidy: Total number of peaks after removing those in blacklisted regions and non-standard chromosomes. 
+* PeakN after tidy: Total number of peaks after removing those in blacklisted 
+regions and non-standard chromosomes. 
 
-**NB**: EpiCompare uses *filtered* peakfiles (i.e. datasets after removing peaks in blacklisted regions and non-standard chromosomes)
+**NB**: EpiCompare uses *filtered* peakfiles (i.e. datasets after removing peaks
+in blacklisted regions and non-standard chromosomes)
 
 <br>
 
@@ -148,7 +169,8 @@ if(params$save_output){
 
 ### Fragment Information
 
-Metrics on fragments is shown only if Picard summary is provided. See [manual](https://neurogenomics.github.io/EpiCompare/) for help. 
+Metrics on fragments is shown only if Picard summary is provided. 
+See [manual](https://neurogenomics.github.io/EpiCompare/) for help. 
 
 Column Description:
 
@@ -166,7 +188,8 @@ if (!is.null(params$picard_files)){
   print(knitr::kable(fragment_info_df, format = "markdown"))
   # save output 
   if(params$save_output){
-    write.table(fragment_info_df, file=paste0(outfile_dir,"/fragment_info"), sep="\t")
+    write.table(fragment_info_df, file=paste0(outfile_dir,"/fragment_info"), 
+                sep="\t")
   }
 }   
 ```
@@ -179,13 +202,14 @@ Distribution of peak widths in samples
 
 <br> 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=10, fig.height= fig_height}
+```{r,echo=FALSE,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
 # create boxplot of peak widths 
 width_plot <- width_boxplot(peaklist = peaklist_tidy)
 print(width_plot)
 # save boxplot output 
 if(params$save_output){
-  ggplot2::ggsave(filename = "width_plot.png",plot = width_plot, device = "png", path = outfile_dir)
+  ggplot2::ggsave(filename = "width_plot.png",plot = width_plot, device = "png", 
+                  path = outfile_dir)
   unlink("width_plot.png")
 }
 ```
@@ -199,21 +223,26 @@ if(params$save_output){
 Percentage of overlapping peaks between samples. 
 Hover over heatmap for percentage values. 
 
-N.B. How to interpret heatmap: [Samples in x-axis of heatmap] peaks in [Samples in y-axis of heatmap] peaks 
+N.B. How to interpret heatmap: [Samples in x-axis of heatmap] peaks in 
+[Samples in y-axis of heatmap] peaks 
 
 <br>
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=10, fig.height=fig_height}
+```{r,echo=FALSE,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
 overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
                                    interact = params$interact)
 overlap_heatmap
 # save output 
 if(params$save_output){
   if(params$interact){
-    htmlwidgets::saveWidget(plotly::as_widget(overlap_heatmap), file = paste0(outfile_dir,"/samples_percent_overlap.html"))
-    unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), recursive = TRUE)
+    htmlwidgets::saveWidget(plotly::as_widget(overlap_heatmap), 
+                            file = paste0(outfile_dir,
+                                          "/samples_percent_overlap.html"))
+    unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), 
+           recursive = TRUE)
   }else{
-    ggplot2::ggsave(filename = "samples_percent_overlap.png",plot = overlap_heatmap, device = "png", path = outfile_dir)
+    ggplot2::ggsave(filename = "samples_percent_overlap.png",
+                    plot = overlap_heatmap, device = "png", path = outfile_dir)
     unlink("samples_percent_overlap.png")
   }
 }
@@ -223,10 +252,11 @@ if(params$save_output){
 
 ### Upset Plot 
 
-Upset plot of overlapping peaks between samples. 
-See [here](https://jokergoo.github.io/ComplexHeatmap-reference/book/upset-plot.html) on how to interpret the plot.   
+Upset plot of overlapping peaks between samples. See 
+[here](https://jokergoo.github.io/ComplexHeatmap-reference/book/upset-plot.html)
+on how to interpret the plot.   
 
-```{r, echo=FALSE, fig.width=10, fig.height = fig_height, warning=FALSE, message=FALSE, results='asis'}
+```{r, echo=FALSE,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE,results='asis'}
 if(params$upset_plot){
   upset_plot <- overlap_upset_plot(peaklist = peaklist_tidy)
   print(upset_plot)
@@ -244,11 +274,16 @@ if(params$upset_plot){
 
 ### Statistical Significance  
 
-Depending on the format of the reference file, EpiCompare outputs different plots: 
+Depending on the format of the reference file, EpiCompare outputs different 
+plots: 
 
-* Reference dataset has BED6+4 format (peakcalling performed with MACS2): EpiCompare generates paired boxplot 
-per sample showing the distribution of -log10(q-value) of reference peaks that are overlapping and non-overlapping with the sample dataset. 
-* Reference dataset does not have BED6+4 format: EpiCompare generates a barplot of percentage of overlapping sample peaks with the reference, coloured by statistical significance (adjusted p-value) of the overlap. 
+* Reference dataset has BED6+4 format (peakcalling performed with MACS2): 
+EpiCompare generates paired boxplot 
+per sample showing the distribution of -log10(q-value) of reference peaks that 
+are overlapping and non-overlapping with the sample dataset. 
+* Reference dataset does not have BED6+4 format: EpiCompare generates a barplot 
+of percentage of overlapping sample peaks with the reference, coloured by 
+statistical significance (adjusted p-value) of the overlap. 
 
 **Reference peakfile: `r names(reference_tidy)`**
 
@@ -259,7 +294,7 @@ Keys:
 
 <br>
 
-```{r, echo=FALSE, fig.width=10, warning=FALSE, message=FALSE, fig.height= fig_height}
+```{r,echo=FALSE,fig.width=10,warning=FALSE,message=FALSE,fig.height=fig_height}
 # if reference is provided AND stat_plot=TRUE, run the function 
 if (is.null(params$reference) == FALSE){
   if (params$stat_plot){
@@ -268,7 +303,8 @@ if (is.null(params$reference) == FALSE){
     print(stat_plot[[1]])
     # save output 
     if(params$save_output){
-      ggplot2::ggsave(filename = "stat_plot.png", plot = stat_plot[[1]], device = "png", path = outfile_dir)
+      ggplot2::ggsave(filename = "stat_plot.png", plot = stat_plot[[1]], 
+                      device = "png", path = outfile_dir)
       unlink("stat_plot.png")
       }
   }
@@ -281,7 +317,10 @@ if (is.null(params$reference) == FALSE){
 
 ### 3.1 ChromHMM {.tabset}
 
-[ChromHMM](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning%20and%20characterizing%20chromatin%20states.&text=ChromHMM%20is%20based%20on%20a,one%20or%20more%20cell%20types.) annotates and characterises peaks into different chromatin states. ChromHMM annotations used in EpiCompare were obtained from [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).
+[ChromHMM](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning%20and%20characterizing%20chromatin%20states.&text=ChromHMM%20is%20based%20on%20a,one%20or%20more%20cell%20types.) 
+annotates and characterises peaks into different chromatin states. ChromHMM 
+annotations used in EpiCompare were obtained from
+[here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).
 
 * Cell-type annotation file used in this analysis: `r params$chrmHMM_annotation`
 
@@ -295,14 +334,19 @@ if (params$chrmHMM_plot){
   # user-specified ChromHMM annotation file 
   chrHMM_list <- get_chrHMM_annotation(cell_line = params$chrmHMM_annotation)
   # plot chromHMM
-  samples_chrmHMM <- plot_chrmHMM(peaklist = peaklist_tidy, chrmHMM_annotation = chrHMM_list, interact = params$interact)
+  samples_chrmHMM <- plot_chrmHMM(peaklist = peaklist_tidy, 
+                                  chrmHMM_annotation = chrHMM_list, 
+                                  genome_build = params$genome_build,
+                                  interact = params$interact)
   # save output 
   if(params$save_output){
     if(params$interact){
-      htmlwidgets::saveWidget(plotly::as_widget(samples_chrmHMM), file = paste0(outfile_dir,"/samples_chrmHMM.html"))
+      htmlwidgets::saveWidget(plotly::as_widget(samples_chrmHMM), 
+                            file = paste0(outfile_dir,"/samples_chrmHMM.html"))
       unlink(paste0(outfile_dir,"/samples_chrmHMM_files"), recursive = TRUE)
     }else{
-      ggplot2::ggsave(filename = "samples_chrmHMM.png", plot = samples_chrmHMM, device = "png", path = outfile_dir)
+      ggplot2::ggsave(filename = "samples_chrmHMM.png", plot = samples_chrmHMM, 
+                      device = "png", path = outfile_dir)
       unlink("samples_chrmHMM.png")
     }
   }
@@ -314,7 +358,8 @@ samples_chrmHMM
 
 #### **Overlap**: Sample peaks in Reference peaks 
 
-Percentage of Sample peaks found in Reference peaks (**Reference peakfile: `r names(reference_tidy)`**)
+Percentage of Sample peaks found in Reference peaks 
+(**Reference peakfile: `r names(reference_tidy)`**)
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
@@ -336,13 +381,15 @@ if (params$chrmHMM_plot){
     # obtain overlapping peaks 
     sample_in_ref_list <- list()
     for(file in peaklist_tidy){
-      sample_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy[[1]])
+      sample_in_ref <- IRanges::subsetByOverlaps(x = file, 
+                                                 ranges = reference_tidy[[1]])
       sample_in_ref_list <- c(sample_in_ref_list, sample_in_ref)
     }
     names(sample_in_ref_list) <- names(peaklist_tidy)
     # annotate overlapping peaks with chromHMM annotations
     sample_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_in_ref_list,
                                           chrmHMM_annotation = chrHMM_list,
+                                          genome_build = params$genome_build,
                                           interact = params$interact)
     if(params$interact){
       sample_in_ref_chrmHMM_plot <- htmltools::tagList(plotly::as_widget(sample_in_ref_chrmHMM))
@@ -353,10 +400,13 @@ if (params$chrmHMM_plot){
     # save output 
     if(params$save_output){
       if(params$interact){
-        htmlwidgets::saveWidget(plotly::as_widget(sample_in_ref_chrmHMM), file = paste0(outfile_dir,"/sample_in_ref_chrmHMM.html"))
+        htmlwidgets::saveWidget(plotly::as_widget(sample_in_ref_chrmHMM), 
+                                file = paste0(outfile_dir,"/sample_in_ref_chrmHMM.html"))
         unlink(paste0(outfile_dir,"/sample_in_ref_chrmHMM_files"), recursive = TRUE)
       }else{
-        ggplot2::ggsave(filename = "sample_in_ref_chrmHMM.png", plot = sample_in_ref_chrmHMM, device = "png", path = outfile_dir)
+        ggplot2::ggsave(filename = "sample_in_ref_chrmHMM.png", 
+                        plot = sample_in_ref_chrmHMM, device = "png", 
+                        path = outfile_dir)
         unlink("sample_in_ref_chrmHMM.png")
       }
     }
@@ -366,7 +416,8 @@ if (params$chrmHMM_plot){
 
 #### **Overlap**: Reference peaks in Sample peaks 
 
-Percentage of Reference peaks found in Sample peaks (**Reference peakfile: `r names(reference_tidy)`**)
+Percentage of Reference peaks found in Sample peaks 
+(**Reference peakfile: `r names(reference_tidy)`**)
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
@@ -389,13 +440,15 @@ if (params$chrmHMM_plot){
     ref_in_sample_list <- list()
     # obtain overlapping peaks 
     for(file in peaklist_tidy){
-      ref_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy[[1]], ranges = file)
+      ref_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
+                                                 ranges = file)
       ref_in_sample_list <- c(ref_in_sample_list, ref_in_sample)
     }
     names(ref_in_sample_list) <- names(peaklist_tidy)
     # annotate overlapping peaks with chromHMM annotations
     ref_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_in_sample_list,
                                           chrmHMM_annotation = chrHMM_list,
+                                          genome_build = params$genome_build,
                                           interact = params$interact)
     if(params$interact){
       ref_in_sample_chrmHMM_plot <- htmltools::tagList(plotly::as_widget(ref_in_sample_chrmHMM))
@@ -406,10 +459,13 @@ if (params$chrmHMM_plot){
     # save output 
     if(params$save_output){
       if(params$interact){
-        htmlwidgets::saveWidget(plotly::as_widget(ref_in_sample_chrmHMM), file = paste0(outfile_dir,"/ref_in_sample_chrmHMM.html"))
+        htmlwidgets::saveWidget(plotly::as_widget(ref_in_sample_chrmHMM), 
+                                file = paste0(outfile_dir,"/ref_in_sample_chrmHMM.html"))
         unlink(paste0(outfile_dir,"/ref_in_sample_chrmHMM_files"), recursive = TRUE)
       }else{
-        ggplot2::ggsave(filename = "ref_in_sample_chrmHMM.png", plot = ref_in_sample_chrmHMM, device = "png", path = outfile_dir)
+        ggplot2::ggsave(filename = "ref_in_sample_chrmHMM.png", 
+                        plot = ref_in_sample_chrmHMM, 
+                        device = "png", path = outfile_dir)
         unlink("ref_in_sample_chrmHMM.png")
       }
     }
@@ -419,7 +475,8 @@ if (params$chrmHMM_plot){
 
 #### **Unique**: Sample peaks not in Reference peaks 
 
-Percentage of sample peaks not found in reference peaks (**Reference peakfile: `r names(reference_tidy)`**)
+Percentage of sample peaks not found in reference peaks 
+(**Reference peakfile: `r names(reference_tidy)`**)
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
@@ -441,14 +498,17 @@ if (params$chrmHMM_plot){
       sample_not_in_ref_list <- list()
       # obtain unique peaks 
       for(file in peaklist_tidy){
-        sample_not_in_ref <- IRanges::subsetByOverlaps(x = file, ranges = reference_tidy[[1]], invert = TRUE)
+        sample_not_in_ref <- IRanges::subsetByOverlaps(x = file, 
+                                                  ranges = reference_tidy[[1]], 
+                                                  invert = TRUE)
         sample_not_in_ref_list <- c(sample_not_in_ref_list, sample_not_in_ref)
       }
       names(sample_not_in_ref_list) <- names(peaklist_tidy)
       # annotate unique peaks with chromHMM annotations
-      sample_not_in_ref_chrmHMM <- plot_chrmHMM(peaklist = sample_not_in_ref_list,
-                                                chrmHMM_annotation = chrHMM_list,
-                                                interact = params$interact)
+      sample_not_in_ref_chrmHMM<-plot_chrmHMM(peaklist = sample_not_in_ref_list,
+                                              chrmHMM_annotation = chrHMM_list,
+                                              genome_build =params$genome_build,
+                                              interact = params$interact)
       if(params$interact){
         sample_not_in_ref_chrmHMM_plot <- htmltools::tagList(plotly::as_widget(sample_not_in_ref_chrmHMM))
         print(sample_not_in_ref_chrmHMM_plot)
@@ -458,11 +518,15 @@ if (params$chrmHMM_plot){
       # save output 
       if(params$save_output){
         if(params$interact){
-          htmlwidgets::saveWidget(plotly::as_widget(sample_not_in_ref_chrmHMM), file = paste0(outfile_dir,"/sample_not_in_ref_chrmHMM.html"))
-          unlink(paste0(outfile_dir,"/sample_not_in_ref_chrmHMM_files"), recursive = TRUE)
+          htmlwidgets::saveWidget(plotly::as_widget(sample_not_in_ref_chrmHMM), 
+                                  file = paste0(outfile_dir,"/sample_not_in_ref_chrmHMM.html"))
+          unlink(paste0(outfile_dir,"/sample_not_in_ref_chrmHMM_files"), 
+                 recursive = TRUE)
 
         }else{
-          ggplot2::ggsave(filename = "sample_not_in_ref_chrmHMM.png", plot = sample_not_in_ref_chrmHMM, device = "png", path = outfile_dir)
+          ggplot2::ggsave(filename = "sample_not_in_ref_chrmHMM.png", 
+                          plot = sample_not_in_ref_chrmHMM, device = "png", 
+                          path = outfile_dir)
           unlink("sample_not_in_ref_chrmHMM.png")
           }
       }
@@ -473,7 +537,8 @@ if (params$chrmHMM_plot){
 
 #### **Unique**: Reference peaks not in Sample peaks 
 
-Percentage of reference peaks not found in sample peaks (**Reference peakfile: `r names(reference_tidy)`**)
+Percentage of reference peaks not found in sample peaks 
+(**Reference peakfile: `r names(reference_tidy)`**)
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if (params$chrmHMM_plot){
@@ -495,14 +560,17 @@ if (params$chrmHMM_plot){
       ref_not_in_sample_list <- list()
       # obtain unique peaks 
       for(file in peaklist_tidy){
-        ref_not_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy[[1]], ranges = file, invert = TRUE)
+        ref_not_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
+                                                       ranges = file, 
+                                                       invert = TRUE)
         ref_not_in_sample_list <- c(ref_not_in_sample_list, ref_not_in_sample)
       }
       names(ref_not_in_sample_list) <- names(peaklist_tidy)
       # annotate unique peaks with chromHMM annotations
-      ref_not_in_sample_chrmHMM <- plot_chrmHMM(peaklist = ref_not_in_sample_list,
-                                                chrmHMM_annotation = chrHMM_list,
-                                                interact = params$interact)
+      ref_not_in_sample_chrmHMM<-plot_chrmHMM(peaklist = ref_not_in_sample_list,
+                                              chrmHMM_annotation = chrHMM_list,
+                                              genome_build =params$genome_build,
+                                              interact = params$interact)
       if(params$interact){
         ref_not_in_sample_chrmHMM_plot <- htmltools::tagList(plotly::as_widget(ref_not_in_sample_chrmHMM))
         print(ref_not_in_sample_chrmHMM_plot)
@@ -512,10 +580,14 @@ if (params$chrmHMM_plot){
       # save output 
       if(params$save_output){
         if(params$interact){
-          htmlwidgets::saveWidget(plotly::as_widget(ref_not_in_sample_chrmHMM), file = paste0(outfile_dir,"/ref_not_in_sample_chrmHMM.html"))
-          unlink(paste0(outfile_dir,"/ref_not_in_sample_chrmHMM_files"), recursive = TRUE)
+          htmlwidgets::saveWidget(plotly::as_widget(ref_not_in_sample_chrmHMM), 
+                                  file = paste0(outfile_dir,"/ref_not_in_sample_chrmHMM.html"))
+          unlink(paste0(outfile_dir,"/ref_not_in_sample_chrmHMM_files"), 
+                 recursive = TRUE)
         }else{
-          ggplot2::ggsave(filename = "ref_not_in_sample_chrmHMM.png", plot = ref_not_in_sample_chrmHMM, device = "png", path = outfile_dir)
+          ggplot2::ggsave(filename = "ref_not_in_sample_chrmHMM.png", 
+                          plot = ref_not_in_sample_chrmHMM, 
+                          device = "png", path = outfile_dir)
           unlink("ref_not_in_sample_chrmHMM.png")
         }
       }
@@ -527,18 +599,22 @@ if (params$chrmHMM_plot){
 
 ### 3.2 ChIPseeker 
 
-EpiCompare uses `ChIPseeker::annotatePeak()` to annotate peaks with the nearest gene and genomic regions where 
-the peak is located. 
-The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
+EpiCompare uses `ChIPseeker::annotatePeak()` to annotate peaks with the nearest 
+gene and genomic regions where the peak is located. The peaks are annotated 
+with genes taken from human genome annotations (hg19 or hg38) provided by 
+Bioconductor.
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 # if set TRUE, generate chipseeker annotation plot 
 if (params$chipseeker_plot){
-  chipseeker_plot <- plot_ChIPseeker_annotation(peaklist = peaklist_tidy)
+  chipseeker_plot <- plot_ChIPseeker_annotation(peaklist = peaklist_tidy,
+                                                annotation = txdb)
   print(chipseeker_plot)
   # save output 
   if(params$save_output){
-    ggplot2::ggsave(filename = "chipseeker_annotation.png", plot = chipseeker_plot, device = "png", path = outfile_dir)
+    ggplot2::ggsave(filename = "chipseeker_annotation.png", 
+                    plot = chipseeker_plot, device = "png", 
+                    path = outfile_dir)
     unlink("chipseeker_annotation.png")
     }
 }
@@ -548,16 +624,18 @@ if (params$chipseeker_plot){
 
 ### 3.3 Functional Enrichment Analysis {.tabset}
 
-EpiCompare performs KEGG pathway and GO enrichment analysis using `clusterProfiler`. 
-`ChIPseeker::annotatePeak()` is first used to assign peaks to nearest genes.
-Biological themes amongst the genes are identified using ontologies (KEGG and GO). 
-The peaks are annotated with [genes](http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html) taken from the annotations of human genome hg19 provided by Bioconductor.
+EpiCompare performs KEGG pathway and GO enrichment analysis using 
+`clusterProfiler`. `ChIPseeker::annotatePeak()` is first used to assign peaks 
+to nearest genes. Biological themes amongst the genes are identified using 
+ontologies (KEGG and GO). The peaks are annotated with genes taken from 
+annotations of human genome (hg19 or hg38) provided by Bioconductor.
 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 fig_height <- 10
 if (params$enrichment_plot){
-  enrichment_plots <- plot_enrichment(peaklist = peaklist_tidy)
+  enrichment_plots <- plot_enrichment(peaklist = peaklist_tidy,
+                                      annotation = txdb)
   KEGG_plot <- enrichment_plots[[1]]
   GO_plot <- enrichment_plots[[2]]
   kegg_terms <- length(unique(KEGG_plot$data$Description))
@@ -574,12 +652,13 @@ if (params$enrichment_plot){
 
 #### KEGG
 
-```{r, echo=FALSE, fig.width= 10, fig.height = fig_height, warning=FALSE, message=FALSE}
+```{r,echo=FALSE,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
 if (params$enrichment_plot){
   print(KEGG_plot)
   # save output 
   if(params$save_output){
-    ggplot2::ggsave(filename = "KEGG_analysis.png", plot = KEGG_plot, device = "png", path = outfile_dir)
+    ggplot2::ggsave(filename = "KEGG_analysis.png", plot = KEGG_plot, 
+                    device = "png", path = outfile_dir)
     unlink("KEGG_analysis.png")
   }
 }
@@ -589,12 +668,13 @@ if (params$enrichment_plot){
 
 #### GO 
 
-```{r, echo=FALSE, fig.width=10,fig.height = fig_height, warning=FALSE, message=FALSE}
+```{r,echo=FALSE,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
 if (params$enrichment_plot){
   print(GO_plot)
   # save output 
   if(params$save_output){
-    ggplot2::ggsave(filename = "GO_analysis.png", plot = GO_plot, device = "png", path = outfile_dir)
+    ggplot2::ggsave(filename = "GO_analysis.png", plot = GO_plot, 
+                    device = "png", path = outfile_dir)
     unlink("GO_analysis.png")
   }
 }
@@ -605,20 +685,20 @@ if (params$enrichment_plot){
 
 ### 3.4 Peak Frequency around TSS 
 
-This plots peaks that are mapping to transcriptional start sites (TSS). TSS regions are defined as the flanking sequence of the TSS sites. 
-The frequency of peaks in downstream (-3000bp) and upstream (+3000bp) of TSS is plotted. 
-Faint color line around the main frequency line represents the the 95% confidence interval estimated by bootstrap method. 
+This plots peaks that are mapping to transcriptional start sites (TSS). 
+TSS regions are defined as the flanking sequence of the TSS sites. 
+The frequency of peaks in downstream (-3000bp) and upstream (+3000bp) of 
+TSS is plotted. Faint color line around the main frequency line represents 
+the 95% confidence interval estimated by bootstrap method. 
 
 
-```{r, echo=FALSE, fig.width=10, fig.height = fig_height, warning=FALSE, message=FALSE}
+```{r,echo=FALSE,fig.height=3,fig.width=10,warning=FALSE,message=FALSE}
 if (params$tss_plot){
-  tss_plot <- tss_plot(peaklist = peaklist_tidy)
-  print(tss_plot)
-  # save output 
-  if(params$save_output){
-    ggplot2::ggsave(filename = "TSS.png", plot = tss_plot, device = "png", path = outfile_dir)
-    unlink("TSS.png")
-  }
+  tss_plot <- tss_plot(peaklist = peaklist_tidy,
+                       annotation = txdb)
+}
+for (plot in tss_plot){
+  print(plot)
 }
 ```
 
