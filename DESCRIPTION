@@ -1,24 +1,35 @@
 Package: EpiCompare
 Type: Package
 Title: Comparison, Benchmarking & QC of Epigenetic Datasets
-Version: 0.99.1
+Version: 0.99.2
 Authors@R: 
     person(given = "Sera",
 	    family = "Choi",
 	    role = c("cre"),
            email = "serachoi1230@gmail.com",
            comment = c(ORCID = "0000-0002-5077-1984"))
-Description: EpiCompare is used to compare and analyse epigenetic datasets for quality control and benchmarking purposes. The package outputs an HTML report consisting of three sections: (1. General metrics) Metrics on peaks (percentage of blacklisted and non-standard peaks, and peak widths) and fragments (duplication rate) of samples, (2. Peak overlap) Percetnage and statistical significance of overlapping and non-overlapping peaks. Also includes upset plot and (3. Functional annotation) functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks. Also includes peak enrichment around TSS.
+Description: EpiCompare is used to compare and analyse epigenetic datasets 
+  for quality control and benchmarking purposes. 
+  The package outputs an HTML report consisting of three sections: 
+  (1. General metrics) Metrics on peaks (percentage of blacklisted and 
+  non-standard peaks, and peak widths) and fragments (duplication rate) 
+  of samples, 
+  (2. Peak overlap) Percentage and statistical significance of 
+  overlapping and non-overlapping peaks. Also includes upset plot and 
+  (3. Functional annotation) functional annotation 
+  (ChromHMM, ChIPseeker and enrichment analysis) of peaks. 
+  Also includes peak enrichment around TSS.
 URL: https://github.com/neurogenomics/EpiCompare
 BugReports: https://github.com/neurogenomics/EpiCompare/issues
 License: GPL-3
-Depends: R(>= 4.1)
+Depends: R (>= 4.1)
 LazyData: FALSE
 biocViews:
 	ComparativeGenomics, Epigenetics, Genetics,
 	QualityControl
 SystemRequirements: GNU make
 Imports:
+  methods,
 	GenomicRanges,
 	genomation,
 	IRanges,
@@ -29,8 +40,6 @@ Imports:
 	ChIPseeker,
 	BRGenomics,
 	clusterProfiler,
-	stats,
-	methods,
 	plotly,
 	stringr,
 	dplyr,
@@ -39,13 +48,16 @@ Imports:
 	org.Hs.eg.db,
 	TxDb.Hsapiens.UCSC.hg19.knownGene,
 	rmarkdown
-RoxygenNote: 7.1.2.9000
-Encoding: UTF-8
 Suggests: 
-    testthat (>= 3.0.0),
-    badger,
-    knitr,
-    htmlwidgets,
-    BiocStyle
-Config/testthat/edition: 3
+  testthat (>= 3.0.0),
+  badger,
+  knitr,
+  htmlwidgets,
+  BiocStyle,
+  data.table,
+  rtracklayer,
+  parallel
 VignetteBuilder: knitr
+RoxygenNote: 7.1.2
+Encoding: UTF-8
+Config/testthat/edition: 3
