@@ -1,7 +1,7 @@
 Package: EpiCompare
 Type: Package
 Title: Comparison, Benchmarking & QC of Epigenetic Datasets
-Version: 0.99.4
+Version: 0.99.5
 Authors@R: 
     person(given = "Sera",
 	    family = "Choi",
@@ -61,6 +61,6 @@ Suggests:
   data.table, 
   parallel
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.1.2.9000
 Encoding: UTF-8
 Config/testthat/edition: 3
