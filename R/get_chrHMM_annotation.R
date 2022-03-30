@@ -38,8 +38,8 @@ get_chrHMM_annotation <- function(cell_line){
   }else if (cell_line == "Nhlf"){
       cell <- "Nhlf"
   }
-  chrHMM_url = paste0("http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmm",cell,"HMM.bed.gz")
-  chrHMM = genomation::readBed(chrHMM_url)
-  chrHMM_list = GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
+  chrHMM_url <- paste0("http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmm",cell,"HMM.bed.gz")
+  chrHMM <- genomation::readBed(chrHMM_url)
+  chrHMM_list <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
   return(chrHMM_list)
 }

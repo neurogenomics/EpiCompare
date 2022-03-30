@@ -45,9 +45,9 @@ overlap_upset_plot <- function(peaklist){
    overlap_df <- rbind(overlap_df, unique_df)
   }
   # adjust font size
-  font_size = 1
+  font_size <- 1
   if(length(peaklist)>6){
-    font_size = 0.65
+    font_size <- 0.65
   }
 
   # generate upset plot

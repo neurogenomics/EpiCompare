@@ -36,7 +36,7 @@ fragment_info <- function(picard_list){
   for(i in seq_len(length(picard_list))){
     Mapped_Fragments <- c(Mapped_Fragments, picard_list[[i]]$READ_PAIRS_EXAMINED[1])
     Duplication_Rate <- c(Duplication_Rate, round(picard_list[[i]]$PERCENT_DUPLICATION[1]*100, 2))
-    unique <- ((1-picard_list[[i]]$PERCENT_DUPLICATION[1]))*picard_list[[i]]$READ_PAIRS_EXAMINED[1]
+    unique <- ((1-picard_list[[i]]$PERCENT_DUPLICATION[1]))*as.numeric(picard_list[[i]]$READ_PAIRS_EXAMINED[1])
     Unique_Fragments <- c(Unique_Fragments, round(unique))
   }
   # create data frame of metrics
