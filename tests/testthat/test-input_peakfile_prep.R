@@ -16,7 +16,16 @@ test_that("Default names added to peaklist if none provided",{
 })
 
 # test tidy peakfile
-#test_that("tidy_peakfile() removes peaks in blacklisted and non-standard regions",{
-#  peaklist <- list("encode"=encode_H3K27ac)
-#  peaklist_tidy <- tidy_peakfile(peaklist, hg19_blacklist)
-#})
+test_that("tidy_peakfile() removes peaks in blacklisted
+          and non-standard regions",{
+  peaklist <- list("encode"=encode_H3K27ac)
+  peaklist_tidy <- EpiCompare::tidy_peakfile(peaklist, hg19_blacklist)
+  peaklist_chrm_removed <- BRGenomics::tidyChromosomes(peaklist[[1]],
+                                                       keep.X = TRUE,
+                                                       keep.Y = TRUE)
+  peaklist_chrm_blist_removed <-IRanges::subsetByOverlaps(peaklist_chrm_removed,
+                                                          hg19_blacklist,
+                                                          invert = TRUE)
+  testthat::expect_equal(length(peaklist_tidy[[1]]),
+                          length(peaklist_chrm_blist_removed))
+})

@@ -18,8 +18,9 @@ list of GRanges object
 }
 \description{
 This function filters peak files by removing peaks in blacklisted regions
-and in non-standard chromosomes. It also checks that the input list of peakfiles
-is named. If no names are provided, default file names will be used.
+and in non-standard chromosomes. It also checks that the input list of
+peakfiles is named. If no names are provided, default file names will be
+used.
 }
 \examples{
 data("encode_H3K27ac") # example dataset as GRanges object

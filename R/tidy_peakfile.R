@@ -1,8 +1,9 @@
 #' Tidy peakfiles in GRanges
 #'
 #' This function filters peak files by removing peaks in blacklisted regions
-#' and in non-standard chromosomes. It also checks that the input list of peakfiles
-#' is named. If no names are provided, default file names will be used.
+#' and in non-standard chromosomes. It also checks that the input list of
+#' peakfiles is named. If no names are provided, default file names will be
+#' used.
 #'
 #' @param peaklist A named list of peak files as GRanges object.
 #' Objects listed using `list()` and named using `names()`.
@@ -35,16 +36,26 @@ tidy_peakfile <- function(peaklist, blacklist){
   if(is.list(peaklist)){
     peaklist_tidy <- list()
     for(sample in peaklist){
-      tidy_peak <- BRGenomics::tidyChromosomes(sample, keep.X = TRUE, keep.Y = TRUE) # remove non-standard chromosomes
-      blacklist_removed <- IRanges::subsetByOverlaps(tidy_peak, blacklist, invert = TRUE) # remove blacklisted peaks
+      # remove non-standard chromosomes
+      tidy_peak <- BRGenomics::tidyChromosomes(sample,
+                                               keep.X = TRUE,
+                                               keep.Y = TRUE)
+      # remove blacklisted peaks
+      blacklist_removed <- IRanges::subsetByOverlaps(tidy_peak,
+                                                     blacklist,
+                                                     invert = TRUE)
       peaklist_tidy <- c(peaklist_tidy, blacklist_removed)
     }
     names(peaklist_tidy) <- names(peaklist)
     return(peaklist_tidy)
   }else{
     # if only one file, tidy and output one file
-    tidy_peak <- BRGenomics::tidyChromosomes(peaklist, keep.X = TRUE, keep.Y = TRUE)
-    peaklist_tidy<- IRanges::subsetByOverlaps(tidy_peak, blacklist, invert = TRUE)
+    tidy_peak <- BRGenomics::tidyChromosomes(peaklist,
+                                             keep.X = TRUE,
+                                             keep.Y = TRUE)
+    peaklist_tidy<- IRanges::subsetByOverlaps(tidy_peak,
+                                              blacklist,
+                                              invert = TRUE)
     names(peaklist_tidy)[1] <- names(peaklist)[1]
     return(peaklist_tidy)
   }

@@ -56,8 +56,8 @@ overlap_heatmap <- function(peaklist, interact=TRUE){
     melt <- reshape2::melt(overlap_matrix)
     overlap_heatmap <- ggplot2::ggplot(data = melt, ggplot2::aes(x=Var1, y=Var2, fill=value)) + ggplot2::geom_tile()
   }else{
-    overlap_heatmap <- plotly::plot_ly(x=stringr::str_wrap(colnames(overlap_matrix), 10),
-                                       y=stringr::str_wrap(rownames(overlap_matrix), 10),
+    overlap_heatmap <- plotly::plot_ly(x=colnames(overlap_matrix),
+                                       y=rownames(overlap_matrix),
                                        z=overlap_matrix,
                                        type="heatmap")
   }

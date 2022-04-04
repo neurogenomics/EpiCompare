@@ -109,7 +109,7 @@ overlap_stat_plot <- function(reference, peaklist){
 
     # create paired boxplot for each peak file (sample)
     sample_plot <- ggplot2::ggplot(main_df,
-                                   ggplot2::aes(x=stringr::str_wrap(sample, 10),
+                                   ggplot2::aes(x=sample,
                                                 y=qvalue,
                                                 fill=group)) +
                    ggplot2::geom_boxplot(outlier.shape = NA) +

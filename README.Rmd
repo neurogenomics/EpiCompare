@@ -1,6 +1,6 @@
 ---
 title: "`EpiCompare`: QC and Benchmarking of Epigenetic Datasets"
-author: "Sera Choi"
+author: "<h5><i>Authors</i>: Sera Choi, Brian Schilder and Nathan Skene</h5>"
 date: "<h5><i>Updated</i>: `r format(Sys.Date(), '%b-%d-%Y')`</h5>"
 output: 
   github_document:
