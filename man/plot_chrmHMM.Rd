@@ -35,8 +35,9 @@ data("chromHMM_annotation_K562") # example chromHMM annotation
 peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 names(peaks) <- c("CnT", "CnR") # set names
 
-my_plot <- plot_chrmHMM(peaklist=peaks,
-                        chrmHMM_annotation=chromHMM_annotation_K562,
-                        genome_build = "hg19")
+## not run
+#my_plot <- plot_chrmHMM(peaklist=peaks,
+#                        chrmHMM_annotation=chromHMM_annotation_K562,
+#                        genome_build = "hg19")
 
 }
