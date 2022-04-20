@@ -1,7 +1,7 @@
 #' Validate input parameters
 #'
 #' @return No return
-#' @import methods
+#' @importFrom methods is
 #' @keywords internal
 validate_parameters <- function(peaklist, namelist, reference, stat_plot){
   # check that outpath exists

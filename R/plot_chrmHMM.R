@@ -16,7 +16,8 @@
 #' @return ChromHMM heatmap
 #'
 #' @importFrom GenomicRanges GRangesList
-#' @importFrom genomation annotateWithFeatures heatTargetAnnotation
+#' @importMethodsFrom genomation annotateWithFeatures 
+#' @importFrom genomation heatTargetAnnotation
 #' @importFrom reshape2 melt
 #' @importFrom plotly plot_ly
 #' @import ggplot2

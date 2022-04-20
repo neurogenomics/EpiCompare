@@ -38,9 +38,8 @@ gather_files <- function(dir,
                          type = "peaks.consensus.filtered",
                          nfcore_cutandrun = FALSE,
                          mc.cores = 1){
-
-  requireNamespace("parallel")
   requireNamespace("data.table")
+  requireNamespace("BiocParallel")
   type_key <- c(
     "peaks.stringent"="*.peaks.bed.stringent.bed$",
     "peaks.consensus"="*.consensus.peaks.bed$",
@@ -66,7 +65,9 @@ gather_files <- function(dir,
                               nfcore_cutandrun=nfcore_cutandrun)
   #### Import files ####
   message("Importing files.")
-  files <- parallel::mclapply(paths, function(x){
+  #set number of workers - used for bpapply below
+  BiocParallel::register(BiocParallel::MulticoreParam(workers=mc.cores))
+  files <- BiocParallel::bplapply(paths, function(x){
     message_parallel(x,"\n")
     if(startsWith(type,"peaks")){
       dat <- ChIPseeker::readPeakFile(x, as = "GRanges")
@@ -91,7 +92,7 @@ gather_files <- function(dir,
       }, error = function(e) dat)
     }
     return(dat)
-  }, mc.cores = mc.cores) %>% `names<-`(names)
+  }) %>% `names<-`(names)
   return(files)
 }
 

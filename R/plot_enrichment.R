@@ -12,7 +12,8 @@
 #'
 #' @importMethodsFrom org.Hs.eg.db org.Hs.eg.db
 #' @importFrom ChIPseeker annotatePeak
-#' @importFrom clusterProfiler compareCluster dotplot
+#' @importFrom clusterProfiler compareCluster 
+#' @importMethodsFrom clusterProfiler dotplot
 #' @import ggplot2
 #' @export
 #' @examples

@@ -10,7 +10,8 @@
 #'
 #' @return barplot
 #'
-#' @importFrom ChIPseeker annotatePeak plotAnnoBar
+#' @importFrom ChIPseeker annotatePeak 
+#' @importMethodsFrom ChIPseeker plotAnnoBar
 #'
 #' @export
 #' @examples

@@ -68,8 +68,9 @@ Suggests:
   knitr,
   htmlwidgets,
   BiocStyle,
-  data.table, 
-  parallel
+  data.table,
+  BiocParallel,
+  BiocFileCache
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2.9000
 Encoding: UTF-8
