@@ -4,7 +4,7 @@
 #'
 #' @return A list of GRanges objects
 #'
-#' @importFrom methods is
+#' @import methods
 #' @keywords internal
 prepare_peaklist <- function(peaklist){
   # check that peaklist is named, if not, default names assigned

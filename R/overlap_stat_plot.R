@@ -13,16 +13,19 @@
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
+#' @param genome_build The human genome reference build used to generate
+#' peakfiles. "hg19" or "hg38".
 #'
 #' @return A boxplot or barplot showing the statistical significance of
 #' overlapping/non-overlapping peaks.
 #'
-#' @importFrom IRanges subsetByOverlaps
-#' @importFrom GenomicRanges mcols
+#' @importMethodsFrom IRanges subsetByOverlaps
+#' @importMethodsFrom GenomicRanges mcols
 #' @importFrom stats quantile
-#' @importFrom TxDb.Hsapiens.UCSC.hg19.knownGene TxDb.Hsapiens.UCSC.hg19.knownGene
-#' @importFrom TxDb.Hsapiens.UCSC.hg38.knownGene TxDb.Hsapiens.UCSC.hg38.knownGene
+#' @importMethodsFrom TxDb.Hsapiens.UCSC.hg19.knownGene TxDb.Hsapiens.UCSC.hg19.knownGene
+#' @importMethodsFrom TxDb.Hsapiens.UCSC.hg38.knownGene TxDb.Hsapiens.UCSC.hg38.knownGene
 #' @importFrom ChIPseeker enrichPeakOverlap
+#' @importMethodsFrom S4Vectors elementMetadata
 #' @import ggplot2
 #'
 #' @export
@@ -40,7 +43,7 @@
 #' stat_plot <- out[[1]] # plot
 #' stat_df <- out[[2]] # df
 #'
-overlap_stat_plot <- function(reference, peaklist){
+overlap_stat_plot <- function(reference, peaklist, genome_build){
   # define variables
   qvalue <- NULL
   tSample <- NULL
@@ -48,8 +51,8 @@ overlap_stat_plot <- function(reference, peaklist){
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
   # check if the file has BED6+4 format
-  if(ncol(reference[[1]]@elementMetadata) == 7 |
-     ncol(reference[[1]]@elementMetadata) == 6){
+  if(ncol(S4Vectors::elementMetadata(reference[[1]])) == 7 |
+     ncol(S4Vectors::elementMetadata(reference[[1]])) == 6){
     main_df <- NULL
     # for each peakfile, obtain overlapping and unique peaks
     for (i in seq_len(length(peaklist))){
@@ -59,7 +62,7 @@ overlap_stat_plot <- function(reference, peaklist){
       # reset names of metadata
       n <- 4
       my_label <- NULL
-      for (l in seq_len(ncol(overlap@elementMetadata))){
+      for (l in seq_len(ncol(S4Vectors::elementMetadata(overlap)))){
         label <- paste0("V",n)
         my_label <- c(my_label, label)
         n <- n + 1
@@ -72,7 +75,7 @@ overlap_stat_plot <- function(reference, peaklist){
       # reset names of metadata
       n <- 4
       my_label <- NULL
-      for (l in seq_len(ncol(unique@elementMetadata))){
+      for (l in seq_len(ncol(S4Vectors::elementMetadata(unique)))){
         label <- paste0("V",n)
         my_label <- c(my_label, label)
         n <- n + 1
@@ -124,7 +127,11 @@ overlap_stat_plot <- function(reference, peaklist){
     # for files not in BED6+4 format
     }else{
       # calculate significance of overlapping peaks using enrichPeakOverlap()
-      txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+      if (genome_build == "hg19"){
+        txdb<-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+      }else if (genome_build == "hg38"){
+        txdb<-TxDb.Hsapiens.UCSC.hg38.knownGene::TxDb.Hsapiens.UCSC.hg38.knownGene
+      }
       overlap_result <- ChIPseeker::enrichPeakOverlap(queryPeak = reference[[1]],
                                                       targetPeak = peaklist,
                                                       TxDb = txdb,

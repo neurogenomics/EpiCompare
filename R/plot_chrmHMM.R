@@ -20,8 +20,8 @@
 #' @importFrom reshape2 melt
 #' @importFrom plotly plot_ly
 #' @import ggplot2
-#' @importFrom rtracklayer import.chain liftOver
-#' @importFrom R.utils gunzip
+#' @importMethodsFrom rtracklayer liftOver
+#' @importFrom AnnotationHub AnnotationHub
 #'
 #' @export
 #' @examples
@@ -37,7 +37,7 @@
 #' #                        chrmHMM_annotation=chromHMM_annotation_K562,
 #' #                        genome_build = "hg19")
 #'
-plot_chrmHMM <- function(peaklist, chrmHMM_annotation, genome_build, interact = TRUE){
+plot_chrmHMM<-function(peaklist,chrmHMM_annotation,genome_build,interact=TRUE){
   # define variables
   chain <- NULL
   State <- NULL
@@ -56,27 +56,16 @@ plot_chrmHMM <- function(peaklist, chrmHMM_annotation, genome_build, interact = 
   }
   if(genome_build=="hg38"){
     # obtain chain
-    chain_path_gz <- system.file("extdata",
-                                 "hg38ToHg19.over.chain.gz",
-                                 package = "EpiCompare")
-    chain_path <- R.utils::gunzip(chain_path_gz, temporary=TRUE, remove=FALSE,
-                                  overwrite=TRUE)
-    chain <- rtracklayer::import.chain(paste0(tempdir(),"/hg38ToHg19.over.chain"))
+    ah <- AnnotationHub::AnnotationHub()
+    chain <- ah[["AH14108"]]
+    # liftover hg38 to hg19
     peaklist_hg38Tohg19 <- list()
     for(peak in peaklist){
-      # reset names of metadata
-      n <- 4
-      my_label <- NULL
-      for (l in seq_len(ncol(peak@elementMetadata))){
-        label <- paste0("V",n)
-        my_label <- c(my_label, label)
-        n <- n + 1
-      }
-      colnames(GenomicRanges::mcols(peak)) <- my_label
       peak_hg19 <- rtracklayer::liftOver(peak, chain)
       peak_hg19 <- unlist(peak_hg19)
       peaklist_hg38Tohg19 <- c(peaklist_hg38Tohg19, peak_hg19)
     }
+    # set name
     names(peaklist_hg38Tohg19) <- names(peaklist)
     peaklist <- peaklist_hg38Tohg19
   }
@@ -91,7 +80,7 @@ plot_chrmHMM <- function(peaklist, chrmHMM_annotation, genome_build, interact = 
   # remove numbers in front of states
   label_corrected <- gsub('X', '', colnames(matrix))
   colnames(matrix) <- label_corrected # set corrected labels
-  # if interaction is FALSE
+  # if interaction is FALSE generate static heatmap
   if(!interact){
     # convert matrix into molten data frame
     matrix_melt <- reshape2::melt(matrix)
@@ -103,9 +92,12 @@ plot_chrmHMM <- function(peaklist, chrmHMM_annotation, genome_build, interact = 
       ggplot2::xlab("") +
       ggplot2::scale_fill_viridis_b() +
       ggplot2::theme_minimal() +
-      ggpubr::rotate_x_text(angle = 45) +
-      ggplot2::theme(axis.text = ggplot2::element_text(size = 11))
+      ggplot2::theme(axis.text = ggplot2::element_text(size = 11)) +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 315,
+                                                         vjust = 0.5,
+                                                         hjust=0))
   }else{
+    # generate interactive heatmap
     chrHMM_plot <- plotly::plot_ly(x = colnames(matrix),
                                    y = rownames(matrix),
                                    z = matrix,

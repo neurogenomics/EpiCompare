@@ -19,9 +19,9 @@ usethis::use_data(hg38_blacklist, overwrite = TRUE)
 data("hg38_blacklist")
 }
 \description{
-Obtained from \url{https://github.com/Boyle-Lab/Blacklist/tree/master/lists}.
+Obtained from \url{https://www.encodeproject.org/files/ENCFF356LFX/}.
 The ENCODE blacklist includes regions of the genome that have anomalous and/
-or unstructured signals.independent of the cell-line or experiment. Removal
+or unstructured signals independent of the cell-line or experiment. Removal
 of ENCODE blacklist is recommended for quality measure.
 }
 \keyword{datasets}

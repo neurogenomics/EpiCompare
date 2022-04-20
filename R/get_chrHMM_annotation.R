@@ -16,7 +16,7 @@
 #'   \item "Nhlf" = Normal Human Lung Fibroblasts
 #' }
 #' @importFrom genomation readBed
-#' @importFrom GenomicRanges split
+#' @importMethodsFrom GenomicRanges split
 #' @keywords internal
 get_chrHMM_annotation <- function(cell_line){
   if (cell_line == "K562"){

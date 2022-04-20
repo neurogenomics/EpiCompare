@@ -174,6 +174,11 @@ data (`encode_H3K27ac`), which has been converted to `GRanges` previously:
 reference_peak <- list("ENCODE_H3K27ac" = encode_H3K27ac)
 ```
 
+### Output Directory 
+
+When running `EpiCompare()`, please ensure that you specify `output_dir`. All
+outputs (figures and HTML report) will be saved in the specified `output_dir`.
+
 ## Run EpiCompare
 
 Running EpiCompare is done using the function, `EpiCompare()` . Users can choose
@@ -197,7 +202,7 @@ EpiCompare(peakfiles = peaklist,
            save_output = TRUE,
            output_filename = "EpiCompare",
            output_timestamp = FALSE,
-           output_dir = "/path/to/output")
+           output_dir = tempdir())
 ```
 
 ### Optional plots

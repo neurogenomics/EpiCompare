@@ -10,8 +10,8 @@
 #'
 #' @return An interactive heatmap
 #'
-#' @importFrom IRanges subsetByOverlaps
-#' @importFrom ggplot2 ggplot aes geom_tile
+#' @importMethodsFrom IRanges subsetByOverlaps
+#' @import ggplot2
 #' @importFrom reshape2 melt
 #' @importFrom plotly plot_ly
 #' @importFrom stringr str_wrap

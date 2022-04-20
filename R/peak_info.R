@@ -9,7 +9,7 @@
 #'
 #' @return A summary table of peak information
 #'
-#' @importFrom IRanges subsetByOverlaps
+#' @importMethodsFrom IRanges subsetByOverlaps
 #' @importFrom BRGenomics tidyChromosomes
 #' @export
 #'

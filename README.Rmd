@@ -104,6 +104,7 @@ These input parameters must be provided:
 Files must be listed using `list()` and named using for example, `names(peaklist) <- c("sample1","sample2)`
 * `genome_build` Human genome reference build used to generate peakfiles. Options are "hg19" or "hg38".
 * `blacklist` : Peakfile as GRanges object specifying genomic regions that have anomalous and/or unstructured signals independent of the cell-line or experiment. For human hg19 and hg38 genome, use built-in data `data(hg19_blacklist)` and  `data(hg38_blacklist)` respectively. 
+* `output_dir` : Please specify the path to directory, where all EpiCompare outputs will be saved. 
 
 #### Optional Inputs
 

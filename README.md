@@ -4,12 +4,12 @@
 <i>Authors</i>: Sera Choi, Brian Schilder and Nathan Skene
 </h5>
 <h5>
-<i>Updated</i>: Apr-04-2022
+<i>Updated</i>: Apr-20-2022
 </h5>
 
 <!-- badges: start -->
 
-[![](https://img.shields.io/badge/devel%20version-0.99.5-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-0.99.8-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://app.codecov.io/gh/neurogenomics/EpiCompare)
@@ -117,6 +117,8 @@ These input parameters must be provided:
     cell-line or experiment. For human hg19 and hg38 genome, use
     built-in data `data(hg19_blacklist)` and `data(hg38_blacklist)`
     respectively.
+-   `output_dir` : Please specify the path to directory, where all
+    EpiCompare outputs will be saved.
 
 #### Optional Inputs
 
@@ -212,20 +214,20 @@ utils::sessionInfo()
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] tidyselect_1.1.2    xfun_0.30           purrr_0.3.4        
-    ##  [4] colorspace_2.0-3    vctrs_0.4.0         generics_0.1.2     
+    ##  [4] colorspace_2.0-3    vctrs_0.4.1         generics_0.1.2     
     ##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.3.5         
-    ## [10] utf8_1.2.2          rlang_1.0.2         gert_1.5.0         
+    ## [10] utf8_1.2.2          rlang_1.0.2         gert_1.6.0         
     ## [13] pillar_1.7.0        glue_1.6.2          DBI_1.1.2          
-    ## [16] RColorBrewer_1.1-2  rvcheck_0.2.1       lifecycle_1.0.1    
-    ## [19] stringr_1.4.0       dlstats_0.1.4       munsell_0.5.0      
+    ## [16] RColorBrewer_1.1-3  rvcheck_0.2.1       lifecycle_1.0.1    
+    ## [19] stringr_1.4.0       dlstats_0.1.5       munsell_0.5.0      
     ## [22] gtable_0.3.0        evaluate_0.15       knitr_1.38         
     ## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            
-    ## [28] fansi_1.0.3         openssl_2.0.0       scales_1.1.1       
+    ## [28] fansi_1.0.3         openssl_2.0.0       scales_1.2.0       
     ## [31] BiocManager_1.30.16 desc_1.4.1          jsonlite_1.8.0     
     ## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      
     ## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      
     ## [40] gh_1.3.0            dplyr_1.0.8         grid_4.1.2         
-    ## [43] rprojroot_2.0.2     cli_3.2.0           tools_4.1.2        
+    ## [43] rprojroot_2.0.3     cli_3.2.0           tools_4.1.2        
     ## [46] yulab.utils_0.0.4   magrittr_2.0.3      tibble_3.1.6       
     ## [49] crayon_1.5.1        pkgconfig_2.0.3     ellipsis_0.3.2     
     ## [52] assertthat_0.2.1    rmarkdown_2.13      httr_1.4.2         

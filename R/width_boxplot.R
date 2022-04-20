@@ -10,7 +10,7 @@
 #'
 #' @return A boxplot of peak widths.
 #'
-#' @importFrom GenomicRanges width
+#' @importMethodsFrom GenomicRanges width
 #' @importFrom ggplot2 ggplot
 #'
 #' @export

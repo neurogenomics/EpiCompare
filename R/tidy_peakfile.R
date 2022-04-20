@@ -14,7 +14,7 @@
 #' @export
 #'
 #' @importFrom BRGenomics tidyChromosomes
-#' @importFrom IRanges subsetByOverlaps
+#' @importMethodsFrom IRanges subsetByOverlaps
 
 #' @examples
 #' data("encode_H3K27ac") # example dataset as GRanges object

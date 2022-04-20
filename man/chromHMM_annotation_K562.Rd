@@ -13,14 +13,14 @@ The code to prepare the .Rda file from the raw peak file is:
 \code{
 chrHMM_url <- "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
 chrHMM <- genomation::readBed(chrHMM_url)
-chr1_seqnames <- subset(chrHMM@seqnames, factor(chrHMM@seqnames) == "chr1") # subset chr1 seqnames
-chr1_ranges <- chrHMM@ranges[1:67294] # subset chr1 ranges
-chr1_strand <- chrHMM@strand[1:67294] # subset chr1 strand
-chr1_elementMetadata <- chrHMM@elementMetadata[1:67294,] # subset chr1 element metadata
-chrHMM@seqnames <- chr1_seqnames
-chrHMM@ranges <- chr1_ranges
-chrHMM@strand <- chr1_strand
-chrHMM@elementMetadata <- chr1_elementMetadata
+chr1_seqnames <- subset(seqnames(chrHMM), factor(seqnames(chrHMM)) == "chr1") # subset chr1 seqnames
+chr1_ranges <- ranges(chrHMM)[1:67294] # subset chr1 ranges
+chr1_strand <- strand(chrHMM)[1:67294] # subset chr1 strand
+chr1_elementMetadata <- elementMetadata(chrHMM)[1:67294,] # subset chr1 element metadata
+seqnames(chrHMM) <- chr1_seqnames
+ranges(chrHMM) <- chr1_ranges
+strand(chrHMM) <- chr1_strand
+elementMetadata(chrHMM) <- chr1_elementMetadata
 chromHMM_annotation_K562 <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
 usethis::use_data(chromHMM_annotation_K562, overwrite = TRUE)
 }

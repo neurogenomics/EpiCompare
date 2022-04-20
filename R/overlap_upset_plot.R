@@ -8,10 +8,11 @@
 #'
 #' @return Upset plot of overlapping peaks
 #'
-#' @importFrom IRanges findOverlaps
+#' @importMethodsFrom IRanges findOverlaps
 #' @importFrom dplyr mutate
 #' @importFrom tidyr spread
 #' @importFrom UpSetR upset
+#' @importMethodsFrom S4Vectors elementMetadata
 #'
 #' @export
 #' @examples
@@ -27,8 +28,8 @@ overlap_upset_plot <- function(peaklist){
   peaklist <- check_list_names(peaklist)
   # change metadata column names so it doesn't interfere
   for(i in seq_len(length(peaklist))){
-    my_label <- make.unique(rep("name", ncol(peaklist[[i]]@elementMetadata)))
-    colnames(peaklist[[i]]@elementMetadata) <- my_label
+    my_label <- make.unique(rep("name", ncol(S4Vectors::elementMetadata(peaklist[[i]]))))
+    colnames(S4Vectors::elementMetadata(peaklist[[i]])) <- my_label
   }
   # erase name
   peaklist_names <- names(peaklist)

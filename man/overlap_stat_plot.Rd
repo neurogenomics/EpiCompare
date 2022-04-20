@@ -4,7 +4,7 @@
 \alias{overlap_stat_plot}
 \title{Statistical significance of overlapping peaks}
 \usage{
-overlap_stat_plot(reference, peaklist)
+overlap_stat_plot(reference, peaklist, genome_build)
 }
 \arguments{
 \item{reference}{A reference peak file as GRanges object.}
@@ -12,6 +12,9 @@ overlap_stat_plot(reference, peaklist)
 \item{peaklist}{A list of peak files as GRanges object.
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
+
+\item{genome_build}{The human genome reference build used to generate
+peakfiles. "hg19" or "hg38".}
 }
 \value{
 A boxplot or barplot showing the statistical significance of

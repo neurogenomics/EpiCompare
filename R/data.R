@@ -12,7 +12,7 @@
 #' \code{
 #' # dataset was directly downloaded from \url{https://www.encodeproject.org/files/ENCFF044JNJ/}
 #' encode_H3K27ac <- ChIPseeker::readPeakFile("./data/ENCODE_H3K27ac.bed", as = "GRanges")
-#' encode_H3K27ac <- encode_H3K27ac[encode_H3K27ac@seqnames == "chr1"]
+#' encode_H3K27ac <- encode_H3K27ac[seqnames(encode_H3K27ac) == "chr1"]
 #' colnames(GenomicRanges::mcols(encode_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 #' usethis::use_data(encode_H3K27ac, overwrite = TRUE)
 #' }
@@ -35,7 +35,7 @@
 #' \code{
 #' # dataset was directly downloaded from \url{https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8383507}
 #' CnT_H3K27ac <- ChIPseeker::readPeakFile("./data/CnT_H3K27ac_MACS2.bed", as = "GRanges")
-#' CnT_H3K27ac <- CnT_H3K27ac[CnT_H3K27ac@seqnames== "chr1"]
+#' CnT_H3K27ac <- CnT_H3K27ac[seqnames(CnT_H3K27ac)== "chr1"]
 #' colnames(GenomicRanges::mcols(CnT_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 #' usethis::use_data(CnT_H3K27ac)
 #' }
@@ -57,7 +57,7 @@
 #'
 #' \code{
 #' CnR_H3K27ac <- ChIPseeker::readPeakFile("./data/CnR_H3K27ac_MACS2.bed", as = "GRanges")
-#' CnR_H3K27ac <- CnR_H3K27ac[CnR_H3K27ac@seqnames== "chr1"]
+#' CnR_H3K27ac <- CnR_H3K27ac[seqnames(CnR_H3K27ac)== "chr1"]
 #' colnames(GenomicRanges::mcols(CnR_H3K27ac)) <- c("name","score","strand","signalValue","pValue","qValue","peak")
 #' usethis::use_data(CnR_H3K27ac, overwrite = TRUE)
 #' }
@@ -76,35 +76,19 @@
 #' \code{
 #' chrHMM_url <- "http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz"
 #' chrHMM <- genomation::readBed(chrHMM_url)
-#' chr1_seqnames <- subset(chrHMM@seqnames, factor(chrHMM@seqnames) == "chr1") # subset chr1 seqnames
-#' chr1_ranges <- chrHMM@ranges[1:67294] # subset chr1 ranges
-#' chr1_strand <- chrHMM@strand[1:67294] # subset chr1 strand
-#' chr1_elementMetadata <- chrHMM@elementMetadata[1:67294,] # subset chr1 element metadata
-#' chrHMM@seqnames <- chr1_seqnames
-#' chrHMM@ranges <- chr1_ranges
-#' chrHMM@strand <- chr1_strand
-#' chrHMM@elementMetadata <- chr1_elementMetadata
+#' chr1_seqnames <- subset(seqnames(chrHMM), factor(seqnames(chrHMM)) == "chr1") # subset chr1 seqnames
+#' chr1_ranges <- ranges(chrHMM)[1:67294] # subset chr1 ranges
+#' chr1_strand <- strand(chrHMM)[1:67294] # subset chr1 strand
+#' chr1_elementMetadata <- elementMetadata(chrHMM)[1:67294,] # subset chr1 element metadata
+#' seqnames(chrHMM) <- chr1_seqnames
+#' ranges(chrHMM) <- chr1_ranges
+#' strand(chrHMM) <- chr1_strand
+#' elementMetadata(chrHMM) <- chr1_elementMetadata
 #' chromHMM_annotation_K562 <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
 #' usethis::use_data(chromHMM_annotation_K562, overwrite = TRUE)
 #' }
 #' @usage data("chromHMM_annotation_K562")
 "chromHMM_annotation_K562"
-
-#' Human genome hg19 blacklisted regions
-#'
-#' Obtained from \url{https://www.encodeproject.org/files/ENCFF000KJP/}.
-#' The ENCODE blacklist includes regions of the genome that have anomalous and/or unstructured signals.
-#' independent of the cell-line or experiment. Removal of ENCODE blacklist is recommended for quality measure.
-#'
-#' @source
-#' The code to prepare the .Rda file is:
-#'
-#' \code{
-#' hg19_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")
-#' usethis::use_data(hg19_blacklist, overwrite = TRUE)
-#' }
-#' @usage data("hg19_blacklist")
-"hg19_blacklist"
 
 #' Example Picard duplication metrics file 1
 #'
@@ -140,29 +124,28 @@
 #' @usage data("CnR_H3K27ac_picard")
 "CnR_H3K27ac_picard"
 
-#' UCSC Chain file hg38 to hg19
+#' Human genome hg19 blacklisted regions
 #'
-#' @description UCSC Chain file hg38 to hg19, .chain.gz file, downloaded from
-#' https://hgdownload.cse.ucsc.edu/goldenpath/hg19/liftOver/ on 09/10/21
+#' Obtained from \url{https://www.encodeproject.org/files/ENCFF000KJP/}.
+#' The ENCODE blacklist includes regions of the genome that have anomalous
+#' and/or unstructured signals independent of the cell-line or experiment.
+#' Removal of ENCODE blacklist is recommended for quality measure.
 #'
-#' @name hg38ToHg19
-#' @section hg38ToHg19.over.chain.gz
-#' @details UCSC Chain file hg38 to hg19, .chain.gz file, downloaded on 09/10/21
-#' To be used as a back up if the download from UCSC fails.
-#' @source The chain file was downloaded from
-#' https://hgdownload.cse.ucsc.edu/goldenpath/hg38/liftOver/
+#' @source
+#' The code to prepare the .Rda file is:
+#'
 #' \code{
-#' utils::download.file('ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/liftOver/hg38ToHg19.over.chain.gz',tempdir())
+#' hg19_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")
+#' usethis::use_data(hg19_blacklist, overwrite = TRUE)
 #' }
-#' @format gunzipped chain file
-#' @details NULL
-NULL
+#' @usage data("hg19_blacklist")
+"hg19_blacklist"
 
 #' Human genome hg38 blacklisted regions
 #'
-#' Obtained from \url{https://github.com/Boyle-Lab/Blacklist/tree/master/lists}.
+#' Obtained from \url{https://www.encodeproject.org/files/ENCFF356LFX/}.
 #' The ENCODE blacklist includes regions of the genome that have anomalous and/
-#' or unstructured signals.independent of the cell-line or experiment. Removal
+#' or unstructured signals independent of the cell-line or experiment. Removal
 #' of ENCODE blacklist is recommended for quality measure.
 #'
 #' @source

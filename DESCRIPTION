@@ -1,7 +1,7 @@
 Package: EpiCompare
 Type: Package
 Title: Comparison, Benchmarking & QC of Epigenetic Datasets
-Version: 0.99.8
+Version: 0.99.9
 Authors@R: 
     c(person(given = "Sera",
              family = "Choi",
@@ -44,7 +44,6 @@ Imports:
 	IRanges,
 	reshape2,
 	ggplot2,
-	ggpubr,
 	ChIPseeker,
 	BRGenomics,
 	clusterProfiler,
@@ -55,13 +54,14 @@ Imports:
 	UpSetR,
 	rmarkdown,
 	rtracklayer,
-	R.utils,
+	AnnotationHub,
 	utils,
 	stats,
 	methods,
 	org.Hs.eg.db,
 	TxDb.Hsapiens.UCSC.hg19.knownGene,
-	TxDb.Hsapiens.UCSC.hg38.knownGene
+	TxDb.Hsapiens.UCSC.hg38.knownGene,
+	S4Vectors
 Suggests: 
   testthat (>= 3.0.0),
   badger,

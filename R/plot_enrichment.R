@@ -10,7 +10,7 @@
 #'
 #' @return KEGG and GO dot plots
 #'
-#' @importFrom org.Hs.eg.db org.Hs.eg.db
+#' @importMethodsFrom org.Hs.eg.db org.Hs.eg.db
 #' @importFrom ChIPseeker annotatePeak
 #' @importFrom clusterProfiler compareCluster dotplot
 #' @import ggplot2

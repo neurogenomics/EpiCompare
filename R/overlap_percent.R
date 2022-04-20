@@ -7,8 +7,8 @@
 #' @param invert whether to invert
 #'
 #' @return data frame
-#' @importFrom IRanges subsetByOverlaps
-#' @importFrom methods is
+#' @importMethodsFrom IRanges subsetByOverlaps
+#' @import methods
 #' @export
 #' @examples
 #' data("encode_H3K27ac") # example dataset as GRanges object

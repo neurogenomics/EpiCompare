@@ -299,7 +299,8 @@ Keys:
 if (is.null(params$reference) == FALSE){
   if (params$stat_plot){
     stat_plot <- overlap_stat_plot(reference = reference_tidy,
-                                   peaklist = peaklist_tidy)
+                                   peaklist = peaklist_tidy,
+                                   genome_build = params$genome_build)
     print(stat_plot[[1]])
     # save output 
     if(params$save_output){
