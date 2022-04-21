@@ -17,7 +17,7 @@ write_example_peaks <- function(dir = file.path(tempdir(),
                                              "CnT_H3K27ac",
                                              "CnR_H3K27ac")){
   dir.create(dir, showWarnings = FALSE, recursive = TRUE)
-  save_paths <- sapply(datasets, function(x){
+  save_paths <- vapply(datasets, function(x){
     save_path <- file.path(dir,paste0(x,".narrowPeaks.bed"))
     message("Writing ==> ",save_path)
     utils::data(list = x)
@@ -27,7 +27,7 @@ write_example_peaks <- function(dir = file.path(tempdir(),
                 col.names = TRUE,
                 sep="\t")
     return(save_path)
-  })
+  }, character(1))
   names(save_paths) <- datasets
   return(save_paths)
 }

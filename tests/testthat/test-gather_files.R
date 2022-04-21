@@ -9,5 +9,11 @@ test_that("gather_files works", {
   #### Gather/import files ####
   peaks <- EpiCompare::gather_files(dir=dir, type="*.narrowPeaks.bed$")
   testthat::expect_equal(length(peaks), length(datasets))
-  testthat::expect_true(all(sapply(peaks, methods::is,'GRanges')))
+  #testthat::expect_true(all(lapply(peaks, methods::is,'GRanges')))
+  for(peak in peaks){
+    testthat::expect_true(methods::is(peak, 'GRanges'))
+  }
 })
+
+
+

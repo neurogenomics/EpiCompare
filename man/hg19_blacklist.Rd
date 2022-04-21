@@ -5,12 +5,14 @@
 \alias{hg19_blacklist}
 \title{Human genome hg19 blacklisted regions}
 \format{
-An object of class \code{GRanges} of length 834.
+An object of class \code{GRanges} of length 411.
 }
 \source{
 The code to prepare the .Rda file is:
 
 \code{
+# blacklisted regions were directly downloaded
+# from \url{https://www.encodeproject.org/files/ENCFF001TDO/}
 hg19_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")
 usethis::use_data(hg19_blacklist, overwrite = TRUE)
 }
@@ -19,7 +21,7 @@ usethis::use_data(hg19_blacklist, overwrite = TRUE)
 data("hg19_blacklist")
 }
 \description{
-Obtained from \url{https://www.encodeproject.org/files/ENCFF000KJP/}.
+Obtained from \url{https://www.encodeproject.org/files/ENCFF001TDO/}.
 The ENCODE blacklist includes regions of the genome that have anomalous
 and/or unstructured signals independent of the cell-line or experiment.
 Removal of ENCODE blacklist is recommended for quality measure.

@@ -5,12 +5,14 @@
 \alias{hg38_blacklist}
 \title{Human genome hg38 blacklisted regions}
 \format{
-An object of class \code{GRanges} of length 636.
+An object of class \code{GRanges} of length 910.
 }
 \source{
 The code to prepare the .Rda file is:
 
 \code{
+## blacklisted regions were directly downloaded
+## from \url{https://www.encodeproject.org/files/ENCFF356LFX/}
 hg38_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")
 usethis::use_data(hg38_blacklist, overwrite = TRUE)
 }

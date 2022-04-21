@@ -16,7 +16,7 @@
 #' @return ChromHMM heatmap
 #'
 #' @importFrom GenomicRanges GRangesList
-#' @importMethodsFrom genomation annotateWithFeatures 
+#' @importMethodsFrom genomation annotateWithFeatures
 #' @importFrom genomation heatTargetAnnotation
 #' @importFrom reshape2 melt
 #' @importFrom plotly plot_ly
@@ -28,13 +28,15 @@
 #' @examples
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #' data("CnR_H3K27ac") # example dataset as GRanges object
-#' data("chromHMM_annotation_K562") # example chromHMM annotation
 #'
 #' peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 #' names(peaks) <- c("CnT", "CnR") # set names
 #'
 #' ## not run
-#' #my_plot <- plot_chrmHMM(peaklist=peaks,
+#' ## import ChromHMM annotation
+#' # chromHMM_annotation_K562 <- get_chrHMM_annotation("K562")
+#'
+#' # my_plot <- plot_chrmHMM(peaklist=peaks,
 #' #                        chrmHMM_annotation=chromHMM_annotation_K562,
 #' #                        genome_build = "hg19")
 #'

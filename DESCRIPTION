@@ -1,7 +1,7 @@
 Package: EpiCompare
 Type: Package
 Title: Comparison, Benchmarking & QC of Epigenetic Datasets
-Version: 0.99.9
+Version: 0.99.10
 Authors@R: 
     c(person(given = "Sera",
              family = "Choi",
@@ -13,6 +13,11 @@ Authors@R:
              role = c("aut"),
              email = "brian_schilder@alumni.brown.edu",
              comment = c(ORCID = "0000-0001-5949-2191")),
+      person(given = "Alan",
+             family = "Murphy",
+             role = c("aut"),
+             email = "alanmurph94@hotmail.com",
+             comment = c(ORCID = "0000-0002-2487-8753")),
       person(given = "Nathan",
              family = "Skene",
              role = c("aut"),
@@ -32,7 +37,7 @@ Description: EpiCompare is used to compare and analyse epigenetic datasets
 URL: https://github.com/neurogenomics/EpiCompare
 BugReports: https://github.com/neurogenomics/EpiCompare/issues
 License: GPL-3
-Depends: R (>= 4.1)
+Depends: R (>= 4.2.0)
 LazyData: FALSE
 biocViews:
 	ComparativeGenomics, Epigenetics, Genetics,
