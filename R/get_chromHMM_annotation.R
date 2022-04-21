@@ -16,10 +16,11 @@
 #'   \item "Nhlf" = Normal Human Lung Fibroblasts
 #' }
 #' @importFrom genomation readBed
-#' @importMethodsFrom GenomicRanges split
+#' @import GenomicRanges
 #' @keywords internal
 get_chromHMM_annotation <- function(cell_line,
                                   cache=BiocFileCache::BiocFileCache()){
+  requireNamespace("GenomicRanges")
   #use bioconductor caching package
   requireNamespace("BiocFileCache")
 
@@ -46,7 +47,7 @@ get_chromHMM_annotation <- function(cell_line,
                        "encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmm",
                        cell,"HMM.bed.gz")
   chrHMM <- genomation::readBed(chrHMM_url)
-  chromHMM_list <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
+  chromHMM_list <- split(chrHMM, chrHMM$name, drop = TRUE)
   msg <- paste0("adding ",cell,
                 "'s chrHMM to local cache,",
                 "future invocations will use local image")

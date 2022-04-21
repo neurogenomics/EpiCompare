@@ -10,10 +10,9 @@
 #'
 #' @return KEGG and GO dot plots
 #'
-#' @importMethodsFrom org.Hs.eg.db org.Hs.eg.db
+#' @import org.Hs.eg.db
 #' @importFrom ChIPseeker annotatePeak
-#' @importFrom clusterProfiler compareCluster 
-#' @importMethodsFrom clusterProfiler dotplot
+#' @import clusterProfiler
 #' @import ggplot2
 #' @export
 #' @examples
@@ -29,6 +28,8 @@
 #' #                            annotation = txdb)
 #'
 plot_enrichment <- function(peaklist, annotation){
+  requireNamespace("clusterProfiler")
+  requireNamespace("org.Hs.eg.db")
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
   # annotation for hg19 genome
@@ -49,7 +50,7 @@ plot_enrichment <- function(peaklist, annotation){
   if(length(peaklist) > 6){
     font_size <- 8
   }
-  kegg_plot <- clusterProfiler::dotplot(compKEGG) +
+  kegg_plot <- dotplot(compKEGG) +
           ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
                                                              vjust = 1,
                                                              hjust = 1,

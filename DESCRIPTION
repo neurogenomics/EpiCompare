@@ -1,7 +1,7 @@
 Package: EpiCompare
 Type: Package
 Title: Comparison, Benchmarking & QC of Epigenetic Datasets
-Version: 0.99.12
+Version: 0.99.13
 Authors@R: 
     c(person(given = "Sera",
              family = "Choi",

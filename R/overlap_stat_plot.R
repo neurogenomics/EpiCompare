@@ -21,7 +21,7 @@
 #' overlapping/non-overlapping peaks.
 #'
 #' @importMethodsFrom IRanges subsetByOverlaps
-#' @importMethodsFrom GenomicRanges mcols
+#' @import GenomicRanges
 #' @importFrom stats quantile
 #' @importFrom ChIPseeker enrichPeakOverlap
 #' @importMethodsFrom S4Vectors elementMetadata
@@ -43,6 +43,7 @@
 #' stat_df <- out[[2]] # df
 #'
 overlap_stat_plot <- function(reference, peaklist, annotation=NULL){
+  requireNamespace("GenomicRanges")
   # define variables
   qvalue <- NULL
   tSample <- NULL
@@ -66,7 +67,7 @@ overlap_stat_plot <- function(reference, peaklist, annotation=NULL){
         my_label <- c(my_label, label)
         n <- n + 1
       }
-      colnames(GenomicRanges::mcols(overlap)) <- my_label
+      colnames(mcols(overlap)) <- my_label
 
       # reference peaks not found in sample peaks
       unique <- IRanges::subsetByOverlaps(x = reference[[1]],
