@@ -57,32 +57,6 @@ if(!dir.exists(outpath)){
   dir.create(outpath)
 }
 
-test_that("All options TRUE (interact=F), correct outputs generated",{
-  EpiCompare::EpiCompare(peakfiles = peaklist,
-                         genome_build = "hg19",
-                         blacklist = hg19_blacklist,
-                         picard_files = picard_list,
-                         reference = reference,
-                         upset_plot = TRUE,
-                         stat_plot = TRUE,
-                         chromHMM_plot = TRUE,
-                         chipseeker_plot = FALSE,
-                         enrichment_plot = FALSE,
-                         tss_plot = FALSE,
-                         interact = FALSE,
-                         save_output = TRUE,
-                         output_dir = outpath)
-
-  files <- list.files(paste0(outpath,"/EpiCompare_file"))
-  expect_equal(length(files), 11)
-  expect_true(is.element("samples_percent_overlap.png", files))
-  expect_true(is.element("samples_chromHMM.png", files))
-  expect_true(is.element("sample_in_ref_chromHMM.png", files))
-  expect_true(is.element("ref_in_sample_chromHMM.png", files))
-  expect_true(is.element("ref_not_in_sample_chromHMM.png", files))
-  expect_true(is.element("sample_not_in_ref_chromHMM.png", files))
-})
-
 # remove test directory and create new one
 unlink(outpath, recursive = TRUE)
 if(!dir.exists(outpath)){

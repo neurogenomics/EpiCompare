@@ -83,7 +83,7 @@ H3K27ac against ENCODE ChIP-seq.
 
 Once installed, load the package: 
 
-```{r setup}
+```{r setup_vignette}
 library(EpiCompare)
 ```
 
@@ -187,21 +187,21 @@ Running EpiCompare is done using the function, `EpiCompare()` . Users can choose
 which analyses to run and include in the report by setting parameters to `TRUE` 
 or `FALSE`.
 
-```R
+```{r}
 EpiCompare(peakfiles = peaklist,
            genome_build = "hg19",
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
-           upset_plot = TRUE,
-           stat_plot = TRUE,
-           chromHMM_plot = TRUE,
+           upset_plot = FALSE,
+           stat_plot = FALSE,
+           chromHMM_plot = FALSE,
            chromHMM_annotation = "K562",
-           chipseeker_plot = TRUE,
-           enrichment_plot = TRUE,
-           tss_plot = TRUE,
-           interact = TRUE,
-           save_output = TRUE,
+           chipseeker_plot = FALSE,
+           enrichment_plot = FALSE,
+           tss_plot = FALSE,
+           interact = FALSE,
+           save_output = FALSE,
            output_filename = "EpiCompare",
            output_timestamp = FALSE,
            output_dir = tempdir())
@@ -275,7 +275,7 @@ be suitable in EpiCompare, feel free to report this through
 
 <details>
 
-```{r Session Info}
+```{r Session_Info_vignette}
 utils::sessionInfo()
 ```
 
