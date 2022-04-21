@@ -79,7 +79,7 @@ remotes::install_github("neurogenomics/EpiCompare")
 In this example analysis, we will compare CUT&Run and CUT&Tag of histone mark
 H3K27ac against ENCODE ChIP-seq. 
 
-## Load package and example datasets
+## Load package and example datasets 
 
 Once installed, load the package: 
 
