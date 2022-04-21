@@ -4,7 +4,7 @@
 \alias{overlap_stat_plot}
 \title{Statistical significance of overlapping peaks}
 \usage{
-overlap_stat_plot(reference, peaklist, genome_build)
+overlap_stat_plot(reference, peaklist, annotation = NULL)
 }
 \arguments{
 \item{reference}{A reference peak file as GRanges object.}
@@ -13,8 +13,8 @@ overlap_stat_plot(reference, peaklist, genome_build)
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
 
-\item{genome_build}{The human genome reference build used to generate
-peakfiles. "hg19" or "hg38".}
+\item{annotation}{A TxDb annotation object from Bioconductor. This is
+required only if the reference file does not have BED6+4 format.}
 }
 \value{
 A boxplot or barplot showing the statistical significance of
@@ -28,7 +28,8 @@ series of boxplots showing the distribution of q-values for sample peaks that
 are overlapping and non-overlapping with the reference. If the reference peak
 file does not have the BED6+4 format, the function uses `enrichPeakOverlap()`
 from `ChIPseeker` package to calculate the statistical significance of
-overlapping peaks only.
+overlapping peaks only. In this case, please provide an annotation file as
+TxDb object.
 }
 \examples{
 data("encode_H3K27ac") # example dataset as GRanges object

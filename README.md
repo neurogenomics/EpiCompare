@@ -1,15 +1,15 @@
 `EpiCompare`: QC and Benchmarking of Epigenetic Datasets
 ================
 <h5>
-<i>Authors</i>: Sera Choi, Brian Schilder and Nathan Skene
+<i>Authors</i>: Sera Choi, Brian Schilder, Alan Murphy, and Nathan Skene
 </h5>
 <h5>
-<i>Updated</i>: Apr-20-2022
+<i>Updated</i>: Apr-21-2022
 </h5>
 
 <!-- badges: start -->
 
-[![](https://img.shields.io/badge/devel%20version-0.99.8-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-0.99.10-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://app.codecov.io/gh/neurogenomics/EpiCompare)
@@ -26,7 +26,7 @@ report in HTML format consisting of three sections:
 1.  General Metrics: Metrics on peaks (percentage of blacklisted and
     non-standard peaks, and peak widths) and fragments (duplication
     rate) of samples.
-2.  Peak Overlap: Percetnage and statistical significance of overlapping
+2.  Peak Overlap: Percentage and statistical significance of overlapping
     and non-overlapping peaks. Also includes upset plot.
 3.  Functional Annotation: Functional annotation (ChromHMM, ChIPseeker
     and enrichment analysis) of peaks. Also includes peak enrichment
@@ -92,8 +92,8 @@ EpiCompare(peakfiles = peaklist,
            reference = reference_peak,
            upset_plot = TRUE,
            stat_plot = TRUE,
-           chrmHMM_plot = TRUE,
-           chrmHMM_annotation = "K562",
+           chromHMM_plot = TRUE,
+           chromHMM_annotation = "K562",
            chipseeker_plot = TRUE,
            enrichment_plot = TRUE,
            tss_plot = TRUE,
@@ -130,7 +130,7 @@ These input parameters must be provided:
     as data frame, use
     `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
 -   `reference` : Reference peak file is used in `stat_plot` and
-    `chrmHMM_plot`. File must be in GRanges object, listed and named
+    `chromHMM_plot`. File must be in GRanges object, listed and named
     using `list("reference_name" = GRanges_obect)`
 
 #### Optional Plots
@@ -142,7 +142,7 @@ By default, these plots will not be included in the report unless set
 -   `stat_plot` : included only if a `reference` dataset is provided.
     The plot shows statistical significance (p/q-values) of sample peaks
     that are overlapping/non-overlapping with the `reference` dataset.
--   `chrmHMM_plot` : ChromHMM annotation of peaks. If a `reference`
+-   `chromHMM_plot` : ChromHMM annotation of peaks. If a `reference`
     dataset is provided, ChromHMM annotation of overlapping and
     non-overlapping peaks with the `reference` is also included in the
     report.
@@ -155,8 +155,8 @@ By default, these plots will not be included in the report unless set
 
 #### Other Options
 
--   `chrmHMM_annotation` : Cell-line annotation for ChromHMM. Default is
-    K562. Options are:
+-   `chromHMM_annotation` : Cell-line annotation for ChromHMM. Default
+    is K562. Options are:
     -   “K562” = K-562 cells
     -   “Gm12878” = Cellosaurus cell-line GM12878
     -   “H1hesc” = H1 Human Embryonic Stem Cell

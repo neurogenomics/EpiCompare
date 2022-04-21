@@ -40,9 +40,9 @@ License: GPL-3
 Depends: R (>= 4.2.0)
 LazyData: FALSE
 biocViews:
-	ComparativeGenomics, Epigenetics, Genetics,
-	QualityControl
-SystemRequirements: GNU make
+	Epigenetics, Genetics, EpigeneticsWorkflow,
+	QualityControl, ChIPSeq, MultipleComparison,
+	FunctionalGenomics, ATACSeq, DNaseSeq
 Imports:
 	GenomicRanges,
 	genomation,
@@ -64,9 +64,8 @@ Imports:
 	stats,
 	methods,
 	org.Hs.eg.db,
-	TxDb.Hsapiens.UCSC.hg19.knownGene,
-	TxDb.Hsapiens.UCSC.hg38.knownGene,
-	S4Vectors
+	S4Vectors,
+	magrittr
 Suggests: 
   testthat (>= 3.0.0),
   badger,
@@ -75,7 +74,9 @@ Suggests:
   BiocStyle,
   data.table,
   BiocParallel,
-  BiocFileCache
+  BiocFileCache,
+  TxDb.Hsapiens.UCSC.hg19.knownGene,
+  TxDb.Hsapiens.UCSC.hg38.knownGene
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2.9000
 Encoding: UTF-8

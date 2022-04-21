@@ -7,14 +7,15 @@
 #' are overlapping and non-overlapping with the reference. If the reference peak
 #' file does not have the BED6+4 format, the function uses `enrichPeakOverlap()`
 #' from `ChIPseeker` package to calculate the statistical significance of
-#' overlapping peaks only.
+#' overlapping peaks only. In this case, please provide an annotation file as
+#' TxDb object.
 #'
 #' @param reference A reference peak file as GRanges object.
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
-#' @param genome_build The human genome reference build used to generate
-#' peakfiles. "hg19" or "hg38".
+#' @param annotation A TxDb annotation object from Bioconductor. This is
+#' required only if the reference file does not have BED6+4 format.
 #'
 #' @return A boxplot or barplot showing the statistical significance of
 #' overlapping/non-overlapping peaks.
@@ -22,8 +23,6 @@
 #' @importMethodsFrom IRanges subsetByOverlaps
 #' @importMethodsFrom GenomicRanges mcols
 #' @importFrom stats quantile
-#' @importMethodsFrom TxDb.Hsapiens.UCSC.hg19.knownGene TxDb.Hsapiens.UCSC.hg19.knownGene
-#' @importMethodsFrom TxDb.Hsapiens.UCSC.hg38.knownGene TxDb.Hsapiens.UCSC.hg38.knownGene
 #' @importFrom ChIPseeker enrichPeakOverlap
 #' @importMethodsFrom S4Vectors elementMetadata
 #' @import ggplot2
@@ -43,7 +42,7 @@
 #' stat_plot <- out[[1]] # plot
 #' stat_df <- out[[2]] # df
 #'
-overlap_stat_plot <- function(reference, peaklist, genome_build){
+overlap_stat_plot <- function(reference, peaklist, annotation=NULL){
   # define variables
   qvalue <- NULL
   tSample <- NULL
@@ -127,11 +126,7 @@ overlap_stat_plot <- function(reference, peaklist, genome_build){
     # for files not in BED6+4 format
     }else{
       # calculate significance of overlapping peaks using enrichPeakOverlap()
-      if (genome_build == "hg19"){
-        txdb<-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
-      }else if (genome_build == "hg38"){
-        txdb<-TxDb.Hsapiens.UCSC.hg38.knownGene::TxDb.Hsapiens.UCSC.hg38.knownGene
-      }
+      txdb <- annotation
       overlap_result <- ChIPseeker::enrichPeakOverlap(queryPeak = reference[[1]],
                                                       targetPeak = peaklist,
                                                       TxDb = txdb,

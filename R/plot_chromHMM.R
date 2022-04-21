@@ -7,7 +7,7 @@
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
-#' @param chrmHMM_annotation ChromHMM annotation list
+#' @param chromHMM_annotation ChromHMM annotation list
 #' @param genome_build The human genome reference build used to generate
 #' peakfiles. "hg19" or "hg38".
 #' @param interact Default TRUE. By default, the heatmaps are interactive.
@@ -34,13 +34,13 @@
 #'
 #' ## not run
 #' ## import ChromHMM annotation
-#' # chromHMM_annotation_K562 <- get_chrHMM_annotation("K562")
+#' # chromHMM_annotation_K562 <- get_chromHMM_annotation("K562")
 #'
-#' # my_plot <- plot_chrmHMM(peaklist=peaks,
-#' #                        chrmHMM_annotation=chromHMM_annotation_K562,
+#' # my_plot <- plot_chromHMM(peaklist=peaks,
+#' #                        chromHMM_annotation=chromHMM_annotation_K562,
 #' #                        genome_build = "hg19")
 #'
-plot_chrmHMM<-function(peaklist,chrmHMM_annotation,genome_build,interact=TRUE){
+plot_chromHMM<-function(peaklist,chromHMM_annotation,genome_build,interact=TRUE){
   # define variables
   chain <- NULL
   State <- NULL
@@ -76,7 +76,7 @@ plot_chrmHMM<-function(peaklist,chrmHMM_annotation,genome_build,interact=TRUE){
   grange_list <- GenomicRanges::GRangesList(peaklist, compress = FALSE)
   # annotate peakfiles with chromHMM annotations
   annotation <- genomation::annotateWithFeatures(grange_list,
-                                                 chrmHMM_annotation)
+                                                 chromHMM_annotation)
   # obtain matrix
   matrix <- genomation::heatTargetAnnotation(annotation, plot = FALSE)
   rownames(matrix) <- names(peaklist) # set row names

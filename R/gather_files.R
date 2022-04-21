@@ -24,7 +24,7 @@
 #' @returns A named list of \link[GenomicRanges]{GRanges} objects.
 #'
 #' @export
-#' @importFrom dplyr %>%
+#' @importFrom magrittr %>%
 #' @importFrom stringr str_split
 #' @importFrom GenomicRanges makeGRangesFromDataFrame
 #' @examples

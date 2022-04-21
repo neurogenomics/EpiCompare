@@ -25,7 +25,7 @@ test_that("All options TRUE (interact=T) and no ref,
                          reference = NULL,
                          upset_plot = TRUE,
                          stat_plot = TRUE,
-                         chrmHMM_plot = TRUE,
+                         chromHMM_plot = TRUE,
                          chipseeker_plot = TRUE,
                          enrichment_plot = TRUE,
                          tss_plot = FALSE,
@@ -41,11 +41,11 @@ test_that("All options TRUE (interact=T) and no ref,
   expect_true(is.element("samples_percent_overlap.html", files))
   expect_true(is.element("upset_plot.png", files))
   expect_false(is.element("stat_plot.png", files))
-  expect_true(is.element("samples_chrmHMM.html", files))
-  expect_false(is.element("sample_in_ref_chrmHMM.html", files))
-  expect_false(is.element("ref_in_sample_chrmHMM.html", files))
-  expect_false(is.element("ref_not_in_sample_chrmHMM.html", files))
-  expect_false(is.element("sample_not_in_ref_chrmHMM.html", files))
+  expect_true(is.element("samples_chromHMM.html", files))
+  expect_false(is.element("sample_in_ref_chromHMM.html", files))
+  expect_false(is.element("ref_in_sample_chromHMM.html", files))
+  expect_false(is.element("ref_not_in_sample_chromHMM.html", files))
+  expect_false(is.element("sample_not_in_ref_chromHMM.html", files))
   expect_true(is.element("chipseeker_annotation.png", files))
   expect_true(is.element("KEGG_analysis.png", files))
   expect_true(is.element("GO_analysis.png", files))
@@ -65,7 +65,7 @@ test_that("All options TRUE (interact=F), correct outputs generated",{
                          reference = reference,
                          upset_plot = TRUE,
                          stat_plot = TRUE,
-                         chrmHMM_plot = TRUE,
+                         chromHMM_plot = TRUE,
                          chipseeker_plot = FALSE,
                          enrichment_plot = FALSE,
                          tss_plot = FALSE,
@@ -76,11 +76,11 @@ test_that("All options TRUE (interact=F), correct outputs generated",{
   files <- list.files(paste0(outpath,"/EpiCompare_file"))
   expect_equal(length(files), 11)
   expect_true(is.element("samples_percent_overlap.png", files))
-  expect_true(is.element("samples_chrmHMM.png", files))
-  expect_true(is.element("sample_in_ref_chrmHMM.png", files))
-  expect_true(is.element("ref_in_sample_chrmHMM.png", files))
-  expect_true(is.element("ref_not_in_sample_chrmHMM.png", files))
-  expect_true(is.element("sample_not_in_ref_chrmHMM.png", files))
+  expect_true(is.element("samples_chromHMM.png", files))
+  expect_true(is.element("sample_in_ref_chromHMM.png", files))
+  expect_true(is.element("ref_in_sample_chromHMM.png", files))
+  expect_true(is.element("ref_not_in_sample_chromHMM.png", files))
+  expect_true(is.element("sample_not_in_ref_chromHMM.png", files))
 })
 
 # remove test directory and create new one
@@ -97,7 +97,7 @@ test_that("All options FALSE, correct outputs generated",{
                          reference = NULL,
                          upset_plot = FALSE,
                          stat_plot = FALSE,
-                         chrmHMM_plot = FALSE,
+                         chromHMM_plot = FALSE,
                          chipseeker_plot = FALSE,
                          enrichment_plot = FALSE,
                          tss_plot = FALSE,

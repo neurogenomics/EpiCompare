@@ -65,12 +65,7 @@ of ENCODE blacklist is recommended for quality measure.
 
 These dataset will be used to showcase *EpiCompare* functionality
 
-# Running *EpiCompare*
-
-In this example analysis, we will compare CUT&Run and CUT&Tag of histone mark
-H3K27ac against ENCODE ChIP-seq. 
-
-## Install package and example datasets
+# Installation
 
 To install the package, run the following: 
 
@@ -78,6 +73,13 @@ To install the package, run the following:
 if(!require("remotes")) install.packages("remotes")
 remotes::install_github("neurogenomics/EpiCompare")
 ```
+
+# Running *EpiCompare*
+
+In this example analysis, we will compare CUT&Run and CUT&Tag of histone mark
+H3K27ac against ENCODE ChIP-seq. 
+
+## Load package and example datasets
 
 Once installed, load the package: 
 
@@ -164,7 +166,7 @@ names(picard) <- c("CnT", "CnR") # set names
 ### Reference file
 
 This is OPTIONAL. If reference peak file is provided, `stat_plot` and 
-`chrmHMM_plot` of overlapping peaks are included in the report (see 
+`chromHMM_plot` of overlapping peaks are included in the report (see 
 *Optional plots* section below).
 
 Reference file must be listed and named. In this example, we will use built-in 
@@ -193,8 +195,8 @@ EpiCompare(peakfiles = peaklist,
            reference = reference_peak,
            upset_plot = TRUE,
            stat_plot = TRUE,
-           chrmHMM_plot = TRUE,
-           chrmHMM_annotation = "K562",
+           chromHMM_plot = TRUE,
+           chromHMM_annotation = "K562",
            chipseeker_plot = TRUE,
            enrichment_plot = TRUE,
            tss_plot = TRUE,
@@ -214,7 +216,7 @@ samples. *EpiCompare* uses `UpSetR` package.
 * `stat_plot` : A `reference` peakfile must be included for this plot. The plot
 displays distribution of statistical significance (q-values) of sample peaks
 that are overlapping/non-overlapping with the `reference` dataset. 
-* `chrmHMM_plot` : [ChromHMM](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning,and%20spatial%20patterns%20of%20marks.)
+* `chromHMM_plot` : [ChromHMM](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning,and%20spatial%20patterns%20of%20marks.)
 annotation of peaks. If `reference` is provided, ChromHMM annotation of 
 overlapping and non-overlapping peaks with the `reference` is also included in 
 the report. 
@@ -225,7 +227,7 @@ Note that it may take awhile to generate this plot for large sample sizes.
 
 ### Other options 
 
-* `chrmHMM_annotation` : Cell-line annotation for ChromHMM. Default is K562. 
+* `chromHMM_annotation` : Cell-line annotation for ChromHMM. Default is K562. 
 Options are: 
   + "K562" = K-562 cells
   + "Gm12878" = Cellosaurus cell-line GM12878

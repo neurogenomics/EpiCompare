@@ -1,0 +1,19 @@
+citHeader("To cite EpiCompare in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "EpiCompare: Comparison, Benchmarking & QC of Epigenetic Datasets",
+  author   = personList(as.person("Sera Choi"),
+                        as.person("Brian Schilder"),
+                        as.person("Alan Murphy"),
+                        as.person("Nathan Skene")),
+  journal  = "NA",
+  year     = "NA",
+  volume   = "NA",
+  number   = "NA",
+  pages    = "NA",
+  url      = ""NA,
+  textVersion = paste("NA"
+
+  )
+)

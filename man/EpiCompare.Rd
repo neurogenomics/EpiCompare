@@ -12,8 +12,8 @@ EpiCompare(
   reference = NULL,
   upset_plot = FALSE,
   stat_plot = FALSE,
-  chrmHMM_plot = FALSE,
-  chrmHMM_annotation = "K562",
+  chromHMM_plot = FALSE,
+  chromHMM_annotation = "K562",
   chipseeker_plot = FALSE,
   enrichment_plot = FALSE,
   tss_plot = FALSE,
@@ -56,11 +56,11 @@ overlapping peaks.}
 the statistical significance of overlapping/non-overlapping peaks.
 Reference peak file must be provided.}
 
-\item{chrmHMM_plot}{Default FALSE. If TRUE, the function outputs ChromHMM
+\item{chromHMM_plot}{Default FALSE. If TRUE, the function outputs ChromHMM
 heatmap of individual peak files. If a reference peak file is provided,
 ChromHMM annotation of overlapping and non-overlapping peaks is also provided.}
 
-\item{chrmHMM_annotation}{ChromHMM annotation for ChromHMM plots.
+\item{chromHMM_annotation}{ChromHMM annotation for ChromHMM plots.
 Default K562 cell-line. Cell-line options are:
 \itemize{
   \item "K562" = K-562 cells
@@ -129,8 +129,8 @@ EpiCompare(peakfiles = peaks,
            reference = reference_peak,
            upset_plot = FALSE,
            stat_plot = FALSE,
-           chrmHMM_plot = FALSE,
-           chrmHMM_annotation = "K562",
+           chromHMM_plot = FALSE,
+           chromHMM_annotation = "K562",
            chipseeker_plot = FALSE,
            enrichment_plot = FALSE,
            tss_plot = FALSE,

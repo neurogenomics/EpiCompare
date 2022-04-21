@@ -18,11 +18,11 @@
 #' @importFrom genomation readBed
 #' @importMethodsFrom GenomicRanges split
 #' @keywords internal
-get_chrHMM_annotation <- function(cell_line,
+get_chromHMM_annotation <- function(cell_line,
                                   cache=BiocFileCache::BiocFileCache()){
   #use bioconductor caching package
   requireNamespace("BiocFileCache")
-  
+
   if (cell_line == "K562"){
     cell <- "K562"
   }else if (cell_line == "Gm12878"){
@@ -46,21 +46,21 @@ get_chrHMM_annotation <- function(cell_line,
                        "encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmm",
                        cell,"HMM.bed.gz")
   chrHMM <- genomation::readBed(chrHMM_url)
-  chrHMM_list <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
+  chromHMM_list <- GenomicRanges::split(chrHMM, chrHMM$name, drop = TRUE)
   msg <- paste0("adding ",cell,
-                "'s chrHMM to local cache,", 
+                "'s chrHMM to local cache,",
                 "future invocations will use local image")
   if (!checkCache(cache,chrHMM_url))
     message(msg)
   path = BiocFileCache::bfcrpath(cache, chrHMM_url)
   chrHMM <- genomation::readBed(path)
-  
-  return(chrHMM_list)
+
+  return(chromHMM_list)
 }
 
 #quick function to check if already saved
 checkCache <- function(cache=BiocFileCache::BiocFileCache(),url) {
-  if (!requireNamespace("BiocFileCache")) 
+  if (!requireNamespace("BiocFileCache"))
     stop("install BiocFileCache to use this function")
   cached <- BiocFileCache::bfcinfo(cache)$rname
   return(url %in% cached)

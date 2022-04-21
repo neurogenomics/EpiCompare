@@ -3,7 +3,7 @@
 #' @param peaklist A list of peak files as GRanges object.
 #' Files must be listed using `list()` and named using `names()`
 #' If not named, default file names will be assigned.
-#' @param reference refrence peaks file
+#' @param reference reference peaks file
 #' @param invert whether to invert
 #'
 #' @return data frame

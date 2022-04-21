@@ -1,6 +1,6 @@
 ---
 title: "`EpiCompare`: QC and Benchmarking of Epigenetic Datasets"
-author: "<h5><i>Authors</i>: Sera Choi, Brian Schilder and Nathan Skene</h5>"
+author: "<h5><i>Authors</i>: Sera Choi, Brian Schilder, Alan Murphy, and Nathan Skene</h5>"
 date: "<h5><i>Updated</i>: `r format(Sys.Date(), '%b-%d-%Y')`</h5>"
 output: 
   github_document:
@@ -22,7 +22,7 @@ format consisting of three sections:
 
 1. General Metrics: Metrics on peaks (percentage of blacklisted and non-standard
 peaks, and peak widths) and fragments (duplication rate) of samples.
-2. Peak Overlap: Percetnage and statistical significance of overlapping and 
+2. Peak Overlap: Percentage and statistical significance of overlapping and 
 non-overlapping peaks. Also includes upset plot. 
 3. Functional Annotation: Functional annotation (ChromHMM, ChIPseeker and 
 enrichment analysis) of peaks. Also includes peak enrichment around TSS. 
@@ -86,8 +86,8 @@ EpiCompare(peakfiles = peaklist,
            reference = reference_peak,
            upset_plot = TRUE,
            stat_plot = TRUE,
-           chrmHMM_plot = TRUE,
-           chrmHMM_annotation = "K562",
+           chromHMM_plot = TRUE,
+           chromHMM_annotation = "K562",
            chipseeker_plot = TRUE,
            enrichment_plot = TRUE,
            tss_plot = TRUE,
@@ -109,7 +109,7 @@ Files must be listed using `list()` and named using for example, `names(peaklist
 #### Optional Inputs
 
 * `picard_files` : A list of summary metrics output from Picard. If provided, metrics on fragments (e.g. mapped fragments and duplication rate) will be included in the report. Files must be in data.frame format and listed using `list()` and named using `names()`. To import Picard duplication metrics (.txt file) into R as data frame, use `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
-* `reference` : Reference peak file is used in `stat_plot` and `chrmHMM_plot`. File must be in GRanges object, listed and named using `list("reference_name" = GRanges_obect)`
+* `reference` : Reference peak file is used in `stat_plot` and `chromHMM_plot`. File must be in GRanges object, listed and named using `list("reference_name" = GRanges_obect)`
 
 #### Optional Plots 
 
@@ -117,13 +117,13 @@ By default, these plots will not be included in the report unless set `TRUE`.
 
 * `upset_plot` : Upset plot of overlapping peaks between samples. 
 * `stat_plot` : included only if a `reference` dataset is provided. The plot shows statistical significance (p/q-values) of sample peaks that are overlapping/non-overlapping with the `reference` dataset. 
-* `chrmHMM_plot` : ChromHMM annotation of peaks. If a `reference` dataset is provided, ChromHMM annotation of overlapping and non-overlapping peaks with the `reference` is also included in the report. 
+* `chromHMM_plot` : ChromHMM annotation of peaks. If a `reference` dataset is provided, ChromHMM annotation of overlapping and non-overlapping peaks with the `reference` is also included in the report. 
 * `chipseeker_plot` : ChIPseeker annotation of peaks.
 * `enrichment_plot` : KEGG pathway and GO enrichment analysis of peaks. 
 * `tss_plot` : Peak frequency around (+/- 3000bp) transcriptional start site. Note that it may take awhile to generate this plot for large sample sizes. 
 
 #### Other Options 
-* `chrmHMM_annotation` : Cell-line annotation for ChromHMM. Default is K562. Options are: 
+* `chromHMM_annotation` : Cell-line annotation for ChromHMM. Default is K562. Options are: 
   + "K562" = K-562 cells
   + "Gm12878" = Cellosaurus cell-line GM12878
   + "H1hesc" = H1 Human Embryonic Stem Cell

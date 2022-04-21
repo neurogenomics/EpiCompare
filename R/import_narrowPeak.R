@@ -17,7 +17,8 @@
 #' @returns \link[GenomicRanges]{GRanges} object.
 #'
 #' @export
-#' @importFrom dplyr %>% rename mutate
+#' @importFrom dplyr rename mutate
+#' @importFrom magrittr %>%
 #' @importFrom tidyr separate
 #' @importFrom stats setNames
 #' @importFrom GenomicRanges makeGRangesFromDataFrame

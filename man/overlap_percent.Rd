@@ -11,7 +11,7 @@ overlap_percent(peaklist, reference, invert = FALSE)
 Files must be listed using `list()` and named using `names()`
 If not named, default file names will be assigned.}
 
-\item{reference}{refrence peaks file}
+\item{reference}{reference peaks file}
 
 \item{invert}{whether to invert}
 }

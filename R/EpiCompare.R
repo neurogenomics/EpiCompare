@@ -29,10 +29,10 @@
 #' @param stat_plot Default FALSE. If TRUE, the function creates a plot showing
 #' the statistical significance of overlapping/non-overlapping peaks.
 #' Reference peak file must be provided.
-#' @param chrmHMM_plot Default FALSE. If TRUE, the function outputs ChromHMM
+#' @param chromHMM_plot Default FALSE. If TRUE, the function outputs ChromHMM
 #' heatmap of individual peak files. If a reference peak file is provided,
 #' ChromHMM annotation of overlapping and non-overlapping peaks is also provided.
-#' @param chrmHMM_annotation ChromHMM annotation for ChromHMM plots.
+#' @param chromHMM_annotation ChromHMM annotation for ChromHMM plots.
 #' Default K562 cell-line. Cell-line options are:
 #' \itemize{
 #'   \item "K562" = K-562 cells
@@ -89,8 +89,8 @@
 #'            reference = reference_peak,
 #'            upset_plot = FALSE,
 #'            stat_plot = FALSE,
-#'            chrmHMM_plot = FALSE,
-#'            chrmHMM_annotation = "K562",
+#'            chromHMM_plot = FALSE,
+#'            chromHMM_annotation = "K562",
 #'            chipseeker_plot = FALSE,
 #'            enrichment_plot = FALSE,
 #'            tss_plot = FALSE,
@@ -105,8 +105,8 @@ EpiCompare <- function(peakfiles,
                        reference = NULL,
                        upset_plot = FALSE,
                        stat_plot = FALSE,
-                       chrmHMM_plot = FALSE,
-                       chrmHMM_annotation = "K562",
+                       chromHMM_plot = FALSE,
+                       chromHMM_annotation = "K562",
                        chipseeker_plot = FALSE,
                        enrichment_plot = FALSE,
                        tss_plot = FALSE,
@@ -140,8 +140,8 @@ EpiCompare <- function(peakfiles,
         reference = reference,
         upset_plot = upset_plot,
         stat_plot = stat_plot,
-        chrmHMM_plot= chrmHMM_plot,
-        chrmHMM_annotation = chrmHMM_annotation,
+        chromHMM_plot= chromHMM_plot,
+        chromHMM_annotation = chromHMM_annotation,
         chipseeker_plot = chipseeker_plot,
         enrichment_plot = enrichment_plot,
         tss_plot = tss_plot,
