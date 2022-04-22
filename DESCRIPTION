@@ -65,7 +65,8 @@ Imports:
 	methods,
 	org.Hs.eg.db,
 	S4Vectors,
-	magrittr
+	magrittr,
+	plyranges
 Suggests: 
   testthat (>= 3.0.0),
   badger,

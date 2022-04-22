@@ -27,6 +27,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom stringr str_split
 #' @importFrom GenomicRanges makeGRangesFromDataFrame
+#' @importFrom rtracklayer import
 #' @examples
 #' #### Make example files ####
 #' save_paths <- EpiCompare::write_example_peaks()
@@ -77,7 +78,7 @@ gather_files <- function(dir,
                                fill = TRUE,
                                nrows = 1)
     } else if(grepl("narrowPeak",x)){
-      dat <- import_narrowPeak(path = x)
+      dat <- rtracklayer::import(x, format = "narrowPeak")
     } else {
       dat <- data.table::fread(x)
     }
