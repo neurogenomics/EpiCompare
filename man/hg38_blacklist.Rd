@@ -10,12 +10,10 @@ An object of class \code{GRanges} of length 910.
 \source{
 The code to prepare the .Rda file is:
 
-\code{
-## blacklisted regions were directly downloaded
-## from \url{https://www.encodeproject.org/files/ENCFF356LFX/}
-hg38_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")
-usethis::use_data(hg38_blacklist, overwrite = TRUE)
-}
+\code{## blacklisted regions were directly downloaded} \cr
+\code{## from https://www.encodeproject.org/files/ENCFF356LFX/} \cr
+\code{hg38_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")} \cr
+\code{usethis::use_data(hg38_blacklist, overwrite = TRUE)} \cr
 }
 \usage{
 data("hg38_blacklist")

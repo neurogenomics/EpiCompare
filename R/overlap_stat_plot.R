@@ -43,7 +43,6 @@
 #' stat_df <- out[[2]] # df
 #'
 overlap_stat_plot <- function(reference, peaklist, annotation=NULL){
-  requireNamespace("GenomicRanges")
   # define variables
   qvalue <- NULL
   tSample <- NULL

@@ -20,7 +20,6 @@
 #' @keywords internal
 get_chromHMM_annotation <- function(cell_line,
                                   cache=BiocFileCache::BiocFileCache()){
-  requireNamespace("GenomicRanges")
   #use bioconductor caching package
   requireNamespace("BiocFileCache")
 
@@ -53,7 +52,7 @@ get_chromHMM_annotation <- function(cell_line,
                 "future invocations will use local image")
   if (!checkCache(cache,chrHMM_url))
     message(msg)
-  path = BiocFileCache::bfcrpath(cache, chrHMM_url)
+  path <- BiocFileCache::bfcrpath(cache, chrHMM_url)
   chrHMM <- genomation::readBed(path)
 
   return(chromHMM_list)

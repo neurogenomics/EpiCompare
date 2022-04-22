@@ -42,7 +42,7 @@ import_narrowPeak <- function(path,
                               ){
   V2 <- type <- NULL;
   requireNamespace("data.table")
-  requireNamespace("rtracklayer")
+  #requireNamespace("rtracklayer")
 
   #### Parse column metadata ####
   f <- readLines(as_file)

@@ -28,8 +28,6 @@
 #' #                            annotation = txdb)
 #'
 plot_enrichment <- function(peaklist, annotation){
-  requireNamespace("clusterProfiler")
-  requireNamespace("org.Hs.eg.db")
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
   # annotation for hg19 genome

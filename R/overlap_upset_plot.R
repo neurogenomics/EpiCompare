@@ -12,7 +12,7 @@
 #' @importFrom dplyr mutate
 #' @importFrom tidyr spread
 #' @importFrom UpSetR upset
-#' @importMethodsFrom S4Vectors elementMetadata
+#' @importMethodsFrom S4Vectors elementMetadata to from
 #'
 #' @export
 #' @examples
@@ -40,8 +40,8 @@ overlap_upset_plot <- function(peaklist){
   overlap_df <- NULL
   for(i in seq_len(length(peaklist))){
    overlap <- IRanges::findOverlaps(merged_peakfile, peaklist[[i]])
-   sample_name <- rep(peaklist_names[i], length(overlap@to))
-   df <- data.frame(peak=overlap@from, sample=sample_name)
+   sample_name <- rep(peaklist_names[i], length(S4Vectors::to(overlap)))
+   df <- data.frame(peak=S4Vectors::from(overlap), sample=sample_name)
    unique_df <- unique(df)
    overlap_df <- rbind(overlap_df, unique_df)
   }

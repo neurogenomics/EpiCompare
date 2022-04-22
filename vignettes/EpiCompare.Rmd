@@ -6,7 +6,7 @@ csl: nature.csl
 output:
   BiocStyle::html_document:
 vignette: >
-    %\VignetteIndexEntry{MungeSumstats} 
+    %\VignetteIndexEntry{EpiCompare} 
     %\usepackage[utf8]{inputenc}
     %\VignetteEngine{knitr::rmarkdown} 
 ---
@@ -70,8 +70,10 @@ These dataset will be used to showcase *EpiCompare* functionality
 To install the package, run the following: 
 
 ```R
-if(!require("remotes")) install.packages("remotes")
-remotes::install_github("neurogenomics/EpiCompare")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("EpiCompare") 
 ```
 
 # Running *EpiCompare*

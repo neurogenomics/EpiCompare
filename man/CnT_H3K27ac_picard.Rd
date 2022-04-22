@@ -10,11 +10,9 @@ An object of class \code{data.frame} with 1 rows and 10 columns.
 \source{
 The code to prepare the .Rda file is:
 
-\code{
-picard <- read.table("path/to/picard/duplication/output", header = TRUE, fill = TRUE)
-CnT_H3K27ac_picard <- picard[1,]
-usethis::use_data(CnT_H3K27ac_picard, overwrite = TRUE)
-}
+\code{picard <- read.table("path/to/picard/duplication/output", header = TRUE, fill = TRUE)]} \cr
+\code{CnT_H3K27ac_picard <- picard[1,]} \cr
+\code{usethis::use_data(CnT_H3K27ac_picard, overwrite = TRUE)} \cr
 }
 \usage{
 data("CnT_H3K27ac_picard")

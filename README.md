@@ -4,12 +4,12 @@
 <i>Authors</i>: Sera Choi, Brian Schilder, Alan Murphy, and Nathan Skene
 </h5>
 <h5>
-<i>Updated</i>: Apr-21-2022
+<i>Updated</i>: Apr-22-2022
 </h5>
 
 <!-- badges: start -->
 
-[![](https://img.shields.io/badge/devel%20version-0.99.10-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-0.99.13-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://app.codecov.io/gh/neurogenomics/EpiCompare)
@@ -42,8 +42,10 @@ analysis
 To install EpiCompare use:
 
 ``` r
-if(!require("remotes")) install.packages("remotes")
-remotes::install_github("neurogenomics/EpiCompare")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("EpiCompare") 
 ```
 
 # Usage

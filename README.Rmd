@@ -37,8 +37,10 @@ from peak files before any analysis
 To install EpiCompare use:
 
 ```R
-if(!require("remotes")) install.packages("remotes")
-remotes::install_github("neurogenomics/EpiCompare")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("EpiCompare") 
 ```
 
 # Usage 
