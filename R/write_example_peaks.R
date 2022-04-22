@@ -8,7 +8,8 @@
 #' @returns Named vector of paths to saved peak files.
 #'
 #' @export
-#' @importFrom utils write.table data
+#' @importFrom plyranges write_narrowpeaks
+#' @importFrom utils data
 #' @examples
 #' save_paths <- EpiCompare::write_example_peaks()
 write_example_peaks <- function(dir = file.path(tempdir(),
@@ -20,12 +21,13 @@ write_example_peaks <- function(dir = file.path(tempdir(),
   save_paths <- vapply(datasets, function(x){
     save_path <- file.path(dir,paste0(x,".narrowPeaks.bed"))
     message("Writing ==> ",save_path)
+    #save in bed format - rtracklayer doesn't work for soem reason
+    #use get(x) to get the dataset from the package named char stored in x
+    #rtracklayer::export.bed(get(x),con=save_path)
+    #rtracklayer::export(get(x),con=save_path,format="narrowPeak",
+    #                    extraCols = extraCols_narrowPeak)
     utils::data(list = x)
-    utils::write.table(x = data.frame(eval(parse(text=x))),
-                file = save_path,
-                row.names = FALSE,
-                col.names = TRUE,
-                sep="\t")
+    plyranges::write_narrowpeaks(get(x),file=save_path)
     return(save_path)
   }, character(1))
   names(save_paths) <- datasets
