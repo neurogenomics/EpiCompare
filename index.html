@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.16</span>
       </span>
     </div>
 
@@ -81,15 +81,14 @@
 
 <div class="section level1">
 <div class="page-header"><h1 id="epicompare-qc-and-benchmarking-of-epigenetic-datasets">
-<code>EpiCompare</code>: QC and Benchmarking of Epigenetic
-Datasets<a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets"></a>
+<code>EpiCompare</code>: QC and Benchmarking of Epigenetic Datasets<a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets"></a>
 </h1></div>
 <h5 id="epicompare-qc-and-benchmarking-of-epigenetic-datasets-1">
-<i>Authors</i>: Sera Choi, Brian Schilder and Nathan Skene
+<i>Authors</i>: Sera Choi, Brian Schilder, Alan Murphy, and Nathan Skene
 <a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets-1"></a>
 </h5>
 <h5 id="epicompare-qc-and-benchmarking-of-epigenetic-datasets-2">
-<i>Updated</i>: Apr-04-2022
+<i>Updated</i>: Apr-26-2022
 <a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmarking-of-epigenetic-datasets-2"></a>
 </h5>
 <!-- badges: start -->
@@ -98,32 +97,23 @@ Datasets<a class="anchor" aria-label="anchor" href="#epicompare-qc-and-benchmark
 <div class="section level1">
 <h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h1>
-<p><code>EpiCompare</code> is an R package for comparing different
-epigenetic datasets for quality control and benchmarking purposes. The
-function outputs a report in HTML format consisting of three
-sections:</p>
+<p><code>EpiCompare</code> is an R package for comparing different epigenetic datasets for quality control and benchmarking purposes. The function outputs a report in HTML format consisting of three sections:</p>
 <ol style="list-style-type: decimal">
-<li>General Metrics: Metrics on peaks (percentage of blacklisted and
-non-standard peaks, and peak widths) and fragments (duplication rate) of
-samples.</li>
-<li>Peak Overlap: Percetnage and statistical significance of overlapping
-and non-overlapping peaks. Also includes upset plot.</li>
-<li>Functional Annotation: Functional annotation (ChromHMM, ChIPseeker
-and enrichment analysis) of peaks. Also includes peak enrichment around
-TSS.</li>
+<li>General Metrics: Metrics on peaks (percentage of blacklisted and non-standard peaks, and peak widths) and fragments (duplication rate) of samples.</li>
+<li>Peak Overlap: Percentage and statistical significance of overlapping and non-overlapping peaks. Also includes upset plot.</li>
+<li>Functional Annotation: Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks. Also includes peak enrichment around TSS.</li>
 </ol>
-<p>N.B. All functional analyses performed by EpiCompare uses annotations
-for human genome hg19 or hg38. <br> N.B. Peaks in blacklisted regions
-and non-standard chromosomes are removed from peak files before any
-analysis</p>
+<p>N.B. All functional analyses performed by EpiCompare uses annotations for human genome hg19 or hg38. <br> N.B. Peaks in blacklisted regions and non-standard chromosomes are removed from peak files before any analysis</p>
 </div>
 <div class="section level1">
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h1>
 <p>To install EpiCompare use:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://remotes.r-lib.org" class="external-link">"remotes"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"neurogenomics/EpiCompare"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
+
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"EpiCompare"</span><span class="op">)</span> </code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -162,8 +152,8 @@ analysis</p>
            reference <span class="op">=</span> <span class="va">reference_peak</span>,
            upset_plot <span class="op">=</span> <span class="cn">TRUE</span>,
            stat_plot <span class="op">=</span> <span class="cn">TRUE</span>,
-           chrmHMM_plot <span class="op">=</span> <span class="cn">TRUE</span>,
-           chrmHMM_annotation <span class="op">=</span> <span class="st">"K562"</span>,
+           chromHMM_plot <span class="op">=</span> <span class="cn">TRUE</span>,
+           chromHMM_annotation <span class="op">=</span> <span class="st">"K562"</span>,
            chipseeker_plot <span class="op">=</span> <span class="cn">TRUE</span>,
            enrichment_plot <span class="op">=</span> <span class="cn">TRUE</span>,
            tss_plot <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -176,20 +166,14 @@ analysis</p>
 <p>These input parameters must be provided:</p>
 <ul>
 <li>
-<code>peakfiles</code> : Peakfiles you want to analyse. EpiCompare
-accepts peakfiles as GRanges object and/or as paths to BED files. Files
-must be listed using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and named using for example,
-<code>names(peaklist) &lt;- c("sample1","sample2)</code>
+<code>peakfiles</code> : Peakfiles you want to analyse. EpiCompare accepts peakfiles as GRanges object and/or as paths to BED files. Files must be listed using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and named using for example, <code>names(peaklist) &lt;- c("sample1","sample2)</code>
 </li>
 <li>
-<code>genome_build</code> Human genome reference build used to
-generate peakfiles. Options are “hg19” or “hg38”.</li>
+<code>genome_build</code> Human genome reference build used to generate peakfiles. Options are “hg19” or “hg38”.</li>
 <li>
-<code>blacklist</code> : Peakfile as GRanges object specifying
-genomic regions that have anomalous and/or unstructured signals
-independent of the cell-line or experiment. For human hg19 and hg38
-genome, use built-in data <code>data(hg19_blacklist)</code> and
-<code>data(hg38_blacklist)</code> respectively.</li>
+<code>blacklist</code> : Peakfile as GRanges object specifying genomic regions that have anomalous and/or unstructured signals independent of the cell-line or experiment. For human hg19 and hg38 genome, use built-in data <code>data(hg19_blacklist)</code> and <code>data(hg38_blacklist)</code> respectively.</li>
+<li>
+<code>output_dir</code> : Please specify the path to directory, where all EpiCompare outputs will be saved.</li>
 </ul>
 </div>
 <div class="section level4">
@@ -197,49 +181,29 @@ genome, use built-in data <code>data(hg19_blacklist)</code> and
 </h4>
 <ul>
 <li>
-<code>picard_files</code> : A list of summary metrics output from
-Picard. If provided, metrics on fragments (e.g. mapped fragments and
-duplication rate) will be included in the report. Files must be in
-data.frame format and listed using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and named using
-<code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code>. To import Picard duplication metrics (.txt file)
-into R as data frame, use
-<code>picard &lt;- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)</code>.</li>
+<code>picard_files</code> : A list of summary metrics output from Picard. If provided, metrics on fragments (e.g. mapped fragments and duplication rate) will be included in the report. Files must be in data.frame format and listed using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and named using <code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code>. To import Picard duplication metrics (.txt file) into R as data frame, use <code>picard &lt;- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)</code>.</li>
 <li>
-<code>reference</code> : Reference peak file is used in
-<code>stat_plot</code> and <code>chrmHMM_plot</code>. File must be in
-GRanges object, listed and named using
-<code>list("reference_name" = GRanges_obect)</code>
+<code>reference</code> : Reference peak file is used in <code>stat_plot</code> and <code>chromHMM_plot</code>. File must be in GRanges object, listed and named using <code>list("reference_name" = GRanges_obect)</code>
 </li>
 </ul>
 </div>
 <div class="section level4">
 <h4 id="optional-plots">Optional Plots<a class="anchor" aria-label="anchor" href="#optional-plots"></a>
 </h4>
-<p>By default, these plots will not be included in the report unless set
-<code>TRUE</code>.</p>
+<p>By default, these plots will not be included in the report unless set <code>TRUE</code>.</p>
 <ul>
 <li>
-<code>upset_plot</code> : Upset plot of overlapping peaks between
-samples.</li>
+<code>upset_plot</code> : Upset plot of overlapping peaks between samples.</li>
 <li>
-<code>stat_plot</code> : included only if a <code>reference</code>
-dataset is provided. The plot shows statistical significance
-(p/q-values) of sample peaks that are overlapping/non-overlapping with
-the <code>reference</code> dataset.</li>
+<code>stat_plot</code> : included only if a <code>reference</code> dataset is provided. The plot shows statistical significance (p/q-values) of sample peaks that are overlapping/non-overlapping with the <code>reference</code> dataset.</li>
 <li>
-<code>chrmHMM_plot</code> : ChromHMM annotation of peaks. If a
-<code>reference</code> dataset is provided, ChromHMM annotation of
-overlapping and non-overlapping peaks with the <code>reference</code> is
-also included in the report.</li>
+<code>chromHMM_plot</code> : ChromHMM annotation of peaks. If a <code>reference</code> dataset is provided, ChromHMM annotation of overlapping and non-overlapping peaks with the <code>reference</code> is also included in the report.</li>
 <li>
 <code>chipseeker_plot</code> : ChIPseeker annotation of peaks.</li>
 <li>
-<code>enrichment_plot</code> : KEGG pathway and GO enrichment
-analysis of peaks.</li>
+<code>enrichment_plot</code> : KEGG pathway and GO enrichment analysis of peaks.</li>
 <li>
-<code>tss_plot</code> : Peak frequency around (+/- 3000bp)
-transcriptional start site. Note that it may take awhile to generate
-this plot for large sample sizes.</li>
+<code>tss_plot</code> : Peak frequency around (+/- 3000bp) transcriptional start site. Note that it may take awhile to generate this plot for large sample sizes.</li>
 </ul>
 </div>
 <div class="section level4">
@@ -247,8 +211,7 @@ this plot for large sample sizes.</li>
 </h4>
 <ul>
 <li>
-<code>chrmHMM_annotation</code> : Cell-line annotation for ChromHMM.
-Default is K562. Options are:
+<code>chromHMM_annotation</code> : Cell-line annotation for ChromHMM. Default is K562. Options are:
 <ul>
 <li>“K562” = K-562 cells</li>
 <li>“Gm12878” = Cellosaurus cell-line GM12878</li>
@@ -262,17 +225,11 @@ Default is K562. Options are:
 </ul>
 </li>
 <li>
-<code>interact</code> : By default, all heatmaps (percentage overlap
-and ChromHMM heatmaps) in the report will be interactive. If set FALSE,
-all heatmaps will be static. N.B. If <code>interact=TRUE</code>,
-interactive heatmaps will be saved as html files, which may take time
-for larger sample sizes.</li>
+<code>interact</code> : By default, all heatmaps (percentage overlap and ChromHMM heatmaps) in the report will be interactive. If set FALSE, all heatmaps will be static. N.B. If <code>interact=TRUE</code>, interactive heatmaps will be saved as html files, which may take time for larger sample sizes.</li>
 <li>
-<code>output_filename</code> : By default, the report is named
-EpiCompare.html. You can specify the filename of the report here.</li>
+<code>output_filename</code> : By default, the report is named EpiCompare.html. You can specify the filename of the report here.</li>
 <li>
-<code>output_timestamp</code> : By default FALSE. If TRUE, the
-filename of the report includes the date.</li>
+<code>output_timestamp</code> : By default FALSE. If TRUE, the filename of the report includes the date.</li>
 </ul>
 </div>
 <div class="section level4">
@@ -280,12 +237,9 @@ filename of the report includes the date.</li>
 </h4>
 <p><code>EpiCompare</code> outputs the following:</p>
 <ol style="list-style-type: decimal">
-<li>HTML report: A summary of all analyses saved in specified
-<code>output_dir</code>
+<li>HTML report: A summary of all analyses saved in specified <code>output_dir</code>
 </li>
-<li>EpiCompare_file: if <code>save_output=TRUE</code>, all plots
-generated by EpiCompare will be saved in EpiCompare_file directory also
-in specified <code>output_dir</code>
+<li>EpiCompare_file: if <code>save_output=TRUE</code>, all plots generated by EpiCompare will be saved in EpiCompare_file directory also in specified <code>output_dir</code>
 </li>
 </ol>
 </div>
@@ -293,8 +247,7 @@ in specified <code>output_dir</code>
 <div class="section level1">
 <h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h1>
-<p><a href="https://neurogenomics.github.io/EpiCompare" class="external-link">EpiCompare
-Website</a></p>
+<p><a href="https://neurogenomics.github.io/EpiCompare" class="external-link">EpiCompare Website</a></p>
 </div>
 <div class="section level1">
 <h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
@@ -320,24 +273,24 @@ Website</a></p>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="do">## other attached packages:</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] rmarkdown_2.13</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] rmarkdown_2.14</span></span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="do">## loaded via a namespace (and not attached):</span></span>
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] tidyselect_1.1.2    xfun_0.30           purrr_0.3.4        </span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4] colorspace_2.0-3    vctrs_0.4.0         generics_0.1.2     </span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4] colorspace_2.0-3    vctrs_0.4.1         generics_0.1.2     </span></span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.3.5         </span></span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [10] utf8_1.2.2          rlang_1.0.2         gert_1.6.0         </span></span>
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [13] pillar_1.7.0        glue_1.6.2          DBI_1.1.2          </span></span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="do">## [16] RColorBrewer_1.1-3  rvcheck_0.2.1       lifecycle_1.0.1    </span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [19] stringr_1.4.0       dlstats_0.1.4       munsell_0.5.0      </span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [19] stringr_1.4.0       dlstats_0.1.5       munsell_0.5.0      </span></span>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="do">## [22] gtable_0.3.0        evaluate_0.15       knitr_1.38         </span></span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            </span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [28] fansi_1.0.3         openssl_2.0.0       scales_1.1.1       </span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [31] BiocManager_1.30.16 desc_1.4.1          jsonlite_1.8.0     </span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="do">## [28] fansi_1.0.3         openssl_2.0.0       scales_1.2.0       </span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="do">## [31] BiocManager_1.30.17 desc_1.4.1          jsonlite_1.8.0     </span></span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="do">## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      </span></span>
 <span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      </span></span>
 <span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="do">## [40] gh_1.3.0            dplyr_1.0.8         grid_4.2.0         </span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [43] rprojroot_2.0.3     cli_3.2.0           tools_4.2.0        </span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="do">## [43] rprojroot_2.0.3     cli_3.3.0           tools_4.2.0        </span></span>
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="do">## [46] yulab.utils_0.0.4   magrittr_2.0.3      tibble_3.1.6       </span></span>
 <span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="do">## [49] crayon_1.5.1        pkgconfig_2.0.3     ellipsis_0.3.2     </span></span>
 <span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="do">## [52] assertthat_0.2.1    httr_1.4.2          badger_0.2.0       </span></span>
@@ -347,8 +300,7 @@ Website</a></p>
 </h2>
 <div class="section level3">
 <h3 id="neurogenomics-lab">
-<a href="https://www.neurogenomics.co.uk/inst/report/EpiCompare.html" class="external-link">Neurogenomics
-Lab</a><a class="anchor" aria-label="anchor" href="#neurogenomics-lab"></a>
+<a href="https://www.neurogenomics.co.uk/inst/report/EpiCompare.html" class="external-link">Neurogenomics Lab</a><a class="anchor" aria-label="anchor" href="#neurogenomics-lab"></a>
 </h3>
 <p>UK Dementia Research Institute<br>
 Department of Brain Sciences<br>
@@ -390,6 +342,7 @@ Imperial College London<br><a href="https://github.com/neurogenomics" class="ext
 <ul class="list-unstyled">
 <li>Sera Choi <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5077-1984" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Brian Schilder <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5949-2191" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Alan Murphy <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-2487-8753" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Nathan Skene <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6807-3180" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
@@ -397,7 +350,7 @@ Imperial College London<br><a href="https://github.com/neurogenomics" class="ext
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/neurogenomics/EpiCompare" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.99.8-black.svg"></a></li>
+<li><a href="https://github.com/neurogenomics/EpiCompare" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.99.16-black.svg"></a></li>
 <li><a href="https://github.com/neurogenomics/EpiCompare/actions" class="external-link"><img src="https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg" alt="R build status"></a></li>
 <li><a href="https://app.codecov.io/gh/neurogenomics/EpiCompare" class="external-link"><img src="https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg"></a></li>
 <li><a href="https://cran.r-project.org/web/licenses/GPL-3" class="external-link"><img src="https://img.shields.io/badge/license-GPL--3-blue.svg" alt="License: GPL-3"></a></li>
@@ -410,13 +363,12 @@ Imperial College London<br><a href="https://github.com/neurogenomics" class="ext
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Sera Choi, Brian Schilder, Nathan Skene.</p>
+<p>Developed by Sera Choi, Brian Schilder, Alan Murphy, Nathan Skene.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
       </footer>

@@ -37,9 +37,6 @@
     <loc>/reference/check_list_names.html</loc>
   </url>
   <url>
-    <loc>/reference/chromHMM_annotation_K562.html</loc>
-  </url>
-  <url>
     <loc>/reference/encode_H3K27ac.html</loc>
   </url>
   <url>
@@ -52,19 +49,13 @@
     <loc>/reference/gather_files_names.html</loc>
   </url>
   <url>
-    <loc>/reference/get_chrHMM_annotation.html</loc>
+    <loc>/reference/get_chromHMM_annotation.html</loc>
   </url>
   <url>
     <loc>/reference/hg19_blacklist.html</loc>
   </url>
   <url>
-    <loc>/reference/hg38ToHg19.html</loc>
-  </url>
-  <url>
     <loc>/reference/hg38_blacklist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/import_narrowPeak.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
@@ -91,7 +82,7 @@
     <loc>/reference/plot_ChIPseeker_annotation.html</loc>
   </url>
   <url>
-    <loc>/reference/plot_chrmHMM.html</loc>
+    <loc>/reference/plot_chromHMM.html</loc>
   </url>
   <url>
     <loc>/reference/plot_enrichment.html</loc>

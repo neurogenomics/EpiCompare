@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.16</span>
       </span>
     </div>
 
@@ -51,19 +51,25 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.99.16" id="changes-in-version-09916">CHANGES IN VERSION 0.99.16<a class="anchor" aria-label="anchor" href="#changes-in-version-09916"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-99-16">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-99-16"></a></h3>
+<ul><li>Fix GHA pkgdown building:
+<ul><li>The newest version of <a href="https://github.com/actions/checkout/issues/760" class="external-link">git introduced bugs when building pkgdown sites</a> from within Docker containers (e.g. via my Linux GHA workflow). Adjusting GHA to fix this.</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.99.3" id="changes-in-version-0993">CHANGES IN VERSION 0.99.3<a class="anchor" aria-label="anchor" href="#changes-in-version-0993"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-99-3">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-99-3"></a></h3>
 <ul><li>New functions with examples/unit tests:
 <ul><li>
-<code>import_narrowPeak</code>: Import narrowPeak files, with
-automated header annotation using metadata from ENCODE.<br></li>
+<code>import_narrowPeak</code>: Import narrowPeak files, with automated header annotation using metadata from ENCODE.<br></li>
 <li>
-<code>gather_files</code>: Automatically peak/picard/bed files and
-read them in as a list of <code>GRanges</code> objects.<br></li>
+<code>gather_files</code>: Automatically peak/picard/bed files and read them in as a list of <code>GRanges</code> objects.<br></li>
 <li>
-<code>write_example_peaks</code>: Write example peak data to
-disk.</li>
+<code>write_example_peaks</code>: Write example peak data to disk.</li>
 </ul></li>
 <li>Update <em>.gitignore</em>
 </li>
@@ -77,10 +83,7 @@ disk.</li>
 <h3 id="new-features-0-99-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-99-1"></a></h3>
 <ul><li>New parameter in EpiCompare:
 <ul><li>
-<code>genome_build</code>: Specify the genome build, either “hg19”
-or “hg38”. This parameter is also included in <code>plot_chrmHMM</code>,
-<code>plot_ChIPseeker_annotation</code>, <code>tss_plot</code> and
-<code>plot_enrichment</code>.</li>
+<code>genome_build</code>: Specify the genome build, either “hg19” or “hg38”. This parameter is also included in <code>plot_chromHMM</code>, <code>plot_ChIPseeker_annotation</code>, <code>tss_plot</code> and <code>plot_enrichment</code>.</li>
 </ul></li>
 </ul></div>
 </div>
@@ -89,7 +92,7 @@ or “hg38”. This parameter is also included in <code>plot_chrmHMM</code>,
 <div class="section level3">
 <h3 id="new-features-0-99-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-99-0"></a></h3>
 <ul><li>
-<code>EpiCompare</code> released to Bioconductor.</li>
+<code>EpiCompare</code> submitted to Bioconductor.</li>
 </ul></div>
 </div>
   </div>
@@ -102,12 +105,11 @@ or “hg38”. This parameter is also included in <code>plot_chrmHMM</code>,
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Sera Choi, Brian Schilder, Nathan Skene.</p>
+  <p></p><p>Developed by Sera Choi, Brian Schilder, Alan Murphy, Nathan Skene.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
       </footer></div>
