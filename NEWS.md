@@ -1,3 +1,10 @@
+## CHANGES IN VERSION 0.99.16
+
+### Bug fixes
+
+* Fix GHA pkgdown building: 
+    - The newest version of [git introduced bugs when building pkgdown sites](https://github.com/actions/checkout/issues/760) from within Docker containers (e.g. via my Linux GHA workflow). Adjusting GHA to fix this. 
+
 ## CHANGES IN VERSION 0.99.3
 
 ### New Features
