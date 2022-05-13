@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.17</span>
       </span>
     </div>
 
@@ -50,6 +50,28 @@
       <small>Source: <a href="https://github.com/neurogenomics/EpiCompare/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.99.17" id="changes-in-version-09917">CHANGES IN VERSION 0.99.17<a class="anchor" aria-label="anchor" href="#changes-in-version-09917"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-99-17">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-99-17"></a></h3>
+<ul><li>Make <code>output_dir</code> creation recursive and without warnings.</li>
+<li>Add new params to <em>Code</em> section of rmarkdown output.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-99-17">New features<a class="anchor" aria-label="anchor" href="#new-features-0-99-17"></a></h3>
+<ul><li>Add new <code>peaklist</code> length check to <code>prepare_peaklist</code>.</li>
+<li>New check functions:
+<ul><li>
+<code>check_genomebuild</code>: ensure necessary packages installed and that “genomebuild” is valid.</li>
+<li><code>check_cell_lines</code></li>
+</ul></li>
+<li>
+<code>liftover_grlist</code>: Dedicated liftover function, exported.<br></li>
+<li>Document <code>checkCache</code>.</li>
+<li>
+<code>get_chromHMM_annotation</code> can now take a list of cell lines as an argument.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.99.16" id="changes-in-version-09916">CHANGES IN VERSION 0.99.16<a class="anchor" aria-label="anchor" href="#changes-in-version-09916"></a></h2>
 <div class="section level3">

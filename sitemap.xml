@@ -34,7 +34,19 @@
     <loc>/reference/EpiCompare.html</loc>
   </url>
   <url>
+    <loc>/reference/checkCache.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_cell_lines.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_genome_build.html</loc>
+  </url>
+  <url>
     <loc>/reference/check_list_names.html</loc>
+  </url>
+  <url>
+    <loc>/reference/clean_granges.html</loc>
   </url>
   <url>
     <loc>/reference/encode_H3K27ac.html</loc>
@@ -59,6 +71,9 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/liftover_grlist.html</loc>
   </url>
   <url>
     <loc>/reference/message_parallel.html</loc>
