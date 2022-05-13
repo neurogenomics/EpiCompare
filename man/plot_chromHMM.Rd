@@ -34,12 +34,11 @@ data("CnR_H3K27ac") # example dataset as GRanges object
 peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 names(peaks) <- c("CnT", "CnR") # set names
 
-## not run
 ## import ChromHMM annotation
-# chromHMM_annotation_K562 <- get_chromHMM_annotation("K562")
+chromHMM_annotation_K562 <- get_chromHMM_annotation("K562")
 
-# my_plot <- plot_chromHMM(peaklist=peaks,
-#                        chromHMM_annotation=chromHMM_annotation_K562,
-#                        genome_build = "hg19")
+my_plot <- plot_chromHMM(peaklist=peaks,
+                        chromHMM_annotation=chromHMM_annotation_K562,
+                        genome_build = "hg19")
 
 }

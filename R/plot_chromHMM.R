@@ -31,16 +31,18 @@
 #'
 #' peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
 #' names(peaks) <- c("CnT", "CnR") # set names
-#'
-#' ## not run
+#' 
 #' ## import ChromHMM annotation
-#' # chromHMM_annotation_K562 <- get_chromHMM_annotation("K562")
+#' chromHMM_annotation_K562 <- get_chromHMM_annotation("K562")
 #'
-#' # my_plot <- plot_chromHMM(peaklist=peaks,
-#' #                        chromHMM_annotation=chromHMM_annotation_K562,
-#' #                        genome_build = "hg19")
+#' my_plot <- plot_chromHMM(peaklist=peaks,
+#'                         chromHMM_annotation=chromHMM_annotation_K562,
+#'                         genome_build = "hg19")
 #'
-plot_chromHMM<-function(peaklist,chromHMM_annotation,genome_build,interact=TRUE){
+plot_chromHMM<-function(peaklist,
+                        chromHMM_annotation,
+                        genome_build,
+                        interact=TRUE){
   # define variables
   chain <- NULL
   State <- NULL
@@ -57,21 +59,9 @@ plot_chromHMM<-function(peaklist,chromHMM_annotation,genome_build,interact=TRUE)
       i <- i + 1
     }
   }
-  if(genome_build=="hg38"){
-    # obtain chain
-    ah <- AnnotationHub::AnnotationHub()
-    chain <- ah[["AH14108"]]
-    # liftover hg38 to hg19
-    peaklist_hg38Tohg19 <- list()
-    for(peak in peaklist){
-      peak_hg19 <- rtracklayer::liftOver(peak, chain)
-      peak_hg19 <- unlist(peak_hg19)
-      peaklist_hg38Tohg19 <- c(peaklist_hg38Tohg19, peak_hg19)
-    }
-    # set name
-    names(peaklist_hg38Tohg19) <- names(peaklist)
-    peaklist <- peaklist_hg38Tohg19
-  }
+  peaklist <- liftover_grlist(grlist = peaklist, 
+                              input_build = genome_build, 
+                              output_build = "hg19")
   # create GRangeList from GRanges objects
   grange_list <- GenomicRanges::GRangesList(peaklist, compress = FALSE)
   # annotate peakfiles with chromHMM annotations

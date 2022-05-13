@@ -20,6 +20,7 @@ prepare_peaklist <- function(peaklist){
     }
   }
   names(peaklist_checked) <- names(peaklist) # set names
+  if(length(peaklist)==0) stop("peaklist must have a length>0.")
   return(peaklist_checked)
 }
 

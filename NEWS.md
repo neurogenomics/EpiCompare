@@ -1,3 +1,17 @@
+## CHANGES IN VERSION 0.99.17
+
+### Bug fixes
+
+* Make `output_dir` creation recursive and without warnings. 
+* Add new params to *Code* section of rmarkdown output. 
+
+### New features
+
+* Add new `peaklist` length check to `prepare_peaklist`.
+* `check_genomebuild`: ensure necessary packages installed and that 
+    "genomebuild" is valid.
+* `liftover_grlist`: Dedicated liftover function, exported. 
+
 ## CHANGES IN VERSION 0.99.16
 
 ### Bug fixes

@@ -45,29 +45,25 @@ knitr::opts_chunk$set(echo = FALSE)
 if(params$save_output){
   outfile_dir <- paste0(params$output_dir,"/EpiCompare_file")
   if(!dir.exists(outfile_dir)){
-    dir.create(outfile_dir)
+    dir.create(outfile_dir, showWarnings = FALSE, recursive = TRUE)
   }
 }
 # prepare a list of GRange object
 # and check that the list is named, if not default filenames are used 
-peaklist <- prepare_peaklist(params$peakfile)
+peaklist <- prepare_peaklist(params$peakfile) 
 # tidy input peakfiles to remove peaks in blacklisted regions 
 # and non-standard chromosomes 
 peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
                                blacklist = params$blacklist)
 # tidy input reference peakfile if provided and include in peaklist
 reference_tidy <- params$reference
-if (is.null(params$reference) == FALSE){
+if (!is.null(params$reference)){
   reference_tidy <- tidy_peakfile(peaklist = params$reference,
                                   blacklist = params$blacklist)
   peaklist_tidy <- c(peaklist_tidy, reference_tidy)
 }
-# get appropriate genome annotation
-if(params$genome_build == "hg19"){
-  txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
-}else if(params$genome_build == "hg38"){
-  txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene::TxDb.Hsapiens.UCSC.hg38.knownGene
-}
+# get appropriate genome annotation 
+txdb <- check_genome_build(genome_build = params$genome_build)
 # adjust figure height depending on sample size  
 fig_height <- 7
 if(length(peaklist_tidy)>10){
@@ -115,11 +111,13 @@ EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
            blacklist = blacklist,
            picard_files = list(`r names(params$picard_files)`),
            reference = `r names(reference_tidy)`,
+           upset_plot = `r params$upset_plot`,
            stat_plot = `r params$stat_plot`,
            chromHMM_plot = `r params$chromHMM_plot`,
            chromHMM_annotation = "`r params$chromHMM_annotation`",
            chipseeker_plot = `r params$chipseeker_plot`,
            enrichment_plot = `r params$enrichment_plot`,
+           tss_plot = `r params$tss_plot`,
            interact = `r params$interact`,
            save_output = `r params$save_output`,
            output_dir = "`r params$output_dir`")
