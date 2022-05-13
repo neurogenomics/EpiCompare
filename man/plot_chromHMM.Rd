@@ -4,20 +4,30 @@
 \alias{plot_chromHMM}
 \title{Plot ChromHMM heatmap}
 \usage{
-plot_chromHMM(peaklist, chromHMM_annotation, genome_build, interact = TRUE)
+plot_chromHMM(
+  peaklist,
+  chromHMM_annotation,
+  cell_line = NULL,
+  genome_build,
+  interact = TRUE
+)
 }
 \arguments{
-\item{peaklist}{A list of peak files as GRanges object.
-Files must be listed using `list()` and named using `names()`
-If not named, default file names will be assigned.}
+\item{peaklist}{A named \link[base]{list} of peak files as GRanges object. 
+If list is not named, default names will be assigned.}
 
-\item{chromHMM_annotation}{ChromHMM annotation list}
+\item{chromHMM_annotation}{ChromHMM annotation list.}
+
+\item{cell_line}{If not \code{cell_line}, 
+will replace \code{chromHMM_annotation}
+ by importing chromHMM data for a given cell line using  
+ \link[EpiCompare]{get_chromHMM_annotation}.}
 
 \item{genome_build}{The human genome reference build used to generate
 peakfiles. "hg19" or "hg38".}
 
 \item{interact}{Default TRUE. By default, the heatmaps are interactive.
-If set FALSE, the function generates a static ChromHMM heatmap.}
+If\code{FALSE}, the function generates a static ChromHMM heatmap.}
 }
 \value{
 ChromHMM heatmap
@@ -29,16 +39,10 @@ annotation file must be loaded prior to using this function.
 }
 \examples{
 data("CnT_H3K27ac") # example dataset as GRanges object
-data("CnR_H3K27ac") # example dataset as GRanges object
+data("CnR_H3K27ac") # example dataset as GRanges object 
+peaks <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac) # create a list
 
-peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
-names(peaks) <- c("CnT", "CnR") # set names
-
-## import ChromHMM annotation
-chromHMM_annotation_K562 <- get_chromHMM_annotation("K562")
-
-my_plot <- plot_chromHMM(peaklist=peaks,
-                        chromHMM_annotation=chromHMM_annotation_K562,
-                        genome_build = "hg19")
-
+my_plot <- plot_chromHMM(peaklist=peaks, 
+                         cell_line = "K562",
+                         genome_build = "hg19") 
 }

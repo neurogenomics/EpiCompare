@@ -2,15 +2,12 @@
 % Please edit documentation in R/get_chromHMM_annotation.R
 \name{get_chromHMM_annotation}
 \alias{get_chromHMM_annotation}
-\title{Download ChromHMM annotation file}
+\title{Download ChromHMM annotation file(s)}
 \usage{
 get_chromHMM_annotation(cell_line, cache = BiocFileCache::BiocFileCache())
 }
 \arguments{
-\item{cell_line}{ChromHMM annotation for user-specified cell-line}
-}
-\value{
-cell-line specific ChromHMM annotation file. Default K562 cell-line.
+\item{cell_line}{ChromHMM annotation for user-specified cell-line.
 Cell-line options are:
 \itemize{
   \item "K562" = K-562 cells
@@ -22,9 +19,15 @@ Cell-line options are:
   \item "Huvec" = Human Umbilical Vein Endothelial Cells
   \item "Nhek" = Normal Human Epidermal Keratinocytes
   \item "Nhlf" = Normal Human Lung Fibroblasts
+}}
 }
+\value{
+cell-line specific ChromHMM annotation file. Default K562 cell-line.
 }
 \description{
-Download ChromHMM annotation file
+Download ChromHMM annotation file(s) for a single cell line
+ (returned as a \link[GenomicRanges]{GRanges} object) 
+ or a list of cell lines
+ (returned as a named list of \link[GenomicRanges]{GRanges} objects).
 }
 \keyword{internal}

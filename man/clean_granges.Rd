@@ -19,7 +19,7 @@ clean_granges(
 Cleaned \link[GenomicRanges]{GRanges} object.
 }
 \description{
-Remove columns from the metadata (\link[GenomicRanges]{mcols}) that
+Remove columns from the metadata (\code{GenomicRanges::mcols}) that
 conflicts with \link[GenomicRanges]{GRanges} conventions.
 }
 \keyword{internal}

@@ -4,14 +4,17 @@
 #' takes a list of peakfiles, performs ChromHMM and outputs a heatmap. ChromHMM
 #' annotation file must be loaded prior to using this function.
 #'
-#' @param peaklist A list of peak files as GRanges object.
-#' Files must be listed using `list()` and named using `names()`
-#' If not named, default file names will be assigned.
-#' @param chromHMM_annotation ChromHMM annotation list
+#' @param peaklist A named \link[base]{list} of peak files as GRanges object. 
+#' If list is not named, default names will be assigned.
+#' @param chromHMM_annotation ChromHMM annotation list.
+#' @param cell_line If not \code{cell_line}, 
+#' will replace \code{chromHMM_annotation}
+#'  by importing chromHMM data for a given cell line using  
+#'  \link[EpiCompare]{get_chromHMM_annotation}.  
 #' @param genome_build The human genome reference build used to generate
 #' peakfiles. "hg19" or "hg38".
 #' @param interact Default TRUE. By default, the heatmaps are interactive.
-#' If set FALSE, the function generates a static ChromHMM heatmap.
+#' If\code{FALSE}, the function generates a static ChromHMM heatmap.
 #'
 #' @return ChromHMM heatmap
 #'
@@ -27,27 +30,33 @@
 #' @export
 #' @examples
 #' data("CnT_H3K27ac") # example dataset as GRanges object
-#' data("CnR_H3K27ac") # example dataset as GRanges object
-#'
-#' peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
-#' names(peaks) <- c("CnT", "CnR") # set names
+#' data("CnR_H3K27ac") # example dataset as GRanges object 
+#' peaks <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac) # create a list
 #' 
-#' ## import ChromHMM annotation
-#' chromHMM_annotation_K562 <- get_chromHMM_annotation("K562")
-#'
-#' my_plot <- plot_chromHMM(peaklist=peaks,
-#'                         chromHMM_annotation=chromHMM_annotation_K562,
-#'                         genome_build = "hg19")
-#'
-plot_chromHMM<-function(peaklist,
-                        chromHMM_annotation,
-                        genome_build,
-                        interact=TRUE){
+#' my_plot <- plot_chromHMM(peaklist=peaks, 
+#'                          cell_line = "K562",
+#'                          genome_build = "hg19") 
+plot_chromHMM <- function(peaklist,
+                          chromHMM_annotation,
+                          cell_line=NULL,
+                          genome_build,
+                          interact=TRUE){
   # define variables
   chain <- NULL
   State <- NULL
   Sample <- NULL
   value <- NULL
+   
+  #### Automatically get cell line data ####
+  if(!is.null(cell_line) &&
+     !is.null(check_cell_lines(cell_lines = cell_line,
+                               verbose = FALSE))){
+      chromHMM_annotation <- get_chromHMM_annotation(cell_line = cell_line) 
+  } 
+  if(missing(chromHMM_annotation)) {
+      stp <- "Must supply chromHMM_annotation or cell_line."
+      stop(stp)
+  }
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
   # check that there are no empty values

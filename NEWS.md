@@ -8,9 +8,13 @@
 ### New features
 
 * Add new `peaklist` length check to `prepare_peaklist`.
-* `check_genomebuild`: ensure necessary packages installed and that 
+* New check functions:
+    - `check_genomebuild`: ensure necessary packages installed and that 
     "genomebuild" is valid.
-* `liftover_grlist`: Dedicated liftover function, exported. 
+    - `check_cell_lines` 
+* `liftover_grlist`: Dedicated liftover function, exported.  
+* Document `checkCache`. 
+* `get_chromHMM_annotation` can now take a list of cell lines as an argument. 
 
 ## CHANGES IN VERSION 0.99.16
 
