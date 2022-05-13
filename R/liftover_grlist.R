@@ -10,6 +10,17 @@
 #' @export
 #' @importFrom AnnotationHub AnnotationHub
 #' @importFrom rtracklayer liftOver
+#' @examples 
+#' data("encode_H3K27ac") # example dataset as GRanges object
+#' data("CnT_H3K27ac") # example dataset as GRanges object
+#' data("CnR_H3K27ac") # example dataset as GRanges object
+#' grlist <- list("encode_H3K27ac"=encode_H3K27ac,
+#'                "CnT_H3K27ac"=CnT_H3K27ac,
+#'                "CnR_H3K27ac"=CnR_H3K27ac)
+#'
+#' grlist_lifted <- liftover_grlist(grlist = grlist,
+#'                                  input_build = "hg19",
+#'                                  output_build="hg38")
 liftover_grlist <- function(grlist,
                             input_build,
                             output_build="hg19"){ 
@@ -19,9 +30,10 @@ liftover_grlist <- function(grlist,
     #### No liftover necessary ####
     if(input_build==output_build){
         ## Exit early
-        return(peaklist)
+        return(grlist)
     } 
     #### Chain file descriptions ####
+    message("Preparing chain file.")
     ah <- AnnotationHub::AnnotationHub()
     # chainfiles <- AnnotationHub::query(ah , c("hg38", "hg19", "chainfile"))
     # AH14108 | hg38ToHg19.over.chain.gz                     
@@ -38,10 +50,12 @@ liftover_grlist <- function(grlist,
         chain <- ah[["AH14150"]] 
     }
     #### liftover ####
-    peaklist_lifted <- mapply(peaklist, FUN = function(peak){
-        peak2 <- rtracklayer::liftOver(x = peak, 
-                                       chain = chain) 
-        return(unlist(peak2))
+    message("Performing liftover.") 
+    grlist_lifted <- mapply(grlist, FUN = function(gr){
+        gr <- clean_granges(gr = gr)
+        gr2 <- rtracklayer::liftOver(x = gr, 
+                                     chain = chain) 
+        return(unlist(gr2))
     })    
-    return(peaklist_lifted)
+    return(grlist_lifted)
 }

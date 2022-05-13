@@ -21,3 +21,15 @@ Named list of lifted \link[GenomicRanges]{GRanges} objects.
 Perform genome build liftover to on a named list of
  \link[GenomicRanges]{GRanges} objects.
 }
+\examples{
+data("encode_H3K27ac") # example dataset as GRanges object
+data("CnT_H3K27ac") # example dataset as GRanges object
+data("CnR_H3K27ac") # example dataset as GRanges object
+grlist <- list("encode_H3K27ac"=encode_H3K27ac,
+               "CnT_H3K27ac"=CnT_H3K27ac,
+               "CnR_H3K27ac"=CnR_H3K27ac)
+
+grlist_lifted <- liftover_grlist(grlist = grlist,
+                                 input_build = "hg19",
+                                 output_build="hg38")
+}
