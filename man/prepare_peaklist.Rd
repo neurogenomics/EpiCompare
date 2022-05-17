@@ -7,10 +7,11 @@
 prepare_peaklist(peaklist)
 }
 \arguments{
-\item{peaklist}{A named list of peaks as GRanges or paths to BED files}
+\item{peaklist}{A named list of peaks as \link[GenomicRanges]{GRanges}
+or paths to BED files.}
 }
 \value{
-A list of GRanges objects
+A list of \link[GenomicRanges]{GRanges} objects
 }
 \description{
 Prepare peaklist as GRanges

@@ -8,7 +8,7 @@ gather_files(
   dir,
   type = "peaks.consensus.filtered",
   nfcore_cutandrun = FALSE,
-  mc.cores = 1
+  workers = 1
 )
 }
 \arguments{
@@ -31,7 +31,10 @@ Finds files ending in"*.consensus.peaks.filtered.awk.bed$"}
  If \code{TRUE}, can use the standardised folder structure to
  automatically generate more descriptive file names with sample IDs.}
 
-\item{mc.cores}{Number of cores to parallelise importing}
+\item{workers}{
+    \code{integer(1)} Number of workers. Defaults to all cores available as
+    determined by \code{detectCores}.
+  }
 }
 \value{
 A named list of \link[GenomicRanges]{GRanges} objects.

@@ -19,15 +19,18 @@
 #' \href{https://nf-co.re/cutandrun}{nf-core/cutandrun} Nextflow pipeline.
 #'  If \code{TRUE}, can use the standardised folder structure to
 #'  automatically generate more descriptive file names with sample IDs.
-#' @param mc.cores Number of cores to parallelise importing
+#' @inheritParams BiocParallel::MulticoreParam
 #'
 #' @returns A named list of \link[GenomicRanges]{GRanges} objects.
 #'
 #' @export
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
+#' @importFrom methods is
 #' @importFrom stringr str_split
 #' @importFrom GenomicRanges makeGRangesFromDataFrame
 #' @importFrom rtracklayer import
+#' @importFrom data.table fread 
+#' @importFrom ChIPseeker readPeakFile
 #' @examples
 #' #### Make example files ####
 #' save_paths <- EpiCompare::write_example_peaks()
@@ -38,8 +41,7 @@
 gather_files <- function(dir,
                          type = "peaks.consensus.filtered",
                          nfcore_cutandrun = FALSE,
-                         mc.cores = 1){
-  requireNamespace("data.table")
+                         workers = 1){
   requireNamespace("BiocParallel")
   type_key <- c(
     "peaks.stringent"="*.peaks.bed.stringent.bed$",
@@ -67,7 +69,7 @@ gather_files <- function(dir,
   #### Import files ####
   message("Importing files.")
   #set number of workers - used for bpapply below
-  BiocParallel::register(BiocParallel::MulticoreParam(workers=mc.cores))
+  BiocParallel::register(BiocParallel::MulticoreParam(workers=workers))
   files <- BiocParallel::bplapply(paths, function(x){
     message_parallel(x,"\n")
     if(startsWith(type,"peaks")){
@@ -77,7 +79,7 @@ gather_files <- function(dir,
                                skip = "LIBRARY",
                                fill = TRUE,
                                nrows = 1)
-    } else if(grepl("narrowPeak",x)){
+    } else if(grepl("narrowPeak",x,ignore.case = TRUE)){
       dat <- rtracklayer::import(x, format = "narrowPeak")
     } else {
       dat <- data.table::fread(x)

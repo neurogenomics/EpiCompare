@@ -1,3 +1,17 @@
+## CHANGES IN VERSION 0.99.18
+
+### Bug fixes
+
+* `prepare_reference`: Validate reference input before passing to next step.
+* Pass named list to `genome_build` to allow for different builds between
+`reference` and `peaklist`. 
+* Liftover `blacklist` to match GRanges list it's being used to filter in `tidy_peakfile`. 
+
+### New features
+
+* Remove unnecessary deps.
+* Use `data.table` to read/write tables. 
+
 ## CHANGES IN VERSION 0.99.17
 
 ### Bug fixes

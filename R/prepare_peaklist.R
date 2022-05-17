@@ -1,12 +1,15 @@
 #' Prepare peaklist as GRanges
 #'
-#' @param peaklist A named list of peaks as GRanges or paths to BED files
+#' @param peaklist A named list of peaks as \link[GenomicRanges]{GRanges}
+#'  or paths to BED files.
 #'
-#' @return A list of GRanges objects
+#' @return A list of \link[GenomicRanges]{GRanges} objects
 #'
-#' @import methods
 #' @keywords internal
+#' @importFrom methods is
+#' @importFrom ChIPseeker readPeakFile
 prepare_peaklist <- function(peaklist){
+    message("Preparing peaklist.")
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
   peaklist_checked <- list() # empty list

@@ -9,10 +9,11 @@
 #' @return Upset plot of overlapping peaks
 #'
 #' @importMethodsFrom IRanges findOverlaps
+#' @importFrom GenomicRanges elementMetadata 
+#' @importFrom IRanges to from
 #' @importFrom dplyr mutate
 #' @importFrom tidyr spread
-#' @importFrom UpSetR upset
-#' @importMethodsFrom S4Vectors elementMetadata to from
+#' @importFrom UpSetR upset 
 #'
 #' @export
 #' @examples
@@ -20,6 +21,7 @@
 #' data("CnT_H3K27ac") # load example data
 #' peakfile <- list(encode_H3K27ac, CnT_H3K27ac) # create list
 #' names(peakfile) <- c("ENCODE","CnT") # name list
+#' 
 #' my_plot <- overlap_upset_plot(peaklist = peakfile) # run function
 overlap_upset_plot <- function(peaklist){
   # define variables
@@ -28,8 +30,8 @@ overlap_upset_plot <- function(peaklist){
   peaklist <- check_list_names(peaklist)
   # change metadata column names so it doesn't interfere
   for(i in seq_len(length(peaklist))){
-    my_label <- make.unique(rep("name", ncol(S4Vectors::elementMetadata(peaklist[[i]]))))
-    colnames(S4Vectors::elementMetadata(peaklist[[i]])) <- my_label
+    my_label <- make.unique(rep("name", ncol(GenomicRanges::elementMetadata(peaklist[[i]]))))
+    colnames(GenomicRanges::elementMetadata(peaklist[[i]])) <- my_label
   }
   # erase name
   peaklist_names <- names(peaklist)
@@ -40,8 +42,8 @@ overlap_upset_plot <- function(peaklist){
   overlap_df <- NULL
   for(i in seq_len(length(peaklist))){
    overlap <- IRanges::findOverlaps(merged_peakfile, peaklist[[i]])
-   sample_name <- rep(peaklist_names[i], length(S4Vectors::to(overlap)))
-   df <- data.frame(peak=S4Vectors::from(overlap), sample=sample_name)
+   sample_name <- rep(peaklist_names[i], length(IRanges::to(overlap)))
+   df <- data.frame(peak=IRanges::from(overlap), sample=sample_name)
    unique_df <- unique(df)
    overlap_df <- rbind(overlap_df, unique_df)
   }

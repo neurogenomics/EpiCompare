@@ -22,5 +22,6 @@ data("encode_H3K27ac") # load example data
 data("CnT_H3K27ac") # load example data
 peakfile <- list(encode_H3K27ac, CnT_H3K27ac) # create list
 names(peakfile) <- c("ENCODE","CnT") # name list
+
 my_plot <- overlap_upset_plot(peaklist = peakfile) # run function
 }

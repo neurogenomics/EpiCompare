@@ -64,21 +64,19 @@ Imports:
 	stats,
 	methods,
 	org.Hs.eg.db,
-	S4Vectors,
-	magrittr,
-	plyranges
+	plyranges,
+	data.table
 Suggests: 
   testthat (>= 3.0.0),
   badger,
   knitr,
   htmlwidgets,
   BiocStyle,
-  data.table,
   BiocParallel,
   BiocFileCache,
   TxDb.Hsapiens.UCSC.hg19.knownGene,
   TxDb.Hsapiens.UCSC.hg38.knownGene
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Encoding: UTF-8
 Config/testthat/edition: 3

@@ -22,9 +22,10 @@
 #'
 #' @importMethodsFrom IRanges subsetByOverlaps
 #' @import GenomicRanges
+#' @importFrom methods is
 #' @importFrom stats quantile
-#' @importFrom ChIPseeker enrichPeakOverlap
-#' @importMethodsFrom S4Vectors elementMetadata
+#' @importFrom data.table data.table rbindlist
+#' @importFrom ChIPseeker enrichPeakOverlap 
 #' @import ggplot2
 #'
 #' @export
@@ -33,35 +34,37 @@
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #' data("CnR_H3K27ac") # example dataset as GRanges object
 #'
-#' peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
-#' names(peaks) <- c("CnT", "CnR") # set names
-#' reference_peak <- list("ENCODE"=encode_H3K27ac)
+#' peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
+#' names(peaklist) <- c("CnT", "CnR") # set names
+#' reference <- list("ENCODE"=encode_H3K27ac)
 #'
-#' out <- overlap_stat_plot(reference = reference_peak,
-#'                          peaklist = peaks)
+#' out <- overlap_stat_plot(reference = reference,
+#'                          peaklist = peaklist)
 #' stat_plot <- out[[1]] # plot
 #' stat_df <- out[[2]] # df
-#'
-overlap_stat_plot <- function(reference, peaklist, annotation=NULL){
-  # define variables
-  qvalue <- NULL
-  tSample <- NULL
-  p.adjust <- NULL
+overlap_stat_plot <- function(reference, 
+                              peaklist, 
+                              annotation=NULL){
+  
+    # define variables
+  qvalue <- tSample <- p.adjust <- NULL;
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
-  # check if the file has BED6+4 format
-  if(ncol(S4Vectors::elementMetadata(reference[[1]])) == 7 |
-     ncol(S4Vectors::elementMetadata(reference[[1]])) == 6){
+  #### Validate reference list ####
+  reference <- prepare_reference(reference = reference,
+                                 max_elements = 1)
+  # check if the file has BED6+4 format 
+  if(ncol(GenomicRanges::elementMetadata(reference)) %in% c(6,7)){
     main_df <- NULL
     # for each peakfile, obtain overlapping and unique peaks
     for (i in seq_len(length(peaklist))){
       # reference peaks found in sample peaks
-      overlap <- IRanges::subsetByOverlaps(x = reference[[1]],
+      overlap <- IRanges::subsetByOverlaps(x = reference,
                                            ranges = peaklist[[i]])
       # reset names of metadata
       n <- 4
       my_label <- NULL
-      for (l in seq_len(ncol(S4Vectors::elementMetadata(overlap)))){
+      for (l in seq_len(ncol(GenomicRanges::elementMetadata(overlap)))){
         label <- paste0("V",n)
         my_label <- c(my_label, label)
         n <- n + 1
@@ -69,12 +72,13 @@ overlap_stat_plot <- function(reference, peaklist, annotation=NULL){
       colnames(mcols(overlap)) <- my_label
 
       # reference peaks not found in sample peaks
-      unique <- IRanges::subsetByOverlaps(x = reference[[1]],
-                                          ranges = peaklist[[i]], invert = TRUE)
+      unique <- IRanges::subsetByOverlaps(x = reference,
+                                          ranges = peaklist[[i]],
+                                          invert = TRUE)
       # reset names of metadata
       n <- 4
       my_label <- NULL
-      for (l in seq_len(ncol(S4Vectors::elementMetadata(unique)))){
+      for (l in seq_len(ncol(GenomicRanges::elementMetadata(unique)))){
         label <- paste0("V",n)
         my_label <- c(my_label, label)
         n <- n + 1
@@ -89,7 +93,7 @@ overlap_stat_plot <- function(reference, peaklist, annotation=NULL){
       # create data frame of q-values for overlapping peaks
       sample <- names(peaklist)[i]
       group <- "overlap"
-      overlap_df <- data.frame(overlap_qvalue, sample, group)
+      overlap_df <- data.table::data.table(overlap_qvalue, sample, group)
       colnames(overlap_df) <- c("qvalue", "sample", "group")
       #
       unique_qvalue <- unique$V9
@@ -98,16 +102,16 @@ overlap_stat_plot <- function(reference, peaklist, annotation=NULL){
       }
       # create data frame of q-values for unique peaks
       group <- "unique"
-      unique_df <- data.frame(unique_qvalue, sample, group)
+      unique_df <- data.table::data.table(unique_qvalue, sample, group)
       colnames(unique_df) <- c("qvalue", "sample", "group")
       # combine two data frames
-      sample_df <- rbind(overlap_df, unique_df)
-      main_df <- rbind(main_df, sample_df)
+      sample_df <- data.table::rbindlist(list(overlap_df, unique_df))
+      main_df <- data.table::rbindlist(list(main_df, sample_df))
     }
     # find value at 95th percentile
     max_val <- stats::quantile(main_df$qvalue, 0.95)
     # remove values greater than 95th quantile
-    main_df <- main_df[main_df$qvalue<max_val,]
+    main_df <- main_df[qvalue<max_val,] 
 
     # create paired boxplot for each peak file (sample)
     sample_plot <- ggplot2::ggplot(main_df,
@@ -127,7 +131,7 @@ overlap_stat_plot <- function(reference, peaklist, annotation=NULL){
     }else{
       # calculate significance of overlapping peaks using enrichPeakOverlap()
       txdb <- annotation
-      overlap_result <- ChIPseeker::enrichPeakOverlap(queryPeak = reference[[1]],
+      overlap_result <- ChIPseeker::enrichPeakOverlap(queryPeak = reference,
                                                       targetPeak = peaklist,
                                                       TxDb = txdb,
                                                       nShuffle = 50,
