@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.18</span>
       </span>
     </div>
 
@@ -50,6 +50,46 @@
       <small>Source: <a href="https://github.com/neurogenomics/EpiCompare/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.99.18" id="changes-in-version-09918">CHANGES IN VERSION 0.99.18<a class="anchor" aria-label="anchor" href="#changes-in-version-09918"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-99-18">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-99-18"></a></h3>
+<ul><li>
+<code>prepare_reference</code>: Validate reference input before passing to next step.</li>
+<li>Pass named list to <code>genome_build</code> to allow for different builds between <code>reference</code> and <code>peaklist</code>.</li>
+<li>Liftover <code>blacklist</code> to match GRanges list it’s being used to filter in <code>tidy_peakfile</code>.</li>
+<li>Ensure all names are unique in <code>peaklist</code> and <code>reference</code>.</li>
+<li>
+<code>gather_files</code>:
+<ul><li>Avoid gathering duplicates peak files from <code>nf-core/cutandrun</code>.</li>
+<li>Add progress bar.</li>
+<li>Add report at the end.</li>
+<li>Add extra arg <code>return_paths</code> to return only the paths without actually reading in the files.</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-99-18">New features<a class="anchor" aria-label="anchor" href="#new-features-0-99-18"></a></h3>
+<ul><li>Overhaul how <em>EpiCompare</em> handles genome builds:
+<ul><li>New argument <code>genome_build_output</code> allows users to specify which genome build to standardise all inputs to.</li>
+<li>
+<code>genome_build</code> can now take a named list to specify different genome builds for <code>peakfiles</code>, <code>reference</code>, and <code>blacklist</code>.<br></li>
+<li>Added functions to parse validate all genome build-related arguments.</li>
+</ul></li>
+<li>Remove unnecessary deps.</li>
+<li>Use <code>data.table</code> to read/write tables.</li>
+<li>
+<code>prepare_peaklist</code>:
+<ul><li>Simplified code.</li>
+<li>Added arg <code>remove_empty</code> to automatically drop any empty elements.</li>
+<li>Embed <code>check_list_names</code> within.</li>
+</ul></li>
+<li>
+<code>plot_chromHMM</code>:
+<ul><li>Can return data as well with <code>return_data</code>.</li>
+<li>Performs liftover on chromHMM data instead of the <code>peaklist</code>.</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.99.17" id="changes-in-version-09917">CHANGES IN VERSION 0.99.17<a class="anchor" aria-label="anchor" href="#changes-in-version-09917"></a></h2>
 <div class="section level3">

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.18</span>
       </span>
     </div>
 
@@ -56,17 +56,23 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">prepare_peaklist</span><span class="op">(</span><span class="va">peaklist</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">prepare_peaklist</span><span class="op">(</span><span class="va">peaklist</span>, remove_empty <span class="op">=</span> <span class="cn">TRUE</span>, as_grangeslist <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>peaklist</dt>
-<dd><p>A named list of peaks as GRanges or paths to BED files</p></dd>
+<dd><p>A named list of peaks as <a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a>
+or paths to BED files.</p></dd>
+<dt>remove_empty</dt>
+<dd><p>Remove any empty elements in the list.</p></dd>
+<dt>as_grangeslist</dt>
+<dd><p>Convert output to class
+<a href="https://rdrr.io/pkg/GenomicRanges/man/GRangesList-class.html" class="external-link">GRangesList</a> before returning.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of GRanges objects</p>
+    <p>A list of <a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a> objects</p>
     </div>
 
   </div>

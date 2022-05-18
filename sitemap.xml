@@ -103,7 +103,13 @@
     <loc>/reference/plot_enrichment.html</loc>
   </url>
   <url>
+    <loc>/reference/prepare_genome_builds.html</loc>
+  </url>
+  <url>
     <loc>/reference/prepare_peaklist.html</loc>
+  </url>
+  <url>
+    <loc>/reference/prepare_reference.html</loc>
   </url>
   <url>
     <loc>/reference/tidy_peakfile.html</loc>
