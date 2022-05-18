@@ -5,24 +5,32 @@
 #' named list.
 #' @param max_elements Max number of elements to use within the list.
 #' Set to \code{NULL} (default) to use all elements. 
+#' @param remove_empty Remove any empty elements in the list.
 #'
 #' @return A list of \link[GenomicRanges]{GRanges} objects
 #'
 #' @keywords internal
 #' @importFrom methods is
 prepare_reference <- function(reference,
-                              max_elements=NULL){
+                              max_elements=NULL,
+                              remove_empty=TRUE){
     message("Preparing reference.")
     if(is.null(reference)) {
         message("No reference provided. Returning NULL.")
         return(NULL)
     }
+    if(methods::is(reference,"GRangesList")){
+        reference <- as.list(reference)
+    }
     if(!methods::is(reference,"list")){
         reference <- list(reference)
     }
-    if(is.null(names(reference))){
-        names(reference) <- paste0("reference",seq_len(length(reference)))
-    }  
+    reference <- check_list_names(peaklist = reference, 
+                                  default_prefix = "reference")
+    #### Remove empty elements ####
+    if(remove_empty){
+        reference <- remove_empty_elements(peaklist = reference)
+    }
     #### Limit the number of elements ####
     if((!is.null(max_elements))){
         if(length(reference)>max_elements){
@@ -38,6 +46,5 @@ prepare_reference <- function(reference,
             reference <- reference[[1]]
         } 
     } 
-    
     return(reference)
 }

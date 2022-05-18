@@ -4,11 +4,16 @@
 \alias{prepare_peaklist}
 \title{Prepare peaklist as GRanges}
 \usage{
-prepare_peaklist(peaklist)
+prepare_peaklist(peaklist, remove_empty = TRUE, as_grangeslist = FALSE)
 }
 \arguments{
 \item{peaklist}{A named list of peaks as \link[GenomicRanges]{GRanges}
 or paths to BED files.}
+
+\item{remove_empty}{Remove any empty elements in the list.}
+
+\item{as_grangeslist}{Convert output to class
+\link[GenomicRanges]{GRangesList} before returning.}
 }
 \value{
 A list of \link[GenomicRanges]{GRanges} objects

@@ -9,7 +9,8 @@ plot_chromHMM(
   chromHMM_annotation,
   cell_line = NULL,
   genome_build,
-  interact = TRUE
+  interact = TRUE,
+  return_data = FALSE
 )
 }
 \arguments{
@@ -28,21 +29,25 @@ peakfiles. "hg19" or "hg38".}
 
 \item{interact}{Default TRUE. By default, the heatmaps are interactive.
 If\code{FALSE}, the function generates a static ChromHMM heatmap.}
+
+\item{return_data}{Return the plot data as in addition to the plot itself.}
 }
 \value{
-ChromHMM heatmap
+ChromHMM heatmap, or a named list.
 }
 \description{
 Creates a heatmap using outputs from ChromHMM using ggplot2.The function
 takes a list of peakfiles, performs ChromHMM and outputs a heatmap. ChromHMM
-annotation file must be loaded prior to using this function.
+annotation file must be loaded prior to using this function. 
+ChromHMM annotations are aligned to hg19, and will be automatically lifted 
+over to the \code{genome_build} to match the build of the \code{peaklist}.
 }
 \examples{
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object 
-peaks <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac) # create a list
+peaklist <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac) # create a list
 
-my_plot <- plot_chromHMM(peaklist=peaks, 
+my_plot <- plot_chromHMM(peaklist = peaklist, 
                          cell_line = "K562",
                          genome_build = "hg19") 
 }

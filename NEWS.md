@@ -6,11 +6,31 @@
 * Pass named list to `genome_build` to allow for different builds between
 `reference` and `peaklist`. 
 * Liftover `blacklist` to match GRanges list it's being used to filter in `tidy_peakfile`. 
+* Ensure all names are unique in `peaklist` and `reference`. 
+* `gather_files`:
+    - Avoid gathering duplicates peak files from `nf-core/cutandrun`. 
+    - Add progress bar. 
+    - Add report at the end. 
+    - Add extra arg `return_paths` to return only the paths 
+    without actually reading in the files.  
 
 ### New features
 
+* Overhaul how *EpiCompare* handles genome builds:  
+    - New argument `genome_build_output` allows users to specify 
+    which genome build to standardise all inputs to. 
+    - `genome_build` can now take a named list to specify different genome builds
+    for `peakfiles`, `reference`, and `blacklist`.  
+    - Added functions to parse validate all genome build-related arguments. 
 * Remove unnecessary deps.
 * Use `data.table` to read/write tables. 
+* `prepare_peaklist`:
+    - Simplified code.
+    - Added arg `remove_empty` to automatically drop any empty elements.
+    - Embed `check_list_names` within. 
+* `plot_chromHMM`:
+    - Can return data as well with `return_data`. 
+    - Performs liftover on chromHMM data instead of the `peaklist`.
 
 ## CHANGES IN VERSION 0.99.17
 

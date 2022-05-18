@@ -257,7 +257,7 @@ includes the date.
   + 1. **General Metrics**: Metrics on peaks (percentage of blacklisted and 
   non-standard peaks, and peak widths) and fragments (duplication rate) of 
   samples.
-  + 2. **Peak Overlap**: Percetnage and statistical significance of overlapping
+  + 2. **Peak Overlap**: Percentage and statistical significance of overlapping
   and non-overlapping peaks. Also includes upset plot.
   + 3. **Functional Annotation**: Functional annotation (ChromHMM, ChIPseeker 
   and enrichment analysis) of peaks. Also includes peak enrichment around TSS.

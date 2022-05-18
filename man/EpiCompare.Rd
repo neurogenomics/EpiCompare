@@ -7,6 +7,7 @@
 EpiCompare(
   peakfiles,
   genome_build,
+  genome_build_output = "hg19",
   blacklist,
   picard_files = NULL,
   reference = NULL,
@@ -28,26 +29,47 @@ EpiCompare(
 \item{peakfiles}{A list of peak files as GRanges object and/or as paths to
 BED files. If paths are provided, EpiCompare creates GRanges object.
 EpiCompare also accepts a list containing a mix of GRanges object and paths.
-Files must be listed using `list()` and named using `names()`.
+Files must be listed using \code{list()} and named using \code{names()}.
 If not named, default file names will be assigned.}
 
-\item{genome_build}{The human genome reference build used to generate
-peakfiles. "hg19" or "hg38".}
+\item{genome_build}{A named list indicating the human genome build used to 
+generate each of the following inputs:
+\itemize{
+\item{"peakfiles" : }{Genome build for the \code{peakfiles} input.
+Assumes genome build is the same for each element in the \code{peakfiles}
+list.}
+\item{"reference" : }{Genome build for the \code{reference} input.}
+\item{"blacklist" : }{Genome build for the \code{blacklist} input.}
+}
+Example input list:\cr
+ \code{genome_build = list(peakfiles="hg38", 
+ reference="hg19", blacklist="hg19")}\cr\cr
+Alternatively, you can supply a single character string instead of a list.
+This should \emph{only} be done in situations where all three inputs
+(\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same 
+genome build. For example:\cr
+\code{genome_build = "hg19"}}
+
+\item{genome_build_output}{Genome build to standardise all inputs to.
+Liftovers will be performed automatically as needed. 
+Default: "hg19".}
 
 \item{blacklist}{A GRanges object containing blacklisted regions.}
 
 \item{picard_files}{A list of summary metrics output from Picard.
-Files must be in data.frame format and listed using `list()`
-and named using `names()`.
-To import Picard duplication metrics (.txt file) into R as data frame, use
-`picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.}
+Files must be in data.frame format and listed using \code{list()}
+and named using \code{names()}.
+To import Picard duplication metrics (.txt file)
+ into R as data frame, use:\cr
+\code{picard <- read.table("/path/to/picard/output",
+ header = TRUE, fill = TRUE)}.}
 
 \item{reference}{A reference peak file as GRanges object.
 If a reference is specified, it enables two analyses: (1) plot showing
 statistical significance of overlapping/non-overlapping peaks; and
 (2) ChromHMM of overlapping/non-overlapping peaks.
 Please make sure that the reference file is listed and named
-i.e. `list("reference_name" = reference_peak)`.}
+i.e. \code{list("reference_name" = reference_peak)}.}
 
 \item{upset_plot}{Default FALSE. If TRUE, the report includes upset plot of
 overlapping peaks.}
@@ -115,15 +137,19 @@ data("hg38_blacklist") # hg38 blacklist dataset
 data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
 
-# prepare input data
-peaks <- list(CnR_H3K27ac, CnT_H3K27ac) # create list of peakfiles
-names(peaks) <- c("CnR", "CnT") # set names
-picard <- list(CnR_H3K27ac_picard, CnT_H3K27ac_picard) # create list of picard outputs
-names(picard) <- c("CnR", "CnT") # set names
-reference_peak <- list("ENCODE" = encode_H3K27ac) # reference peak file
+#### prepare input data ####
+# create list of peakfiles 
+peaks <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac) 
+# create list of picard outputs
+picard <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard) 
+# reference peak file
+reference_peak <- list("ENCODE" = encode_H3K27ac) 
 
 EpiCompare(peakfiles = peaks,
-           genome_build = "hg19",
+           genome_build = list(peakfiles="hg19",
+                               reference="hg38",
+                               blacklist="hg19"),
+           genome_build_output = "hg19",
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
@@ -137,5 +163,4 @@ EpiCompare(peakfiles = peaks,
            interact = FALSE,
            save_output = FALSE,
            output_dir = tempdir())
-
 }

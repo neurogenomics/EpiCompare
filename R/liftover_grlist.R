@@ -6,10 +6,13 @@
 #' @param input_build The genome build of \code{grlist}.
 #' @param output_build Desired genome build for
 #'  \code{grlist} to be lifted over to. 
+#' @inheritParams prepare_peaklist
+#'  
 #' @returns Named list of lifted \link[GenomicRanges]{GRanges} objects.
 #' @export
 #' @importFrom AnnotationHub AnnotationHub
 #' @importFrom rtracklayer liftOver
+#' @importFrom GenomicRanges GRangesList
 #' @examples 
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
@@ -23,15 +26,19 @@
 #'                                  output_build="hg38")
 liftover_grlist <- function(grlist,
                             input_build,
-                            output_build="hg19"){ 
+                            output_build="hg19",
+                            as_grangeslist=FALSE){ 
     
     input_build <- tolower(input_build)
     output_build <- tolower(output_build)
     #### No liftover necessary ####
     if(input_build==output_build){
+        message("grlist is already in the output_build format. ",
+                "Skipping liftover.")
         ## Exit early
         return(grlist)
     } 
+    
     #### Chain file descriptions ####
     message("Preparing chain file.")
     ah <- AnnotationHub::AnnotationHub()
@@ -50,12 +57,16 @@ liftover_grlist <- function(grlist,
         chain <- ah[["AH14150"]] 
     }
     #### liftover ####
-    message("Performing liftover.") 
+    message("Performing liftover: ",input_build," --> ",output_build) 
     grlist_lifted <- mapply(grlist, FUN = function(gr){
         gr <- clean_granges(gr = gr)
         gr2 <- rtracklayer::liftOver(x = gr, 
                                      chain = chain) 
         return(unlist(gr2))
     })    
+    if(as_grangeslist){
+        grlist_lifted <- GenomicRanges::GRangesList(grlist_lifted, 
+                                                    compress = FALSE) 
+    }
     return(grlist_lifted)
 }

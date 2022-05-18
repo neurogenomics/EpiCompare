@@ -22,7 +22,9 @@
 #' overlap <- overlap_percent(peaklist=peaks,
 #'                            reference=reference_peak[[1]])
 #'
-overlap_percent <- function(peaklist, reference, invert=FALSE){
+overlap_percent <- function(peaklist, 
+                            reference, 
+                            invert=FALSE){
   percent_list <- c()
   if(methods::is(peaklist, "list")){
     for(file in peaklist){
