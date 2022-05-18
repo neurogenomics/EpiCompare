@@ -21,7 +21,7 @@
     which genome build to standardise all inputs to. 
     - `genome_build` can now take a named list to specify different genome builds
     for `peakfiles`, `reference`, and `blacklist`.  
-    - Added functions to parse validate all genome build-related arguments. 
+    - Added functions to parse and validate all genome build-related arguments. 
 * Remove unnecessary deps.
 * Use `data.table` to read/write tables. 
 * `prepare_peaklist`:
