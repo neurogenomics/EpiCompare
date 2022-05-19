@@ -8,7 +8,8 @@ plot_enrichment(peaklist, annotation)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
-Files must be listed using `list()` and named using `names()`
+Files must be listed and named using \code{list()}.
+e.g. \code{list("name1"=file1, "name2"=file2)}.
 If not named, default file names will be assigned.}
 
 \item{annotation}{A TxDb annotation object from Bioconductor.}
@@ -21,11 +22,12 @@ This function runs KEGG and GO enrichment analysis of peak files
 and generates dot plots.
 }
 \examples{
-data("CnT_H3K27ac") # example dataset as GRanges object
-data("CnR_H3K27ac") # example dataset as GRanges object
+### Load Data ###
+data("CnT_H3K27ac") # example peakfile GRanges object
+data("CnR_H3K27ac") # example peakfile GRanges object
 
-peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
-names(peaks) <- c("CnT", "CnR") # set names
+### Create Named Peaklist ###
+peaks <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
 
 ## not run
 # txdb<-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene

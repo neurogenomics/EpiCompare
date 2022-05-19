@@ -76,21 +76,23 @@ blacklist <- liftover_grlist(grlist = params$blacklist,
                              input_build = builds$blacklist, 
                              output_build = output_build) 
 
-
-# tidy input peakfiles to remove peaks in blacklisted regions 
-# and non-standard chromosomes 
+### Standardise peaklist(s) ###
 peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
                                blacklist = blacklist)
-# tidy input reference peakfile if provided and include in peaklist
+
+### Standardise reference(s) ###
+# and include in peaklist
 reference_tidy <- reference
 if (!is.null(reference)){
   reference_tidy <- tidy_peakfile(peaklist = reference,
                                   blacklist = blacklist)
   peaklist_tidy <- c(peaklist_tidy, reference_tidy)
 }
-# get appropriate genome annotation 
+
+### Obtain Genome Annotation ### 
 txdb <- check_genome_build(genome_build = output_build)
-# adjust figure height depending on sample size  
+
+### Dynamic Figure Height ###  
 fig_height <- 7
 if(length(peaklist_tidy)>10){
   extra_n <- length(peaklist_tidy) - 10
@@ -180,7 +182,7 @@ in blacklisted regions and non-standard chromosomes)
 
 ```{r, echo=FALSE, warning=FALSE}
 
-peak_info_df <- peak_info(peak_list = peaklist,
+peak_info_df <- peak_info(peaklist = peaklist,
                           blacklist = blacklist)
 # create table 
 knitr::kable(peak_info_df, format = "markdown")
@@ -393,8 +395,8 @@ Percentage of Sample peaks found in Reference peaks
 if (params$chromHMM_plot){
   if (is.null(reference)==FALSE){
     # table of percentage overlap
-    sample_in_ref_df <- overlap_percent(peaklist = peaklist_tidy,
-                                        reference = reference_tidy[[1]],
+    sample_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
+                                        peaklist2 = reference_tidy,
                                         invert = FALSE)
     knitr::kable(sample_in_ref_df, format = "markdown")
   }
@@ -448,8 +450,8 @@ Percentage of Reference peaks found in Sample peaks
 if (params$chromHMM_plot){
   if (is.null(reference)==FALSE){
     # table of percentage overlap
-    ref_in_sample_df <- overlap_percent(peaklist = reference_tidy[[1]],
-                                        reference = peaklist_tidy,
+    ref_in_sample_df <- overlap_percent(peaklist1 = reference_tidy,
+                                        peaklist2 = peaklist_tidy,
                                         invert = FALSE)
     knitr::kable(ref_in_sample_df, format = "markdown")
     
@@ -503,8 +505,8 @@ Percentage of sample peaks not found in reference peaks
 if (params$chromHMM_plot){
   if (is.null(reference)==FALSE){
     # table of percentage overlap
-    sample_not_in_ref_df <- overlap_percent(peaklist = peaklist_tidy,
-                                            reference = reference_tidy[[1]],
+    sample_not_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
+                                            peaklist2 = reference_tidy,
                                             invert = TRUE)
     knitr::kable(sample_not_in_ref_df, format = "markdown")
   }
@@ -561,9 +563,9 @@ Percentage of reference peaks not found in sample peaks
 if (params$chromHMM_plot){
   if (is.null(reference)==FALSE){
     # table of percentage overlap
-    ref_not_in_sample_df <- overlap_percent(peaklist = reference_tidy[[1]],
-                                        reference = peaklist_tidy,
-                                        invert = TRUE)
+    ref_not_in_sample_df <- overlap_percent(peaklist1 = reference_tidy,
+                                            peaklist2 = peaklist_tidy,
+                                            invert = TRUE)
     knitr::kable(ref_not_in_sample_df, format = "markdown")
   }
 }

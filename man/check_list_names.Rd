@@ -16,7 +16,7 @@ for \code{peaklist}.}
 named peaklist
 }
 \description{
-This function checks whether the peaklist is named. 
+This function checks whether the peaklist is named.
 If not, default file names are assigned.
 }
 \keyword{internal}

@@ -4,11 +4,11 @@
 \alias{peak_info}
 \title{Summary of Peak Information}
 \usage{
-peak_info(peak_list, blacklist)
+peak_info(peaklist, blacklist)
 }
 \arguments{
-\item{peak_list}{A named list of peak files as GRanges object.
-Objects listed using `list()` and named using `names()`.}
+\item{peaklist}{A named list of peak files as GRanges object.
+Objects listed using \code{list("name1" = peak, "name2" = peak2)}.}
 
 \item{blacklist}{A GRanges object containing blacklisted regions.}
 }
@@ -17,17 +17,20 @@ A summary table of peak information
 }
 \description{
 This function outputs a table summarizing information on the peak files.
-Provides the total number of peaks and the percentage of peaks in blacklisted regions.
+Provides the total number of peaks and the percentage of peaks in blacklisted
+ regions.
 }
 \examples{
-data("encode_H3K27ac") # example dataset as GRanges object
-data("CnT_H3K27ac") # example dataset as GRanges object
-data("hg19_blacklist") # example blacklist dataset as GRanges object
+### Load Data ###
+data("encode_H3K27ac") # example peakfile GRanges object
+data("CnT_H3K27ac") # example peakfile GRanges object
+data("hg19_blacklist") # example blacklist GRanges object
 
-peaklist <- list(encode_H3K27ac, CnT_H3K27ac) # list two peakfiles
-names(peaklist) <- c("encode", "CnT") # set names
+### Named Peaklist ###
+peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 
-df <- peak_info(peak_list = peaklist,
+### Run ###
+df <- peak_info(peaklist = peaklist,
                 blacklist = hg19_blacklist)
 
 }

@@ -6,8 +6,9 @@
 #' used.
 #'
 #' @param peaklist A named list of peak files as GRanges object.
-#' Objects listed using `list()` and named using `names()`.
-#' If not named, default file names are assigned.
+#' Objects must be named and listed using \code{list()}.
+#' e.g. \code{list("name1"=file1, "name2"=file2)}
+#' If not named, default names are assigned.
 #' @param blacklist Peakfile specifying blacklisted regions as GRanges object.
 #'
 #' @return list of GRanges object
@@ -17,47 +18,32 @@
 #' @importMethodsFrom IRanges subsetByOverlaps
 
 #' @examples
-#' data("encode_H3K27ac") # example dataset as GRanges object
-#' data("CnT_H3K27ac") # example dataset as GRanges object
+#' ### Load Data ###
+#' data("encode_H3K27ac") # example peakfile GRanges object
+#' data("CnT_H3K27ac") # example peakfile GRanges object
 #' data("hg19_blacklist") # blacklist region for hg19 genome
 #'
-#' peaklist <- list(encode_H3K27ac, CnT_H3K27ac) # list two peakfiles
-#' names(peaklist) <- c("encode", "CnT") # set names
+#' ### Create Named Peaklist ###
+#' peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 #'
+#' ### Run ###
 #' peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
 #'                                blacklist = hg19_blacklist)
 #'
 tidy_peakfile <- function(peaklist, blacklist){
-  # check that peaklist is named, if not, default names assigned
+  ### check peaklist names ###
   peaklist <- check_list_names(peaklist)
-  # for each peakfile, remove peaks in blacklisted region
-  # and remove non-standard and mitochondrial chromosomes
-  # if there are more than one peakfiles, run through loop and output list
-  if(is.list(peaklist)){
-    peaklist_tidy <- list()
-    for(sample in peaklist){
-      # remove non-standard chromosomes
-      tidy_peak <- BRGenomics::tidyChromosomes(sample,
-                                               keep.X = TRUE,
-                                               keep.Y = TRUE)
-      # remove blacklisted peaks
-      blacklist_removed <- IRanges::subsetByOverlaps(tidy_peak,
-                                                     blacklist,
-                                                     invert = TRUE)
-      peaklist_tidy <- c(peaklist_tidy, blacklist_removed)
-    }
-    names(peaklist_tidy) <- names(peaklist)
-    return(peaklist_tidy)
-  }else{
-    # if only one file, tidy and output one file
-    tidy_peak <- BRGenomics::tidyChromosomes(peaklist,
-                                             keep.X = TRUE,
-                                             keep.Y = TRUE)
-    peaklist_tidy<- IRanges::subsetByOverlaps(tidy_peak,
-                                              blacklist,
-                                              invert = TRUE)
-    names(peaklist_tidy)[1] <- names(peaklist)[1]
-    return(peaklist_tidy)
-  }
+  ### standardise peakfiles ###
+  peaklist_tidy <- mapply(peaklist, FUN = function(file){
+    # remove non-standard chromosomes
+    sample <- BRGenomics::tidyChromosomes(file,
+                                          keep.X = TRUE,
+                                          keep.Y = TRUE)
+    # remove blacklisted regions
+    IRanges::subsetByOverlaps(sample,
+                              blacklist,
+                              invert = TRUE)
+  })
+  return(peaklist_tidy)
 }
 

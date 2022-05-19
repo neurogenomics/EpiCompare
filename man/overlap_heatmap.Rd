@@ -8,7 +8,8 @@ overlap_heatmap(peaklist, interact = TRUE)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
-Files must be listed using `list()` and named using `names()`
+Files must be listed and named using \code{list()}.
+e.g. \code{list("name1"=file1, "name2"=file2)}.
 If not named, default file names will be assigned.}
 
 \item{interact}{Default TRUE. By default heatmap is interactive.
@@ -18,15 +19,18 @@ If FALSE, heatmap is static.}
 An interactive heatmap
 }
 \description{
-This function generates a heatmap showing percentage of overlapping peaks between peak files.
+This function generates a heatmap showing percentage of overlapping peaks
+between peak files.
 }
 \examples{
-data("encode_H3K27ac") # example dataset as GRanges object
-data("CnT_H3K27ac") # example dataset as GRanges object
+### Load Data ###
+data("encode_H3K27ac") # example peakfile GRanges object
+data("CnT_H3K27ac") # example peakfile GRanges object
 
-peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
-names(peaks) <- c("encode", "CnT") # set names
+### Create Named List ###
+peaks <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 
+### Run ###
 my_heatmap <- overlap_heatmap(peaklist = peaks)
 
 }

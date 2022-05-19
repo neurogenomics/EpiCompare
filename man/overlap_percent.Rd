@@ -4,33 +4,39 @@
 \alias{overlap_percent}
 \title{Calculate percentage of overlapping peaks}
 \usage{
-overlap_percent(peaklist, reference, invert = FALSE)
+overlap_percent(peaklist1, peaklist2, invert = FALSE)
 }
 \arguments{
-\item{peaklist}{A list of peak files as GRanges object.
-Files must be listed using `list()` and named using `names()`
+\item{peaklist1}{A list of peak files as GRanges object.
+Files must be listed and named using \code{list()}.
+e.g. \code{list("name1"=file1, "name2"=file2)}.
 If not named, default file names will be assigned.}
 
-\item{reference}{reference peaks file}
+\item{peaklist2}{peaklist1 A list of peak files as GRanges object.
+Files must be listed and named using \code{list()}.
+e.g. \code{list("name1"=file1, "name2"=file2)}.}
 
-\item{invert}{whether to invert}
+\item{invert}{Default FALSE. To invert the overlap, set TRUE.}
 }
 \value{
 data frame
 }
 \description{
-Calculate percentage of overlapping peaks
+This function calculates the percentage of overlapping peaks and outputs
+a table or matrix of results.
 }
 \examples{
-data("encode_H3K27ac") # example dataset as GRanges object
-data("CnT_H3K27ac") # example dataset as GRanges object
-data("CnR_H3K27ac") # example dataset as GRanges object
+### Load Data ###
+data("encode_H3K27ac") # example peakfile GRanges object
+data("CnT_H3K27ac") # example peakfile GRanges object
+data("CnR_H3K27ac") # example peakfile GRanges object
 
-peaks <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
-names(peaks) <- c("CnT", "CnR") # set names
+### Create Named Peaklist ###
+peaks <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
 reference_peak <- list("ENCODE"=encode_H3K27ac)
 
-overlap <- overlap_percent(peaklist=peaks,
-                           reference=reference_peak[[1]])
+### Run ###
+overlap <- overlap_percent(peaklist1=peaks,
+                           peaklist2=reference_peak)
 
 }

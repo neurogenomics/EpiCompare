@@ -7,7 +7,7 @@
 prepare_genome_builds(genome_build)
 }
 \arguments{
-\item{genome_build}{A named list indicating the human genome build used to 
+\item{genome_build}{A named list indicating the human genome build used to
 generate each of the following inputs:
 \itemize{
 \item{"peakfiles" : }{Genome build for the \code{peakfiles} input.
@@ -17,11 +17,11 @@ list.}
 \item{"blacklist" : }{Genome build for the \code{blacklist} input.}
 }
 Example input list:\cr
- \code{genome_build = list(peakfiles="hg38", 
+ \code{genome_build = list(peakfiles="hg38",
  reference="hg19", blacklist="hg19")}\cr\cr
 Alternatively, you can supply a single character string instead of a list.
 This should \emph{only} be done in situations where all three inputs
-(\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same 
+(\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same
 genome build. For example:\cr
 \code{genome_build = "hg19"}}
 }

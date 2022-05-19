@@ -1,10 +1,11 @@
 #' Summary of Peak Information
 #'
 #' This function outputs a table summarizing information on the peak files.
-#' Provides the total number of peaks and the percentage of peaks in blacklisted regions.
+#' Provides the total number of peaks and the percentage of peaks in blacklisted
+#'  regions.
 #'
-#' @param peak_list A named list of peak files as GRanges object.
-#' Objects listed using `list()` and named using `names()`.
+#' @param peaklist A named list of peak files as GRanges object.
+#' Objects listed using \code{list("name1" = peak, "name2" = peak2)}.
 #' @param blacklist A GRanges object containing blacklisted regions.
 #'
 #' @return A summary table of peak information
@@ -14,54 +15,60 @@
 #' @export
 #'
 #' @examples
-#' data("encode_H3K27ac") # example dataset as GRanges object
-#' data("CnT_H3K27ac") # example dataset as GRanges object
-#' data("hg19_blacklist") # example blacklist dataset as GRanges object
+#' ### Load Data ###
+#' data("encode_H3K27ac") # example peakfile GRanges object
+#' data("CnT_H3K27ac") # example peakfile GRanges object
+#' data("hg19_blacklist") # example blacklist GRanges object
 #'
-#' peaklist <- list(encode_H3K27ac, CnT_H3K27ac) # list two peakfiles
-#' names(peaklist) <- c("encode", "CnT") # set names
+#' ### Named Peaklist ###
+#' peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 #'
-#' df <- peak_info(peak_list = peaklist,
+#' ### Run ###
+#' df <- peak_info(peaklist = peaklist,
 #'                 blacklist = hg19_blacklist)
 #'
-peak_info <- function(peak_list, blacklist){
-  # check that list is named, if not, default names assigned
-  peak_list <- check_list_names(peak_list)
-  # for each peakfile retrieve the number of peaks and store in list
-  peakN_before_tidy <- c()
-  for (sample in peak_list){
-    N <- length(sample)
-    peakN_before_tidy <- c(peakN_before_tidy, N)
-  }
-  # for each peakfile calculate the percentage of overlapping peaks with
-  # blacklisted region
-  blacklist_percent <- c()
-  for (sample in peak_list){
+peak_info <- function(peaklist, blacklist){
+  ### Check peaklist names ###
+  peaklist <- check_list_names(peaklist)
+
+  ### Obtain Peak Number Before Standardisation ###
+  peakN_before_tidy <- mapply(peaklist, FUN=function(file){
+    length(file)
+  })
+
+  ### Obtain Blacklisted Region Percentage ###
+  blacklist_percent <- mapply(peaklist, FUN=function(file){
     options(warn = -1) # silence warning for subsetByOverlaps
-    blacklistN <- length(IRanges::subsetByOverlaps(sample, blacklist)) # subset overlapping regions
+    blacklistN <- length(IRanges::subsetByOverlaps(file, blacklist))
     options(warn = 0) # turn warning back on
-    blacklistP <- blacklistN/length(sample)*100 # calculate percentage
-    blacklist_percent <- c(blacklist_percent, signif(blacklistP, 3))
-  }
-  # for each peakfile calculate percentage of non-standard and mitochondrial chromosome
-  tidy_percent <- c()
-  for (sample in peak_list){
-    tidy_peak <- BRGenomics::tidyChromosomes(sample, keep.X = TRUE, keep.Y = TRUE) # tidy peakfiles
-    removedN <- length(sample) - length(tidy_peak) # calculate number of removed peaks
-    tidy_peak_percent <- removedN/length(sample)*100 # calculate percentage
-    tidy_percent <- c(tidy_percent, signif(tidy_peak_percent, 3))
-  }
-  # remove blacklisted regions and non-standard chromosomes
-  peaklist_tidy <- tidy_peakfile(peaklist = peak_list,
+    blacklistP <- signif(blacklistN/length(file)*100, 3)
+  })
+
+  ### Obtain Non-standard Chromosome Percentage ###
+  tidy_percent <- mapply(peaklist, FUN=function(file){
+    peak_tidy <- BRGenomics::tidyChromosomes(file, keep.X = TRUE, keep.Y = TRUE)
+    removedN <- length(file) - length(peak_tidy)
+    percentage <- signif(removedN/length(file)*100, 3)
+  })
+
+  ### Standardize Peaklist ###
+  peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
                                  blacklist = blacklist)
-  # after tidying, retrieve the number of peaks and store in list
-  peakN_after_tidy <- c()
-  for (sample in peaklist_tidy){
-    N <- length(sample)
-    peakN_after_tidy <- c(peakN_after_tidy, N)
-  }
-  # combine two metrics into a data frame
-  df <- data.frame(names(peak_list), peakN_before_tidy, blacklist_percent, tidy_percent, peakN_after_tidy)
-  colnames(df) <- c("Sample", "PeakN before tidy", "Blacklisted peaks removed (%)", "Non-standard peaks removed (%)", "PeakN after tidy")
+
+  ### Obtain Peak Number After Standardisation ###
+  peakN_after_tidy <- mapply(peaklist_tidy, FUN=function(file){
+    length(file)
+  })
+
+  ### Create Data Frame ###
+  df <- data.frame(peakN_before_tidy,
+                   blacklist_percent,
+                   tidy_percent,
+                   peakN_after_tidy)
+
+  colnames(df) <- c("PeakN Before Tidy",
+                    "Blacklisted Peaks Removed (%)",
+                    "Non-standard Peaks Removed (%)",
+                    "PeakN After Tidy")
   return(df)
 }

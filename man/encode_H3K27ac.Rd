@@ -23,7 +23,8 @@ data("encode_H3K27ac")
 }
 \description{
 Human H3K27ac peak file generated with ChIP-seq using K562 cell-line.
-Raw peak file (.BED) was obtained from ENCODE project
+Human genome build hg19 was used.
+The peak file (.BED) was obtained from ENCODE project
 (\url{https://www.encodeproject.org/files/ENCFF044JNJ/}).
 The BED file was then imported as an GRanges object.
 Peaks located on chromosome 1 were subsetted to reduce the dataset size.

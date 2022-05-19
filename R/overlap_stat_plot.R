@@ -12,7 +12,8 @@
 #'
 #' @param reference A reference peak file as GRanges object.
 #' @param peaklist A list of peak files as GRanges object.
-#' Files must be listed using `list()` and named using `names()`
+#' Files must be listed and named using \code{list()}.
+#' E.g. \code{list("name1"=file1, "name2"=file2)}.
 #' If not named, default file names will be assigned.
 #' @param annotation A TxDb annotation object from Bioconductor. This is
 #' required only if the reference file does not have BED6+4 format.
@@ -25,35 +26,39 @@
 #' @importFrom methods is
 #' @importFrom stats quantile
 #' @importFrom data.table data.table rbindlist
-#' @importFrom ChIPseeker enrichPeakOverlap 
+#' @importFrom ChIPseeker enrichPeakOverlap
 #' @import ggplot2
 #'
 #' @export
 #' @examples
-#' data("encode_H3K27ac") # example dataset as GRanges object
-#' data("CnT_H3K27ac") # example dataset as GRanges object
-#' data("CnR_H3K27ac") # example dataset as GRanges object
+#' ### Load Data ###
+#' data("encode_H3K27ac") # example peakfile GRanges object
+#' data("CnT_H3K27ac") # example peakfile GRanges object
+#' data("CnR_H3K27ac") # example peakfile GRanges object
 #'
-#' peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
-#' names(peaklist) <- c("CnT", "CnR") # set names
+#' ### Create Named Peaklist & Reference ###
+#' peaklist <- list('CnT'=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
 #' reference <- list("ENCODE"=encode_H3K27ac)
 #'
+#' ### Run ###
 #' out <- overlap_stat_plot(reference = reference,
 #'                          peaklist = peaklist)
 #' stat_plot <- out[[1]] # plot
 #' stat_df <- out[[2]] # df
-overlap_stat_plot <- function(reference, 
-                              peaklist, 
+#'
+overlap_stat_plot <- function(reference,
+                              peaklist,
                               annotation=NULL){
-  
-    # define variables
+
+  # define variables
   qvalue <- tSample <- p.adjust <- NULL;
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
+
   #### Validate reference list ####
   reference <- prepare_reference(reference = reference,
                                  max_elements = 1)
-  # check if the file has BED6+4 format 
+  # check if the file has BED6+4 format
   if(ncol(GenomicRanges::elementMetadata(reference)) %in% c(6,7)){
     main_df <- NULL
     # for each peakfile, obtain overlapping and unique peaks
@@ -111,7 +116,7 @@ overlap_stat_plot <- function(reference,
     # find value at 95th percentile
     max_val <- stats::quantile(main_df$qvalue, 0.95)
     # remove values greater than 95th quantile
-    main_df <- main_df[qvalue<max_val,] 
+    main_df <- main_df[qvalue<max_val,]
 
     # create paired boxplot for each peak file (sample)
     sample_plot <- ggplot2::ggplot(main_df,

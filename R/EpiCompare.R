@@ -8,9 +8,10 @@
 #' @param peakfiles A list of peak files as GRanges object and/or as paths to
 #' BED files. If paths are provided, EpiCompare creates GRanges object.
 #' EpiCompare also accepts a list containing a mix of GRanges object and paths.
-#' Files must be listed using \code{list()} and named using \code{names()}.
+#' Files must be listed and named using \code{list()}.
+#' E.g. \code{list("name1"=file1, "name2"=file2)}.
 #' If not named, default file names will be assigned.
-#' @param genome_build A named list indicating the human genome build used to 
+#' @param genome_build A named list indicating the human genome build used to
 #' generate each of the following inputs:
 #' \itemize{
 #' \item{"peakfiles" : }{Genome build for the \code{peakfiles} input.
@@ -20,16 +21,16 @@
 #' \item{"blacklist" : }{Genome build for the \code{blacklist} input.}
 #' }
 #' Example input list:\cr
-#'  \code{genome_build = list(peakfiles="hg38", 
+#'  \code{genome_build = list(peakfiles="hg38",
 #'  reference="hg19", blacklist="hg19")}\cr\cr
 #' Alternatively, you can supply a single character string instead of a list.
 #' This should \emph{only} be done in situations where all three inputs
-#' (\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same 
+#' (\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same
 #' genome build. For example:\cr
 #' \code{genome_build = "hg19"}
 #' @param genome_build_output Genome build to standardise all inputs to.
-#' Liftovers will be performed automatically as needed. 
-#' Default: "hg19". 
+#' Liftovers will be performed automatically as needed.
+#' Default: "hg19".
 #' @param blacklist A GRanges object containing blacklisted regions.
 #' @param picard_files A list of summary metrics output from Picard.
 #' Files must be in data.frame format and listed using \code{list()}
@@ -87,6 +88,7 @@
 #' @importFrom rmarkdown render
 #'
 #' @examples
+#' ### Load Data ###
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #' data("CnR_H3K27ac") # example dataset as GRanges object
@@ -96,13 +98,14 @@
 #' data("CnR_H3K27ac_picard") # example Picard summary output
 #'
 #' #### prepare input data ####
-#' # create list of peakfiles 
-#' peaks <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac) 
+#' # create list of peakfiles
+#' peaks <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac)
 #' # create list of picard outputs
-#' picard <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard) 
+#' picard <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard)
 #' # reference peak file
-#' reference_peak <- list("ENCODE" = encode_H3K27ac) 
+#' reference_peak <- list("ENCODE" = encode_H3K27ac)
 #'
+#' ### Run EpiCompare ###
 #' EpiCompare(peakfiles = peaks,
 #'            genome_build = list(peakfiles="hg19",
 #'                                reference="hg38",
@@ -121,6 +124,7 @@
 #'            interact = FALSE,
 #'            save_output = FALSE,
 #'            output_dir = tempdir())
+#'
 EpiCompare <- function(peakfiles,
                        genome_build,
                        genome_build_output = "hg19",
@@ -140,17 +144,21 @@ EpiCompare <- function(peakfiles,
                        output_timestamp = FALSE,
                        output_dir){
 
-  # output file name
+  # time
+  t1 <- Sys.time()
+
+  ### Output Filename ###
   if(output_timestamp){
     date <- format(Sys.Date(), '%b_%d_%Y')
     output_filename <- paste0(output_filename,"_",date)
   }
 
-  # locate Rmd file
+  ### Locate Rmd ###
   markdown_path <- system.file("markdown",
                                "EpiCompare.Rmd",
                                package = "EpiCompare")
-  # parse parameters into markdown and render HTML
+
+  ### Parse Parameters Into Markdown & Render HTML ###
   rmarkdown::render(
       input = markdown_path,
       output_dir = output_dir,
@@ -174,4 +182,8 @@ EpiCompare <- function(peakfiles,
         save_output = save_output,
         output_dir = output_dir)
   )
+
+  ### Show Timer ###
+  t2 <- Sys.time()
+  methods::show( difftime(t2, t1, units = "min") )
 }

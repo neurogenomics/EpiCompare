@@ -4,9 +4,8 @@
 #' each peak file.
 #'
 #' @param peaklist A list of peak files as GRanges object.
-#' Files must be listed using `list()`.
-#' Files must be named using `names(peaklist) <- c("sample1","sample2)`.
-#' If not named, default file names will be assigned.
+#' Files must be named and listed using \code{list()}.
+#' e.g. \code{list("name1"=file1, "name2"=file2)}
 #'
 #' @return A boxplot of peak widths.
 #'
@@ -15,18 +14,22 @@
 #'
 #' @export
 #' @examples
-#' data("encode_H3K27ac") # example dataset as GRanges object
-#' data("CnT_H3K27ac") # example dataset as GRanges object
+#' ### Load Data ###
+#' data("encode_H3K27ac") # example peaklist GRanges object
+#' data("CnT_H3K27ac") # example peaklist GRanges object
 #'
-#' peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
-#' names(peaks) <- c("encode", "CnT") # set names
+#' ### Create Named Peaklist ###
+#' peaks <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 #'
+#' ### Run ###
 #' my_plot <- width_boxplot(peaklist = peaks)
 #'
 width_boxplot <- function(peaklist){
-  # check that peaklist is named, if not, default names assigned
+
+  ### Check Peaklist Names ###
   peaklist <- check_list_names(peaklist)
-  # for each peakfile retrieve widths and combine in data frame
+
+  # Obtain Widths, Create Data Frame ###
   df <- NULL
   for (i in seq_len(length(peaklist))){
     sample <- names(peaklist)[i]
@@ -34,14 +37,15 @@ width_boxplot <- function(peaklist){
     width_df <- data.frame(sample, width)
     df <- rbind(df, width_df)
   }
-  # create boxplot
+
+  ### Create Boxplot ###
   boxplot <- ggplot2::ggplot(df, ggplot2::aes(x=sample, y = width)) +
-                ggplot2::geom_boxplot(outlier.shape = NA) +
-                ggplot2::scale_y_continuous(trans="log10") +
-                ggplot2::labs(x="",y="width (bp)") +
-                ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 315,
-                                                                   vjust = 0.5,
-                                                                   hjust=0)) +
-                ggplot2::coord_flip()
+             ggplot2::geom_boxplot(outlier.shape = NA) +
+             ggplot2::scale_y_continuous(trans="log10") +
+             ggplot2::labs(x="",y="width (bp)") +
+             ggplot2::coord_flip() +
+             ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 315,
+                                                                vjust = 0.5,
+                                                                hjust=0))
   return(boxplot)
 }

@@ -14,14 +14,14 @@ plot_chromHMM(
 )
 }
 \arguments{
-\item{peaklist}{A named \link[base]{list} of peak files as GRanges object. 
+\item{peaklist}{A named \link[base]{list} of peak files as GRanges object.
 If list is not named, default names will be assigned.}
 
 \item{chromHMM_annotation}{ChromHMM annotation list.}
 
-\item{cell_line}{If not \code{cell_line}, 
+\item{cell_line}{If not \code{cell_line},
 will replace \code{chromHMM_annotation}
- by importing chromHMM data for a given cell line using  
+ by importing chromHMM data for a given cell line using
  \link[EpiCompare]{get_chromHMM_annotation}.}
 
 \item{genome_build}{The human genome reference build used to generate
@@ -38,16 +38,21 @@ ChromHMM heatmap, or a named list.
 \description{
 Creates a heatmap using outputs from ChromHMM using ggplot2.The function
 takes a list of peakfiles, performs ChromHMM and outputs a heatmap. ChromHMM
-annotation file must be loaded prior to using this function. 
-ChromHMM annotations are aligned to hg19, and will be automatically lifted 
+annotation file must be loaded prior to using this function.
+ChromHMM annotations are aligned to hg19, and will be automatically lifted
 over to the \code{genome_build} to match the build of the \code{peaklist}.
 }
 \examples{
+### Load Data ###
 data("CnT_H3K27ac") # example dataset as GRanges object
-data("CnR_H3K27ac") # example dataset as GRanges object 
-peaklist <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac) # create a list
+data("CnR_H3K27ac") # example dataset as GRanges object
 
-my_plot <- plot_chromHMM(peaklist = peaklist, 
+### Create Named Peaklist ###
+peaklist <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac)
+
+### Run ###
+my_plot <- plot_chromHMM(peaklist = peaklist,
                          cell_line = "K562",
-                         genome_build = "hg19") 
+                         genome_build = "hg19")
+
 }

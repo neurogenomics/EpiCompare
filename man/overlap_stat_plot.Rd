@@ -10,7 +10,8 @@ overlap_stat_plot(reference, peaklist, annotation = NULL)
 \item{reference}{A reference peak file as GRanges object.}
 
 \item{peaklist}{A list of peak files as GRanges object.
-Files must be listed using `list()` and named using `names()`
+Files must be listed and named using \code{list()}.
+E.g. \code{list("name1"=file1, "name2"=file2)}.
 If not named, default file names will be assigned.}
 
 \item{annotation}{A TxDb annotation object from Bioconductor. This is
@@ -32,16 +33,19 @@ overlapping peaks only. In this case, please provide an annotation file as
 TxDb object.
 }
 \examples{
-data("encode_H3K27ac") # example dataset as GRanges object
-data("CnT_H3K27ac") # example dataset as GRanges object
-data("CnR_H3K27ac") # example dataset as GRanges object
+### Load Data ###
+data("encode_H3K27ac") # example peakfile GRanges object
+data("CnT_H3K27ac") # example peakfile GRanges object
+data("CnR_H3K27ac") # example peakfile GRanges object
 
-peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create a list
-names(peaklist) <- c("CnT", "CnR") # set names
+### Create Named Peaklist & Reference ###
+peaklist <- list('CnT'=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
 reference <- list("ENCODE"=encode_H3K27ac)
 
+### Run ###
 out <- overlap_stat_plot(reference = reference,
                          peaklist = peaklist)
 stat_plot <- out[[1]] # plot
 stat_df <- out[[2]] # df
+
 }

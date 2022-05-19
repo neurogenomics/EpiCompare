@@ -8,7 +8,8 @@ overlap_upset_plot(peaklist)
 }
 \arguments{
 \item{peaklist}{A named list of peak files as GRanges object.
-Objects listed using `list()` and named using `names()`.
+Objects must be listed and named using \code{list()}.
+e.g. \code{list("name1"=file1, "name2"=file2)}.
 If not named, default file names are assigned.}
 }
 \value{
@@ -18,10 +19,14 @@ Upset plot of overlapping peaks
 This function generates upset plot (UpSetR package) of overlapping peaks.
 }
 \examples{
+### Load Data ###
 data("encode_H3K27ac") # load example data
 data("CnT_H3K27ac") # load example data
-peakfile <- list(encode_H3K27ac, CnT_H3K27ac) # create list
-names(peakfile) <- c("ENCODE","CnT") # name list
 
-my_plot <- overlap_upset_plot(peaklist = peakfile) # run function
+### Create Named List ###
+peakfile <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
+
+### Run ###
+my_plot <- overlap_upset_plot(peaklist = peakfile)
+
 }

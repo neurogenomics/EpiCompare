@@ -3,42 +3,55 @@
 #' This function generates upset plot (UpSetR package) of overlapping peaks.
 #'
 #' @param peaklist A named list of peak files as GRanges object.
-#' Objects listed using `list()` and named using `names()`.
+#' Objects must be listed and named using \code{list()}.
+#' e.g. \code{list("name1"=file1, "name2"=file2)}.
 #' If not named, default file names are assigned.
 #'
 #' @return Upset plot of overlapping peaks
 #'
 #' @importMethodsFrom IRanges findOverlaps
-#' @importFrom GenomicRanges elementMetadata 
+#' @importFrom GenomicRanges elementMetadata
 #' @importFrom IRanges to from
 #' @importFrom dplyr mutate
 #' @importFrom tidyr spread
-#' @importFrom UpSetR upset 
+#' @importFrom UpSetR upset
 #'
 #' @export
 #' @examples
+#' ### Load Data ###
 #' data("encode_H3K27ac") # load example data
 #' data("CnT_H3K27ac") # load example data
-#' peakfile <- list(encode_H3K27ac, CnT_H3K27ac) # create list
-#' names(peakfile) <- c("ENCODE","CnT") # name list
-#' 
-#' my_plot <- overlap_upset_plot(peaklist = peakfile) # run function
+#'
+#' ### Create Named List ###
+#' peakfile <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
+#'
+#' ### Run ###
+#' my_plot <- overlap_upset_plot(peaklist = peakfile)
+#'
 overlap_upset_plot <- function(peaklist){
-  # define variables
+
+  ### Variables ###
   value <- NULL
-  # check that peaklist is named, if not, default names assigned
+
+  ### Check Peaklist Names ###
   peaklist <- check_list_names(peaklist)
-  # change metadata column names so it doesn't interfere
+
+  ### Set Metadata Colnames ###
+  # So it doesn't interfere
   for(i in seq_len(length(peaklist))){
-    my_label <- make.unique(rep("name", ncol(GenomicRanges::elementMetadata(peaklist[[i]]))))
+    my_label <- make.unique(rep("name",
+                           ncol(GenomicRanges::elementMetadata(peaklist[[i]]))))
     colnames(GenomicRanges::elementMetadata(peaklist[[i]])) <- my_label
   }
-  # erase name
+
+  ### Erase Names ###
   peaklist_names <- names(peaklist)
   names(peaklist) <- NULL
-  # create merged dataset
+
+  ### Create Merged Dataset ###
   merged_peakfile <- do.call(c, peaklist)
-  # calculate overlap and create data frame
+
+  ### Calculate Overlap & Create Data Frame ###
   overlap_df <- NULL
   for(i in seq_len(length(peaklist))){
    overlap <- IRanges::findOverlaps(merged_peakfile, peaklist[[i]])
@@ -47,13 +60,14 @@ overlap_upset_plot <- function(peaklist){
    unique_df <- unique(df)
    overlap_df <- rbind(overlap_df, unique_df)
   }
-  # adjust font size
+
+  ### Adjust Font Size ###
   font_size <- 1
   if(length(peaklist)>6){
     font_size <- 0.65
   }
 
-  # generate upset plot
+  #### Create Upset Plot ###
   mutate <- dplyr::mutate(overlap_df, value = 1)
   spread <- tidyr::spread(mutate, sample, value, fill=0)
   upset_plot <- UpSetR::upset(spread, order.by = "freq",

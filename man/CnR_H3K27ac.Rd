@@ -23,7 +23,8 @@ data("CnR_H3K27ac")
 }
 \description{
 Human H3K27ac peak file generated with CUT&Run using K562 cell-line from
-Meers et al., (2019).Raw peak file (.BED) was obtained from GEO
+Meers et al., (2019). Human genome build hg19 was used.
+Raw peak file (.BED) was obtained from GEO
 (\url{https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8581604}).
 Peak calling was performed by Leyla Abbasova using MACS2.
 The peak file was then processed into GRanges object.

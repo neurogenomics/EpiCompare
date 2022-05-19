@@ -8,9 +8,8 @@ width_boxplot(peaklist)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
-Files must be listed using `list()`.
-Files must be named using `names(peaklist) <- c("sample1","sample2)`.
-If not named, default file names will be assigned.}
+Files must be named and listed using \code{list()}.
+e.g. \code{list("name1"=file1, "name2"=file2)}}
 }
 \value{
 A boxplot of peak widths.
@@ -20,12 +19,14 @@ This function creates boxplots showing the distribution of widths in
 each peak file.
 }
 \examples{
-data("encode_H3K27ac") # example dataset as GRanges object
-data("CnT_H3K27ac") # example dataset as GRanges object
+### Load Data ###
+data("encode_H3K27ac") # example peaklist GRanges object
+data("CnT_H3K27ac") # example peaklist GRanges object
 
-peaks <- list(encode_H3K27ac, CnT_H3K27ac) # create list
-names(peaks) <- c("encode", "CnT") # set names
+### Create Named Peaklist ###
+peaks <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 
+### Run ###
 my_plot <- width_boxplot(peaklist = peaks)
 
 }

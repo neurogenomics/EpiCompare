@@ -29,10 +29,11 @@ EpiCompare(
 \item{peakfiles}{A list of peak files as GRanges object and/or as paths to
 BED files. If paths are provided, EpiCompare creates GRanges object.
 EpiCompare also accepts a list containing a mix of GRanges object and paths.
-Files must be listed using \code{list()} and named using \code{names()}.
+Files must be listed and named using \code{list()}.
+E.g. \code{list("name1"=file1, "name2"=file2)}.
 If not named, default file names will be assigned.}
 
-\item{genome_build}{A named list indicating the human genome build used to 
+\item{genome_build}{A named list indicating the human genome build used to
 generate each of the following inputs:
 \itemize{
 \item{"peakfiles" : }{Genome build for the \code{peakfiles} input.
@@ -42,16 +43,16 @@ list.}
 \item{"blacklist" : }{Genome build for the \code{blacklist} input.}
 }
 Example input list:\cr
- \code{genome_build = list(peakfiles="hg38", 
+ \code{genome_build = list(peakfiles="hg38",
  reference="hg19", blacklist="hg19")}\cr\cr
 Alternatively, you can supply a single character string instead of a list.
 This should \emph{only} be done in situations where all three inputs
-(\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same 
+(\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same
 genome build. For example:\cr
 \code{genome_build = "hg19"}}
 
 \item{genome_build_output}{Genome build to standardise all inputs to.
-Liftovers will be performed automatically as needed. 
+Liftovers will be performed automatically as needed.
 Default: "hg19".}
 
 \item{blacklist}{A GRanges object containing blacklisted regions.}
@@ -129,6 +130,7 @@ from the analysis. The report is mainly divided into three areas: (1)
 Peakfile information, (2) Overlapping peaks and (3) Functional annotations.
 }
 \examples{
+### Load Data ###
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object
@@ -138,13 +140,14 @@ data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
 
 #### prepare input data ####
-# create list of peakfiles 
-peaks <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac) 
+# create list of peakfiles
+peaks <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac)
 # create list of picard outputs
-picard <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard) 
+picard <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard)
 # reference peak file
-reference_peak <- list("ENCODE" = encode_H3K27ac) 
+reference_peak <- list("ENCODE" = encode_H3K27ac)
 
+### Run EpiCompare ###
 EpiCompare(peakfiles = peaks,
            genome_build = list(peakfiles="hg19",
                                reference="hg38",
@@ -163,4 +166,5 @@ EpiCompare(peakfiles = peaks,
            interact = FALSE,
            save_output = FALSE,
            output_dir = tempdir())
+
 }

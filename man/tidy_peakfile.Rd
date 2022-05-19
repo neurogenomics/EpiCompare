@@ -8,8 +8,9 @@ tidy_peakfile(peaklist, blacklist)
 }
 \arguments{
 \item{peaklist}{A named list of peak files as GRanges object.
-Objects listed using `list()` and named using `names()`.
-If not named, default file names are assigned.}
+Objects must be named and listed using \code{list()}.
+e.g. \code{list("name1"=file1, "name2"=file2)}
+If not named, default names are assigned.}
 
 \item{blacklist}{Peakfile specifying blacklisted regions as GRanges object.}
 }
@@ -23,13 +24,15 @@ peakfiles is named. If no names are provided, default file names will be
 used.
 }
 \examples{
-data("encode_H3K27ac") # example dataset as GRanges object
-data("CnT_H3K27ac") # example dataset as GRanges object
+### Load Data ###
+data("encode_H3K27ac") # example peakfile GRanges object
+data("CnT_H3K27ac") # example peakfile GRanges object
 data("hg19_blacklist") # blacklist region for hg19 genome
 
-peaklist <- list(encode_H3K27ac, CnT_H3K27ac) # list two peakfiles
-names(peaklist) <- c("encode", "CnT") # set names
+### Create Named Peaklist ###
+peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 
+### Run ###
 peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
                                blacklist = hg19_blacklist)
 

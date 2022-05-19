@@ -20,7 +20,7 @@ data("hg38_blacklist")
 }
 \description{
 Obtained from \url{https://www.encodeproject.org/files/ENCFF356LFX/}.
-The ENCODE blacklist includes regions of the genome that have anomalous and/
+The ENCODE blacklist includes regions of the hg38 genome that have anomalous and/
 or unstructured signals independent of the cell-line or experiment. Removal
 of ENCODE blacklist is recommended for quality measure.
 }

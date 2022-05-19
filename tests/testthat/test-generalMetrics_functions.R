@@ -10,7 +10,7 @@ testthat::test_that("peak_info() outputs a data.frame with correct n of rows
                     and cols",{
   info <- EpiCompare::peak_info(peaklist, hg19_blacklist)
   testthat::expect_true(methods::is(info,"data.frame"))
-  testthat::expect_equal(ncol(info),5)
+  testthat::expect_equal(ncol(info),4)
   testthat::expect_equal(nrow(info),1)
 })
 
