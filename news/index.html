@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.19</span>
       </span>
     </div>
 
@@ -51,6 +51,18 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.99.19" id="changes-in-version-09919">CHANGES IN VERSION 0.99.19<a class="anchor" aria-label="anchor" href="#changes-in-version-09919"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-99-19">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-99-19"></a></h3>
+<ul><li>Simplified loops with mapply/lapply</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-99-19">New features<a class="anchor" aria-label="anchor" href="#new-features-0-99-19"></a></h3>
+<ul><li>
+<code>EpiCompare</code>: accepts multiple reference files - creates individual reports for each reference. Added timing feature.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.99.18" id="changes-in-version-09918">CHANGES IN VERSION 0.99.18<a class="anchor" aria-label="anchor" href="#changes-in-version-09918"></a></h2>
 <div class="section level3">
 <h3 id="bug-fixes-0-99-18">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-99-18"></a></h3>
@@ -73,7 +85,7 @@
 <ul><li>New argument <code>genome_build_output</code> allows users to specify which genome build to standardise all inputs to.</li>
 <li>
 <code>genome_build</code> can now take a named list to specify different genome builds for <code>peakfiles</code>, <code>reference</code>, and <code>blacklist</code>.<br></li>
-<li>Added functions to parse validate all genome build-related arguments.</li>
+<li>Added functions to parse and validate all genome build-related arguments.</li>
 </ul></li>
 <li>Remove unnecessary deps.</li>
 <li>Use <code>data.table</code> to read/write tables.</li>

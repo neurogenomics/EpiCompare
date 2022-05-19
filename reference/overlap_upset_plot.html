@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.19</span>
       </span>
     </div>
 
@@ -63,7 +63,8 @@
     <h2>Arguments</h2>
     <dl><dt>peaklist</dt>
 <dd><p>A named list of peak files as GRanges object.
-Objects listed using `list()` and named using `names()`.
+Objects must be listed and named using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+e.g. <code>list("name1"=file1, "name2"=file2)</code>.
 If not named, default file names are assigned.</p></dd>
 </dl></div>
     <div id="value">
@@ -73,12 +74,16 @@ If not named, default file names are assigned.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># load example data</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">### Load Data ###</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># load example data</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># load example data</span></span>
-<span class="r-in"><span class="va">peakfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">encode_H3K27ac</span>, <span class="va">CnT_H3K27ac</span><span class="op">)</span> <span class="co"># create list</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">peakfile</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ENCODE"</span>,<span class="st">"CnT"</span><span class="op">)</span> <span class="co"># name list</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">my_plot</span> <span class="op">&lt;-</span> <span class="fu">overlap_upset_plot</span><span class="op">(</span>peaklist <span class="op">=</span> <span class="va">peakfile</span><span class="op">)</span> <span class="co"># run function</span></span>
+<span class="r-in"><span class="co">### Create Named List ###</span></span>
+<span class="r-in"><span class="va">peakfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"encode"</span><span class="op">=</span><span class="va">encode_H3K27ac</span>, <span class="st">"CnT"</span><span class="op">=</span><span class="va">CnT_H3K27ac</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">### Run ###</span></span>
+<span class="r-in"><span class="va">my_plot</span> <span class="op">&lt;-</span> <span class="fu">overlap_upset_plot</span><span class="op">(</span>peaklist <span class="op">=</span> <span class="va">peakfile</span><span class="op">)</span></span>
+<span class="r-in"></span>
 </code></pre></div>
     </div>
   </div>
