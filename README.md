@@ -4,17 +4,18 @@
 <i>Authors</i>: Sera Choi, Brian Schilder, Alan Murphy, and Nathan Skene
 </h5>
 <h5>
-<i>Updated</i>: Apr-22-2022
+<i>Updated</i>: May-18-2022
 </h5>
 
 <!-- badges: start -->
 
-[![](https://img.shields.io/badge/devel%20version-0.99.13-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-0.99.17-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://app.codecov.io/gh/neurogenomics/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
+
 <!-- badges: end -->
 
 # Introduction
@@ -124,7 +125,11 @@ These input parameters must be provided:
 
 #### Optional Inputs
 
--   `picard_files` : A list of summary metrics output from Picard. If
+-   `picard_files` : A list of summary metrics output from
+    [Picard](https://broadinstitute.github.io/picard/). *Picard
+    MarkDuplicates* can be used to identify the duplicate reads amongst
+    the alignment. This tool generates a summary output, normally with
+    the ending *.markdup.MarkDuplicates.metrics.txt*. If this input is
     provided, metrics on fragments (e.g. mapped fragments and
     duplication rate) will be included in the report. Files must be in
     data.frame format and listed using `list()` and named using
@@ -200,13 +205,13 @@ By default, these plots will not be included in the report unless set
 utils::sessionInfo()
 ```
 
-    ## R version 4.1.2 (2021-11-01)
+    ## R version 4.2.0 (2022-04-22)
     ## Platform: x86_64-apple-darwin17.0 (64-bit)
-    ## Running under: macOS Big Sur 10.16
+    ## Running under: macOS Big Sur/Monterey 10.16
     ## 
     ## Matrix products: default
-    ## BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib
-    ## LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+    ## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+    ## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
     ## 
     ## locale:
     ## [1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
@@ -215,26 +220,26 @@ utils::sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] tidyselect_1.1.2    xfun_0.30           purrr_0.3.4        
+    ##  [1] tidyselect_1.1.2    xfun_0.31           purrr_0.3.4        
     ##  [4] colorspace_2.0-3    vctrs_0.4.1         generics_0.1.2     
     ##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.3.5         
     ## [10] utf8_1.2.2          rlang_1.0.2         gert_1.6.0         
     ## [13] pillar_1.7.0        glue_1.6.2          DBI_1.1.2          
     ## [16] RColorBrewer_1.1-3  rvcheck_0.2.1       lifecycle_1.0.1    
     ## [19] stringr_1.4.0       dlstats_0.1.5       munsell_0.5.0      
-    ## [22] gtable_0.3.0        evaluate_0.15       knitr_1.38         
+    ## [22] gtable_0.3.0        evaluate_0.15       knitr_1.39         
     ## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            
-    ## [28] fansi_1.0.3         openssl_2.0.0       scales_1.2.0       
-    ## [31] BiocManager_1.30.16 desc_1.4.1          jsonlite_1.8.0     
-    ## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.5      
+    ## [28] fansi_1.0.3         openssl_2.0.1       scales_1.2.0       
+    ## [31] BiocManager_1.30.17 desc_1.4.1          jsonlite_1.8.0     
+    ## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.6      
     ## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      
-    ## [40] gh_1.3.0            dplyr_1.0.8         grid_4.1.2         
-    ## [43] rprojroot_2.0.3     cli_3.2.0           tools_4.1.2        
-    ## [46] yulab.utils_0.0.4   magrittr_2.0.3      tibble_3.1.6       
+    ## [40] gh_1.3.0            dplyr_1.0.9         grid_4.2.0         
+    ## [43] rprojroot_2.0.3     cli_3.3.0           tools_4.2.0        
+    ## [46] yulab.utils_0.0.4   magrittr_2.0.3      tibble_3.1.7       
     ## [49] crayon_1.5.1        pkgconfig_2.0.3     ellipsis_0.3.2     
-    ## [52] assertthat_0.2.1    rmarkdown_2.13      httr_1.4.2         
+    ## [52] assertthat_0.2.1    rmarkdown_2.14      httr_1.4.3         
     ## [55] rstudioapi_0.13     gitcreds_0.1.1      badger_0.2.0       
-    ## [58] R6_2.5.1            compiler_4.1.2
+    ## [58] R6_2.5.1            compiler_4.2.0
 
 </details>
 

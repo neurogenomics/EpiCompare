@@ -147,12 +147,12 @@ Note that this is *OPTIONAL*. If you want the report to include metrics on
 DNA fragments (e.g. mapped fragments and duplication rate), please input summary
 files from Picard. 
 
-[Picard](https://broadinstitute.github.io/picard/) can be used to mark duplicate
-reads. This outputs a metrics file with ending `.MarkDuplicates.metrics.txt`. To
+[Picard *MarkDuplicates*](https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates) can be used to mark duplicate reads that are found within the alignment. This
+tool outputs a metrics file with the ending `.MarkDuplicates.metrics.txt`. To
 import this text file into R as data frame, use:
 
 ```R
-picard <- read.table("/path/to/Picard/summary.txt", header = TRUE, fill = TRUE)
+picard <- read.table("/path/to/Picard/.MarkDuplicates.metrics.txt", header = TRUE, fill = TRUE)
 ```
 
 In this example. we will use built-in data, which have been converted into data
