@@ -1,3 +1,12 @@
+## CHANGES IN VERSION 0.99.19
+
+### Bug fixes
+* Simplified loops with mapply/lapply 
+
+### New features
+* `EpiCompare`: accepts multiple reference files - creates individual reports
+for each reference. Added timing feature. 
+
 ## CHANGES IN VERSION 0.99.18
 
 ### Bug fixes
