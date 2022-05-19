@@ -12,6 +12,8 @@ params:
     value: NULL
   genome_build:
     value: NULL
+  genome_build_output:
+    value: "hg19"
   blacklist: 
     value: NULL
   picard_files:
@@ -48,25 +50,46 @@ if(params$save_output){
     dir.create(outfile_dir, showWarnings = FALSE, recursive = TRUE)
   }
 }
-# prepare a list of GRange object
+
+#### ------ Prepare genome builds ------ ####
+# e.g. genome_build <- list(reference="hg19",peakfiles="hg38",blacklist="hg19")
+# or... genome_build <- "hg19"
+builds <- prepare_genome_builds(genome_build = params$genome_build)
+## Standardise all data to hg19 build 
+output_build <- prepare_output_build(params$genome_build_output)
+
+#### ------ Prepare peaklist(s) ------ ####
 # and check that the list is named, if not default filenames are used 
-peaklist <- prepare_peaklist(params$peakfile) 
-### Prepare reference(s) ####
+peaklist <- prepare_peaklist(peaklist = params$peakfile) 
+peaklist <- liftover_grlist(grlist = peaklist, 
+                            input_build = builds$peaklist,
+                            output_build = output_build)
+
+#### ------ Prepare reference(s) ------ ####
 reference <- prepare_reference(reference = params$reference)
+reference <- liftover_grlist(grlist = reference, 
+                            input_build = builds$reference,
+                            output_build = output_build)
+
+#### ------ Prepare blacklist ------ ####
+blacklist <- liftover_grlist(grlist = params$blacklist,
+                             input_build = builds$blacklist, 
+                             output_build = output_build) 
+
 
 # tidy input peakfiles to remove peaks in blacklisted regions 
 # and non-standard chromosomes 
 peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
-                               blacklist = params$blacklist)
+                               blacklist = blacklist)
 # tidy input reference peakfile if provided and include in peaklist
 reference_tidy <- reference
 if (!is.null(reference)){
   reference_tidy <- tidy_peakfile(peaklist = reference,
-                                  blacklist = params$blacklist)
+                                  blacklist = blacklist)
   peaklist_tidy <- c(peaklist_tidy, reference_tidy)
 }
 # get appropriate genome annotation 
-txdb <- check_genome_build(genome_build = params$genome_build)
+txdb <- check_genome_build(genome_build = output_build)
 # adjust figure height depending on sample size  
 fig_height <- 7
 if(length(peaklist_tidy)>10){
@@ -83,7 +106,7 @@ The report consists of three sections:
 1. **General Metrics:** Metrics on peaks (percentage of blacklisted and 
 non-standard peaks, and peak widths) 
 and fragments (duplication rate) of samples.
-2. **Peak Overlap:** Percetnage and statistical significance of overlapping and 
+2. **Peak Overlap:** Percentage and statistical significance of overlapping and 
 non-overlapping peaks. Also includes upset plot. 
 3. **Functional Annotation:** Functional annotation (ChromHMM, ChIPseeker and 
 enrichment analysis) of peaks. Also includes peak enrichment around TSS. 
@@ -111,6 +134,7 @@ for (name in names(peaklist_tidy)){
 ```R
 EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
            genome_build = `r params$genome_build`,
+           genome_build_output = `r params$genome_build_output`,
            blacklist = blacklist,
            picard_files = list(`r names(params$picard_files)`),
            reference = `r names(reference_tidy)`,
@@ -157,7 +181,7 @@ in blacklisted regions and non-standard chromosomes)
 ```{r, echo=FALSE, warning=FALSE}
 
 peak_info_df <- peak_info(peak_list = peaklist,
-                          blacklist = params$blacklist)
+                          blacklist = blacklist)
 # create table 
 knitr::kable(peak_info_df, format = "markdown")
 # save output as table 
@@ -340,11 +364,11 @@ if (params$chromHMM_plot){
   # plot chromHMM
   samples_chromHMM <- plot_chromHMM(peaklist = peaklist_tidy, 
                                   chromHMM_annotation = chromHMM_list, 
-                                  genome_build = params$genome_build,
+                                  genome_build = output_build,
                                   interact = params$interact)
   # save output 
   if(params$save_output){
-    if(params$interact){
+    if(methods::is(samples_chromHMM,"plotly")){
       htmlwidgets::saveWidget(plotly::as_widget(samples_chromHMM), 
                             file = paste0(outfile_dir,"/samples_chromHMM.html"))
       unlink(paste0(outfile_dir,"/samples_chromHMM_files"), recursive = TRUE)
@@ -383,17 +407,14 @@ ChromHMM annotation of sample peaks found in reference peaks.
 if (params$chromHMM_plot){
   if (is.null(reference)==FALSE){
     # obtain overlapping peaks 
-    sample_in_ref_list <- list()
-    for(file in peaklist_tidy){
-      sample_in_ref <- IRanges::subsetByOverlaps(x = file, 
-                                                 ranges = reference_tidy[[1]])
-      sample_in_ref_list <- c(sample_in_ref_list, sample_in_ref)
-    }
-    names(sample_in_ref_list) <- names(peaklist_tidy)
+    sample_in_ref_list <- mapply(peaklist_tidy, FUN=function(file){
+        IRanges::subsetByOverlaps(x = file, 
+                                  ranges = reference_tidy[[1]])
+    }) 
     # annotate overlapping peaks with chromHMM annotations
     sample_in_ref_chromHMM <- plot_chromHMM(peaklist = sample_in_ref_list,
                                           chromHMM_annotation = chromHMM_list,
-                                          genome_build = params$genome_build,
+                                          genome_build = output_build,
                                           interact = params$interact)
     if(params$interact){
       sample_in_ref_chromHMM_plot <- htmltools::tagList(plotly::as_widget(sample_in_ref_chromHMM))
@@ -440,19 +461,15 @@ ChromHMM annotation of reference peaks found in sample peaks.
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if (params$chromHMM_plot){
-  if (is.null(reference)==FALSE){
-    ref_in_sample_list <- list()
-    # obtain overlapping peaks 
-    for(file in peaklist_tidy){
-      ref_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
-                                                 ranges = file)
-      ref_in_sample_list <- c(ref_in_sample_list, ref_in_sample)
-    }
-    names(ref_in_sample_list) <- names(peaklist_tidy)
+  if (!is.null(reference)){ 
+      ref_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
+          IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
+                                    ranges = file)
+      }) 
     # annotate overlapping peaks with chromHMM annotations
     ref_in_sample_chromHMM <- plot_chromHMM(peaklist = ref_in_sample_list,
                                           chromHMM_annotation = chromHMM_list,
-                                          genome_build = params$genome_build,
+                                          genome_build = output_build,
                                           interact = params$interact)
     if(params$interact){
       ref_in_sample_chromHMM_plot <- htmltools::tagList(plotly::as_widget(ref_in_sample_chromHMM))
@@ -499,19 +516,15 @@ ChromHMM annotation of sample peaks not found in reference peaks.
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if (params$chromHMM_plot){
   if (is.null(reference)==FALSE){
-      sample_not_in_ref_list <- list()
-      # obtain unique peaks 
-      for(file in peaklist_tidy){
-        sample_not_in_ref <- IRanges::subsetByOverlaps(x = file, 
-                                                  ranges = reference_tidy[[1]], 
-                                                  invert = TRUE)
-        sample_not_in_ref_list <- c(sample_not_in_ref_list, sample_not_in_ref)
-      }
-      names(sample_not_in_ref_list) <- names(peaklist_tidy)
+      sample_not_in_ref_list <- mapply(peaklist_tidy, FUN = function(file){
+          IRanges::subsetByOverlaps(x = file, 
+                                    ranges = reference_tidy[[1]], 
+                                    invert = TRUE)
+      }) 
       # annotate unique peaks with chromHMM annotations
       sample_not_in_ref_chromHMM<-plot_chromHMM(peaklist = sample_not_in_ref_list,
                                               chromHMM_annotation = chromHMM_list,
-                                              genome_build =params$genome_build,
+                                              genome_build = output_build,
                                               interact = params$interact)
       if(params$interact){
         sample_not_in_ref_chromHMM_plot <- htmltools::tagList(plotly::as_widget(sample_not_in_ref_chromHMM))
@@ -561,19 +574,15 @@ ChromHMM annotation of reference peaks not found in sample peaks.
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if (params$chromHMM_plot){
   if (is.null(reference)==FALSE){
-      ref_not_in_sample_list <- list()
-      # obtain unique peaks 
-      for(file in peaklist_tidy){
-        ref_not_in_sample <- IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
+      ref_not_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
+          IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
                                                        ranges = file, 
                                                        invert = TRUE)
-        ref_not_in_sample_list <- c(ref_not_in_sample_list, ref_not_in_sample)
-      }
-      names(ref_not_in_sample_list) <- names(peaklist_tidy)
+      })
       # annotate unique peaks with chromHMM annotations
       ref_not_in_sample_chromHMM<-plot_chromHMM(peaklist = ref_not_in_sample_list,
                                               chromHMM_annotation = chromHMM_list,
-                                              genome_build =params$genome_build,
+                                              genome_build = output_build,
                                               interact = params$interact)
       if(params$interact){
         ref_not_in_sample_chromHMM_plot <- htmltools::tagList(plotly::as_widget(ref_not_in_sample_chromHMM))

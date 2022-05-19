@@ -8,6 +8,7 @@ gather_files(
   dir,
   type = "peaks.consensus.filtered",
   nfcore_cutandrun = FALSE,
+  return_paths = FALSE,
   workers = 1
 )
 }
@@ -30,6 +31,9 @@ Finds files ending in"*.consensus.peaks.filtered.awk.bed$"}
 \href{https://nf-co.re/cutandrun}{nf-core/cutandrun} Nextflow pipeline.
  If \code{TRUE}, can use the standardised folder structure to
  automatically generate more descriptive file names with sample IDs.}
+
+\item{return_paths}{Return only the file paths without actually reading them 
+in as \link[GenomicRanges]{GRanges}.}
 
 \item{workers}{
     \code{integer(1)} Number of workers. Defaults to all cores available as

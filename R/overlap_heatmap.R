@@ -13,8 +13,7 @@
 #' @importMethodsFrom IRanges subsetByOverlaps
 #' @import ggplot2
 #' @importFrom reshape2 melt
-#' @importFrom plotly plot_ly
-#' @importFrom stringr str_wrap
+#' @importFrom plotly plot_ly 
 #'
 #' @export
 #' @examples
@@ -26,11 +25,12 @@
 #'
 #' my_heatmap <- overlap_heatmap(peaklist = peaks)
 #'
-overlap_heatmap <- function(peaklist, interact=TRUE){
+overlap_heatmap <- function(peaklist, 
+                            interact=TRUE){
+    
   # define variables
-  Var1 <- NULL
-  Var2 <- NULL
-  value <- NULL
+  Var1 <- Var2  <- value <- NULL;
+  message("--- Running overlap_heatmap() ---")
   # check that peaklist is named, if not, default names assigned
   peaklist <- check_list_names(peaklist)
   # cross-compare peakfiles and calculate overlap percentage
@@ -54,7 +54,10 @@ overlap_heatmap <- function(peaklist, interact=TRUE){
   # static heatmap
   if(!interact){
     melt <- reshape2::melt(overlap_matrix)
-    overlap_heatmap <- ggplot2::ggplot(data = melt, ggplot2::aes(x=Var1, y=Var2, fill=value)) + ggplot2::geom_tile()
+    overlap_heatmap <- ggplot2::ggplot(
+        data = melt, 
+        ggplot2::aes(x=Var1, y=Var2, fill=value)) +
+        ggplot2::geom_tile()
   }else{
     overlap_heatmap <- plotly::plot_ly(x=colnames(overlap_matrix),
                                        y=rownames(overlap_matrix),

@@ -4,16 +4,19 @@
 \alias{check_list_names}
 \title{Check peaklist is named}
 \usage{
-check_list_names(peaklist)
+check_list_names(peaklist, default_prefix = "sample")
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.}
+
+\item{default_prefix}{Default prefix to use when creating names
+for \code{peaklist}.}
 }
 \value{
 named peaklist
 }
 \description{
-This function checks whether the peaklist is named. If not, default file
-names are assigned.
+This function checks whether the peaklist is named. 
+If not, default file names are assigned.
 }
 \keyword{internal}

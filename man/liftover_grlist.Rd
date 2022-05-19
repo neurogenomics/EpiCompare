@@ -4,7 +4,12 @@
 \alias{liftover_grlist}
 \title{Liftover peak list}
 \usage{
-liftover_grlist(grlist, input_build, output_build = "hg19")
+liftover_grlist(
+  grlist,
+  input_build,
+  output_build = "hg19",
+  as_grangeslist = FALSE
+)
 }
 \arguments{
 \item{grlist}{A named list of \link[GenomicRanges]{GRanges} object.}
@@ -13,6 +18,9 @@ liftover_grlist(grlist, input_build, output_build = "hg19")
 
 \item{output_build}{Desired genome build for
 \code{grlist} to be lifted over to.}
+
+\item{as_grangeslist}{Convert output to class
+\link[GenomicRanges]{GRangesList} before returning.}
 }
 \value{
 Named list of lifted \link[GenomicRanges]{GRanges} objects.

@@ -19,6 +19,8 @@
 #' \href{https://nf-co.re/cutandrun}{nf-core/cutandrun} Nextflow pipeline.
 #'  If \code{TRUE}, can use the standardised folder structure to
 #'  automatically generate more descriptive file names with sample IDs.
+#' @param return_paths Return only the file paths without actually reading them 
+#' in as \link[GenomicRanges]{GRanges}. 
 #' @inheritParams BiocParallel::MulticoreParam
 #'
 #' @returns A named list of \link[GenomicRanges]{GRanges} objects.
@@ -26,6 +28,7 @@
 #' @export
 #' @importFrom dplyr %>%
 #' @importFrom methods is
+#' @importFrom stats setNames
 #' @importFrom stringr str_split
 #' @importFrom GenomicRanges makeGRangesFromDataFrame
 #' @importFrom rtracklayer import
@@ -41,6 +44,7 @@
 gather_files <- function(dir,
                          type = "peaks.consensus.filtered",
                          nfcore_cutandrun = FALSE,
+                         return_paths = FALSE,
                          workers = 1){
   requireNamespace("BiocParallel")
   type_key <- c(
@@ -59,6 +63,13 @@ gather_files <- function(dir,
                       pattern = paste(unname(pattern), collapse = "|"),
                       recursive = TRUE,
                       full.names = TRUE)
+  #### Omit duplicate files ####
+  ## nfcore creates duplicates of same peak files 
+  ## in different subfolders: "04_reporting" and "04_called_peaks".
+  ## Omit one of these subfolders.
+  if(nfcore_cutandrun){
+      paths <- paths[!grepl("04_reporting",paths)]
+  }
   #### Report files found ####
   if(length(paths)==0) stop(length(paths)," matching files identified.")
   message(length(paths)," matching files identified.")
@@ -66,12 +77,17 @@ gather_files <- function(dir,
   names <- gather_files_names(paths=paths,
                               type=type,
                               nfcore_cutandrun=nfcore_cutandrun)
+  if(return_paths){
+      return(stats::setNames(paths,names))
+  }
   #### Import files ####
   message("Importing files.")
   #set number of workers - used for bpapply below
-  BiocParallel::register(BiocParallel::MulticoreParam(workers=workers))
+  BiocParallel::register(
+      BiocParallel::MulticoreParam(workers=workers,progressbar = TRUE)
+  )
   files <- BiocParallel::bplapply(paths, function(x){
-    message_parallel(x,"\n")
+    # message_parallel(x,"\n")
     if(startsWith(type,"peaks")){
       dat <- ChIPseeker::readPeakFile(x, as = "GRanges")
     } else if(type=="picard"){
@@ -96,6 +112,8 @@ gather_files <- function(dir,
     }
     return(dat)
   }) %>% `names<-`(names)
+  #### Report ####
+  message(length(files)," files retrieved.")
   return(files)
 }
 

@@ -22,12 +22,16 @@ Cell-line options are:
 }}
 }
 \value{
-cell-line specific ChromHMM annotation file. Default K562 cell-line.
+Cell-line specific ChromHMM annotation file. Default K562 cell-line.
 }
 \description{
-Download ChromHMM annotation file(s) for a single cell line
+Download ChromHMM annotation file(s) for a given cell-line
  (returned as a \link[GenomicRanges]{GRanges} object) 
- or a list of cell lines
+ or a list of cell-lines
  (returned as a named list of \link[GenomicRanges]{GRanges} objects).
+ All annotations are aligned to the hg19 genome build.
+ All data can be found on the UCSC Genome Browser 
+ \href{https://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/}{
+ here}.
 }
 \keyword{internal}
