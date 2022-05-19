@@ -4,12 +4,12 @@
 <i>Authors</i>: Sera Choi, Brian Schilder, Alan Murphy, and Nathan Skene
 </h5>
 <h5>
-<i>Updated</i>: May-18-2022
+<i>Updated</i>: May-19-2022
 </h5>
 
 <!-- badges: start -->
 
-[![](https://img.shields.io/badge/devel%20version-0.99.17-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-0.99.18-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://app.codecov.io/gh/neurogenomics/EpiCompare)
@@ -20,7 +20,7 @@ GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-pro
 
 # Introduction
 
-`EpiCompare` is an R package for comparing different epigenetic datasets
+`EpiCompare` is an R package for comparing multiple epigenetic datasets
 for quality control and benchmarking purposes. The function outputs a
 report in HTML format consisting of three sections:
 
@@ -28,15 +28,15 @@ report in HTML format consisting of three sections:
     non-standard peaks, and peak widths) and fragments (duplication
     rate) of samples.
 2.  Peak Overlap: Percentage and statistical significance of overlapping
-    and non-overlapping peaks. Also includes upset plot.
+    and non-overlapping peaks. Also includes an upset plot.
 3.  Functional Annotation: Functional annotation (ChromHMM, ChIPseeker
     and enrichment analysis) of peaks. Also includes peak enrichment
-    around TSS.
+    around Transcription Start Site.
 
 N.B. All functional analyses performed by EpiCompare uses annotations
-for human genome hg19 or hg38. <br> N.B. Peaks in blacklisted regions
-and non-standard chromosomes are removed from peak files before any
-analysis
+for human genome hg19 or hg38. <br> N.B. Peaks located in blacklisted
+regions and non-standard chromosomes are removed from the files prior to
+analysis.
 
 # Installation
 
@@ -66,11 +66,9 @@ data("CnR_H3K27ac_picard") # example Picard summary output
 Prepare input files:
 
 ``` r
-peaklist <- list(CnT_H3K27ac, CnR_H3K27ac) # create list of peakfiles 
-names(peaklist) <- c("CnT", "CnR") # set names 
+peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac) # create named list of peakfiles 
 reference_peak <- list("ENCODE_H3K27ac" = encode_H3K27ac) # set ref file and name 
-picard <- list(CnT_H3K27ac_picard, CnR_H3K27ac_picard) # create list of Picard summary
-names(picard) <- c("CnT", "CnR") # set names 
+picard <- list("CnT"=CnT_H3K27ac_picard, "CnR"CnR_H3K27ac_picard) # create named list of Picard summary
 ```
 
 Additional helps on preparing files:
@@ -79,8 +77,7 @@ Additional helps on preparing files:
 # To import BED files as GRanges object
 peak <-  ChIPseeker::readPeakFile("/path/to/peak/file.bed", as = "GRanges")
 # EpiCompare also accepts paths (to BED files) as input 
-peaklist <- list("/path/to/BED/file1.bed", "/path/to/BED/file2.bed")
-names(peaklist) <- c("sample1","sample2")
+peaklist <- list("sample1"=/path/to/BED/file1.bed", "sample2"=/path/to/BED/file2.bed")
 # To import Picard summary output txt file as data frame 
 picard <- read.table("/path/to/Picard/summary.txt", header = TRUE, fill = TRUE)
 ```
@@ -89,7 +86,10 @@ Run EpiCompare:
 
 ``` r
 EpiCompare(peakfiles = peaklist,
-           genome_build = "hg19",
+           genome_build = list(peakfiles="hg19",
+                               reference="hg38",
+                               blacklist="hg19"),
+           genome_build_output = "hg19",
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
@@ -111,9 +111,16 @@ These input parameters must be provided:
 
 -   `peakfiles` : Peakfiles you want to analyse. EpiCompare accepts
     peakfiles as GRanges object and/or as paths to BED files. Files must
-    be listed using `list()` and named using for example,
-    `names(peaklist) <- c("sample1","sample2)`
--   `genome_build` Human genome reference build used to generate
+    be listed and named using `list()`. E.g.
+    `list("name1"=peakfile1, "name2"=peakfile2)`.
+-   `genome_build` : A named list indicating the human genome build used
+    to generate each of the following inputs:
+    -   `peakfiles` : Genome build for the `peakfiles` input. Assumes
+        genome build is the same for each element in the `peakfiles`
+        list.
+    -   `reference` : Genome build for the `reference` input.
+    -   `blacklist` : Genome build for the `blacklist` input.
+-   `genome_build_output` Human genome reference build used to generate
     peakfiles. Options are “hg19” or “hg38”.
 -   `blacklist` : Peakfile as GRanges object specifying genomic regions
     that have anomalous and/or unstructured signals independent of the

@@ -1,16 +1,16 @@
 #' Compare epigenetic datasets
 #'
-#' This function compares epigenetic datasets and performs various
-#' functional analyses.The function outputs an HTML report containing results
-#' from the analysis. The report is mainly divided into three areas: (1)
-#' Peakfile information, (2) Overlapping peaks and (3) Functional annotations.
+#' This function compares and analyses multiple epigenetic datasets and outputs
+#' an HTML report containing all results of the analysis. The report is mainly
+#' divided into three sections: (1) General Metrics on Peakfiles,
+#' (2) Peak Overlaps and (3) Functional Annotation of Peaks.
 #'
 #' @param peakfiles A list of peak files as GRanges object and/or as paths to
-#' BED files. If paths are provided, EpiCompare creates GRanges object.
-#' EpiCompare also accepts a list containing a mix of GRanges object and paths.
-#' Files must be listed and named using \code{list()}.
-#' E.g. \code{list("name1"=file1, "name2"=file2)}.
-#' If not named, default file names will be assigned.
+#' BED files. If paths are provided, EpiCompare imports the file as GRanges
+#' object. EpiCompare also accepts a list containing a mix of GRanges objects
+#' and paths.Files must be listed and named using \code{list()}.
+#' E.g. \code{list("name1"=file1, "name2"=file2)}. If no names are specified,
+#' default file names will be assigned.
 #' @param genome_build A named list indicating the human genome build used to
 #' generate each of the following inputs:
 #' \itemize{
@@ -39,12 +39,14 @@
 #'  into R as data frame, use:\cr
 #' \code{picard <- read.table("/path/to/picard/output",
 #'  header = TRUE, fill = TRUE)}.
-#' @param reference A reference peak file as GRanges object.
-#' If a reference is specified, it enables two analyses: (1) plot showing
-#' statistical significance of overlapping/non-overlapping peaks; and
+#' @param reference A named list containing reference peak file(s) as GRanges
+#'  object. Please ensure that the reference file is listed and named
+#' i.e. \code{list("reference_name" = reference_peak)}. If more than one
+#' reference is specified, individual reports for each reference will be
+#' generated. However, please note that specifying more than one reference can
+#' take awhile. If a reference is specified, it enables two analyses: (1) plot
+#' showing statistical significance of overlapping/non-overlapping peaks; and
 #' (2) ChromHMM of overlapping/non-overlapping peaks.
-#' Please make sure that the reference file is listed and named
-#' i.e. \code{list("reference_name" = reference_peak)}.
 #' @param upset_plot Default FALSE. If TRUE, the report includes upset plot of
 #' overlapping peaks.
 #' @param stat_plot Default FALSE. If TRUE, the function creates a plot showing
@@ -86,6 +88,7 @@
 #'
 #' @export
 #' @importFrom rmarkdown render
+#' @importFrom here here
 #'
 #' @examples
 #' ### Load Data ###
@@ -97,10 +100,10 @@
 #' data("CnT_H3K27ac_picard") # example Picard summary output
 #' data("CnR_H3K27ac_picard") # example Picard summary output
 #'
-#' #### prepare input data ####
-#' # create list of peakfiles
+#' #### Prepare Input ####
+#' # create named list of peakfiles
 #' peaks <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac)
-#' # create list of picard outputs
+#' # create named list of picard outputs
 #' picard <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard)
 #' # reference peak file
 #' reference_peak <- list("ENCODE" = encode_H3K27ac)
@@ -158,8 +161,41 @@ EpiCompare <- function(peakfiles,
                                "EpiCompare.Rmd",
                                package = "EpiCompare")
 
-  ### Parse Parameters Into Markdown & Render HTML ###
-  rmarkdown::render(
+  ### Multiple Reference Files ###
+  if(length(reference)>1){
+    out_list <- lapply(names(reference), function(nm){
+      message("\n","======>> ",nm," <<======")
+      output_dir <- here::here("reports",nm)
+      dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+
+      ### Parse Parameters Into Markdown & Render HTML ###
+      rmarkdown::render(
+        input = markdown_path,
+        output_dir = output_dir,
+        output_file = output_filename,
+        quiet = TRUE,
+        params = list(
+          peakfile = peakfiles,
+          genome_build = genome_build,
+          genome_build_output = genome_build_output,
+          blacklist = blacklist,
+          picard_files = picard_files,
+          reference = reference[nm],
+          upset_plot = upset_plot,
+          stat_plot = stat_plot,
+          chromHMM_plot= chromHMM_plot,
+          chromHMM_annotation = chromHMM_annotation,
+          chipseeker_plot = chipseeker_plot,
+          enrichment_plot = enrichment_plot,
+          tss_plot = tss_plot,
+          interact = interact,
+          save_output = save_output,
+          output_dir = output_dir)
+      )
+    })
+  }else{
+    ### Parse Parameters Into Markdown & Render HTML ###
+    rmarkdown::render(
       input = markdown_path,
       output_dir = output_dir,
       output_file = output_filename,
@@ -181,7 +217,8 @@ EpiCompare <- function(peakfiles,
         interact = interact,
         save_output = save_output,
         output_dir = output_dir)
-  )
+    )
+  }
 
   ### Show Timer ###
   t2 <- Sys.time()

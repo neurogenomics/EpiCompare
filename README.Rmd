@@ -21,7 +21,7 @@ editor_options:
 
 # Introduction
 
-`EpiCompare` is an R package for comparing different epigenetic datasets
+`EpiCompare` is an R package for comparing multiple epigenetic datasets
 for quality control and benchmarking purposes. The function outputs a
 report in HTML format consisting of three sections:
 
@@ -29,15 +29,15 @@ report in HTML format consisting of three sections:
     non-standard peaks, and peak widths) and fragments (duplication
     rate) of samples.
 2.  Peak Overlap: Percentage and statistical significance of overlapping
-    and non-overlapping peaks. Also includes upset plot.
+    and non-overlapping peaks. Also includes an upset plot.
 3.  Functional Annotation: Functional annotation (ChromHMM, ChIPseeker
     and enrichment analysis) of peaks. Also includes peak enrichment
-    around TSS.
+    around Transcription Start Site.
 
 N.B. All functional analyses performed by EpiCompare uses annotations
-for human genome hg19 or hg38. <br> N.B. Peaks in blacklisted regions
-and non-standard chromosomes are removed from peak files before any
-analysis
+for human genome hg19 or hg38. <br> 
+N.B. Peaks located in blacklisted regions and non-standard chromosomes are 
+removed from the files prior to analysis. 
 
 # Installation
 
@@ -87,7 +87,10 @@ Run EpiCompare:
 
 ``` r
 EpiCompare(peakfiles = peaklist,
-           genome_build = "hg19",
+           genome_build = list(peakfiles="hg19",
+                               reference="hg38",
+                               blacklist="hg19"),
+           genome_build_output = "hg19",
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
@@ -109,10 +112,17 @@ These input parameters must be provided:
 
 -   `peakfiles` : Peakfiles you want to analyse. EpiCompare accepts
     peakfiles as GRanges object and/or as paths to BED files. Files must
-    be listed using `list()` and named using for example,
-    `names(peaklist) <- c("sample1","sample2)`
--   `genome_build` Human genome reference build used to generate
-    peakfiles. Options are "hg19" or "hg38".
+    be listed and named using `list()`.
+    E.g. `list("name1"=peakfile1, "name2"=peakfile2)`.
+-   `genome_build` : A named list indicating the human genome build used to 
+    generate each of the following inputs:
+    -   `peakfiles` : Genome build for the `peakfiles` input. Assumes genome build
+    is the same for each element in the `peakfiles` list.
+    -   `reference` : Genome build for the `reference` input.
+    -   `blacklist` : Genome build for the `blacklist` input.
+    E.g. `genome_build = list(peakfiles="hg38", reference="hg19", blacklist="hg19")`
+-   `genome_build_output` Genome build to standardise all inputs to. Liftovers 
+    will be performed automatically as needed. Default is "hg19".
 -   `blacklist` : Peakfile as GRanges object specifying genomic regions
     that have anomalous and/or unstructured signals independent of the
     cell-line or experiment. For human hg19 and hg38 genome, use
@@ -123,17 +133,21 @@ These input parameters must be provided:
 
 #### Optional Inputs
 
--   `picard_files` : A list of summary metrics output from        [Picard](https://broadinstitute.github.io/picard/). *Picard MarkDuplicates* can
-    be used to identify the duplicate reads amongst the alignment. This tool 
-    generates a summary output, normally with the ending *.markdup.MarkDuplicates.metrics.txt*. If this input is provided, metrics on 
+-   `picard_files` : A list of summary metrics output from 
+    [Picard](https://broadinstitute.github.io/picard/). *Picard MarkDuplicates* 
+    can be used to identify the duplicate reads amongst the alignment. This tool 
+    generates a summary output, normally with the ending 
+    *.markdup.MarkDuplicates.metrics.txt*. If this input is provided, metrics on 
     fragments (e.g. mapped fragments and duplication rate) will be included 
     in the report. Files must be in data.frame format and listed using `list()` 
     and named using `names()`. To import Picard duplication metrics (.txt file) 
     into R as data frame, use
     `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
--   `reference` : Reference peak file is used in `stat_plot` and
+-   `reference` : Reference peak file(s) is used in `stat_plot` and
     `chromHMM_plot`. File must be in GRanges object, listed and named
-    using `list("reference_name" = GRanges_obect)`
+    using `list("reference_name" = GRanges_obect)`. If more than one reference 
+    is specified, EpiCompare outputs individual reports for each reference.
+    However, please note that this can take awhile. 
 
 #### Optional Plots
 

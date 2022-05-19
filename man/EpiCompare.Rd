@@ -27,11 +27,11 @@ EpiCompare(
 }
 \arguments{
 \item{peakfiles}{A list of peak files as GRanges object and/or as paths to
-BED files. If paths are provided, EpiCompare creates GRanges object.
-EpiCompare also accepts a list containing a mix of GRanges object and paths.
-Files must be listed and named using \code{list()}.
-E.g. \code{list("name1"=file1, "name2"=file2)}.
-If not named, default file names will be assigned.}
+BED files. If paths are provided, EpiCompare imports the file as GRanges
+object. EpiCompare also accepts a list containing a mix of GRanges objects
+and paths.Files must be listed and named using \code{list()}.
+E.g. \code{list("name1"=file1, "name2"=file2)}. If no names are specified,
+default file names will be assigned.}
 
 \item{genome_build}{A named list indicating the human genome build used to
 generate each of the following inputs:
@@ -65,12 +65,14 @@ To import Picard duplication metrics (.txt file)
 \code{picard <- read.table("/path/to/picard/output",
  header = TRUE, fill = TRUE)}.}
 
-\item{reference}{A reference peak file as GRanges object.
-If a reference is specified, it enables two analyses: (1) plot showing
-statistical significance of overlapping/non-overlapping peaks; and
-(2) ChromHMM of overlapping/non-overlapping peaks.
-Please make sure that the reference file is listed and named
-i.e. \code{list("reference_name" = reference_peak)}.}
+\item{reference}{A named list containing reference peak file(s) as GRanges
+ object. Please ensure that the reference file is listed and named
+i.e. \code{list("reference_name" = reference_peak)}. If more than one
+reference is specified, individual reports for each reference will be
+generated. However, please note that specifying more than one reference can
+take awhile. If a reference is specified, it enables two analyses: (1) plot
+showing statistical significance of overlapping/non-overlapping peaks; and
+(2) ChromHMM of overlapping/non-overlapping peaks.}
 
 \item{upset_plot}{Default FALSE. If TRUE, the report includes upset plot of
 overlapping peaks.}
@@ -124,10 +126,10 @@ file name.}
 An HTML report
 }
 \description{
-This function compares epigenetic datasets and performs various
-functional analyses.The function outputs an HTML report containing results
-from the analysis. The report is mainly divided into three areas: (1)
-Peakfile information, (2) Overlapping peaks and (3) Functional annotations.
+This function compares and analyses multiple epigenetic datasets and outputs
+an HTML report containing all results of the analysis. The report is mainly
+divided into three sections: (1) General Metrics on Peakfiles,
+(2) Peak Overlaps and (3) Functional Annotation of Peaks.
 }
 \examples{
 ### Load Data ###
@@ -139,10 +141,10 @@ data("hg38_blacklist") # hg38 blacklist dataset
 data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
 
-#### prepare input data ####
-# create list of peakfiles
+#### Prepare Input ####
+# create named list of peakfiles
 peaks <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac)
-# create list of picard outputs
+# create named list of picard outputs
 picard <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard)
 # reference peak file
 reference_peak <- list("ENCODE" = encode_H3K27ac)
