@@ -19,7 +19,7 @@ testthat::test_that("outputs are saved in EpiCompare_file", {
                         output_dir = outpath )
   files <- list.files(paste0(outpath,"/EpiCompare_file"))
   testthat::expect_equal(length(files)>1, TRUE)
-  testthat::expect_equal(is.element("peak_info", files), TRUE)
+  testthat::expect_equal(is.element("peak_info.txt", files), TRUE)
   testthat::expect_equal(file.exists(paste0(outpath,"/EpiCompare.html")), TRUE)
 })
 

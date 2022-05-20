@@ -85,28 +85,33 @@ plot_chromHMM <- function(peaklist,
   # remove numbers in front of states
   label_corrected <- gsub('X', '', colnames(matrix))
   colnames(matrix) <- label_corrected # set corrected labels
-    # convert matrix into molten data frame
-    matrix_melt <- reshape2::melt(matrix)
-    colnames(matrix_melt) <- c("Sample", "State", "value")
-    # create heatmap
-    chrHMM_plot <- ggplot2::ggplot(matrix_melt) +
-      ggplot2::geom_tile(
-          ggplot2::aes(x = State,
-                       y = Sample,
-                       fill = value)) +
-      ggplot2::ylab("") +
-      ggplot2::xlab("") +
-      ggplot2::scale_fill_viridis_b() +
-      ggplot2::theme_minimal() +
-      ggplot2::theme(axis.text = ggplot2::element_text(size = 11)) +
-      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 315,
-                                                         vjust = 0.5,
-                                                         hjust=0))
+  # convert matrix into molten data frame
+  matrix_melt <- reshape2::melt(matrix)
+  colnames(matrix_melt) <- c("Sample", "State", "value")
+  # order State labels
+  sorted_label <- unique(stringr::str_sort(matrix_melt$State, numeric = TRUE))
+  nm <- factor(matrix_melt$State, levels=sorted_label)
+  matrix_melt$State <- nm
+  # create heatmap
+  chrHMM_plot <- ggplot2::ggplot(matrix_melt) +
+    ggplot2::geom_tile(ggplot2::aes(x = State,
+                                    y = Sample,
+                                    fill = value)) +
+    ggplot2::ylab("") +
+    ggplot2::xlab("") +
+    ggplot2::scale_fill_viridis_b() +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 11)) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 315,
+                                                       vjust = 0.5,
+                                                       hjust=0))
     #### Make plot interactive ####
     if(isTRUE(interact)){
+        requireNamespace("htmltools")
         chrHMM_plot <- plotly::ggplotly(chrHMM_plot)
+        chrHMM_plot <- htmltools::tagList(plotly::as_widget(chrHMM_plot))
     }
-  #### Return ####
+    #### Return ####
     if(return_data){
         message("Returning named list with both plot and data.")
         return(

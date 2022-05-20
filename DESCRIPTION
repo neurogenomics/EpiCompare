@@ -65,8 +65,7 @@ Imports:
 	methods,
 	org.Hs.eg.db,
 	plyranges,
-	data.table,
-	here
+	data.table
 Suggests: 
   testthat (>= 3.0.0),
   badger,
@@ -76,7 +75,10 @@ Suggests:
   BiocParallel,
   BiocFileCache,
   TxDb.Hsapiens.UCSC.hg19.knownGene,
-  TxDb.Hsapiens.UCSC.hg38.knownGene
+  TxDb.Hsapiens.UCSC.hg38.knownGene,
+  htmltools,
+  grDevices,
+  here
 VignetteBuilder: knitr
 RoxygenNote: 7.2.0
 Encoding: UTF-8

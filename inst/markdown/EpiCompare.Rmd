@@ -42,8 +42,8 @@ params:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-# if save_output is TRUE, create a directory to save all outputs,
-# if it doesn't exist already 
+### Create Output Directory ###
+# if save_output = TRUE
 if(params$save_output){
   outfile_dir <- paste0(params$output_dir,"/EpiCompare_file")
   if(!dir.exists(outfile_dir)){
@@ -181,16 +181,17 @@ in blacklisted regions and non-standard chromosomes)
 <br>
 
 ```{r, echo=FALSE, warning=FALSE}
-
+# Run peak_info()
 peak_info_df <- peak_info(peaklist = peaklist,
                           blacklist = blacklist)
-# create table 
+# Print table 
 knitr::kable(peak_info_df, format = "markdown")
-# save output as table 
-if(params$save_output){
-  data.table::fwrite(x = peak_info_df, file=paste0(outfile_dir,"/peak_info"),
-                     sep="\t")
-}
+# Save output
+save_output(save_output = params$save_output,
+            file = peak_info_df,
+            file_type = "data.frame",
+            filename = "peak_info",
+            outpath = outfile_dir)
 ```
 
 ***
@@ -209,17 +210,17 @@ Column Description:
 <br>
 
 ```{r, echo=FALSE, warning=FALSE, results='asis'}
-# only if picard_files is provided, run the function 
+# Only if picard_files are provided, fragment_info() is executed 
 if (!is.null(params$picard_files)){
   fragment_info_df <- fragment_info(picard_list = params$picard_files)
-  # output data frame 
+  # Print data frame
   print(knitr::kable(fragment_info_df, format = "markdown"))
-  # save output 
-  if(params$save_output){
-    data.table::fwrite(x = fragment_info_df,
-                       file=paste0(outfile_dir,"/fragment_info"), 
-                       sep="\t")
-  }
+  # Save output 
+  save_output(save_output = params$save_output,
+              file = fragment_info_df,
+              file_type = "data.frame",
+              filename = "fragment_info",
+              outpath = outfile_dir)
 }   
 ```
 
@@ -232,15 +233,15 @@ Distribution of peak widths in samples
 <br> 
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
-# create boxplot of peak widths 
+# Boxplot of peak widths 
 width_plot <- width_boxplot(peaklist = peaklist_tidy)
 print(width_plot)
-# save boxplot output 
-if(params$save_output){
-  ggplot2::ggsave(filename = "width_plot.png",plot = width_plot, device = "png", 
-                  path = outfile_dir)
-  unlink("width_plot.png")
-}
+# Save boxplot
+save_output(save_output = params$save_output,
+            file = width_plot,
+            file_type = "ggplot",
+            filename = "width_plot",
+            outpath = outfile_dir)
 ```
 
 ***
@@ -258,23 +259,19 @@ N.B. How to interpret heatmap: [Samples in x-axis of heatmap] peaks in
 <br>
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
+# Execute overlap_heatmap()
 overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
                                    interact = params$interact)
 overlap_heatmap
-# save output 
-if(params$save_output){
-  if(params$interact){
-    htmlwidgets::saveWidget(plotly::as_widget(overlap_heatmap), 
-                            file = paste0(outfile_dir,
-                                          "/samples_percent_overlap.html"))
-    unlink(paste0(outfile_dir,"/samples_percent_overlap_files"), 
-           recursive = TRUE)
-  }else{
-    ggplot2::ggsave(filename = "samples_percent_overlap.png",
-                    plot = overlap_heatmap, device = "png", path = outfile_dir)
-    unlink("samples_percent_overlap.png")
-  }
-}
+# Save output 
+save_output(save_output = params$save_output,
+            file = overlap_heatmap,
+            file_type = "ggplot",
+            filename = "samples_percent_overlap",
+            outpath = outfile_dir,
+            interactive = params$interact)
+# Delete variable
+remove(overlap_heatmap)
 ```
 
 ***
@@ -286,17 +283,19 @@ Upset plot of overlapping peaks between samples. See
 on how to interpret the plot.   
 
 ```{r, echo=FALSE,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE,results='asis'}
+# If TRUE, execute overlap_upset_plot()
 if(params$upset_plot){
   upset_plot <- overlap_upset_plot(peaklist = peaklist_tidy)
   print(upset_plot)
-  # save output 
-  if(params$save_output){
-    png(paste0(outfile_dir,"/upset_plot.png"))
-    print(upset_plot)
-    dev.off()
-  }
+  # Save output 
+  save_output(save_output = params$save_output,
+              file = upset_plot,
+              file_type = "image",
+              filename = "upset_plot",
+              outpath = outfile_dir)
+  # Delete variable
+  remove(upset_plot)
 }
-
 ```
 
 ***
@@ -324,20 +323,20 @@ Keys:
 <br>
 
 ```{r,echo=FALSE,fig.width=10,warning=FALSE,message=FALSE,fig.height=fig_height}
-# if reference is provided AND stat_plot=TRUE, run the function 
-if (is.null(reference) == FALSE){
-  if (params$stat_plot){
-    stat_plot <- overlap_stat_plot(reference = reference_tidy,
-                                   peaklist = peaklist_tidy,
-                                   annotation = txdb)
-    print(stat_plot[[1]])
-    # save output 
-    if(params$save_output){
-      ggplot2::ggsave(filename = "stat_plot.png", plot = stat_plot[[1]], 
-                      device = "png", path = outfile_dir)
-      unlink("stat_plot.png")
-      }
-  }
+# Reference is provided AND stat_plot=TRUE, execute overlap_stat_plot() 
+if (!is.null(reference) && (params$stat_plot)){
+  stat_plot <- overlap_stat_plot(reference = reference_tidy,
+                                 peaklist = peaklist_tidy,
+                                 annotation = txdb)
+  print(stat_plot[[1]])
+  # Save output 
+  save_output(save_output = params$save_output,
+              file = stat_plot[[1]],
+              file_type = "ggplot",
+              filename = "stat_plot",
+              outpath = outfile_dir)
+  # Remove variables
+  remove(stat_plot)
 }
 ```
 
@@ -359,31 +358,27 @@ annotations used in EpiCompare were obtained from
 ChromHMM annotation of individual samples. 
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-# if chromHMM_plot=TRUE, create ChromHMM heatmaps 
-if (params$chromHMM_plot){
-  # user-specified ChromHMM annotation file 
+# If chromHMM_plot=TRUE, execute ChromHMM
+if(params$chromHMM_plot){
+  # Get ChromHMM annotation file 
   chromHMM_list <- get_chromHMM_annotation(cell_line = params$chromHMM_annotation)
-  # plot chromHMM
+  # Plot chromHMM
   samples_chromHMM <- plot_chromHMM(peaklist = peaklist_tidy, 
-                                  chromHMM_annotation = chromHMM_list, 
-                                  genome_build = output_build,
-                                  interact = params$interact)
-  # save output 
-  if(params$save_output){
-    if(methods::is(samples_chromHMM,"plotly")){
-      htmlwidgets::saveWidget(plotly::as_widget(samples_chromHMM), 
-                            file = paste0(outfile_dir,"/samples_chromHMM.html"))
-      unlink(paste0(outfile_dir,"/samples_chromHMM_files"), recursive = TRUE)
-    }else{
-      ggplot2::ggsave(filename = "samples_chromHMM.png", plot = samples_chromHMM, 
-                      device = "png", path = outfile_dir)
-      unlink("samples_chromHMM.png")
-    }
-  }
-}else{
-  samples_chromHMM <- "No plot"
+                                   chromHMM_annotation = chromHMM_list, 
+                                   genome_build = output_build,
+                                   interact = params$interact)
+  print(samples_chromHMM)
+  #Save output 
+  save_output(save_output = params$save_output,
+              file = samples_chromHMM,
+              file_type = "ggplot",
+              filename = "samples_ChromHMM",
+              outpath = outfile_dir,
+              interactive = params$interact)
+  
+  #Remove variables
+  remove(samples_chromHMM)
 }
-samples_chromHMM
 ```
 
 #### **Overlap**: Sample peaks in Reference peaks 
@@ -392,52 +387,41 @@ Percentage of Sample peaks found in Reference peaks
 (**Reference peakfile: `r names(reference_tidy)`**)
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
-if (params$chromHMM_plot){
-  if (is.null(reference)==FALSE){
-    # table of percentage overlap
-    sample_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
-                                        peaklist2 = reference_tidy,
-                                        invert = FALSE)
-    knitr::kable(sample_in_ref_df, format = "markdown")
-  }
+if((params$chromHMM_plot && !is.null(reference))){
+  # generate data frame of percentage overlap 
+  sample_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
+                                      peaklist2 = reference_tidy,
+                                      invert = FALSE)
+  knitr::kable(sample_in_ref_df, format = "markdown")
 }
 ```
 
 ChromHMM annotation of sample peaks found in reference peaks.   
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-if (params$chromHMM_plot){
-  if (is.null(reference)==FALSE){
-    # obtain overlapping peaks 
+if((params$chromHMM_plot) && !is.null(reference)){
+    # Obtain overlapping peaks 
     sample_in_ref_list <- mapply(peaklist_tidy, FUN=function(file){
         IRanges::subsetByOverlaps(x = file, 
                                   ranges = reference_tidy[[1]])
     }) 
-    # annotate overlapping peaks with chromHMM annotations
+    # Run ChromHMM
     sample_in_ref_chromHMM <- plot_chromHMM(peaklist = sample_in_ref_list,
-                                          chromHMM_annotation = chromHMM_list,
-                                          genome_build = output_build,
-                                          interact = params$interact)
-    if(params$interact){
-      sample_in_ref_chromHMM_plot <- htmltools::tagList(plotly::as_widget(sample_in_ref_chromHMM))
-      print(sample_in_ref_chromHMM_plot)
-    }else{
-      print(sample_in_ref_chromHMM)
-    }
-    # save output 
-    if(params$save_output){
-      if(params$interact){
-        htmlwidgets::saveWidget(plotly::as_widget(sample_in_ref_chromHMM), 
-                                file = paste0(outfile_dir,"/sample_in_ref_chromHMM.html"))
-        unlink(paste0(outfile_dir,"/sample_in_ref_chromHMM_files"), recursive = TRUE)
-      }else{
-        ggplot2::ggsave(filename = "sample_in_ref_chromHMM.png", 
-                        plot = sample_in_ref_chromHMM, device = "png", 
-                        path = outfile_dir)
-        unlink("sample_in_ref_chromHMM.png")
-      }
-    }
-  }
+                                            chromHMM_annotation = chromHMM_list,
+                                            genome_build = output_build,
+                                            interact = params$interact)
+    print(sample_in_ref_chromHMM)
+    
+    # Save output 
+    save_output(save_output = params$save_output,
+                file = sample_in_ref_chromHMM,
+                file_type = "ggplot",
+                filename = "sample_in_ref_ChromHMM",
+                outpath = outfile_dir,
+                interactive = params$interact)
+    
+    # Remove variables
+    remove(sample_in_ref_chromHMM)
 }
 ```
 
@@ -447,52 +431,41 @@ Percentage of Reference peaks found in Sample peaks
 (**Reference peakfile: `r names(reference_tidy)`**)
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
-if (params$chromHMM_plot){
-  if (is.null(reference)==FALSE){
-    # table of percentage overlap
+if ((params$chromHMM_plot) && !is.null(reference)){
+    # Data frame of overlapping peaks 
     ref_in_sample_df <- overlap_percent(peaklist1 = reference_tidy,
                                         peaklist2 = peaklist_tidy,
                                         invert = FALSE)
     knitr::kable(ref_in_sample_df, format = "markdown")
-    
-  }
 }
 ```
 
 ChromHMM annotation of reference peaks found in sample peaks.   
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-if (params$chromHMM_plot){
-  if (!is.null(reference)){ 
-      ref_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
-          IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
-                                    ranges = file)
-      }) 
-    # annotate overlapping peaks with chromHMM annotations
-    ref_in_sample_chromHMM <- plot_chromHMM(peaklist = ref_in_sample_list,
+if ((params$chromHMM_plot) && !is.null(reference)){
+  # Subset overlapping peaks
+  ref_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
+    IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
+                              ranges = file)
+    }) 
+  # Plot ChromHMM
+  ref_in_sample_chromHMM <- plot_chromHMM(peaklist = ref_in_sample_list,
                                           chromHMM_annotation = chromHMM_list,
                                           genome_build = output_build,
                                           interact = params$interact)
-    if(params$interact){
-      ref_in_sample_chromHMM_plot <- htmltools::tagList(plotly::as_widget(ref_in_sample_chromHMM))
-      print(ref_in_sample_chromHMM_plot)
-    }else{
-      print(ref_in_sample_chromHMM)
-    }
-    # save output 
-    if(params$save_output){
-      if(params$interact){
-        htmlwidgets::saveWidget(plotly::as_widget(ref_in_sample_chromHMM), 
-                                file = paste0(outfile_dir,"/ref_in_sample_chromHMM.html"))
-        unlink(paste0(outfile_dir,"/ref_in_sample_chromHMM_files"), recursive = TRUE)
-      }else{
-        ggplot2::ggsave(filename = "ref_in_sample_chromHMM.png", 
-                        plot = ref_in_sample_chromHMM, 
-                        device = "png", path = outfile_dir)
-        unlink("ref_in_sample_chromHMM.png")
-      }
-    }
-  }
+  print(ref_in_sample_chromHMM)
+  
+  # Save output
+  save_output(save_output = params$save_output,
+              file = ref_in_sample_chromHMM,
+              file_type = "ggplot",
+              filename = "ref_in_sample_ChromHMM",
+              outpath = outfile_dir,
+              interactive = params$interact)
+  
+  # Remove variable
+  remove(ref_in_sample_chromHMM)
 }
 ```
 
@@ -502,54 +475,41 @@ Percentage of sample peaks not found in reference peaks
 (**Reference peakfile: `r names(reference_tidy)`**)
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
-if (params$chromHMM_plot){
-  if (is.null(reference)==FALSE){
-    # table of percentage overlap
-    sample_not_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
-                                            peaklist2 = reference_tidy,
-                                            invert = TRUE)
-    knitr::kable(sample_not_in_ref_df, format = "markdown")
-  }
+if ((params$chromHMM_plot) && !is.null(reference)){
+  # Data frame of non-overlapping peaks 
+  sample_not_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
+                                          peaklist2 = reference_tidy,
+                                          invert = TRUE)
+  knitr::kable(sample_not_in_ref_df, format = "markdown")
 }
 ```
 
 ChromHMM annotation of sample peaks not found in reference peaks. 
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-if (params$chromHMM_plot){
-  if (is.null(reference)==FALSE){
-      sample_not_in_ref_list <- mapply(peaklist_tidy, FUN = function(file){
-          IRanges::subsetByOverlaps(x = file, 
-                                    ranges = reference_tidy[[1]], 
-                                    invert = TRUE)
-      }) 
-      # annotate unique peaks with chromHMM annotations
-      sample_not_in_ref_chromHMM<-plot_chromHMM(peaklist = sample_not_in_ref_list,
-                                              chromHMM_annotation = chromHMM_list,
-                                              genome_build = output_build,
-                                              interact = params$interact)
-      if(params$interact){
-        sample_not_in_ref_chromHMM_plot <- htmltools::tagList(plotly::as_widget(sample_not_in_ref_chromHMM))
-        print(sample_not_in_ref_chromHMM_plot)
-      }else{
-        print(sample_not_in_ref_chromHMM)
-      }
-      # save output 
-      if(params$save_output){
-        if(params$interact){
-          htmlwidgets::saveWidget(plotly::as_widget(sample_not_in_ref_chromHMM), 
-                                  file = paste0(outfile_dir,"/sample_not_in_ref_chromHMM.html"))
-          unlink(paste0(outfile_dir,"/sample_not_in_ref_chromHMM_files"), 
-                 recursive = TRUE)
-
-        }else{
-          ggplot2::ggsave(filename = "sample_not_in_ref_chromHMM.png", 
-                          plot = sample_not_in_ref_chromHMM, device = "png", 
-                          path = outfile_dir)
-          unlink("sample_not_in_ref_chromHMM.png")
-          }
-      }
-  }
+if ((params$chromHMM_plot) && !is.null(reference)){
+  sample_not_in_ref_list <- mapply(peaklist_tidy, FUN = function(file){
+    IRanges::subsetByOverlaps(x = file, 
+                              ranges = reference_tidy[[1]], 
+                              invert = TRUE)
+    }) 
+  # Run ChromHMM
+  sample_not_in_ref_chromHMM<-plot_chromHMM(peaklist = sample_not_in_ref_list,
+                                            chromHMM_annotation = chromHMM_list,
+                                            genome_build = output_build,
+                                            interact = params$interact)
+  print(sample_not_in_ref_chromHMM)
+  
+  # Save output 
+  save_output(save_output = params$save_output,
+              file = sample_not_in_ref_chromHMM,
+              file_type = "ggplot",
+              filename = "sample_not_in_ref_ChromHMM",
+              outpath = outfile_dir,
+              interactive = params$interact)
+  
+  # Remove variable
+  remove(sample_not_in_ref_chromHMM)
 }
 
 ```
@@ -560,53 +520,41 @@ Percentage of reference peaks not found in sample peaks
 (**Reference peakfile: `r names(reference_tidy)`**)
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
-if (params$chromHMM_plot){
-  if (is.null(reference)==FALSE){
-    # table of percentage overlap
-    ref_not_in_sample_df <- overlap_percent(peaklist1 = reference_tidy,
-                                            peaklist2 = peaklist_tidy,
-                                            invert = TRUE)
-    knitr::kable(ref_not_in_sample_df, format = "markdown")
-  }
+if ((params$chromHMM_plot) && !is.null(reference)){
+  # Data frame of non-overlapping peaks 
+  ref_not_in_sample_df <- overlap_percent(peaklist1 = reference_tidy,
+                                          peaklist2 = peaklist_tidy,
+                                          invert = TRUE)
+  knitr::kable(ref_not_in_sample_df, format = "markdown")
 }
 ```
 
 ChromHMM annotation of reference peaks not found in sample peaks. 
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-if (params$chromHMM_plot){
-  if (is.null(reference)==FALSE){
-      ref_not_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
-          IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
-                                                       ranges = file, 
-                                                       invert = TRUE)
-      })
-      # annotate unique peaks with chromHMM annotations
-      ref_not_in_sample_chromHMM<-plot_chromHMM(peaklist = ref_not_in_sample_list,
-                                              chromHMM_annotation = chromHMM_list,
-                                              genome_build = output_build,
-                                              interact = params$interact)
-      if(params$interact){
-        ref_not_in_sample_chromHMM_plot <- htmltools::tagList(plotly::as_widget(ref_not_in_sample_chromHMM))
-        print(ref_not_in_sample_chromHMM_plot)
-      }else{
-        print(ref_not_in_sample_chromHMM)
-      }
-      # save output 
-      if(params$save_output){
-        if(params$interact){
-          htmlwidgets::saveWidget(plotly::as_widget(ref_not_in_sample_chromHMM), 
-                                  file = paste0(outfile_dir,"/ref_not_in_sample_chromHMM.html"))
-          unlink(paste0(outfile_dir,"/ref_not_in_sample_chromHMM_files"), 
-                 recursive = TRUE)
-        }else{
-          ggplot2::ggsave(filename = "ref_not_in_sample_chromHMM.png", 
-                          plot = ref_not_in_sample_chromHMM, 
-                          device = "png", path = outfile_dir)
-          unlink("ref_not_in_sample_chromHMM.png")
-        }
-      }
-  }
+if ((params$chromHMM_plot) && !is.null(reference)){
+  # Subset unique peaks 
+  ref_not_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
+    IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
+                              ranges = file, 
+                              invert = TRUE)
+    })
+  # Run ChromHMM
+  ref_not_in_sample_chromHMM<-plot_chromHMM(peaklist = ref_not_in_sample_list,
+                                            chromHMM_annotation = chromHMM_list,
+                                            genome_build = output_build,
+                                            interact = params$interact)
+  print(ref_not_in_sample_chromHMM)
+  
+  # Save output
+  save_output(save_output = params$save_output,
+              file = ref_not_in_sample_chromHMM,
+              file_type = "ggplot",
+              filename = "ref_not_in_sample_ChromHMM",
+              outpath = outfile_dir,
+              interactive = params$interact)
+  # Remove variable 
+  remove(ref_not_in_sample_chromHMM)
 }
 ```
 
@@ -621,17 +569,18 @@ Bioconductor.
 
 ```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
 # if set TRUE, generate chipseeker annotation plot 
-if (params$chipseeker_plot){
+if(params$chipseeker_plot){
   chipseeker_plot <- plot_ChIPseeker_annotation(peaklist = peaklist_tidy,
                                                 annotation = txdb)
   print(chipseeker_plot)
-  # save output 
-  if(params$save_output){
-    ggplot2::ggsave(filename = "chipseeker_annotation.png", 
-                    plot = chipseeker_plot, device = "png", 
-                    path = outfile_dir)
-    unlink("chipseeker_annotation.png")
-    }
+  # Save output 
+  save_output(save_output = params$save_output,
+              file = chipseeker_plot,
+              file_type = "ggplot",
+              filename = "chipseeker_annotation",
+              outpath = outfile_dir)
+  # Remove variable
+  remove(chipseeker_plot)
 }
 ```
 
@@ -670,12 +619,14 @@ if (params$enrichment_plot){
 ```{r,echo=FALSE,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
 if (params$enrichment_plot){
   print(KEGG_plot)
-  # save output 
-  if(params$save_output){
-    ggplot2::ggsave(filename = "KEGG_analysis.png", plot = KEGG_plot, 
-                    device = "png", path = outfile_dir)
-    unlink("KEGG_analysis.png")
-  }
+  # Save output 
+  save_output(save_output = params$save_output,
+              file = KEGG_plot,
+              file_type = "ggplot",
+              filename = "KEGG_analysis",
+              outpath = outfile_dir)
+  # Remove variable
+  remove(KEGG_plot)
 }
 ```
 
@@ -686,12 +637,14 @@ if (params$enrichment_plot){
 ```{r,echo=FALSE,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
 if (params$enrichment_plot){
   print(GO_plot)
-  # save output 
-  if(params$save_output){
-    ggplot2::ggsave(filename = "GO_analysis.png", plot = GO_plot, 
-                    device = "png", path = outfile_dir)
-    unlink("GO_analysis.png")
-  }
+  # Save output 
+  save_output(save_output = params$save_output,
+              file = GO_plot,
+              file_type = "ggplot",
+              filename = "GO_analysis",
+              outpath = outfile_dir)
+  # Remove variable
+  remove(GO_plot)
 }
 
 ```

@@ -88,7 +88,6 @@
 #'
 #' @export
 #' @importFrom rmarkdown render
-#' @importFrom here here
 #'
 #' @examples
 #' ### Load Data ###
@@ -163,6 +162,7 @@ EpiCompare <- function(peakfiles,
 
   ### Multiple Reference Files ###
   if(length(reference)>1){
+    requireNamespace("here")
     out_list <- lapply(names(reference), function(nm){
       message("\n","======>> ",nm," <<======")
       output_dir <- here::here("reports",nm)
