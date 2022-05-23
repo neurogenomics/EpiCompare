@@ -93,12 +93,9 @@ if (!is.null(reference)){
 txdb <- check_genome_build(genome_build = output_build)
 
 ### Dynamic Figure Height ###  
-fig_height <- 7
-if(length(peaklist_tidy)>10){
-  extra_n <- length(peaklist_tidy) - 10
-  extra_height <- extra_n*0.25
-  fig_height <- fig_height + extra_height 
-}
+fig_height <- fig_length(default_size = 7,
+                         number_of_items = length(peaklist_tidy),
+                         max_items = 10)
 ```
 
 [EpiCompare](https://github.com/neurogenomics/EpiCompare) compares epigenetic 
@@ -192,6 +189,8 @@ save_output(save_output = params$save_output,
             file_type = "data.frame",
             filename = "peak_info",
             outpath = outfile_dir)
+# Remove variable
+remove(peak_info_df)
 ```
 
 ***
@@ -221,6 +220,8 @@ if (!is.null(params$picard_files)){
               file_type = "data.frame",
               filename = "fragment_info",
               outpath = outfile_dir)
+  # Remove variable
+  remove(fragment_info_df)
 }   
 ```
 
@@ -242,6 +243,8 @@ save_output(save_output = params$save_output,
             file_type = "ggplot",
             filename = "width_plot",
             outpath = outfile_dir)
+# Remove variable
+remove(width_plot)
 ```
 
 ***
@@ -596,19 +599,22 @@ annotations of human genome (hg19 or hg38) provided by Bioconductor.
 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
-fig_height <- 10
+# Run plot_enrichment()
 if (params$enrichment_plot){
   enrichment_plots <- plot_enrichment(peaklist = peaklist_tidy,
                                       annotation = txdb)
   KEGG_plot <- enrichment_plots[[1]]
   GO_plot <- enrichment_plots[[2]]
-  kegg_terms <- length(unique(KEGG_plot$data$Description))
-  go_terms <- length(unique(GO_plot$data$Description))
-  if(kegg_terms > 20 | go_terms > 20){
-    maxN <- max(kegg_terms, go_terms)
-    extraN <- maxN - 20
-    fig_height <- fig_height + extraN*0.25
-  }
+  
+  # Remove variable
+  remove(enrichment_plots)
+  
+  # Figure height
+  max_terms <- max(length(unique(KEGG_plot$data$Description)),
+                   length(unique(GO_plot$data$Description)))
+  fig_height <- fig_length(default_size = 10,
+                                      number_of_items = max_terms,
+                                      max_items = 20)
 }
 ```
 
@@ -661,13 +667,13 @@ the 95% confidence interval estimated by bootstrap method.
 
 
 ```{r,echo=FALSE,fig.height=3,fig.width=10,warning=FALSE,message=FALSE}
+# Run tss_plot()
 if (params$tss_plot){
   tss_plot <- tss_plot(peaklist = peaklist_tidy,
-                       annotation = txdb)
-}
+                       annotation = txdb)}
+# Print plot
 for (plot in tss_plot){
-  print(plot)
-}
+  print(plot)}
 ```
 
 

@@ -29,6 +29,7 @@
 #' #                                       annotation = txdb)
 #'
 plot_ChIPseeker_annotation <- function(peaklist, annotation){
+  message("--- Running plot_ChIPseeker_annotation() ---")
   ### Check Peaklist Names ###
   peaklist <- check_list_names(peaklist)
 
@@ -43,5 +44,6 @@ plot_ChIPseeker_annotation <- function(peaklist, annotation){
                            verbose = FALSE)
   ### Create Plot ###
   anno_barplot <- ChIPseeker::plotAnnoBar(peak_annotated)
+  message("Done.")
   return(anno_barplot)
 }

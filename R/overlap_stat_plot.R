@@ -49,7 +49,7 @@
 overlap_stat_plot <- function(reference,
                               peaklist,
                               annotation=NULL){
-
+  message("--- Running overlap_stat_plot() ---")
   # define variables
   qvalue <- tSample <- p.adjust <- NULL;
   # check that peaklist is named, if not, default names assigned
@@ -130,7 +130,7 @@ overlap_stat_plot <- function(reference,
                                                                      vjust = 0,
                                                                      hjust=0)) +
                    ggplot2::coord_flip()
-
+    message("Done.")
     return(list(sample_plot, main_df))
     # for files not in BED6+4 format
     }else{
@@ -166,7 +166,8 @@ overlap_stat_plot <- function(reference,
                                                                  vjust = 1,
                                                                  hjust=1)) +
               ggplot2::ylim(0,100)
-    # return both plot and data frame
-    return(list(plot, overlap_result))
+      # return both plot and data frame
+      message("Done.")
+      return(list(plot, overlap_result))
   }
 }

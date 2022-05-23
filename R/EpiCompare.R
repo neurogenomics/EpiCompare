@@ -162,10 +162,11 @@ EpiCompare <- function(peakfiles,
 
   ### Multiple Reference Files ###
   if(length(reference)>1){
+    outpath <- paste0(output_dir,"/EpiCompare")
     requireNamespace("here")
     out_list <- lapply(names(reference), function(nm){
       message("\n","======>> ",nm," <<======")
-      output_dir <- here::here("reports",nm)
+      output_dir <- here::here("EpiCompare",nm)
       dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 
       ### Parse Parameters Into Markdown & Render HTML ###
@@ -194,6 +195,7 @@ EpiCompare <- function(peakfiles,
       )
     })
   }else{
+    outpath <- output_dir
     ### Parse Parameters Into Markdown & Render HTML ###
     rmarkdown::render(
       input = markdown_path,
@@ -223,4 +225,8 @@ EpiCompare <- function(peakfiles,
   ### Show Timer ###
   t2 <- Sys.time()
   methods::show( difftime(t2, t1, units = "min") )
+
+  ### Return ###
+  message("All Outputs Saved At: ", outpath)
+
 }

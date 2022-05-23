@@ -25,7 +25,7 @@
 #' my_plot <- width_boxplot(peaklist = peaks)
 #'
 width_boxplot <- function(peaklist){
-
+  message("--- Running width_boxplot() ---")
   ### Check Peaklist Names ###
   peaklist <- check_list_names(peaklist)
 
@@ -47,5 +47,6 @@ width_boxplot <- function(peaklist){
              ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 315,
                                                                 vjust = 0.5,
                                                                 hjust=0))
+  message("Done.")
   return(boxplot)
 }

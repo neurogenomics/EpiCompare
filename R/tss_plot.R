@@ -28,6 +28,7 @@
 #' # my_plot[1]
 #'
 tss_plot <- function(peaklist, annotation){
+  message("--- Running tss_plot() ---")
   ### Check Peaklist Names ###
   peaklist <- check_list_names(peaklist)
   ### TxDB Annotation ###
@@ -57,5 +58,6 @@ tss_plot <- function(peaklist, annotation){
   })
 
   ### Return ###
+  message("Done.")
   return(plot_list)
 }

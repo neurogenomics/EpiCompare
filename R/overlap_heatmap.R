@@ -75,5 +75,6 @@ overlap_heatmap <- function(peaklist,
                                        z=overlap_matrix,
                                        type="heatmap")
   }
+  message("Done.")
   return(overlap_heatmap)
 }

@@ -119,7 +119,7 @@ These input parameters must be provided:
     -   `peakfiles` : Genome build for the `peakfiles` input. Assumes genome build
     is the same for each element in the `peakfiles` list.
     -   `reference` : Genome build for the `reference` input.
-    -   `blacklist` : Genome build for the `blacklist` input.
+    -   `blacklist` : Genome build for the `blacklist` input. <br>
     E.g. `genome_build = list(peakfiles="hg38", reference="hg19", blacklist="hg19")`
 -   `genome_build_output` Genome build to standardise all inputs to. Liftovers 
     will be performed automatically as needed. Default is "hg19".

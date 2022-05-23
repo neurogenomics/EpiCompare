@@ -32,6 +32,7 @@
 #' df <- fragment_info(picard_list = picard)
 #'
 fragment_info <- function(picard_list){
+  message("--- Running fragment_info() ---")
 
   ### Check List Names ###
   picard_list <- check_list_names(picard_list)
@@ -51,5 +52,6 @@ fragment_info <- function(picard_list){
   ### Create Data Frame ###
   df_metric <- data.frame(Mapped_Fragments, Duplication_Rate, Unique_Fragments)
   rownames(df_metric) <- names(picard_list) # set row names as sample names
+  message("Done.")
   return(df_metric)
 }

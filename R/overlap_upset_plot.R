@@ -29,7 +29,7 @@
 #' my_plot <- overlap_upset_plot(peaklist = peakfile)
 #'
 overlap_upset_plot <- function(peaklist){
-
+  message("--- Running overlap_upset_plot() ---")
   ### Variables ###
   value <- NULL
 
@@ -76,5 +76,6 @@ overlap_upset_plot <- function(peaklist){
                               number.angles = 30,
                               text.scale = c(1, 1, 1, font_size,
                                              font_size+0.15, font_size))
+  message("Done.")
   return(upset_plot)
 }

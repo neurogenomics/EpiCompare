@@ -4,12 +4,12 @@
 <i>Authors</i>: Sera Choi, Brian Schilder, Alan Murphy, and Nathan Skene
 </h5>
 <h5>
-<i>Updated</i>: May-19-2022
+<i>Updated</i>: May-23-2022
 </h5>
 
 <!-- badges: start -->
 
-[![](https://img.shields.io/badge/devel%20version-0.99.18-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-0.99.19-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://app.codecov.io/gh/neurogenomics/EpiCompare)
@@ -119,9 +119,11 @@ These input parameters must be provided:
         genome build is the same for each element in the `peakfiles`
         list.
     -   `reference` : Genome build for the `reference` input.
-    -   `blacklist` : Genome build for the `blacklist` input.
--   `genome_build_output` Human genome reference build used to generate
-    peakfiles. Options are “hg19” or “hg38”.
+    -   `blacklist` : Genome build for the `blacklist` input. <br> E.g.
+        `genome_build = list(peakfiles="hg38", reference="hg19", blacklist="hg19")`
+-   `genome_build_output` Genome build to standardise all inputs to.
+    Liftovers will be performed automatically as needed. Default is
+    “hg19”.
 -   `blacklist` : Peakfile as GRanges object specifying genomic regions
     that have anomalous and/or unstructured signals independent of the
     cell-line or experiment. For human hg19 and hg38 genome, use
@@ -143,9 +145,11 @@ These input parameters must be provided:
     `names()`. To import Picard duplication metrics (.txt file) into R
     as data frame, use
     `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
--   `reference` : Reference peak file is used in `stat_plot` and
+-   `reference` : Reference peak file(s) is used in `stat_plot` and
     `chromHMM_plot`. File must be in GRanges object, listed and named
-    using `list("reference_name" = GRanges_obect)`
+    using `list("reference_name" = GRanges_obect)`. If more than one
+    reference is specified, EpiCompare outputs individual reports for
+    each reference. However, please note that this can take awhile.
 
 #### Optional Plots
 

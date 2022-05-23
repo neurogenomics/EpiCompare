@@ -28,6 +28,7 @@
 #'                 blacklist = hg19_blacklist)
 #'
 peak_info <- function(peaklist, blacklist){
+  message("--- Running peak_info() ---")
   ### Check peaklist names ###
   peaklist <- check_list_names(peaklist)
 
@@ -70,5 +71,6 @@ peak_info <- function(peaklist, blacklist){
                     "Blacklisted Peaks Removed (%)",
                     "Non-standard Peaks Removed (%)",
                     "PeakN After Tidy")
+  message("Done.")
   return(df)
 }

@@ -30,6 +30,7 @@
 #' #                            annotation = txdb)
 #'
 plot_enrichment <- function(peaklist, annotation){
+  message("--- Running plot_enrichment() ---")
   ### Check Peaklist Names ###
   peaklist <- check_list_names(peaklist)
   ### TxDB Annotation ###
@@ -79,6 +80,7 @@ plot_enrichment <- function(peaklist, annotation){
   go_plot$data$Cluster <- sample_names
 
   ### Return ###
+  message("Done.")
   return(list(kegg_plot, go_plot))
 }
 
