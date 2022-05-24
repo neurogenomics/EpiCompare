@@ -8,34 +8,46 @@ liftover_grlist(
   grlist,
   input_build,
   output_build = "hg19",
-  as_grangeslist = FALSE
+  style = "UCSC",
+  as_grangeslist = FALSE,
+  merge_all = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
-\item{grlist}{A named list of \link[GenomicRanges]{GRanges} object.}
+\item{grlist}{A named list of \link[GenomicRanges]{GRanges} objects,
+or simply a single unlisted \link[GenomicRanges]{GRanges} object.}
 
 \item{input_build}{The genome build of \code{grlist}.}
 
 \item{output_build}{Desired genome build for
 \code{grlist} to be lifted over to.}
 
-\item{as_grangeslist}{Convert output to class
-\link[GenomicRanges]{GRangesList} before returning.}
+\item{style}{Chromosome style,
+set by \link[GenomeInfoDb]{seqlevelsStyle}.
+\itemize{
+\item{"UCSC" : }{Uses the chromosome style "chr1".}
+\item{"NCBI" : }{Uses the chromosome style "1"}
+}}
+
+\item{as_grangeslist}{Return as a \link[GenomicRanges]{GRangesList}.}
+
+\item{merge_all}{Merge all \link[GenomicRanges]{GRanges} into a single
+\link[GenomicRanges]{GRanges} object.}
+
+\item{verbose}{Print messages.}
 }
 \value{
 Named list of lifted \link[GenomicRanges]{GRanges} objects.
 }
 \description{
-Perform genome build liftover to on a named list of
- \link[GenomicRanges]{GRanges} objects.
+Perform genome build liftover to one or more
+ \link[GenomicRanges]{GRanges} objects at once.
 }
 \examples{
-data("encode_H3K27ac") # example dataset as GRanges object
-data("CnT_H3K27ac") # example dataset as GRanges object
-data("CnR_H3K27ac") # example dataset as GRanges object
-grlist <- list("encode_H3K27ac"=encode_H3K27ac,
-               "CnT_H3K27ac"=CnT_H3K27ac,
-               "CnR_H3K27ac"=CnR_H3K27ac)
+grlist <- list("gr1"=GenomicRanges::GRanges("4:1-100000"),
+               "gr2"=GenomicRanges::GRanges("6:1-100000"),
+               "gr3"=GenomicRanges::GRanges("8:1-100000"))
 
 grlist_lifted <- liftover_grlist(grlist = grlist,
                                  input_build = "hg19",

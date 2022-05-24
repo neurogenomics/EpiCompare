@@ -1,7 +1,7 @@
 Type: Package
 Package: EpiCompare
 Title: Comparison, Benchmarking & QC of Epigenetic Datasets
-Version: 0.99.19
+Version: 0.99.20
 Authors@R: c(
     person("Sera", "Choi", , "serachoi1230@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5077-1984")),
@@ -31,15 +31,14 @@ Imports:
     BRGenomics,
     ChIPseeker,
     data.table,
-    dplyr,
     genomation,
     GenomicRanges,
+    IRanges,
+    GenomeInfoDb,
     ggplot2,
     htmltools,
-    IRanges,
     methods,
-    plotly,
-    plyranges,
+    plotly, 
     reshape2,
     rmarkdown,
     rtracklayer,
@@ -61,7 +60,8 @@ Suggests:
     tidyr,
     TxDb.Hsapiens.UCSC.hg19.knownGene,
     TxDb.Hsapiens.UCSC.hg38.knownGene,
-    UpSetR
+    UpSetR,
+    plyranges
 VignetteBuilder: 
     knitr
 biocViews: Epigenetics, Genetics, QualityControl, ChIPSeq,

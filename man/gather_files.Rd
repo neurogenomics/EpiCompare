@@ -47,6 +47,19 @@ A named list of \link[GenomicRanges]{GRanges} objects.
 Recursively find peak/picard files stored within subdirectories and import
 them as a list of \link[GenomicRanges]{GRanges} objects.
 }
+\details{
+For "peaks.stringent" files called with 
+\href{https://github.com/FredHutch/SEACR}{SEACR}, column names will be
+automatically added:
+\itemize{
+\item{total_signal : }{Total signal contained within denoted coordinates.}
+\item{max_signal}{Maximum bedgraph signal attained at any base pair 
+ within denoted coordinates.}
+\item{max_signal_region}{ Region representing the farthest upstream 
+and farthest downstream bases within the denoted coordinates 
+ that are represented by the maximum bedgraph signal.}
+}
+}
 \examples{
 #### Make example files ####
 save_paths <- EpiCompare::write_example_peaks()

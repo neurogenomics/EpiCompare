@@ -11,8 +11,7 @@
 #'
 #' @importMethodsFrom IRanges findOverlaps
 #' @importFrom GenomicRanges elementMetadata
-#' @importFrom IRanges to from
-#' @importFrom dplyr mutate
+#' @importFrom IRanges to from 
 #'
 #' @export
 #' @examples
@@ -75,9 +74,13 @@ overlap_upset_plot <- function(peaklist){
     stop("Package \"tidyr\" must be installed to use this function",
          call. = FALSE)
   }
-  mutate <- dplyr::mutate(overlap_df, value = 1)
-  spread <- tidyr::spread(mutate, sample, value, fill=0)
-  upset_plot <- UpSetR::upset(spread, order.by = "freq",
+  overlap_df$value <- 1
+  overlap_df <- tidyr::spread(data = overlap_df, 
+                              key = sample, 
+                              value = value, 
+                              fill=0) 
+  upset_plot <- UpSetR::upset(data = overlap_df, 
+                              order.by = "freq",
                               mb.ratio = c(0.60, 0.40),
                               sets = peaklist_names,
                               number.angles = 30,

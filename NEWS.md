@@ -1,7 +1,20 @@
+## CHANGES IN VERSION 0.99.20
+
+### New features
+
+* Upgraded `liftover_grl` and added genome standardization. 
+* Removed `dplyr`.
+* Moved `plyranges` to *Suggests*.
+
+### Bug fixes
+
+* Made `BiocParallel` functions compatible with Windows.
+
+
 ## CHANGES IN VERSION 0.99.19
 
 ### Bug fixes
-* Simplified loops with mapply/lapply 
+* Simplified loops with `mapply`/`lapply`.   
 
 ### New features
 * `EpiCompare`: accepts multiple reference files - creates individual reports

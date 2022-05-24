@@ -2,7 +2,19 @@
 #'
 #' Recursively find peak/picard files stored within subdirectories and import
 #' them as a list of \link[GenomicRanges]{GRanges} objects.
-#'
+#' 
+#' For "peaks.stringent" files called with 
+#' \href{https://github.com/FredHutch/SEACR}{SEACR}, column names will be
+#' automatically added:
+#' \itemize{
+#' \item{total_signal : }{Total signal contained within denoted coordinates.}
+#' \item{max_signal}{Maximum bedgraph signal attained at any base pair 
+#'  within denoted coordinates.}
+#' \item{max_signal_region}{ Region representing the farthest upstream 
+#' and farthest downstream bases within the denoted coordinates 
+#'  that are represented by the maximum bedgraph signal.}
+#' }
+#' 
 #' @param dir Directory to search within.
 #' @param type File type to search for. Options include:
 #' \itemize{
@@ -25,8 +37,7 @@
 #'
 #' @returns A named list of \link[GenomicRanges]{GRanges} objects.
 #'
-#' @export
-#' @importFrom dplyr %>%
+#' @export 
 #' @importFrom methods is
 #' @importFrom stats setNames
 #' @importFrom stringr str_split
@@ -74,22 +85,29 @@ gather_files <- function(dir,
   if(length(paths)==0) stop(length(paths)," matching files identified.")
   message(length(paths)," matching files identified.")
   #### Construct names ####
-  names <- gather_files_names(paths=paths,
-                              type=type,
-                              nfcore_cutandrun=nfcore_cutandrun)
+  list_names <- gather_files_names(paths=paths,
+                                   type=type,
+                                   nfcore_cutandrun=nfcore_cutandrun)
   if(return_paths){
-      return(stats::setNames(paths,names))
+      return(stats::setNames(paths,list_names))
   }
   #### Import files ####
-  message("Importing files.")
-  #set number of workers - used for bpapply below
-  BiocParallel::register(
-      BiocParallel::MulticoreParam(workers=workers,progressbar = TRUE)
-  )
-  files <- BiocParallel::bplapply(paths, function(x){
+  message("Importing files.") 
+  BPPARAM <- get_bpparam(workers = workers)
+  files <- BiocParallel::bplapply(X = paths, 
+                                  BPPARAM = BPPARAM,
+                                  FUN = function(x){
     # message_parallel(x,"\n")
     if(startsWith(type,"peaks")){
       dat <- ChIPseeker::readPeakFile(x, as = "GRanges")
+      if(type=="peaks.stringent" && 
+         (ncol(GenomicRanges::mcols(dat))==3)){
+          ## Colnames are not included in SEACR output,
+          ## but can be found in the SEACR documentation.
+          colnames(GenomicRanges::mcols(dat))  <- c("total_signal",
+                                                    "max_signal",
+                                                    "max_signal_region")
+      }
     } else if(type=="picard"){
       dat <- data.table::fread(x,
                                skip = "LIBRARY",
@@ -111,7 +129,7 @@ gather_files <- function(dir,
       }, error = function(e) dat)
     }
     return(dat)
-  }) %>% `names<-`(names)
+  }) |> `names<-`(list_names)
   #### Report ####
   message(length(files)," files retrieved.")
   return(files)
