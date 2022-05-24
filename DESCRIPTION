@@ -1,85 +1,72 @@
-Package: EpiCompare
 Type: Package
+Package: EpiCompare
 Title: Comparison, Benchmarking & QC of Epigenetic Datasets
 Version: 0.99.19
-Authors@R: 
-    c(person(given = "Sera",
-             family = "Choi",
-             role = c("aut", "cre"),
-             email = "serachoi1230@gmail.com",
-             comment = c(ORCID = "0000-0002-5077-1984")),
-      person(given = "Brian",
-             family = "Schilder",
-             role = c("aut"),
-             email = "brian_schilder@alumni.brown.edu",
-             comment = c(ORCID = "0000-0001-5949-2191")),
-      person(given = "Alan",
-             family = "Murphy",
-             role = c("aut"),
-             email = "alanmurph94@hotmail.com",
-             comment = c(ORCID = "0000-0002-2487-8753")),
-      person(given = "Nathan",
-             family = "Skene",
-             role = c("aut"),
-             email = "nathan.skene@gmail.com",
-             comment = c(ORCID = "0000-0002-6807-3180")))
-Description: EpiCompare is used to compare and analyse epigenetic datasets 
-  for quality control and benchmarking purposes. 
-  The package outputs an HTML report consisting of three sections: 
-  (1. General metrics) Metrics on peaks (percentage of blacklisted and 
-  non-standard peaks, and peak widths) and fragments (duplication rate) 
-  of samples, 
-  (2. Peak overlap) Percentage and statistical significance of 
-  overlapping and non-overlapping peaks. Also includes upset plot and 
-  (3. Functional annotation) functional annotation 
-  (ChromHMM, ChIPseeker and enrichment analysis) of peaks. 
-  Also includes peak enrichment around TSS.
+Authors@R: c(
+    person("Sera", "Choi", , "serachoi1230@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-5077-1984")),
+    person("Brian", "Schilder", , "brian_schilder@alumni.brown.edu", role = "aut",
+           comment = c(ORCID = "0000-0001-5949-2191")),
+    person("Alan", "Murphy", , "alanmurph94@hotmail.com", role = "aut",
+           comment = c(ORCID = "0000-0002-2487-8753")),
+    person("Nathan", "Skene", , "nathan.skene@gmail.com", role = "aut",
+           comment = c(ORCID = "0000-0002-6807-3180"))
+  )
+Description: EpiCompare is used to compare and analyse epigenetic datasets
+    for quality control and benchmarking purposes.  The package outputs an
+    HTML report consisting of three sections: (1. General metrics) Metrics
+    on peaks (percentage of blacklisted and non-standard peaks, and peak
+    widths) and fragments (duplication rate) of samples, (2. Peak overlap)
+    Percentage and statistical significance of overlapping and
+    non-overlapping peaks. Also includes upset plot and (3. Functional
+    annotation) functional annotation (ChromHMM, ChIPseeker and enrichment
+    analysis) of peaks.  Also includes peak enrichment around TSS.
+License: GPL-3
 URL: https://github.com/neurogenomics/EpiCompare
 BugReports: https://github.com/neurogenomics/EpiCompare/issues
-License: GPL-3
-Depends: R (>= 4.1.0)
-LazyData: FALSE
-biocViews:
-	Epigenetics, Genetics, 
-	QualityControl, ChIPSeq, MultipleComparison,
-	FunctionalGenomics, ATACSeq, DNaseSeq
+Depends: 
+    R (>= 4.1.0)
 Imports:
-	GenomicRanges,
-	genomation,
-	IRanges,
-	reshape2,
-	ggplot2,
-	ChIPseeker,
-	BRGenomics,
-	clusterProfiler,
-	plotly,
-	stringr,
-	dplyr,
-	tidyr,
-	UpSetR,
-	rmarkdown,
-	rtracklayer,
-	AnnotationHub,
-	utils,
-	stats,
-	methods,
-	org.Hs.eg.db,
-	plyranges,
-	data.table
+    AnnotationHub,
+    BRGenomics,
+    ChIPseeker,
+    data.table,
+    dplyr,
+    genomation,
+    GenomicRanges,
+    ggplot2,
+    htmltools,
+    IRanges,
+    methods,
+    plotly,
+    plyranges,
+    reshape2,
+    rmarkdown,
+    rtracklayer,
+    stats,
+    stringr,
+    utils
 Suggests: 
-  testthat (>= 3.0.0),
-  badger,
-  knitr,
-  htmlwidgets,
-  BiocStyle,
-  BiocParallel,
-  BiocFileCache,
-  TxDb.Hsapiens.UCSC.hg19.knownGene,
-  TxDb.Hsapiens.UCSC.hg38.knownGene,
-  htmltools,
-  grDevices,
-  here
-VignetteBuilder: knitr
-RoxygenNote: 7.2.0
-Encoding: UTF-8
+    badger,
+    BiocFileCache,
+    BiocParallel,
+    BiocStyle,
+    clusterProfiler,
+    grDevices,
+    here,
+    htmlwidgets,
+    knitr,
+    org.Hs.eg.db,
+    testthat (>= 3.0.0),
+    tidyr,
+    TxDb.Hsapiens.UCSC.hg19.knownGene,
+    TxDb.Hsapiens.UCSC.hg38.knownGene,
+    UpSetR
+VignetteBuilder: 
+    knitr
+biocViews: Epigenetics, Genetics, QualityControl, ChIPSeq,
+    MultipleComparison, FunctionalGenomics, ATACSeq, DNaseSeq
 Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: FALSE
+RoxygenNote: 7.2.0

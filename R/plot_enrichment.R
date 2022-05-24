@@ -11,9 +11,7 @@
 #'
 #' @return KEGG and GO dot plots
 #'
-#' @import org.Hs.eg.db
 #' @importFrom ChIPseeker annotatePeak
-#' @import clusterProfiler
 #' @import ggplot2
 #' @export
 #' @examples
@@ -31,10 +29,19 @@
 #'
 plot_enrichment <- function(peaklist, annotation){
   message("--- Running plot_enrichment() ---")
+
   ### Check Peaklist Names ###
   peaklist <- check_list_names(peaklist)
+
   ### TxDB Annotation ###
   txdb <- annotation
+
+  ### Check Package ###
+  if(!requireNamespace("clusterProfiler", quietly = TRUE)){
+    stop("Package \"clusterProfiler\" must be installed to use this funtion.",
+         call. = TRUE)
+  }
+
   ### Annotate Peak ###
   peak_annotated <- lapply(peaklist,
                            ChIPseeker::annotatePeak,
@@ -54,16 +61,22 @@ plot_enrichment <- function(peaklist, annotation){
     font_size <- 8
   }
   ### Generate KEGG Dotplot ###
-  kegg_plot <- dotplot(compKEGG) +
-          ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
-                                                             vjust = 1,
-                                                             hjust = 1,
-                                                             size = font_size))+
-               ggplot2::labs(x="")
-  sample_names <- gsub('\n([0-9]*)','',kegg_plot$data$Cluster) # remove new line
+  kegg_plot <- clusterProfiler::dotplot(compKEGG) +
+    ggplot2::labs(x="") +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                       vjust = 1,
+                                                       hjust = 1,
+                                                       size = font_size))
+  # Remove new line
+  sample_names <- gsub('\n([0-9]*)','',kegg_plot$data$Cluster)
   kegg_plot$data$Cluster <- sample_names
 
   ### GO ###
+  # Check annotation is available
+  if(!requireNamespace("org.Hs.eg.db", quietly = TRUE)){
+    stop("Package \"org.Hs.eg.db\" must be installed to use this function.",
+         call. = FALSE)
+  }
   compGO <- clusterProfiler::compareCluster(geneCluster = genes,
                                            OrgDb = "org.Hs.eg.db",
                                            fun = "enrichGO",
@@ -71,12 +84,13 @@ plot_enrichment <- function(peaklist, annotation){
                                            pAdjustMethod = "BH")
   ### Generate GO Dotplot ###
   go_plot <- clusterProfiler::dotplot(compGO) +
+    ggplot2::labs(x="") +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
                                                        vjust = 1,
                                                        hjust=1,
-                                                       size = font_size)) +
-    ggplot2::labs(x="")
-  sample_names <- gsub('\n([0-9]*)','',go_plot$data$Cluster) # remove new line
+                                                       size = font_size))
+  # Remove new line
+  sample_names <- gsub('\n([0-9]*)','',go_plot$data$Cluster)
   go_plot$data$Cluster <- sample_names
 
   ### Return ###

@@ -11,6 +11,8 @@
 #' @param interactive Default FALSE. If TRUE, interactive plots are saved as
 #' html.
 #'
+#' @importFrom htmltools save_html
+#'
 #' @return Saved data frames and plots.
 #' @keywords internal
 #'
@@ -30,7 +32,6 @@ save_output <- function(save_output = FALSE,
 
       if(interactive){
         message("Saving HTML file")
-        requireNamespace("htmltools")
         htmltools::save_html(html = file,
                              file = paste0(outpath,"/",filename,".html"))
       }else{

@@ -25,6 +25,7 @@
 #' @importFrom GenomicRanges GRangesList
 #' @importFrom reshape2 melt
 #' @importFrom plotly ggplotly
+#' @importFrom htmltools tagList
 #' @import ggplot2
 #' @importMethodsFrom rtracklayer liftOver
 #' @importFrom AnnotationHub AnnotationHub
@@ -107,7 +108,6 @@ plot_chromHMM <- function(peaklist,
                                                        hjust=0))
     #### Make plot interactive ####
     if(isTRUE(interact)){
-        requireNamespace("htmltools")
         chrHMM_plot <- plotly::ggplotly(chrHMM_plot)
         chrHMM_plot <- htmltools::tagList(plotly::as_widget(chrHMM_plot))
     }
