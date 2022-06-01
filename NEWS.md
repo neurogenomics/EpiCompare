@@ -3,6 +3,7 @@
 ### New features
 
 * Upgraded `liftover_grl` and added genome standardization. 
+    - Enable  cross-species liftover.
 * Removed `dplyr`.
 * Moved `plyranges` to *Suggests*.
 

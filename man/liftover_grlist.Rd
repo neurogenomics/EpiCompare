@@ -16,7 +16,8 @@ liftover_grlist(
 }
 \arguments{
 \item{grlist}{A named list of \link[GenomicRanges]{GRanges} objects,
-or simply a single unlisted \link[GenomicRanges]{GRanges} object.}
+or simply a single unlisted \link[GenomicRanges]{GRanges} object.
+Can perform liftover within species or across species.}
 
 \item{input_build}{The genome build of \code{grlist}.}
 

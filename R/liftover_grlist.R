@@ -4,6 +4,7 @@
 #'  \link[GenomicRanges]{GRanges} objects at once.
 #' @param grlist A named list of \link[GenomicRanges]{GRanges} objects,
 #'  or simply a single unlisted \link[GenomicRanges]{GRanges} object.
+#'  Can perform liftover within species or across species.
 #' @param input_build The genome build of \code{grlist}.
 #' @param output_build Desired genome build for
 #'  \code{grlist} to be lifted over to.
@@ -60,19 +61,35 @@ liftover_grlist <- function(grlist,
     messager("Preparing chain file.",v=verbose)
     ah <- AnnotationHub::AnnotationHub()
     # chainfiles <- AnnotationHub::query(ah , c("hg38", "hg19", "chainfile"))
+    # chainfiles <- AnnotationHub::query(ah , c("hg38", "mm10", "chainfile"))
+    # chainfiles <- AnnotationHub::query(ah , c("hg19", "mm10", "chainfile"))
     # AH14108 | hg38ToHg19.over.chain.gz                     
     # AH14150 | hg19ToHg38.over.chain.gz                     
     # AH78915 | Chain file for Homo sapiens rRNA hg19 to hg38
     # AH78916 | Chain file for Homo sapiens rRNA hg38 to hg19
     
     #### get chain  ####
+    ## Intra-species 
     if ((input_build=="hg38") && 
         (output_build=="hg19")){ 
         chain <- ah[["AH14108"]]  
     } else if((input_build=="hg19") && 
               (output_build=="hg38")){
         chain <- ah[["AH14150"]] 
-    }
+    ## Inter-species 
+    } else if((input_build=="hg38") && 
+              (output_build=="mm10")){
+        chain <- ah[["AH14109"]] 
+    } else if((input_build=="mm10") && 
+              (output_build=="hg38")){
+        chain <- ah[["AH14528"]]  
+    } else if((input_build=="hg19") && 
+                 (output_build=="mm10")){
+        chain <- ah[["AH14156"]] 
+    } else if((input_build=="mm10") && 
+              (output_build=="hg19")){
+        chain <- ah[["AH14527"]] 
+    } 
     #### liftover ####
     messager("Performing liftover: ",
              input_build," --> ",output_build,
