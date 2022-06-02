@@ -78,7 +78,7 @@ Prepare input files:
 ``` r
 peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac) # create named list of peakfiles 
 reference_peak <- list("ENCODE_H3K27ac" = encode_H3K27ac) # set ref file and name 
-picard <- list("CnT"=CnT_H3K27ac_picard, "CnR"CnR_H3K27ac_picard) # create named list of Picard summary
+picard <- list("CnT"=CnT_H3K27ac_picard, "CnR"=CnR_H3K27ac_picard) # create named list of Picard summary
 ```
 
 Additional helps on preparing files:
@@ -87,7 +87,8 @@ Additional helps on preparing files:
 # To import BED files as GRanges object
 peak <-  ChIPseeker::readPeakFile("/path/to/peak/file.bed", as = "GRanges")
 # EpiCompare also accepts paths (to BED files) as input 
-peaklist <- list("sample1"="/path/to/BED/file1.bed", "sample2"="/path/to/BED/file2.bed")
+peaklist <- list("sample1"="/path/to/BED/file1.bed", 
+                 "sample2"="/path/to/BED/file2.bed")
 # To import Picard summary output txt file as data frame 
 picard <- read.table("/path/to/Picard/summary.txt", header = TRUE, fill = TRUE)
 ```
