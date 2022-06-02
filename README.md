@@ -15,7 +15,8 @@ status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/b
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 <h4>
-Authors: <i>Sera Choi, Brian Schilder, Alan Murphy, Nathan Skene</i>
+Authors: <i>Sera Choi, Leyla Abbasova, Brian Schilder, Alan Murphy,
+Nathan Skene</i>
 </h4>
 <h5>
 <i>Updated</i>: Jun-02-2022
