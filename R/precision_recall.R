@@ -80,6 +80,6 @@ precision_recall <- function(peakfiles,
                               suppress_messages = FALSE,
                               precision_recall = TRUE)
       return(df)
-    }) |> data.table:::rbindlist(use.names = TRUE, idcol = "threshold")
+    }) |> data.table::rbindlist(use.names = TRUE, idcol = "threshold")
     return(overlap)
 }
