@@ -6,6 +6,10 @@
     - Enable  cross-species liftover.
 * Removed `dplyr`.
 * Moved `plyranges` to *Suggests*.
+* `plot_precision_recall`:
+    - New exported function to create precision-recall plots from MACS2, 
+    MACS3, HOMER, or SEACR peak files.
+    - Added unit tests. 
 
 ### Bug fixes
 

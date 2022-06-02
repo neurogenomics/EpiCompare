@@ -4,7 +4,13 @@
 \alias{overlap_percent}
 \title{Calculate percentage of overlapping peaks}
 \usage{
-overlap_percent(peaklist1, peaklist2, invert = FALSE)
+overlap_percent(
+  peaklist1,
+  peaklist2,
+  invert = FALSE,
+  precision_recall = TRUE,
+  suppress_messages = TRUE
+)
 }
 \arguments{
 \item{peaklist1}{A list of peak files as GRanges object.
@@ -16,7 +22,16 @@ If not named, default file names will be assigned.}
 Files must be listed and named using \code{list()}.
 e.g. \code{list("name1"=file1, "name2"=file2)}.}
 
-\item{invert}{Default FALSE. To invert the overlap, set TRUE.}
+\item{invert}{
+    If \code{TRUE}, keep only the ranges in \code{x} that do \emph{not}
+    overlap \code{ranges}.
+  }
+
+\item{precision_recall}{Return percision-recall results for all combinations 
+of \code{peaklist1} (the "query") and \code{peaklist2} (the "subject"). 
+See \link[IRanges]{subsetByOverlaps} for more details on this terminology.}
+
+\item{suppress_messages}{Suppress messages.}
 }
 \value{
 data frame

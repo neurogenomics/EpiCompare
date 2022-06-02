@@ -10,11 +10,15 @@
 #' @param peaklist2 peaklist1 A list of peak files as GRanges object.
 #' Files must be listed and named using \code{list()}.
 #' e.g. \code{list("name1"=file1, "name2"=file2)}.
-#' @param invert Default FALSE. To invert the overlap, set TRUE.
+#' @param suppress_messages Suppress messages.
+#' @param precision_recall Return percision-recall results for all combinations 
+#' of \code{peaklist1} (the "query") and \code{peaklist2} (the "subject"). 
+#' See \link[IRanges]{subsetByOverlaps} for more details on this terminology. 
+#' @inheritParams IRanges::findOverlaps
 #'
 #' @return data frame
 #' @importMethodsFrom IRanges subsetByOverlaps
-#' @import methods
+#' @importFrom data.table data.table rbindlist :=
 #' @export
 #' @examples
 #' ### Load Data ###
@@ -32,39 +36,90 @@
 #'
 overlap_percent <- function(peaklist1,
                             peaklist2,
-                            invert=FALSE){
+                            invert=FALSE, 
+                            precision_recall=TRUE,
+                            suppress_messages=TRUE){
+    f <- if(suppress_messages) suppressMessages else function(x){x}    
   ### Calculate Overlap ###
   # When peaklist1 is the reference
-  if(length(peaklist1)==1){
-    my_label <- names(peaklist2)
-    reference <- peaklist1[[1]]
-    percent_list <- mapply(peaklist2, FUN=function(file){
-      overlap <- IRanges::subsetByOverlaps(x = reference,
-                                           ranges = file,
-                                           invert = invert)
-      percent <- length(overlap)/length(reference)*100
-      list(signif(percent,3))
-    })
+  if(length(peaklist1)==1 && isFALSE(precision_recall)){
+    percent_list <- mapply(peaklist2, 
+                           SIMPLIFY = FALSE,
+                           FUN=function(y){
+      overlap <- f(
+          IRanges::subsetByOverlaps(x = peaklist1[[1]],
+                                    ranges = y,
+                                    invert = invert)
+      )
+      percent <- length(overlap)/length(peaklist1[[1]])*100
+      data.table::data.table(Percentage=signif(percent,3)) 
+    }) |> data.table::rbindlist(use.names = TRUE, idcol = "query")
+    #### Reformat to work with EpiCompare ####
+    df <- data.frame(Percentage = percent_list$Percentage, 
+                     row.names = percent_list$query) 
+    
   ### Calculate Overlap ###
   # When peaklist2 is the reference
-  }else if(length(peaklist2)==1){
-    my_label <- names(peaklist1)
-    reference <- peaklist2[[1]]
-    percent_list <- mapply(peaklist1, FUN=function(file){
-      overlap <- IRanges::subsetByOverlaps(x = file,
-                                           ranges = reference,
-                                           invert = invert)
-      percent <- length(overlap)/length(file)*100
-      list(signif(percent,3))
-  })
+  } else if(length(peaklist2)==1 && isFALSE(precision_recall)){ 
+    percent_list <- mapply(peaklist1, 
+                           SIMPLIFY = FALSE,
+                           FUN=function(x){
+      overlap <- f(
+          IRanges::subsetByOverlaps(x = x,
+                                    ranges = peaklist2[[1]],
+                                    invert = invert)
+      )
+      percent <- length(overlap)/length(x)*100
+      data.table::data.table(Percentage=signif(percent,3)) 
+  }) |> data.table::rbindlist(use.names = TRUE, idcol = "query")
+    #### Reformat to work with EpiCompare ####
+    df <- data.frame(Percentage = percent_list$Percentage, 
+                     row.names = percent_list$query)
+
+    ### Calculate Overlap ###
+    # When peaklist1 abd peaklist2 have multiple elements
+  } else { 
+      messager("Computing precision-recall results.")
+      #### peaklist1 as the query, peaklist2 as the subject ####
+      percent_list1 <- mapply(peaklist1, 
+                             SIMPLIFY = FALSE,
+                             FUN = function(x){
+          mapply(peaklist2,
+                 SIMPLIFY = FALSE,
+                 FUN=function(y){
+                     overlap <- f(
+                         IRanges::subsetByOverlaps(x = x,
+                                                   ranges = y,
+                                                   invert = invert)
+                     )
+                     percent <- length(overlap)/length(x)*100
+                     data.table::data.table(Percentage=signif(percent,3)) 
+         }) |> data.table::rbindlist(use.names = TRUE, idcol = "subject")
+      }) |> data.table::rbindlist(use.names = TRUE, idcol = "query")
+      percent_list1$type <- "precision"
+      
+      #### peaklist2 as the query, peaklist1 as the subject ####
+      percent_list2 <- mapply(peaklist2, 
+                              SIMPLIFY = FALSE,
+                              FUN = function(x){
+          mapply(peaklist1,
+                 SIMPLIFY = FALSE,
+                 FUN=function(y){
+                     overlap <- f(
+                         IRanges::subsetByOverlaps(x = x,
+                                                   ranges = y,
+                                                   invert = invert)
+                     )
+                     percent <- length(overlap)/length(x)*100
+                     data.table::data.table(Percentage=signif(percent,3)) 
+                 }) |> data.table::rbindlist(use.names = TRUE, idcol = "subject")
+    }) |> data.table::rbindlist(use.names = TRUE, idcol = "query")
+      percent_list2$type <- "recall"
+      df <- rbind(percent_list1, percent_list2)
+      id <- type <- query <- subject <- NULL;
+      df[,peaklist1:=ifelse(type=="precision",query,subject)] 
+      df[,peaklist2:=ifelse(type=="precision",subject,query)] 
   }
-
-  ### Create Data Frame ###
-  df <- data.frame(percent_list)
-  df <- t(df) # transpose
-  colnames(df) <- "Percentage"
-  rownames(df) <- my_label
-
   ### Return ###
   return(df)
 }
