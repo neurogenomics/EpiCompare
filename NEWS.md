@@ -10,6 +10,7 @@
     - New exported function to create precision-recall plots from MACS2, 
     MACS3, HOMER, or SEACR peak files.
     - Added unit tests. 
+* Add *ISSUE* templates. 
 
 ### Bug fixes
 
