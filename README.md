@@ -1,22 +1,25 @@
 `EpiCompare`: QC and Benchmarking of Epigenetic Datasets
 ================
-<h5>
-<i>Authors</i>: Sera Choi, Brian Schilder, Alan Murphy, and Nathan Skene
-</h5>
-<h5>
-<i>Updated</i>: May-23-2022
-</h5>
-
-<!-- badges: start -->
-
-[![](https://img.shields.io/badge/devel%20version-0.99.19-black.svg)](https://github.com/neurogenomics/EpiCompare)
+<img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' height='300'><br><br>
+[![](https://img.shields.io/badge/devel%20version-0.99.20-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/release%20version-1.0.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
+[![BioC
+status](http://www.bioconductor.org/shields/build/devel/bioc/EpiCompare.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/EpiCompare)
+[![platforms](http://www.bioconductor.org/images/shields/availability/all.svg)](https://bioconductor.org/packages/devel/bioc/html/EpiCompare.html#archives)
+[![](https://img.shields.io/badge/doi-https://doi.org/doi:10.18129/B9.bioc.EpiCompare-green.svg)](https://doi.org/https://doi.org/doi:10.18129/B9.bioc.EpiCompare)
+[![](https://img.shields.io/badge/download-54/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
+[![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
 [![](https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://app.codecov.io/gh/neurogenomics/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
-
-<!-- badges: end -->
+<h4>
+Authors: <i></i>
+</h4>
+<h5>
+<i>Updated</i>: Jun-02-2022
+</h5>
 
 # Introduction
 
@@ -231,26 +234,22 @@ utils::sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] tidyselect_1.1.2    xfun_0.31           purrr_0.3.4        
-    ##  [4] colorspace_2.0-3    vctrs_0.4.1         generics_0.1.2     
-    ##  [7] htmltools_0.5.2     usethis_2.1.5       yaml_2.3.5         
-    ## [10] utf8_1.2.2          rlang_1.0.2         gert_1.6.0         
-    ## [13] pillar_1.7.0        glue_1.6.2          DBI_1.1.2          
-    ## [16] RColorBrewer_1.1-3  rvcheck_0.2.1       lifecycle_1.0.1    
-    ## [19] stringr_1.4.0       dlstats_0.1.5       munsell_0.5.0      
-    ## [22] gtable_0.3.0        evaluate_0.15       knitr_1.39         
-    ## [25] fastmap_1.1.0       curl_4.3.2          sys_3.4            
-    ## [28] fansi_1.0.3         openssl_2.0.1       scales_1.2.0       
-    ## [31] BiocManager_1.30.17 desc_1.4.1          jsonlite_1.8.0     
-    ## [34] fs_1.5.2            credentials_1.3.2   ggplot2_3.3.6      
-    ## [37] askpass_1.1         digest_0.6.29       stringi_1.7.6      
-    ## [40] gh_1.3.0            dplyr_1.0.9         grid_4.2.0         
-    ## [43] rprojroot_2.0.3     cli_3.3.0           tools_4.2.0        
-    ## [46] yulab.utils_0.0.4   magrittr_2.0.3      tibble_3.1.7       
-    ## [49] crayon_1.5.1        pkgconfig_2.0.3     ellipsis_0.3.2     
-    ## [52] assertthat_0.2.1    rmarkdown_2.14      httr_1.4.3         
-    ## [55] rstudioapi_0.13     gitcreds_0.1.1      badger_0.2.0       
-    ## [58] R6_2.5.1            compiler_4.2.0
+    ##  [1] BiocManager_1.30.18 compiler_4.2.0      pillar_1.7.0       
+    ##  [4] RColorBrewer_1.1-3  yulab.utils_0.0.4   tools_4.2.0        
+    ##  [7] digest_0.6.29       jsonlite_1.8.0      evaluate_0.15      
+    ## [10] lifecycle_1.0.1     tibble_3.1.7        gtable_0.3.0       
+    ## [13] pkgconfig_2.0.3     rlang_1.0.2         DBI_1.1.2          
+    ## [16] cli_3.3.0           rstudioapi_0.13     rvcheck_0.2.1      
+    ## [19] yaml_2.3.5          xfun_0.31           fastmap_1.1.0      
+    ## [22] stringr_1.4.0       dplyr_1.0.9         knitr_1.39         
+    ## [25] desc_1.4.1          generics_0.1.2      vctrs_0.4.1        
+    ## [28] dlstats_0.1.5       rprojroot_2.0.3     grid_4.2.0         
+    ## [31] tidyselect_1.1.2    glue_1.6.2          R6_2.5.1           
+    ## [34] fansi_1.0.3         rmarkdown_2.14      ggplot2_3.3.6      
+    ## [37] purrr_0.3.4         badger_0.2.1        magrittr_2.0.3     
+    ## [40] scales_1.2.0        ellipsis_0.3.2      htmltools_0.5.2    
+    ## [43] assertthat_0.2.1    colorspace_2.0-3    utf8_1.2.2         
+    ## [46] stringi_1.7.6       munsell_0.5.0       crayon_1.5.1
 
 </details>
 

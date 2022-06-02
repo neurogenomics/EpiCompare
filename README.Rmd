@@ -1,6 +1,17 @@
 ---
 title: "`EpiCompare`: QC and Benchmarking of Epigenetic Datasets"
-author: "<h5><i>Authors</i>: Sera Choi, Brian Schilder, Alan Murphy, and Nathan Skene</h5>"
+author: "<img src='`r read.dcf('DESCRIPTION', fields = 'URL')[1]`/raw/master/inst/hex/hex.png' height='300'><br><br>
+        `r badger::badge_github_version(color = 'black')` 
+        `r badger::badge_bioc_release(color = 'green')`
+        [![BioC status](http://www.bioconductor.org/shields/build/devel/bioc/EpiCompare.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/EpiCompare)
+        [![platforms](http://www.bioconductor.org/images/shields/availability/all.svg)](https://bioconductor.org/packages/devel/bioc/html/EpiCompare.html#archives)
+        `r badger::badge_doi(doi = 'https://doi.org/doi:10.18129/B9.bioc.EpiCompare', color='green')`
+        `r badger::badge_bioc_download(color='green', by='total')`
+        `r badger::badge_github_actions(action = 'R-CMD-check-bioc')`
+        `r badger::badge_last_commit(branch='master')`
+        `r badger::badge_codecov(branch='master')` 
+        `r badger::badge_license()` 
+        <h4>Authors: <i>`r auths <- eval(parse(text = gsub('person','c',read.dcf('DESCRIPTION', fields = 'Authors@R'))));paste(auths[names(auths)=='given'],auths[names(auths)=='family'], collapse = ', ')`</i></h4>" 
 date: "<h5><i>Updated</i>: `r format(Sys.Date(), '%b-%d-%Y')`</h5>"
 output: 
   github_document:
@@ -9,15 +20,7 @@ editor_options:
   markdown: 
     wrap: 72
 ---
-
-<!-- badges: start -->
-
-`r badger::badge_github_version("neurogenomics/EpiCompare", color = 'black')`
-`r badger::badge_github_actions("neurogenomics/EpiCompare", action = 'R-CMD-check-bioc')`
-`r badger::badge_codecov("neurogenomics/EpiCompare")`
-`r badger::badge_license()`
-
-<!-- badges: end -->
+ 
 
 # Introduction
 
