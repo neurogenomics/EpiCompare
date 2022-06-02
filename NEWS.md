@@ -15,7 +15,7 @@
 
 * Made `BiocParallel` functions compatible with Windows. 
 * Organize author fields in DESCRIPTION.
-* Fix typos in README. 
+* Fix typos in README.
 
 
 ## CHANGES IN VERSION 0.99.19
