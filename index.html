@@ -100,17 +100,27 @@ Authors: <i>Sera Choi, Leyla Abbasova, Brian Schilder, Alan Murphy, Nathan Skene
 <li>Peak Overlap: Percentage and statistical significance of overlapping and non-overlapping peaks. Also includes an upset plot.</li>
 <li>Functional Annotation: Functional annotation (ChromHMM, ChIPseeker and enrichment analysis) of peaks. Also includes peak enrichment around Transcription Start Site.</li>
 </ol>
-<p>N.B. All functional analyses performed by EpiCompare uses annotations for human genome hg19 or hg38. <br> N.B. Peaks located in blacklisted regions and non-standard chromosomes are removed from the files prior to analysis.</p>
+<p><em>Notes</em>:</p>
+<ul>
+<li>All functional analyses performed by <code>EpiCompare</code> uses annotations for human genome hg19 or hg38. <br>
+</li>
+<li>Peaks located in blacklisted regions and non-standard chromosomes are removed from the files prior to analysis.</li>
+</ul>
 </div>
 <div class="section level1">
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h1>
-<p>To install EpiCompare use:</p>
+<p>To install <code>EpiCompare</code> use:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
     <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"EpiCompare"</span><span class="op">)</span> </code></pre></div>
+</div>
+<div class="section level1">
+<h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h1>
+<p><a href="https://neurogenomics.github.io/EpiCompare" class="external-link">EpiCompare website</a></p>
 </div>
 <div class="section level1">
 <h1 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -125,17 +135,20 @@ Authors: <i>Sera Choi, Leyla Abbasova, Brian Schilder, Alan Murphy, Nathan Skene
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></code></pre></div>
 <p>Prepare input files:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>peaklist <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"CnT"</span><span class="ot">=</span>CnT_H3K27ac, <span class="st">"CnR"</span><span class="ot">=</span>CnR_H3K27ac) <span class="co"># create named list of peakfiles </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>reference_peak <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"ENCODE_H3K27ac"</span> <span class="ot">=</span> encode_H3K27ac) <span class="co"># set ref file and name </span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>picard <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"CnT"</span><span class="ot">=</span>CnT_H3K27ac_picard, <span class="st">"CnR"</span>CnR_H3K27ac_picard) <span class="co"># create named list of Picard summary</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">peaklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"CnT"</span><span class="op">=</span><span class="va">CnT_H3K27ac</span>, <span class="st">"CnR"</span><span class="op">=</span><span class="va">CnR_H3K27ac</span><span class="op">)</span> <span class="co"># create named list of peakfiles </span>
+<span class="va">reference_peak</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"ENCODE_H3K27ac"</span> <span class="op">=</span> <span class="va">encode_H3K27ac</span><span class="op">)</span> <span class="co"># set ref file and name </span>
+<span class="va">picard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"CnT"</span><span class="op">=</span><span class="va">CnT_H3K27ac_picard</span>, <span class="st">"CnR"</span><span class="op">=</span><span class="va">CnR_H3K27ac_picard</span><span class="op">)</span> <span class="co"># create named list of Picard summary</span></code></pre></div>
 <p>Additional helps on preparing files:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To import BED files as GRanges object</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>peak <span class="ot">&lt;-</span>  ChIPseeker<span class="sc">::</span><span class="fu">readPeakFile</span>(<span class="st">"/path/to/peak/file.bed"</span>, <span class="at">as =</span> <span class="st">"GRanges"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># EpiCompare also accepts paths (to BED files) as input </span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>peaklist <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"sample1"</span><span class="ot">=</span><span class="er">/</span>path<span class="sc">/</span>to<span class="sc">/</span>BED<span class="sc">/</span>file1.bed<span class="st">", "</span>sample2<span class="st">"=/path/to/BED/file2.bed"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># To import Picard summary output txt file as data frame </span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>picard <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/path/to/Picard/summary.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>Run EpiCompare:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># To import BED files as GRanges object</span>
+<span class="va">peak</span> <span class="op">&lt;-</span>  <span class="fu">ChIPseeker</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ChIPseeker/man/readPeakFile.html" class="external-link">readPeakFile</a></span><span class="op">(</span><span class="st">"/path/to/peak/file.bed"</span>, as <span class="op">=</span> <span class="st">"GRanges"</span><span class="op">)</span>
+<span class="co"># EpiCompare also accepts paths (to BED files) as input </span>
+<span class="va">peaklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"sample1"</span><span class="op">=</span><span class="st">"/path/to/BED/file1.bed"</span>, 
+                 <span class="st">"sample2"</span><span class="op">=</span><span class="st">"/path/to/BED/file2.bed"</span><span class="op">)</span>
+<span class="co"># To import Picard summary output txt file as data frame </span>
+<span class="va">picard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">"/path/to/Picard/summary.txt"</span>, header <span class="op">=</span> <span class="cn">TRUE</span>, fill <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<p>Run <code><a href="reference/EpiCompare.html">EpiCompare()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/EpiCompare.html">EpiCompare</a></span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peaklist</span>,
            genome_build <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>peakfiles<span class="op">=</span><span class="st">"hg19"</span>,
@@ -248,11 +261,6 @@ Authors: <i>Sera Choi, Leyla Abbasova, Brian Schilder, Alan Murphy, Nathan Skene
 </li>
 </ol>
 </div>
-</div>
-<div class="section level1">
-<h1 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
-</h1>
-<p><a href="https://neurogenomics.github.io/EpiCompare" class="external-link">EpiCompare Website</a></p>
 </div>
 <div class="section level1">
 <h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
