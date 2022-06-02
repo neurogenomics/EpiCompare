@@ -13,7 +13,8 @@
 
 ### Bug fixes
 
-* Made `BiocParallel` functions compatible with Windows.
+* Made `BiocParallel` functions compatible with Windows. 
+* Organize author fields in DESCRIPTION.
 
 
 ## CHANGES IN VERSION 0.99.19
