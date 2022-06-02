@@ -72,7 +72,7 @@ data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
 ```
 
-Prepare input files:
+Prepare input files: 
 
 ```r
 peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac) # create named list of peakfiles 
