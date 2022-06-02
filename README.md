@@ -37,10 +37,12 @@ report in HTML format consisting of three sections:
     and enrichment analysis) of peaks. Also includes peak enrichment
     around Transcription Start Site.
 
-N.B. All functional analyses performed by EpiCompare uses annotations
-for human genome hg19 or hg38. <br> N.B. Peaks located in blacklisted
-regions and non-standard chromosomes are removed from the files prior to
-analysis.
+*Notes*:
+
+-   All functional analyses performed by `EpiCompare` uses annotations
+    for human genome hg19 or hg38. <br>
+-   Peaks located in blacklisted regions and non-standard chromosomes
+    are removed from the files prior to analysis.
 
 # Installation
 
