@@ -1,7 +1,7 @@
 pandoc: 2.17.1.1
 pkgdown: 2.0.3.9000
-pkgdown_sha: a5882957b3c80a2f0f94b4d07eb6ab9038981302
+pkgdown_sha: 855eba1ad3f486bbda9fcbe43ec8eb88066f161a
 articles:
   EpiCompare: EpiCompare.html
-last_built: 2022-06-02T20:45Z
+last_built: 2022-06-06T18:03Z
 
