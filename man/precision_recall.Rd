@@ -9,8 +9,8 @@ precision_recall(
   reference,
   thresholding_cols = c("total_signal", "qValue", "Peak Score"),
   initial_threshold = 0.5,
-  max_threshold = 1,
   increment_threshold = 0.05,
+  max_threshold = 1 - increment_threshold,
   workers = 1
 )
 }
@@ -52,9 +52,9 @@ showing statistical significance of overlapping/non-overlapping peaks; and
 (via the parameter \code{--ctrl}) when calling peaks without an IgG 
 control.}
 
-\item{max_threshold}{Maximum threshold to test.}
-
 \item{increment_threshold}{Unit to increment tested thresholds by.}
+
+\item{max_threshold}{Maximum threshold to test.}
 
 \item{workers}{Number of threads to parallelize across.}
 }

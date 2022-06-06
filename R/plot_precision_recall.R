@@ -42,8 +42,8 @@ plot_precision_recall <- function(peakfiles,
                                                       "qValue",
                                                       "Peak Score"),
                                   initial_threshold=0.5,
-                                  max_threshold=1,
                                   increment_threshold=0.05,
+                                  max_threshold=1-increment_threshold,
                                   workers = 1,
                                   plot_f1 = TRUE,
                                   subtitle = NULL,
@@ -98,7 +98,11 @@ plot_precision_recall <- function(peakfiles,
     plot_dat <- data.table::dcast(
         data = pr_df,
         formula = "peaklist1 + peaklist2 + threshold ~ type", 
-        value.var = "Percentage") 
+        fun.aggregate = mean,
+        value.var = c("Percentage","overlap","total")) 
+    data.table::setnames(plot_dat,
+                         c("Percentage_precision","Percentage_recall"), 
+                         c("precision","recall"))
     plot_dat$threshold <- as.numeric(plot_dat$threshold) 
     #### Compute F1 ##### 
     plot_dat[,F1:=(2*(precision*recall) / (precision+recall))] 

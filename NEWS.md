@@ -18,8 +18,8 @@
 
 * Made `BiocParallel` functions compatible with Windows. 
 * Organize author fields in DESCRIPTION.
-* Fix typos in README.
-* Had accidentally swapped precision/recall, now fixed. 
+* Fix typos in README. 
+* Remove threshold=1 from list of thresholds to test in precision-recall curves. 
 
 
 ## CHANGES IN VERSION 0.99.19

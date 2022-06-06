@@ -53,5 +53,4 @@ reference_peak <- list("ENCODE"=encode_H3K27ac)
 ### Run ###
 overlap <- overlap_percent(peaklist1=peaks,
                            peaklist2=reference_peak)
-
 }

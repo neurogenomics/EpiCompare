@@ -33,7 +33,6 @@
 #' ### Run ###
 #' overlap <- overlap_percent(peaklist1=peaks,
 #'                            peaklist2=reference_peak)
-#'
 overlap_percent <- function(peaklist1,
                             peaklist2,
                             invert=FALSE, 
@@ -96,7 +95,9 @@ overlap_percent <- function(peaklist1,
                                                    invert = invert)
                      )
                      percent <- length(overlap)/length(x)*100
-                     data.table::data.table(Percentage=signif(percent,3)) 
+                     data.table::data.table(overlap=length(overlap),
+                                            total=length(x),
+                                            Percentage=signif(percent,3)) 
          }) |> data.table::rbindlist(use.names = TRUE, idcol = "subject")
       }) |> data.table::rbindlist(use.names = TRUE, idcol = "query") 
       percent_list1$type <- "precision"
@@ -114,7 +115,9 @@ overlap_percent <- function(peaklist1,
                                                    invert = invert)
                      )
                      percent <- length(overlap)/length(x)*100
-                     data.table::data.table(Percentage=signif(percent,3)) 
+                     data.table::data.table(overlap=length(overlap),
+                                            total=length(x),
+                                            Percentage=signif(percent,3)) 
                  }) |> data.table::rbindlist(use.names = TRUE, idcol = "subject")
     }) |> data.table::rbindlist(use.names = TRUE, idcol = "query")
       percent_list2$type <- "recall"

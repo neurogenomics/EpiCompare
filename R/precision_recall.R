@@ -46,8 +46,8 @@ precision_recall <- function(peakfiles,
                                                  "qValue",
                                                  "Peak Score"),
                              initial_threshold=0.5,
-                             max_threshold=1,
                              increment_threshold=0.05,
+                             max_threshold=1-increment_threshold,
                              workers=1){
     requireNamespace("BiocParallel")
     threshold_list <- seq(from=initial_threshold, 
