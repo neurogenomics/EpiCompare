@@ -10,6 +10,8 @@
     - New exported function to create precision-recall plots from MACS2, 
     MACS3, HOMER, or SEACR peak files.
     - Added unit tests. 
+    - Added to EpiCompare html report. 
+    - Added `EpiCompare(precision_recall_plot=)` param and documented. 
 * Add *ISSUE* templates. 
 
 ### Bug fixes
@@ -17,6 +19,7 @@
 * Made `BiocParallel` functions compatible with Windows. 
 * Organize author fields in DESCRIPTION.
 * Fix typos in README.
+* Had accidentally swapped precision/recall, now fixed. 
 
 
 ## CHANGES IN VERSION 0.99.19

@@ -34,6 +34,8 @@ params:
     value: FALSE
   tss_plot:
     value: FALSE
+  precision_recall_plot:
+    value: FALSE
   interact:
     value: TRUE
   save_output:
@@ -144,6 +146,7 @@ EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
            chipseeker_plot = `r params$chipseeker_plot`,
            enrichment_plot = `r params$enrichment_plot`,
            tss_plot = `r params$tss_plot`,
+           precision_recall_plot = `r params$precision_recall_plot`,
            interact = `r params$interact`,
            save_output = `r params$save_output`,
            output_dir = "`r params$output_dir`")
@@ -308,7 +311,7 @@ if(params$upset_plot){
 Depending on the format of the reference file, EpiCompare outputs different 
 plots: 
 
-* Reference dataset has BED6+4 format (peakcalling performed with MACS2): 
+* Reference dataset has BED6+4 format (peak calling performed with MACS2): 
 EpiCompare generates paired boxplot 
 per sample showing the distribution of -log10(q-value) of reference peaks that 
 are overlapping and non-overlapping with the sample dataset. 
@@ -340,6 +343,28 @@ if (!is.null(reference) && (params$stat_plot)){
               outpath = outfile_dir)
   # Remove variables
   remove(stat_plot)
+}
+```
+
+***
+
+### Precision-Recall Curves
+
+The first plot shows the balance between precision and recall across multiple peak calling stringency thresholds.  
+
+- **Precision**: Number of sample peaks in reference.
+- **Recall**: Number of reference peaks in sample. 
+
+The second plot shows F1 score 
+(a score that combines precision and recall) across the different peak calling calling stringency thresholds.  
+
+- **F1**: `2*(precision*recall) / (precision+recall)`
+
+
+```{r,echo=FALSE,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
+if(params$precision_recall_plot && (!is.null(reference))){
+    pr_out <- plot_precision_recall(peakfiles = peaklist_tidy, 
+                                    reference = reference_tidy)
 }
 ```
 

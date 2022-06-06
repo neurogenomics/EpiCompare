@@ -18,6 +18,7 @@ EpiCompare(
   chipseeker_plot = FALSE,
   enrichment_plot = FALSE,
   tss_plot = FALSE,
+  precision_recall_plot = FALSE,
   interact = TRUE,
   save_output = FALSE,
   output_filename = "EpiCompare",
@@ -108,6 +109,10 @@ of KEGG and GO enrichment analysis of peak files.}
 \item{tss_plot}{Default FALSE. If TRUE, the report includes peak count
 frequency around transcriptional start site. Note that this can take awhile.}
 
+\item{precision_recall_plot}{Default is FALSE. If TRUE, 
+creates a precision-recall curve plot and an F1 plot using 
+\link[EpiCompare]{plot_precision_recall}.}
+
 \item{interact}{Default TRUE. By default, all heatmaps are interactive.
 If set FALSE, all heatmaps in the report will be static.}
 
@@ -167,6 +172,5 @@ EpiCompare(peakfiles = peaks,
            tss_plot = FALSE,
            interact = FALSE,
            save_output = FALSE,
-           output_dir = tempdir())
-
+           output_dir = tempdir()) 
 }

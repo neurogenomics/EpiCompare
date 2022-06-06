@@ -52,6 +52,9 @@
 #' @param stat_plot Default FALSE. If TRUE, the function creates a plot showing
 #' the statistical significance of overlapping/non-overlapping peaks.
 #' Reference peak file must be provided.
+#' @param precision_recall_plot Default is FALSE. If TRUE, 
+#' creates a precision-recall curve plot and an F1 plot using 
+#' \link[EpiCompare]{plot_precision_recall}. 
 #' @param chromHMM_plot Default FALSE. If TRUE, the function outputs ChromHMM
 #' heatmap of individual peak files. If a reference peak file is provided,
 #' ChromHMM annotation of overlapping and non-overlapping peaks is also provided.
@@ -125,8 +128,7 @@
 #'            tss_plot = FALSE,
 #'            interact = FALSE,
 #'            save_output = FALSE,
-#'            output_dir = tempdir())
-#'
+#'            output_dir = tempdir()) 
 EpiCompare <- function(peakfiles,
                        genome_build,
                        genome_build_output = "hg19",
@@ -140,6 +142,7 @@ EpiCompare <- function(peakfiles,
                        chipseeker_plot = FALSE,
                        enrichment_plot = FALSE,
                        tss_plot = FALSE,
+                       precision_recall_plot = FALSE,
                        interact = TRUE,
                        save_output = FALSE,
                        output_filename = "EpiCompare",
@@ -189,6 +192,7 @@ EpiCompare <- function(peakfiles,
           chipseeker_plot = chipseeker_plot,
           enrichment_plot = enrichment_plot,
           tss_plot = tss_plot,
+          precision_recall_plot = precision_recall_plot,
           interact = interact,
           save_output = save_output,
           output_dir = output_dir)
@@ -216,6 +220,7 @@ EpiCompare <- function(peakfiles,
         chipseeker_plot = chipseeker_plot,
         enrichment_plot = enrichment_plot,
         tss_plot = tss_plot,
+        precision_recall_plot = precision_recall_plot,
         interact = interact,
         save_output = save_output,
         output_dir = output_dir)
