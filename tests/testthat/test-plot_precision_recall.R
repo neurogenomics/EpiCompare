@@ -8,7 +8,7 @@ test_that("plot_precision_recall works", {
 
     pr_out <- plot_precision_recall(peakfiles = peakfiles,
                                     reference = reference)
-    testthat::expect_equal(nrow(pr_out$data), 22)
+    testthat::expect_equal(nrow(pr_out$data), 20)
     testthat::expect_true(all(c("precision","recall","F1") %in% names(pr_out$data)))
     testthat::expect_true(methods::is(pr_out$precision_recall_plot,"gg"))
     testthat::expect_true(methods::is(pr_out$f1_plot,"gg"))
