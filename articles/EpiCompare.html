@@ -1266,6 +1266,82 @@ window.buildTabsets = function(tocID) {
   });
 };
 
+</script><script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('show');
+    });
+  });
+  $("#rmd-hide-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('hide');
+    });
+  });
+
+  // index for unique code element ids
+  var currentIndex = 1;
+
+  // select all R code blocks
+  var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia, pre.foldable');
+  rCodeBlocks.each(function() {
+    // skip if the block has fold-none class
+    if ($(this).hasClass('fold-none')) return;
+
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    var showThis = (show || $(this).hasClass('fold-show')) && !$(this).hasClass('fold-hide');
+    var id = 'rcode-643E0F36' + currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-bs-toggle', 'collapse') // BS5
+        .attr('data-target', '#' + id)
+        .attr('data-bs-target', '#' + id)   // BS5
+        .attr('aria-expanded', showThis)
+        .attr('aria-controls', id);
+
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+
+    div.before(buttonRow);
+
+    // show the div if necessary
+    if (showThis) div.collapse('show');
+
+    // update state of button on show/hide
+    //   * Change text
+    //   * add a class for intermediate states styling
+    div.on('hide.bs.collapse', function () {
+      showCodeText.text('Code');
+      showCodeButton.addClass('btn-collapsing');
+    });
+    div.on('hidden.bs.collapse', function () {
+      showCodeButton.removeClass('btn-collapsing');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide');
+      showCodeButton.addClass('btn-expanding');
+    });
+    div.on('shown.bs.collapse', function () {
+      showCodeButton.removeClass('btn-expanding');
+    });
+
+  });
+
+}
 </script><style type="text/css">.hljs-literal {
 color: #990073;
 }
@@ -1383,6 +1459,9 @@ pre code {
 }
 </style>
 <!-- code folding --><style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<style type="text/css">
 
 #TOC {
   margin: 25px 0px 20px 0px;
@@ -1464,6 +1543,14 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">EpiCompare Report</h1>
@@ -1472,6 +1559,61 @@ div.tocify {
 </div>
 
 
+<pre class="r"><code><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>echo <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">### Create Output Directory ###</span>
+<span class="co"># if save_output = TRUE</span>
+<span class="kw">if</span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">save_output</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">outfile_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">output_dir</span>,<span class="st">"/EpiCompare_file"</span><span class="op">)</span>
+  <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.exists</a></span><span class="op">(</span><span class="va">outfile_dir</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">outfile_dir</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="op">}</span>
+<span class="op">}</span>
+
+<span class="co">#### ------ Prepare genome builds ------ ####</span>
+<span class="co"># e.g. genome_build &lt;- list(reference="hg19",peakfiles="hg38",blacklist="hg19")</span>
+<span class="co"># or... genome_build &lt;- "hg19"</span>
+<span class="va">builds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_genome_builds.html">prepare_genome_builds</a></span><span class="op">(</span>genome_build <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">genome_build</span><span class="op">)</span>
+<span class="co">## Standardise all data to hg19 build </span>
+<span class="va">output_build</span> <span class="op">&lt;-</span> <span class="fu">prepare_output_build</span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">genome_build_output</span><span class="op">)</span>
+
+<span class="co">#### ------ Prepare peaklist(s) ------ ####</span>
+<span class="co"># and check that the list is named, if not default filenames are used </span>
+<span class="va">peaklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_peaklist.html">prepare_peaklist</a></span><span class="op">(</span>peaklist <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">peakfile</span><span class="op">)</span> 
+<span class="va">peaklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/liftover_grlist.html">liftover_grlist</a></span><span class="op">(</span>grlist <span class="op">=</span> <span class="va">peaklist</span>, 
+                            input_build <span class="op">=</span> <span class="va">builds</span><span class="op">$</span><span class="va">peaklist</span>,
+                            output_build <span class="op">=</span> <span class="va">output_build</span><span class="op">)</span>
+
+<span class="co">#### ------ Prepare reference(s) ------ ####</span>
+<span class="va">reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_reference.html">prepare_reference</a></span><span class="op">(</span>reference <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">reference</span><span class="op">)</span>
+<span class="va">reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/liftover_grlist.html">liftover_grlist</a></span><span class="op">(</span>grlist <span class="op">=</span> <span class="va">reference</span>, 
+                            input_build <span class="op">=</span> <span class="va">builds</span><span class="op">$</span><span class="va">reference</span>,
+                            output_build <span class="op">=</span> <span class="va">output_build</span><span class="op">)</span>
+
+<span class="co">#### ------ Prepare blacklist ------ ####</span>
+<span class="va">blacklist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/liftover_grlist.html">liftover_grlist</a></span><span class="op">(</span>grlist <span class="op">=</span> <span class="va">params</span><span class="op">$</span><span class="va">blacklist</span>,
+                             input_build <span class="op">=</span> <span class="va">builds</span><span class="op">$</span><span class="va">blacklist</span>, 
+                             output_build <span class="op">=</span> <span class="va">output_build</span><span class="op">)</span> 
+
+<span class="co">### Standardise peaklist(s) ###</span>
+<span class="va">peaklist_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidy_peakfile.html">tidy_peakfile</a></span><span class="op">(</span>peaklist <span class="op">=</span> <span class="va">peaklist</span>,
+                               blacklist <span class="op">=</span> <span class="va">blacklist</span><span class="op">)</span>
+
+<span class="co">### Standardise reference(s) ###</span>
+<span class="co"># and include in peaklist</span>
+<span class="va">reference_tidy</span> <span class="op">&lt;-</span> <span class="va">reference</span>
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">reference</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">reference_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidy_peakfile.html">tidy_peakfile</a></span><span class="op">(</span>peaklist <span class="op">=</span> <span class="va">reference</span>,
+                                  blacklist <span class="op">=</span> <span class="va">blacklist</span><span class="op">)</span>
+  <span class="va">peaklist_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">peaklist_tidy</span>, <span class="va">reference_tidy</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="co">### Obtain Genome Annotation ### </span>
+<span class="va">txdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_genome_build.html">check_genome_build</a></span><span class="op">(</span>genome_build <span class="op">=</span> <span class="va">output_build</span><span class="op">)</span>
+
+<span class="co">### Dynamic Figure Height ###  </span>
+<span class="va">fig_height</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fig_length.html">fig_length</a></span><span class="op">(</span>default_size <span class="op">=</span> <span class="fl">7</span>,
+                         number_of_items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">peaklist_tidy</span><span class="op">)</span>,
+                         max_items <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre>
 <p><a href="https://github.com/neurogenomics/EpiCompare" class="external-link">EpiCompare</a>
 compares epigenetic datasets for quality control and benchmarking
 purposes. The report consists of three sections:</p>
@@ -1504,6 +1646,7 @@ peak enrichment around TSS.</li>
 <div class="section level5">
 <h5 id="code">Code<a class="anchor" aria-label="anchor" href="#code"></a>
 </h5>
+<p>The function call used to create the report.</p>
 <details><pre class="r"><code><span class="fu"><a href="../reference/EpiCompare.html">EpiCompare</a></span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">CnR</span>, <span class="va">CnT</span>, <span class="va">ENCODE</span><span class="op">)</span>,
            genome_build <span class="op">=</span> <span class="va">hg19</span>, <span class="va">hg38</span>, <span class="va">hg19</span>,
            genome_build_output <span class="op">=</span> <span class="va">hg19</span>,
@@ -1520,7 +1663,7 @@ peak enrichment around TSS.</li>
            precision_recall_plot <span class="op">=</span> <span class="cn">FALSE</span>,
            interact <span class="op">=</span> <span class="cn">FALSE</span>,
            save_output <span class="op">=</span> <span class="cn">FALSE</span>,
-           output_dir <span class="op">=</span> <span class="st">"/tmp/RtmpxAupSz"</span><span class="op">)</span></code></pre>
+           output_dir <span class="op">=</span> <span class="st">"/tmp/RtmpqDNAhq"</span><span class="op">)</span></code></pre>
 </details><hr>
 </div>
 <div class="section level2 tabset">
@@ -2035,6 +2178,10 @@ $(document).ready(function () {
   });
 });
 </script><!-- code folding --><script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script><script>
 $(document).ready(function ()  {
 
     // temporarily add toc-ignore selector to headers for the consistency with Pandoc
