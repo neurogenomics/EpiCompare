@@ -54,7 +54,7 @@ stick <- hexSticker::sticker(
   #### Subplot #####
   s_x=1, s_y=.965,  s_height = s_size, s_width = s_size,
   #### Fill & border ####
-  h_fill = "#07273f", h_color = "#609c56",
+  h_fill = "#07273f", h_color = "#8cb937",
   #### Spotlight ####
   spotlight = TRUE, l_alpha = .3, l_width = 5,
   #### File output ####
