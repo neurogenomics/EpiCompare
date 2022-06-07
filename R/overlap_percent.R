@@ -46,11 +46,11 @@ overlap_percent <- function(peaklist1,
                            SIMPLIFY = FALSE,
                            FUN=function(y){
       overlap <- f(
-          IRanges::subsetByOverlaps(x = peaklist1[[1]],
-                                    ranges = y,
+          IRanges::subsetByOverlaps(x = y, # query
+                                    ranges = peaklist1[[1]], # subject
                                     invert = invert)
       )
-      percent <- length(overlap)/length(peaklist1[[1]])*100
+      percent <- length(overlap)/length(y)*100
       data.table::data.table(Percentage=signif(percent,3)) 
     }) |> data.table::rbindlist(use.names = TRUE, idcol = "query")
     #### Reformat to work with EpiCompare ####
@@ -64,11 +64,11 @@ overlap_percent <- function(peaklist1,
                            SIMPLIFY = FALSE,
                            FUN=function(x){
       overlap <- f(
-          IRanges::subsetByOverlaps(x = x,
-                                    ranges = peaklist2[[1]],
+          IRanges::subsetByOverlaps(x = x, # query
+                                    ranges = peaklist2[[1]], # subject
                                     invert = invert)
       )
-      percent <- length(overlap)/length(x)*100
+      percent <- length(overlap)/length(peaklist2[[1]])*100
       data.table::data.table(Percentage=signif(percent,3)) 
   }) |> data.table::rbindlist(use.names = TRUE, idcol = "query")
     #### Reformat to work with EpiCompare ####
