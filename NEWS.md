@@ -3,7 +3,10 @@
 ### New features
 
 * Upgraded `liftover_grl` and added genome standardization. 
-    - Enable  cross-species liftover.
+    - Enable  cross-species liftover from/to mm10 and mm9 --> hg19 and hg38. 
+    - Subfunctionalize `get_chain_file`. 
+    - Add `merge_all` option. 
+* Support mm10/mm9 as `output_build` options. 
 * Removed `dplyr`.
 * Moved `plyranges` to *Suggests*.
 * `plot_precision_recall`:
@@ -13,6 +16,8 @@
     - Added to EpiCompare html report. 
     - Added `EpiCompare(precision_recall_plot=)` param and documented. 
 * Add *ISSUE* templates. 
+
+
 
 ### Bug fixes
 

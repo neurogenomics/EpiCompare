@@ -27,4 +27,5 @@ Translate the name of a genome build from one format to another.
 }
 \examples{
 genome <- translate_genome(genome="hg38", style="Ensembl")
+genome2 <- translate_genome(genome="mm10", style="UCSC")
 }

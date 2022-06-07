@@ -17,4 +17,14 @@ test_that("liftover_grlist works", {
     gr1 <- grlist[[nm]] 
     gr2 <- grlist_lifted[[nm]] 
     testthat::expect_gt(length(gr2), length(gr1))
+    
+    
+    #### hg38 to mm9 #### 
+    grlist_lifted2 <- liftover_grlist(grlist = grlist_lifted,
+                                     input_build = "hg38",
+                                     output_build = "mm9")
+    nm <- names(grlist)[1]
+    gr1 <- grlist[[nm]] 
+    gr2 <- grlist_lifted2[[nm]] 
+    testthat::expect_gt(length(gr2), length(gr1))
 })

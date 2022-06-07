@@ -57,43 +57,14 @@ liftover_grlist <- function(grlist,
         grlist <- list(gr1=grlist)
         tmp_list <- TRUE
     }
-    #### Chain file descriptions ####
-    messager("Preparing chain file.",v=verbose)
-    ah <- AnnotationHub::AnnotationHub()
-    # chainfiles <- AnnotationHub::query(ah , c("hg38", "hg19", "chainfile"))
-    # chainfiles <- AnnotationHub::query(ah , c("hg38", "mm10", "chainfile"))
-    # chainfiles <- AnnotationHub::query(ah , c("hg19", "mm10", "chainfile"))
-    # AH14108 | hg38ToHg19.over.chain.gz                     
-    # AH14150 | hg19ToHg38.over.chain.gz                     
-    # AH78915 | Chain file for Homo sapiens rRNA hg19 to hg38
-    # AH78916 | Chain file for Homo sapiens rRNA hg38 to hg19
-    
-    #### get chain  ####
-    ## Intra-species 
-    if ((input_build=="hg38") && 
-        (output_build=="hg19")){ 
-        chain <- ah[["AH14108"]]  
-    } else if((input_build=="hg19") && 
-              (output_build=="hg38")){
-        chain <- ah[["AH14150"]] 
-    ## Inter-species 
-    } else if((input_build=="hg38") && 
-              (output_build=="mm10")){
-        chain <- ah[["AH14109"]] 
-    } else if((input_build=="mm10") && 
-              (output_build=="hg38")){
-        chain <- ah[["AH14528"]]  
-    } else if((input_build=="hg19") && 
-                 (output_build=="mm10")){
-        chain <- ah[["AH14156"]] 
-    } else if((input_build=="mm10") && 
-              (output_build=="hg19")){
-        chain <- ah[["AH14527"]] 
-    } 
-    #### liftover ####
-    messager("Performing liftover: ",
-             input_build," --> ",output_build,
-             v=verbose) 
+    #### Chain files ####
+    grlist_chain <- get_chain_file(grlist = grlist,
+                                   input_build = input_build, 
+                                   output_build = output_build, 
+                                   verbose = verbose)
+    grlist <- grlist_chain$grlist
+    chain <- grlist_chain$chain
+    #### Liftover iteratively ####
     grlist_lifted <- mapply(grlist, FUN = function(gr){
         gr <- clean_granges(gr = gr)
         suppressMessages(suppressWarnings(
@@ -106,12 +77,16 @@ liftover_grlist <- function(grlist,
         ))
         return(unlist(gr2))
     })    
+    #### Merge list into one ####
+    if(merge_all) as_grangeslist <- TRUE
     if(as_grangeslist){
+        messager("Converting to GRangesList.",v=verbose)
         grlist_lifted <- GenomicRanges::GRangesList(grlist_lifted, 
                                                     compress = FALSE) 
     }
     if(merge_all){
-        
+        messager("Merging all GRanges into one.",v=verbose)
+        grlist_lifted <- unlist(grlist_lifted)
     }
     if(tmp_list) grlist_lifted <- grlist_lifted[[1]]
     return(grlist_lifted)

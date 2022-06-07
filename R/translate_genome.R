@@ -11,6 +11,7 @@
 #' @importFrom utils tail
 #' @examples 
 #' genome <- translate_genome(genome="hg38", style="Ensembl")
+#' genome2 <- translate_genome(genome="mm10", style="UCSC")
 translate_genome <- function(genome,
                              style=c("UCSC", "Ensembl","NCBI"),
                              omit_subversion=TRUE){

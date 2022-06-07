@@ -71,6 +71,8 @@ Suggests:
     tidyr,
     TxDb.Hsapiens.UCSC.hg19.knownGene,
     TxDb.Hsapiens.UCSC.hg38.knownGene,
+    TxDb.Mmusculus.UCSC.mm9.knownGene,
+    TxDb.Mmusculus.UCSC.mm10.knownGene,
     UpSetR,
     plyranges,
     scales
