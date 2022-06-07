@@ -17,14 +17,14 @@
     - Added `EpiCompare(precision_recall_plot=)` param and documented. 
 * Add *ISSUE* templates. 
 
-
-
 ### Bug fixes
 
 * Made `BiocParallel` functions compatible with Windows. 
 * Organize author fields in DESCRIPTION.
 * Fix typos in README. 
-* Remove threshold=1 from list of thresholds to test in precision-recall curves. 
+* Remove threshold=1 from list of thresholds to test in precision-recall curves.
+* Set first chunk in *EpiCompare.Rmd* as `echo=FALSE` instead of `include=FALSE`
+so the output messages will still be printed (without showing the code). 
 
 
 ## CHANGES IN VERSION 0.99.19

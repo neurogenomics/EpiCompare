@@ -5,6 +5,7 @@ output:
   html_document: 
     toc: yes
     toc_float: yes
+    code_folding: hide 
 params:
   peakfile: 
     value: NULL
@@ -42,7 +43,7 @@ params:
     value: FALSE
 ---
 
-```{r setup, include=FALSE}
+```{r setup, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ### Create Output Directory ###
 # if save_output = TRUE
@@ -119,7 +120,7 @@ enrichment analysis) of peaks. Also includes peak enrichment around TSS.
 * Reference peakfile: `r names(reference_tidy)`
 * Total of `r length(peaklist_tidy)` peak files: 
 
-```{r name, echo=FALSE}
+```{r name}
 # print peak file names and numerate 
 n <- 1
 for (name in names(peaklist_tidy)){
@@ -129,6 +130,8 @@ for (name in names(peaklist_tidy)){
 ```
 
 ##### Code
+
+The function call used to create the report.
 
 <details>
 
@@ -180,7 +183,7 @@ in blacklisted regions and non-standard chromosomes)
 
 <br>
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, warning=FALSE}
 # Run peak_info()
 peak_info_df <- peak_info(peaklist = peaklist,
                           blacklist = blacklist)
@@ -211,7 +214,7 @@ Column Description:
 
 <br>
 
-```{r, echo=FALSE, warning=FALSE, results='asis'}
+```{r, warning=FALSE, results='asis'}
 # Only if picard_files are provided, fragment_info() is executed 
 if (!is.null(params$picard_files)){
   fragment_info_df <- fragment_info(picard_list = params$picard_files)
@@ -236,7 +239,7 @@ Distribution of peak widths in samples
 
 <br> 
 
-```{r,echo=FALSE,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
+```{r,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
 # Boxplot of peak widths 
 width_plot <- width_boxplot(peaklist = peaklist_tidy)
 print(width_plot)
@@ -264,7 +267,7 @@ N.B. How to interpret heatmap: [Samples in x-axis of heatmap] peaks in
 
 <br>
 
-```{r,echo=FALSE,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
+```{r,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
 # Execute overlap_heatmap()
 overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
                                    interact = params$interact)
@@ -288,7 +291,7 @@ Upset plot of overlapping peaks between samples. See
 [here](https://jokergoo.github.io/ComplexHeatmap-reference/book/upset-plot.html)
 on how to interpret the plot.   
 
-```{r, echo=FALSE,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE,results='asis'}
+```{r,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE,results='asis'}
 # If TRUE, execute overlap_upset_plot()
 if(params$upset_plot){
   upset_plot <- overlap_upset_plot(peaklist = peaklist_tidy)
@@ -328,7 +331,7 @@ Keys:
 
 <br>
 
-```{r,echo=FALSE,fig.width=10,warning=FALSE,message=FALSE,fig.height=fig_height}
+```{r,fig.width=10,warning=FALSE,message=FALSE,fig.height=fig_height}
 # Reference is provided AND stat_plot=TRUE, execute overlap_stat_plot() 
 if (!is.null(reference) && (params$stat_plot)){
   stat_plot <- overlap_stat_plot(reference = reference_tidy,
@@ -361,7 +364,7 @@ The second plot shows F1 score
 - **F1**: `2*(precision*recall) / (precision+recall)`
 
 
-```{r,echo=FALSE,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
+```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
 if(params$precision_recall_plot && (!is.null(reference))){
     pr_out <- plot_precision_recall(peakfiles = peaklist_tidy, 
                                     reference = reference_tidy)
@@ -385,7 +388,7 @@ annotations used in EpiCompare were obtained from
 
 ChromHMM annotation of individual samples. 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
+```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 # If chromHMM_plot=TRUE, execute ChromHMM
 if(params$chromHMM_plot){
   # Get ChromHMM annotation file 
@@ -414,7 +417,7 @@ if(params$chromHMM_plot){
 Percentage of Sample peaks found in Reference peaks 
 (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
+```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if((params$chromHMM_plot && !is.null(reference))){
   # generate data frame of percentage overlap 
   sample_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
@@ -426,7 +429,7 @@ if((params$chromHMM_plot && !is.null(reference))){
 
 ChromHMM annotation of sample peaks found in reference peaks.   
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
+```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if((params$chromHMM_plot) && !is.null(reference)){
     # Obtain overlapping peaks 
     sample_in_ref_list <- mapply(peaklist_tidy, FUN=function(file){
@@ -458,7 +461,7 @@ if((params$chromHMM_plot) && !is.null(reference)){
 Percentage of Reference peaks found in Sample peaks 
 (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
+```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if ((params$chromHMM_plot) && !is.null(reference)){
     # Data frame of overlapping peaks 
     ref_in_sample_df <- overlap_percent(peaklist1 = reference_tidy,
@@ -470,7 +473,7 @@ if ((params$chromHMM_plot) && !is.null(reference)){
 
 ChromHMM annotation of reference peaks found in sample peaks.   
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
+```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if ((params$chromHMM_plot) && !is.null(reference)){
   # Subset overlapping peaks
   ref_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
@@ -502,7 +505,7 @@ if ((params$chromHMM_plot) && !is.null(reference)){
 Percentage of sample peaks not found in reference peaks 
 (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
+```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if ((params$chromHMM_plot) && !is.null(reference)){
   # Data frame of non-overlapping peaks 
   sample_not_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
@@ -514,7 +517,7 @@ if ((params$chromHMM_plot) && !is.null(reference)){
 
 ChromHMM annotation of sample peaks not found in reference peaks. 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
+```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if ((params$chromHMM_plot) && !is.null(reference)){
   sample_not_in_ref_list <- mapply(peaklist_tidy, FUN = function(file){
     IRanges::subsetByOverlaps(x = file, 
@@ -547,7 +550,7 @@ if ((params$chromHMM_plot) && !is.null(reference)){
 Percentage of reference peaks not found in sample peaks 
 (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
+```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
 if ((params$chromHMM_plot) && !is.null(reference)){
   # Data frame of non-overlapping peaks 
   ref_not_in_sample_df <- overlap_percent(peaklist1 = reference_tidy,
@@ -559,7 +562,7 @@ if ((params$chromHMM_plot) && !is.null(reference)){
 
 ChromHMM annotation of reference peaks not found in sample peaks. 
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
+```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
 if ((params$chromHMM_plot) && !is.null(reference)){
   # Subset unique peaks 
   ref_not_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
@@ -595,7 +598,7 @@ gene and genomic regions where the peak is located. The peaks are annotated
 with genes taken from human genome annotations (hg19 or hg38) provided by 
 Bioconductor.
 
-```{r, echo=FALSE, fig.width=9, warning=FALSE, message=FALSE}
+```{r, fig.width=9, warning=FALSE, message=FALSE}
 # if set TRUE, generate chipseeker annotation plot 
 if(params$chipseeker_plot){
   chipseeker_plot <- plot_ChIPseeker_annotation(peaklist = peaklist_tidy,
@@ -623,7 +626,7 @@ ontologies (KEGG and GO). The peaks are annotated with genes taken from
 annotations of human genome (hg19 or hg38) provided by Bioconductor.
 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+```{r, warning=FALSE, message=FALSE, include=FALSE}
 # Run plot_enrichment()
 if (params$enrichment_plot){
   enrichment_plots <- plot_enrichment(peaklist = peaklist_tidy,
@@ -647,7 +650,7 @@ if (params$enrichment_plot){
 
 #### KEGG
 
-```{r,echo=FALSE,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
+```{r,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
 if (params$enrichment_plot){
   print(KEGG_plot)
   # Save output 
@@ -665,7 +668,7 @@ if (params$enrichment_plot){
 
 #### GO 
 
-```{r,echo=FALSE,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
+```{r,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
 if (params$enrichment_plot){
   print(GO_plot)
   # Save output 
@@ -691,7 +694,7 @@ TSS is plotted. Faint color line around the main frequency line represents
 the 95% confidence interval estimated by bootstrap method. 
 
 
-```{r,echo=FALSE,fig.height=3,fig.width=10,warning=FALSE,message=FALSE}
+```{r,fig.height=3,fig.width=10,warning=FALSE,message=FALSE}
 # Run tss_plot()
 if (params$tss_plot){
   tss_plot <- tss_plot(peaklist = peaklist_tidy,
