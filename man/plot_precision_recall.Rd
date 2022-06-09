@@ -15,7 +15,9 @@ plot_precision_recall(
   plot_f1 = TRUE,
   subtitle = NULL,
   color = "peaklist1",
+  shape = color,
   facets = "peaklist2 ~ .",
+  interact = FALSE,
   show_plot = TRUE
 )
 }
@@ -69,8 +71,13 @@ control.}
 
 \item{color}{Variable to color data points by.}
 
+\item{shape}{Variable to set data point shapes by.}
+
 \item{facets}{This argument is soft-deprecated, please use \code{rows}
 and \code{cols} instead.}
+
+\item{interact}{Default TRUE. By default, all heatmaps are interactive.
+If set FALSE, all heatmaps in the report will be static.}
 
 \item{show_plot}{Show the plot.}
 }

@@ -9,6 +9,7 @@ liftover_grlist(
   input_build,
   output_build = "hg19",
   style = "UCSC",
+  keep_chr = paste0("chr", c(seq_len(22), "X", "Y")),
   as_grangeslist = FALSE,
   merge_all = FALSE,
   verbose = TRUE
@@ -30,6 +31,8 @@ set by \link[GenomeInfoDb]{seqlevelsStyle}.
 \item{"UCSC" : }{Uses the chromosome style "chr1".}
 \item{"NCBI" : }{Uses the chromosome style "1"}
 }}
+
+\item{keep_chr}{Which chromosomes to keep.}
 
 \item{as_grangeslist}{Return as a \link[GenomicRanges]{GRangesList}.}
 

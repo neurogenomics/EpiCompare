@@ -56,9 +56,7 @@ Imports:
     stats,
     stringr,
     utils,
-    BiocGenerics,
-    corrplot,
-    RColorBrewer
+    BiocGenerics
 Suggests: 
     badger,
     BiocFileCache,
@@ -82,7 +80,8 @@ Suggests:
     BSgenome.Mmusculus.UCSC.mm10,
     UpSetR,
     plyranges,
-    scales
+    scales,
+    Matrix
 VignetteBuilder: 
     knitr
 biocViews: Epigenetics, Genetics, QualityControl, ChIPSeq,

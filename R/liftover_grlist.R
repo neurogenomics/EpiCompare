@@ -18,6 +18,7 @@
 #'  \item{"NCBI" : }{Uses the chromosome style "1"}
 #'  }
 #' @param verbose Print messages.
+#' @inheritParams remove_nonstandard_chrom
 #' 
 #' @returns Named list of lifted \link[GenomicRanges]{GRanges} objects.
 #' @export
@@ -36,6 +37,9 @@ liftover_grlist <- function(grlist,
                             input_build,
                             output_build="hg19",
                             style="UCSC",
+                            keep_chr = paste0(
+                                "chr",c(seq_len(22),"X","Y")
+                            ),
                             as_grangeslist=FALSE,
                             merge_all=FALSE,
                             verbose=TRUE){ 
@@ -77,6 +81,9 @@ liftover_grlist <- function(grlist,
         ))
         return(unlist(gr2))
     })    
+    #### Clean up chroms ####
+    grlist_lifted <- remove_nonstandard_chrom(grlist = grlist_lifted, 
+                                              keep_chr = keep_chr)
     #### Merge list into one ####
     if(merge_all) as_grangeslist <- TRUE
     if(as_grangeslist){

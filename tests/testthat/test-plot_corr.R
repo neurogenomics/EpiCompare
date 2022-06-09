@@ -1,4 +1,5 @@
 test_that("plot_corr works", {
+    
     data("CnR_H3K27ac")
     data("CnT_H3K27ac")
     data("encode_H3K27ac")
@@ -13,5 +14,5 @@ test_that("plot_corr works", {
     testthat::expect_true(all(c("data","corr_plot") %in% names(cp_out)))
     testthat::expect_true(all(c("CnR_H3K27ac","CnT_H3K27ac",
                                   "encode_H3K27ac") %in% colnames(cp_out$data)))
-    testthat::expect_true(methods::is(cp_out$corr_plot,"recordedplot"))
+    testthat::expect_true(methods::is(cp_out$corr_plot,"gg"))
 })

@@ -370,7 +370,8 @@ The second plot shows F1 score
 ```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
 if(params$precision_recall_plot && (!is.null(reference))){
     pr_out <- plot_precision_recall(peakfiles = peaklist_tidy, 
-                                    reference = reference_tidy)
+                                    reference = reference_tidy,
+                                    interact = params$interact)
 }
 ```
 
@@ -378,15 +379,16 @@ if(params$precision_recall_plot && (!is.null(reference))){
 
 ### Correlation Plot
 
-The correlation plot shows the correlation between the quantiles whent he genome
-is binned at a set size. These quantiles are based on the intensity of the peak,
+The correlation plot shows the correlation between the quantiles when the genome is binned at a set size. 
+These quantiles are based on the intensity of the peak,
 dependent on the peak caller used (q-value for MACS2):
 
 ```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
 if(params$corr_plot){
     cp_out <- plot_corr(peakfiles = peaklist_tidy, 
                         reference = reference_tidy,
-                        genome_build = output_build)
+                        genome_build = output_build,
+                        interact = params$interact)
 }
 ```
 

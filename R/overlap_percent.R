@@ -38,7 +38,13 @@ overlap_percent <- function(peaklist1,
                             invert=FALSE, 
                             precision_recall=TRUE,
                             suppress_messages=TRUE){
+    #### Suppress messages ####
     f <- if(suppress_messages) suppressMessages else function(x){x}    
+    #### Clean up chroms ####
+    peaklist1 <- remove_nonstandard_chrom(peaklist1, 
+                                          verbose = FALSE)
+    peaklist2 <- remove_nonstandard_chrom(peaklist2,
+                                          verbose = FALSE)
   ### Calculate Overlap ###
   # When peaklist1 is the reference
   if(length(peaklist1)==1 && isFALSE(precision_recall)){

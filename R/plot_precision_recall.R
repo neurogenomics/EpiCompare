@@ -18,6 +18,7 @@
 #' @param plot_f1 Generate a plot with the F1 score vs. threshold as well. 
 #' @param subtitle Plot subtitle.
 #' @param color Variable to color data points by. 
+#' @param shape Variable to set data point shapes by. 
 #' @inheritParams precision_recall
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
@@ -49,8 +50,10 @@ plot_precision_recall <- function(peakfiles,
                                   plot_f1 = TRUE,
                                   subtitle = NULL,
                                   color = "peaklist1",
+                                  shape = color,
                                   facets = "peaklist2 ~ .",
-                                  show_plot=TRUE){
+                                  interact = FALSE,
+                                  show_plot = TRUE){
     requireNamespace("ggplot2")
     precision <- recall <- F1 <- NULL;
     #### Resampling ####
@@ -117,7 +120,7 @@ plot_precision_recall <- function(peakfiles,
                             group="peaklist1", 
                             color=color)) + 
         ggplot2::geom_point(ggplot2::aes_string(size = "1-threshold",
-                                                shape=color),
+                                                shape=shape),
                             alpha=.8) +
         ggplot2::geom_line() + 
         ggplot2::facet_grid(facets = facets) + 
@@ -131,8 +134,12 @@ plot_precision_recall <- function(peakfiles,
         ggplot2::theme_bw() +
         ggplot2::theme(
             strip.background = ggplot2::element_rect(fill = "grey20"),
-            strip.text = ggplot2::element_text(color="white")
-            )
+            strip.text = ggplot2::element_text(color="white"),
+            legend.title = ggplot2::element_text(size=7),
+            legend.spacing.y = ggplot2::unit(.001, units = "npc"),
+            legend.text=ggplot2::element_text(size=7)
+            ) 
+    if(interact) gg <- plotly::ggplotly(gg)
     #### Plot F1 #####
     if(plot_f1){
         ggf1 <- ggplot2::ggplot(
@@ -156,6 +163,7 @@ plot_precision_recall <- function(peakfiles,
                 strip.background = ggplot2::element_rect(fill = "grey20"),
                 strip.text = ggplot2::element_text(color="white")
             )
+        if(interact) ggf1 <- plotly::ggplotly(ggf1)
     } else {
         ggf1 <- NULL
     }
