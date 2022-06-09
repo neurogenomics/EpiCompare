@@ -75,13 +75,66 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
+    <dl><dt>peakfiles</dt>
+<dd><p>A list of peak files as GRanges object and/or as paths to
+BED files. If paths are provided, EpiCompare imports the file as GRanges
+object. EpiCompare also accepts a list containing a mix of GRanges objects
+and paths.Files must be listed and named using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+E.g. <code>list("name1"=file1, "name2"=file2)</code>. If no names are specified,
+default file names will be assigned.</p></dd>
+
+
+<dt>reference</dt>
+<dd><p>A named list containing reference peak file(s) as GRanges
+ object. Please ensure that the reference file is listed and named
+i.e. <code>list("reference_name" = reference_peak)</code>. If more than one
+reference is specified, individual reports for each reference will be
+generated. However, please note that specifying more than one reference can
+take awhile. If a reference is specified, it enables two analyses: (1) plot
+showing statistical significance of overlapping/non-overlapping peaks; and
+(2) ChromHMM of overlapping/non-overlapping peaks.</p></dd>
+
+
+<dt>thresholding_cols</dt>
+<dd><p>Depending on which columns are present, 
+ <a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a> will 
+ be filtered at each threshold according to one or more of the following:</p><ul><li><p>"total_signal" : Used by the peak calling software 
+ <a href="https://github.com/FredHutch/SEACR" class="external-link">SEACR</a>. 
+ <em>NOTE</em>: Another SEACR column (e.g. "max_signal") can be used 
+ together or instead of "total_signal".</p></li>
+<li><p>"qValue"Used by the peak calling software 
+ <a href="https://github.com/macs3-project/MACS" class="external-link">MACS2/3</a>. 
+ Should contain the negative log of the p-values after multiple 
+ testing correction.</p></li>
+<li><p>"Peak Score" : 
+ Used by the peak calling software
+  <a href="http://homer.ucsd.edu/homer/ngs/peaks.html" class="external-link">HOMER</a>.</p></li>
+</ul></dd>
+
+
+<dt>initial_threshold</dt>
+<dd><p>Numeric threshold that was provided to SEACR 
+(via the parameter <code>--ctrl</code>) when calling peaks without an IgG 
+control.</p></dd>
+
+
+<dt>increment_threshold</dt>
+<dd><p>Unit to increment tested thresholds by.</p></dd>
+
+
+<dt>max_threshold</dt>
+<dd><p>Maximum threshold to test.</p></dd>
+
+
+<dt>workers</dt>
+<dd><p>Number of threads to parallelize across.</p></dd>
+
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>overlap</p>
     </div>
 
     <div id="ref-examples">

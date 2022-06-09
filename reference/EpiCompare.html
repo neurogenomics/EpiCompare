@@ -77,6 +77,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
   enrichment_plot <span class="op">=</span> <span class="cn">FALSE</span>,
   tss_plot <span class="op">=</span> <span class="cn">FALSE</span>,
   precision_recall_plot <span class="op">=</span> <span class="cn">FALSE</span>,
+  corr_plot <span class="op">=</span> <span class="cn">FALSE</span>,
   interact <span class="op">=</span> <span class="cn">TRUE</span>,
   save_output <span class="op">=</span> <span class="cn">FALSE</span>,
   output_filename <span class="op">=</span> <span class="st">"EpiCompare"</span>,
@@ -87,26 +88,142 @@ divided into three sections: (1) General Metrics on Peakfiles,
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>peakfiles</dt>
+<dd><p>A list of peak files as GRanges object and/or as paths to
+BED files. If paths are provided, EpiCompare imports the file as GRanges
+object. EpiCompare also accepts a list containing a mix of GRanges objects
+and paths.Files must be listed and named using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+E.g. <code>list("name1"=file1, "name2"=file2)</code>. If no names are specified,
+default file names will be assigned.</p></dd>
+
+
+<dt>genome_build</dt>
+<dd><p>A named list indicating the human genome build used to
+generate each of the following inputs:</p><ul><li><p>"peakfiles" : Genome build for the <code>peakfiles</code> input.
+Assumes genome build is the same for each element in the <code>peakfiles</code>
+list.</p></li>
+<li><p>"reference" : Genome build for the <code>reference</code> input.</p></li>
+<li><p>"blacklist" : Genome build for the <code>blacklist</code> input.</p></li>
+</ul><p>Example input list:<br><code>genome_build = list(peakfiles="hg38",
+ reference="hg19", blacklist="hg19")</code><br><br>
+Alternatively, you can supply a single character string instead of a list.
+This should <em>only</em> be done in situations where all three inputs
+(<code>peakfiles</code>, <code>reference</code>, <code>blacklist</code>) are of the same
+genome build. For example:<br><code>genome_build = "hg19"</code></p></dd>
+
+
+<dt>genome_build_output</dt>
+<dd><p>Genome build to standardise all inputs to.
+Liftovers will be performed automatically as needed.
+Default: "hg19".</p></dd>
+
+
+<dt>blacklist</dt>
+<dd><p>A GRanges object containing blacklisted regions.</p></dd>
+
+
+<dt>picard_files</dt>
+<dd><p>A list of summary metrics output from Picard.
+Files must be in data.frame format and listed using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>
+and named using <code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code>.
+To import Picard duplication metrics (.txt file)
+ into R as data frame, use:<br><code>picard &lt;- read.table("/path/to/picard/output",
+ header = TRUE, fill = TRUE)</code>.</p></dd>
+
+
+<dt>reference</dt>
+<dd><p>A named list containing reference peak file(s) as GRanges
+ object. Please ensure that the reference file is listed and named
+i.e. <code>list("reference_name" = reference_peak)</code>. If more than one
+reference is specified, individual reports for each reference will be
+generated. However, please note that specifying more than one reference can
+take awhile. If a reference is specified, it enables two analyses: (1) plot
+showing statistical significance of overlapping/non-overlapping peaks; and
+(2) ChromHMM of overlapping/non-overlapping peaks.</p></dd>
+
+
+<dt>upset_plot</dt>
+<dd><p>Default FALSE. If TRUE, the report includes upset plot of
+overlapping peaks.</p></dd>
+
+
+<dt>stat_plot</dt>
+<dd><p>Default FALSE. If TRUE, the function creates a plot showing
+the statistical significance of overlapping/non-overlapping peaks.
+Reference peak file must be provided.</p></dd>
+
+
+<dt>chromHMM_plot</dt>
+<dd><p>Default FALSE. If TRUE, the function outputs ChromHMM
+heatmap of individual peak files. If a reference peak file is provided,
+ChromHMM annotation of overlapping and non-overlapping peaks is also provided.</p></dd>
+
+
+<dt>chromHMM_annotation</dt>
+<dd><p>ChromHMM annotation for ChromHMM plots.
+Default K562 cell-line. Cell-line options are:</p><ul><li><p>"K562" = K-562 cells</p></li>
+<li><p>"Gm12878" = Cellosaurus cell-line GM12878</p></li>
+<li><p>"H1hesc" = H1 Human Embryonic Stem Cell</p></li>
+<li><p>"Hepg2" = Hep G2 cell</p></li>
+<li><p>"Hmec" = Human Mammary Epithelial Cell</p></li>
+<li><p>"Hsmm" = Human Skeletal Muscle Myoblasts</p></li>
+<li><p>"Huvec" = Human Umbilical Vein Endothelial Cells</p></li>
+<li><p>"Nhek" = Normal Human Epidermal Keratinocytes</p></li>
+<li><p>"Nhlf" = Normal Human Lung Fibroblasts</p></li>
+</ul></dd>
+
+
+<dt>chipseeker_plot</dt>
+<dd><p>Default FALSE. If TRUE, the report includes a barplot
+of ChIPseeker annotation of peak files.</p></dd>
+
+
+<dt>enrichment_plot</dt>
+<dd><p>Default FALSE. If TRUE, the report includes dotplots
+of KEGG and GO enrichment analysis of peak files.</p></dd>
+
+
+<dt>tss_plot</dt>
+<dd><p>Default FALSE. If TRUE, the report includes peak count
+frequency around transcriptional start site. Note that this can take awhile.</p></dd>
+
+
+<dt>precision_recall_plot</dt>
+<dd><p>Default is FALSE. If TRUE, 
+creates a precision-recall curve plot and an F1 plot using 
+<a href="plot_precision_recall.html">plot_precision_recall</a>.</p></dd>
+
+
+<dt>corr_plot</dt>
+<dd><p>Default is FALSE. If TRUE, creates a correlation plot across
+all peak files using 
+<a href="plot_corr.html">plot_corr</a>.</p></dd>
+
+
+<dt>interact</dt>
+<dd><p>Default TRUE. By default, all heatmaps are interactive.
+If set FALSE, all heatmaps in the report will be static.</p></dd>
+
+
+<dt>save_output</dt>
+<dd><p>Default FALSE. If TRUE, all outputs (tables and plots) of
+the analysis will be saved in a folder (EpiCompare_file).</p></dd>
+
+
+<dt>output_filename</dt>
+<dd><p>Default EpiCompare.html. If otherwise, the html report
+will be saved in the specified name.</p></dd>
+
+
+<dt>output_timestamp</dt>
+<dd><p>Default FALSE. If TRUE, date will be included in the
+file name.</p></dd>
+
+
+<dt>output_dir</dt>
+<dd><p>Path to where output HTML file should be saved.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -168,8 +285,8 @@ divided into three sections: (1) General Metrics on Peakfiles,
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> --- Running overlap_heatmap() ---</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.1210739 mins</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> All Outputs Saved At: /tmp/RtmpqDNAhq</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.1424477 mins</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> All Outputs Saved At: /tmp/RtmpMM8AIO</span>
 </code></pre></div>
     </div>
   </div>
