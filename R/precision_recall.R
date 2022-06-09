@@ -28,6 +28,7 @@
 #' @param increment_threshold Unit to increment tested thresholds by.
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
+#' @return overlap
 #' 
 #' @export
 #' @importFrom data.table rbindlist

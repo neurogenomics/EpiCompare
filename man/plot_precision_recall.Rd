@@ -74,6 +74,9 @@ and \code{cols} instead.}
 
 \item{show_plot}{Show the plot.}
 }
+\value{
+list with data and precision recall and F1 plots
+}
 \description{
 Plot precision-recall curves (and optionally F1 plots) by 
 iteratively testing for peak overlap across a series of 

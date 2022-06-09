@@ -17,6 +17,7 @@
     - Added `EpiCompare(precision_recall_plot=)` param and documented. 
 * Add *ISSUE* templates. 
 * Include code in html report (collapsed by default). 
+* Add correlation matrix/plot functionality
 
 ### Bug fixes
 

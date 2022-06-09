@@ -55,6 +55,9 @@
 #' @param precision_recall_plot Default is FALSE. If TRUE, 
 #' creates a precision-recall curve plot and an F1 plot using 
 #' \link[EpiCompare]{plot_precision_recall}. 
+#' @param corr_plot Default is FALSE. If TRUE, creates a correlation plot across
+#' all peak files using 
+#' \link[EpiCompare]{plot_corr}. 
 #' @param chromHMM_plot Default FALSE. If TRUE, the function outputs ChromHMM
 #' heatmap of individual peak files. If a reference peak file is provided,
 #' ChromHMM annotation of overlapping and non-overlapping peaks is also provided.
@@ -143,6 +146,7 @@ EpiCompare <- function(peakfiles,
                        enrichment_plot = FALSE,
                        tss_plot = FALSE,
                        precision_recall_plot = FALSE,
+                       corr_plot=FALSE,
                        interact = TRUE,
                        save_output = FALSE,
                        output_filename = "EpiCompare",
@@ -193,6 +197,7 @@ EpiCompare <- function(peakfiles,
           enrichment_plot = enrichment_plot,
           tss_plot = tss_plot,
           precision_recall_plot = precision_recall_plot,
+          corr_plot=corr_plot,
           interact = interact,
           save_output = save_output,
           output_dir = output_dir)
@@ -221,6 +226,7 @@ EpiCompare <- function(peakfiles,
         enrichment_plot = enrichment_plot,
         tss_plot = tss_plot,
         precision_recall_plot = precision_recall_plot,
+        corr_plot=corr_plot,
         interact = interact,
         save_output = save_output,
         output_dir = output_dir)

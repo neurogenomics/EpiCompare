@@ -19,6 +19,7 @@ EpiCompare(
   enrichment_plot = FALSE,
   tss_plot = FALSE,
   precision_recall_plot = FALSE,
+  corr_plot = FALSE,
   interact = TRUE,
   save_output = FALSE,
   output_filename = "EpiCompare",
@@ -112,6 +113,10 @@ frequency around transcriptional start site. Note that this can take awhile.}
 \item{precision_recall_plot}{Default is FALSE. If TRUE, 
 creates a precision-recall curve plot and an F1 plot using 
 \link[EpiCompare]{plot_precision_recall}.}
+
+\item{corr_plot}{Default is FALSE. If TRUE, creates a correlation plot across
+all peak files using 
+\link[EpiCompare]{plot_corr}.}
 
 \item{interact}{Default TRUE. By default, all heatmaps are interactive.
 If set FALSE, all heatmaps in the report will be static.}

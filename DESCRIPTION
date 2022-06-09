@@ -55,7 +55,10 @@ Imports:
     rtracklayer,
     stats,
     stringr,
-    utils
+    utils,
+    BiocGenerics,
+    corrplot,
+    RColorBrewer
 Suggests: 
     badger,
     BiocFileCache,
@@ -73,6 +76,10 @@ Suggests:
     TxDb.Hsapiens.UCSC.hg38.knownGene,
     TxDb.Mmusculus.UCSC.mm9.knownGene,
     TxDb.Mmusculus.UCSC.mm10.knownGene,
+    BSgenome.Hsapiens.UCSC.hg19,
+    BSgenome.Hsapiens.UCSC.hg38,
+    BSgenome.Mmusculus.UCSC.mm9,
+    BSgenome.Mmusculus.UCSC.mm10,
     UpSetR,
     plyranges,
     scales

@@ -4,13 +4,15 @@
 \alias{check_genome_build}
 \title{Check genome build}
 \usage{
-check_genome_build(genome_build)
+check_genome_build(genome_build, type = "txdb")
 }
 \arguments{
 \item{genome_build}{Genome build name.}
+
+\item{type}{whether to fetch the txdb or bsgen reference data}
 }
 \value{
-txdb
+txdb or bsgen
 }
 \description{
 Check that the genome build is valid and 

@@ -23,6 +23,7 @@
 #' @inheritParams get_bpparam
 #' @inheritParams ggplot2::aes_string
 #' @inheritParams ggplot2::facet_grid
+#' @return list with data and precision recall and F1 plots
 #' 
 #' @export 
 #' @importFrom methods show
