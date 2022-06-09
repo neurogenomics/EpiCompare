@@ -34,9 +34,6 @@
     <loc>/reference/EpiCompare.html</loc>
   </url>
   <url>
-    <loc>/reference/calc_corr.html</loc>
-  </url>
-  <url>
     <loc>/reference/checkCache.html</loc>
   </url>
   <url>
@@ -50,6 +47,9 @@
   </url>
   <url>
     <loc>/reference/clean_granges.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_corr.html</loc>
   </url>
   <url>
     <loc>/reference/encode_H3K27ac.html</loc>
@@ -134,6 +134,12 @@
   </url>
   <url>
     <loc>/reference/prepare_reference.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rebin_peaks.html</loc>
+  </url>
+  <url>
+    <loc>/reference/remove_nonstandard_chrom.html</loc>
   </url>
   <url>
     <loc>/reference/save_output.html</loc>

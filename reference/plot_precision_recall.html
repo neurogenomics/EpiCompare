@@ -93,7 +93,9 @@ aligned to the same genome build.</p>
   plot_f1 <span class="op">=</span> <span class="cn">TRUE</span>,
   subtitle <span class="op">=</span> <span class="cn">NULL</span>,
   color <span class="op">=</span> <span class="st">"peaklist1"</span>,
+  shape <span class="op">=</span> <span class="va">color</span>,
   facets <span class="op">=</span> <span class="st">"peaklist2 ~ ."</span>,
+  interact <span class="op">=</span> <span class="cn">FALSE</span>,
   show_plot <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -167,9 +169,18 @@ control.</p></dd>
 <dd><p>Variable to color data points by.</p></dd>
 
 
+<dt>shape</dt>
+<dd><p>Variable to set data point shapes by.</p></dd>
+
+
 <dt>facets</dt>
 <dd><p>This argument is soft-deprecated, please use <code>rows</code>
 and <code>cols</code> instead.</p></dd>
+
+
+<dt>interact</dt>
+<dd><p>Default TRUE. By default, all heatmaps are interactive.
+If set FALSE, all heatmaps in the report will be static.</p></dd>
 
 
 <dt>show_plot</dt>
