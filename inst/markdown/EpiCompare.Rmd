@@ -133,9 +133,7 @@ for (name in names(peaklist_tidy)){
 
 ##### Code
 
-The function call used to create the report.
-
-<details>
+The function call used to create the report. 
 
 ```R
 EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
@@ -156,10 +154,7 @@ EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
            interact = `r params$interact`,
            save_output = `r params$save_output`,
            output_dir = "`r params$output_dir`")
-```
-
-</details>
-
+``` 
 
 ***
 
@@ -367,15 +362,18 @@ The second plot shows F1 score
 - **F1**: `2*(precision*recall) / (precision+recall)`
 
 
-```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height, results='asis'}
+```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
+pr_out <- NULL
 if(params$precision_recall_plot && (!is.null(reference))){
     pr_out <- plot_precision_recall(peakfiles = peaklist_tidy, 
                                     reference = reference_tidy,
                                     interact = params$interact, 
-                                    show_plot = FALSE)
-    methods::show(pr_out$precision_recall_plot)
-    methods::show(pr_out$f1_plot)
+                                    show_plot = FALSE) 
 }
+pr_out$precision_recall_plot
+cat("\n")
+pr_out$f1_plot
+remove(pr_out)
 ```
 
 ***
@@ -386,15 +384,17 @@ The correlation plot shows the correlation between the quantiles when the genome
 These quantiles are based on the intensity of the peak,
 dependent on the peak caller used (q-value for MACS2):
 
-```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height,results='asis'}
+```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
+cp_out <- NULL
 if(params$corr_plot){
     cp_out <- plot_corr(peakfiles = peaklist_tidy, 
                         reference = reference_tidy,
                         genome_build = output_build,
                         interact = params$interact, 
-                        show_plot = FALSE)
-    methods::show(cp_out$corr_plot)
+                        show_plot = FALSE) 
 }
+cp_out$corr_plot
+remove(cp_out)
 ```
 
 ***

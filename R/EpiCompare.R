@@ -99,9 +99,8 @@
 #' ### Load Data ###
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
-#' data("CnR_H3K27ac") # example dataset as GRanges object
-#' data("hg19_blacklist") # hg19 blacklist dataset
-#' data("hg38_blacklist") # hg38 blacklist dataset
+#' data("CnR_H3K27ac") # example dataset as GRanges object 
+#' data("hg19_blacklist") # hg38 blacklist dataset
 #' data("CnT_H3K27ac_picard") # example Picard summary output
 #' data("CnR_H3K27ac_picard") # example Picard summary output
 #'
@@ -116,21 +115,12 @@
 #' ### Run EpiCompare ###
 #' EpiCompare(peakfiles = peaks,
 #'            genome_build = list(peakfiles="hg19",
-#'                                reference="hg38",
+#'                                reference="hg19",
 #'                                blacklist="hg19"),
 #'            genome_build_output = "hg19",
 #'            blacklist = hg19_blacklist,
 #'            picard_files = picard,
 #'            reference = reference_peak,
-#'            upset_plot = FALSE,
-#'            stat_plot = FALSE,
-#'            chromHMM_plot = FALSE,
-#'            chromHMM_annotation = "K562",
-#'            chipseeker_plot = FALSE,
-#'            enrichment_plot = FALSE,
-#'            tss_plot = FALSE,
-#'            interact = FALSE,
-#'            save_output = FALSE,
 #'            output_dir = tempdir()) 
 EpiCompare <- function(peakfiles,
                        genome_build,
