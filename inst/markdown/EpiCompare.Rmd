@@ -371,7 +371,10 @@ The second plot shows F1 score
 if(params$precision_recall_plot && (!is.null(reference))){
     pr_out <- plot_precision_recall(peakfiles = peaklist_tidy, 
                                     reference = reference_tidy,
-                                    interact = params$interact)
+                                    interact = params$interact, 
+                                    show_plot = FALSE)
+    methods::show(pr_out$precision_recall_plot)
+    methods::show(pr_out$f1_plot)
 }
 ```
 
@@ -388,7 +391,9 @@ if(params$corr_plot){
     cp_out <- plot_corr(peakfiles = peaklist_tidy, 
                         reference = reference_tidy,
                         genome_build = output_build,
-                        interact = params$interact)
+                        interact = params$interact, 
+                        show_plot = FALSE)
+    methods::show(cp_out$corr_plot)
 }
 ```
 
