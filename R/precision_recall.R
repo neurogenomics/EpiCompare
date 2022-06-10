@@ -77,9 +77,9 @@ precision_recall <- function(peakfiles,
                                   return(gr)
                               })  
       df <- overlap_percent(peaklist1 = peakfiles_filt, 
-                              peaklist2 = reference, 
-                              suppress_messages = FALSE,
-                              precision_recall = TRUE)
+                            peaklist2 = reference, 
+                            suppress_messages = FALSE,
+                            precision_recall = TRUE)
       return(df)
     }) |> data.table::rbindlist(use.names = TRUE, idcol = "threshold")
     return(overlap)
