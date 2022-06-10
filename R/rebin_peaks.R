@@ -55,14 +55,12 @@ rebin_peaks <- function(peakfiles,
             BPPARAM = BPPARAM,
             SIMPLIFY = FALSE,
             FUN = function(gr){
-                print(gr)
                 ## Compute percentiles
                 gr <- compute_percentiles(
                     gr = gr, 
                     thresholding_cols = intensity_cols,
                     initial_threshold = 0
                 )
-                print(gr)
                 ## Re-bin desired level,averaging intensity score 
                 gr_windows <- 
                     GenomicRanges::tileGenome(
