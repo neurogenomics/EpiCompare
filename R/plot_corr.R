@@ -71,7 +71,7 @@ plot_corr <- function(peakfiles,
         ggplot2::theme_bw() +
         ggplot2::theme(axis.text.x = ggplot2::element_text(angle=45,hjust=1))
     if(interact){
-        plotly::ggplotly(corr_plot)
+        corr_plot <- plotly::ggplotly(corr_plot)
     }
     #### With corrplot ####
     # corr_plot <-
