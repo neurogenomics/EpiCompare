@@ -81,7 +81,8 @@ compute_corr <- function(peakfiles,
     cor_mat <- stats::cor(gr_mat, method=method)
     #### Report time ####
     t2 <- Sys.time()
-    difftime(t2,t1)
+    messager("Done computing correlations in",
+             round(difftime(t2,t1,units = "s"),0),"seconds.")
     if(return_bins){ 
        return(
            list(bins = gr_mat,
