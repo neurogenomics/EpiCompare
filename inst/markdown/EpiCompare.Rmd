@@ -325,12 +325,12 @@ are overlapping and non-overlapping with the sample dataset.
 of percentage of overlapping sample peaks with the reference, coloured by 
 statistical significance (adjusted p-value) of the overlap. 
 
-**Reference peakfile: `r names(reference_tidy)`**
+**Reference peakfile**: `r names(reference_tidy)` 
 
 Keys:
 
-* Overlap: Sample peaks in Reference peaks 
-* Unique: Sample peaks not in Reference peaks  
+* **Overlap**: Sample peaks in Reference peaks 
+* **Unique**: Sample peaks not in Reference peaks  
 
 <br>
 
@@ -367,7 +367,7 @@ The second plot shows F1 score
 - **F1**: `2*(precision*recall) / (precision+recall)`
 
 
-```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
+```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height, results='asis'}
 if(params$precision_recall_plot && (!is.null(reference))){
     pr_out <- plot_precision_recall(peakfiles = peaklist_tidy, 
                                     reference = reference_tidy,
@@ -383,7 +383,7 @@ The correlation plot shows the correlation between the quantiles when the genome
 These quantiles are based on the intensity of the peak,
 dependent on the peak caller used (q-value for MACS2):
 
-```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
+```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height,results='asis'}
 if(params$corr_plot){
     cp_out <- plot_corr(peakfiles = peaklist_tidy, 
                         reference = reference_tidy,
