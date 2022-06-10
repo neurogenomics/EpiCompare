@@ -55,12 +55,14 @@ rebin_peaks <- function(peakfiles,
             BPPARAM = BPPARAM,
             SIMPLIFY = FALSE,
             FUN = function(gr){
+                print(gr)
                 ## Compute percentiles
                 gr <- compute_percentiles(
                     gr = gr, 
                     thresholding_cols = intensity_cols,
                     initial_threshold = 0
                 )
+                print(gr)
                 ## Re-bin desired level,averaging intensity score 
                 gr_windows <- 
                     GenomicRanges::tileGenome(
@@ -75,6 +77,13 @@ rebin_peaks <- function(peakfiles,
                                  paste(intensity_cols,
                                        "percentile",
                                        sep="_")][1]
+                #if you don't find intensity col don't include 
+                if(length(intens_col)==0 || is.na(intens_col)){
+                  msg <- paste0("Peak file missing intensity col, will be ",
+                                  "excluded from correlation matrix/plot")
+                  message_parallel(msg)
+                  return(NULL)
+                } else {
                 #measure to avg within the bins
                 data_cov <- 
                     GenomicRanges::coverage(gr,
@@ -96,10 +105,14 @@ rebin_peaks <- function(peakfiles,
                 #remove unnecessary cols - save mem
                 gr[,c("width","strand"):=NULL]
                 return(gr)
+                }
     })   
     rebinned_peaks <- 
         data.table::rbindlist(rebinned_peaks,use.names = TRUE,
                               idcol = "assay") 
+    #make sure you hve at least two peak files remaining 
+    if(length(unique(rebinned_peaks$assay))<=1)
+      stop("Need more than one peak file to create correlation matrix.") 
     # Reshape data from long to wide
     messager("Reshaping binned peaks.")
     all_gr_wide <- 
