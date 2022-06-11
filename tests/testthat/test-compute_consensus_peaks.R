@@ -11,8 +11,7 @@ test_that("compute_consensus_peaks works", {
                                                           "ENCODE"), 
                                                method = "granges")
     testthat::expect_length(consensus_peaks$Imperial, 1325)
-    testthat::expect_null(consensus_peaks$ENCODE)
-    
+    testthat::expect_length(consensus_peaks$ENCODE, length(grlist$ENCODE)) 
     
     consensus_peaks2 <- compute_consensus_peaks(grlist = grlist,
                                                groups = c("Imperial",
@@ -21,7 +20,5 @@ test_that("compute_consensus_peaks works", {
                                                genome_build = "hg19",
                                                method = "consensusseeker")
     testthat::expect_length(consensus_peaks2$Imperial, 2982)
-    testthat::expect_null(consensus_peaks2$ENCODE)
-    
-    
+    testthat::expect_length(consensus_peaks$ENCODE, length(grlist$ENCODE)) 
 })
