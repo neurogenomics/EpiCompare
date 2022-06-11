@@ -17,7 +17,8 @@
     - Added `EpiCompare(precision_recall_plot=)` param and documented. 
 * Add *ISSUE* templates. 
 * Include code in html report (collapsed by default). 
-* Add correlation matrix/plot functionality
+* Add correlation matrix/plot functionality.
+* Add `compute_consensus_peaks()` as function for preprocessing peak files. 
 
 ### Bug fixes
 

@@ -55,6 +55,10 @@ precision_recall <- function(peakfiles,
                           to=max_threshold, 
                           by=increment_threshold)
     names(threshold_list) <- threshold_list 
+    #### Check which have necessary columns #####
+    peakfiles <- check_grlist_cols(grlist = peakfiles, 
+                                   target_cols = thresholding_cols)
+    ##### Iterate over peakfiles #####
     BPPARAM <- get_bpparam(workers = workers)
     overlap <- BiocParallel::bpmapply(threshold_list,
                                       BPPARAM = BPPARAM,
@@ -62,7 +66,7 @@ precision_recall <- function(peakfiles,
                                       FUN = function(thresh){
       message_parallel("Threshold=",thresh,": Filtering peaks")
       peakfiles_filt <- mapply(peakfiles, 
-                              FUN=function(gr){
+                              FUN=function(gr){  
                                   ## Compute percentiles
                                   gr <- compute_percentiles(
                                       gr = gr, 
@@ -74,8 +78,8 @@ precision_recall <- function(peakfiles,
                                       gr = gr, 
                                       thresh = thresh, 
                                       thresholding_cols = thresholding_cols)
-                                  return(gr)
-                              })  
+                                  return(gr) 
+                              })   
       df <- overlap_percent(peaklist1 = peakfiles_filt, 
                             peaklist2 = reference, 
                             suppress_messages = FALSE,

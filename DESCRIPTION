@@ -81,7 +81,8 @@ Suggests:
     UpSetR,
     plyranges,
     scales,
-    Matrix
+    Matrix,
+    consensusSeekeR
 VignetteBuilder: 
     knitr
 biocViews: Epigenetics, Genetics, QualityControl, ChIPSeq,
