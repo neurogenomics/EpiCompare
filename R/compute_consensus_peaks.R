@@ -20,6 +20,8 @@
 #' @inheritParams IRanges::slice
 #' @inheritParams IRanges::reduce
 #' @inheritDotParams consensusSeekeR::findConsensusPeakRegions
+#' @returns Named list of consensus peak \link[GenomicRanges]{GRanges}.
+#' 
 #' @source \href{https://ro-che.info/articles/2018-07-11-chip-seq-consensus}{
 #' GenomicRanges tutorial}
 #' @source \href{https://doi.org/doi:10.18129/B9.bioc.consensusSeekeR}{

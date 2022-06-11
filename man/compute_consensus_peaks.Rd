@@ -100,6 +100,9 @@ number of threads to use in parallel. The \code{nbrThreads} must be a
 positive integer. Default = 1.}
   }}
 }
+\value{
+Named list of consensus peak \link[GenomicRanges]{GRanges}.
+}
 \description{
 Compute consensus peaks from a list of GRanges.
 }
