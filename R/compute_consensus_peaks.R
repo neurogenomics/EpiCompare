@@ -8,10 +8,10 @@
 #' computing consensus peaks.
 #' @param method Method to call peaks with:
 #' \itemize{
-#' \item{"granges"}{Simple overlap procedure using 
+#' \item{"granges" : }{Simple overlap procedure using 
 #' \link[GenomicRanges]{GRanges} functions.
 #' Faster but less accurate.}
-#' \item{"consensusseeker"}{
+#' \item{"consensusseeker" : }{
 #' Uses \link[consensusSeekeR]{findConsensusPeakRegions} to compute consensus
 #' peaks. 
 #' Slower but more accurate.}
@@ -70,9 +70,11 @@ compute_consensus_peaks <- function(grlist,
         messager("Computing conensus peaks for group:",g)
         grlist2 <- grlist[which(groups==g)]
         if(length(grlist2)<2){
-            messager("Cannot compute peaks when group has <2 peak files.",
-                     "Returning NULL.")
-            return(NULL)
+            messager(
+                "WARNING:",
+                "Cannot compute consensus peaks when group has <2 peak files.",
+                "Returning original GRanges object instead.")
+            return(grlist2[[1]])
         }
         grlist2 <- GenomicRanges::GRangesList(
             mapply(grlist2,
