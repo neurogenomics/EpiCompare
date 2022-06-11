@@ -43,10 +43,16 @@
     <loc>/reference/check_genome_build.html</loc>
   </url>
   <url>
+    <loc>/reference/check_grlist_cols.html</loc>
+  </url>
+  <url>
     <loc>/reference/check_list_names.html</loc>
   </url>
   <url>
     <loc>/reference/clean_granges.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_consensus_peaks.html</loc>
   </url>
   <url>
     <loc>/reference/compute_corr.html</loc>
