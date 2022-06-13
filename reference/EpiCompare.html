@@ -82,7 +82,8 @@ divided into three sections: (1) General Metrics on Peakfiles,
   save_output <span class="op">=</span> <span class="cn">FALSE</span>,
   output_filename <span class="op">=</span> <span class="st">"EpiCompare"</span>,
   output_timestamp <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">output_dir</span>
+  <span class="va">output_dir</span>,
+  display <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -223,12 +224,20 @@ file name.</p></dd>
 <dt>output_dir</dt>
 <dd><p>Path to where output HTML file should be saved.</p></dd>
 
+
+<dt>display</dt>
+<dd><p>After completion, automatically display the HTML report file
+ in one of the following ways:</p><ul><li><p>"browser" : Display the report in your default web browser.</p></li>
+<li><p>"rsstudio" : Display the report in Rstudio.</p></li>
+<li><p>NULL (default) : Do not display the report.</p></li>
+</ul></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>An HTML report</p>
+<p>Path to one or more HTML report files.</p>
     </div>
 
     <div id="ref-examples">
@@ -271,8 +280,9 @@ file name.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> --- Running overlap_heatmap() ---</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.05799393 mins</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> All Outputs Saved At: /tmp/RtmpMzpLH4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.08 min."</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/RtmpduEk7O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpduEk7O/EpiCompare.html"</span>
 </code></pre></div>
     </div>
   </div>

@@ -52,7 +52,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Compute consensus peaks from a list of GRanges.</p>
+    <p>Compute consensus peaks from a list of <a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a>.</p>
     </div>
 
     <div id="ref-usage">
@@ -101,10 +101,10 @@ computing consensus peaks.</p></dd>
 
 
 <dt>method</dt>
-<dd><p>Method to call peaks with:</p><ul><li><p>"granges"Simple overlap procedure using 
+<dd><p>Method to call peaks with:</p><ul><li><p>"granges" : Simple overlap procedure using 
 <a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a> functions.
 Faster but less accurate.</p></li>
-<li><p>"consensusseeker"
+<li><p>"consensusseeker" : 
 Uses <a href="https://rdrr.io/pkg/consensusSeekeR/man/findConsensusPeakRegions.html" class="external-link">findConsensusPeakRegions</a> to compute consensus
 peaks. 
 Slower but more accurate.</p></li>
@@ -176,6 +176,22 @@ positive integer. Default = 1.</p></dd>
 </dl></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>Named list of consensus peak <a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a>.</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p><em>NOTE:</em> If you get the error 
+<code>"Error in serialize(data, node$con) : error writing to connection"</code>,
+try running <a href="https://rdrr.io/r/base/showConnections.html" class="external-link">closeAllConnections</a> 
+and rerun compute_consensus_peaks. 
+This error can sometimes occur when 
+compute_consensus_peaks
+has been disrupted partway through.</p>
+    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
@@ -189,10 +205,15 @@ positive integer. Default = 1.</p></dd>
 <span class="r-in">                                                      <span class="st">"Imperial"</span>,</span>
 <span class="r-in">                                                      <span class="st">"ENCODE"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Removing non-standard chromosomes.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing conensus peaks for group: Imperial</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Identified 1,325 consensus peaks from 3 peak files</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing conensus peaks for group: ENCODE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Cannot compute peaks when group has &lt;2 peak files. Returning NULL.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing consensus peaks for group: Imperial </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - 2 files </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - 1,670-2,707 peaks each</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Identified 1,325 consensus peaks from 2 peak files</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing consensus peaks for group: ENCODE </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - 1 files </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - 5,142-5,142 peaks each</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> WARNING: Cannot compute consensus peaks when group has &lt;2 peak files. Returning original GRanges object instead.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Done computing consensus peaks in 0 min.</span>
 </code></pre></div>
     </div>
   </div>
