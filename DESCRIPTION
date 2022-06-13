@@ -7,13 +7,13 @@ Authors@R: c(
         email = "serachoi1230@gmail.com", 
         role = c("aut", "cre"),
         comment = c(ORCID = "0000-0002-5077-1984")),
-     person(given="Leyla", family="Abbasova", 
-        email = "profernitsky@gmail.com", 
-        role = "aut"),
     person(given="Brian", family="Schilder", 
         email = "brian_schilder@alumni.brown.edu", 
         role = "aut",
         comment = c(ORCID = "0000-0001-5949-2191")),
+     person(given="Leyla", family="Abbasova", 
+        email = "profernitsky@gmail.com", 
+        role = "aut"), 
     person(given="Alan", family="Murphy", 
         email = "alanmurph94@hotmail.com", 
         role = "aut",
@@ -81,7 +81,8 @@ Suggests:
     plyranges,
     scales,
     Matrix,
-    consensusSeekeR
+    consensusSeekeR,
+    gtools
 VignetteBuilder: 
     knitr
 biocViews: Epigenetics, Genetics, QualityControl, ChIPSeq,
