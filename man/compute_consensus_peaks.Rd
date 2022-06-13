@@ -42,10 +42,10 @@ computing consensus peaks.}
 
 \item{method}{Method to call peaks with:
 \itemize{
-\item{"granges"}{Simple overlap procedure using 
+\item{"granges" : }{Simple overlap procedure using 
 \link[GenomicRanges]{GRanges} functions.
 Faster but less accurate.}
-\item{"consensusseeker"}{
+\item{"consensusseeker" : }{
 Uses \link[consensusSeekeR]{findConsensusPeakRegions} to compute consensus
 peaks. 
 Slower but more accurate.}
@@ -99,12 +99,23 @@ in the \code{narrowPeaks} and \code{peaks} parameters. Default = 1.}
 number of threads to use in parallel. The \code{nbrThreads} must be a
 positive integer. Default = 1.}
   }}
+
+\item{searches}{A named list of substrings to group \code{peakfiles} by.}
 }
 \value{
 Named list of consensus peak \link[GenomicRanges]{GRanges}.
 }
 \description{
-Compute consensus peaks from a list of GRanges.
+Compute consensus peaks from a list of \link[GenomicRanges]{GRanges}.
+}
+\details{
+\emph{NOTE:} If you get the error 
+\code{"Error in serialize(data, node$con) : error writing to connection"},
+try running \link[base]{closeAllConnections} 
+and rerun \link[EpiCompare]{compute_consensus_peaks}. 
+This error can sometimes occur when 
+\link[EpiCompare]{compute_consensus_peaks}
+has been disrupted partway through.
 }
 \examples{
 data("encode_H3K27ac") # example dataset as GRanges object

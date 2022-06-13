@@ -1,7 +1,16 @@
 #' Compute consensus peaks
 #' 
-#' Compute consensus peaks from a list of GRanges.
+#' Compute consensus peaks from a list of \link[GenomicRanges]{GRanges}.
 #' 
+#' \emph{NOTE:} If you get the error 
+#' \code{"Error in serialize(data, node$con) : error writing to connection"},
+#' try running \link[base]{closeAllConnections} 
+#' and rerun \link[EpiCompare]{compute_consensus_peaks}. 
+#' This error can sometimes occur when 
+#' \link[EpiCompare]{compute_consensus_peaks}
+#' has been disrupted partway through.
+#' 
+#' @param searches A named list of substrings to group \code{peakfiles} by.
 #' @param grlist Named list of \link[GenomicRanges]{GRanges} objects.
 #' @param groups A character vector of the same length as \code{grlist} 
 #' defining how to group \link[GenomicRanges]{GRanges} objects when 
@@ -65,10 +74,19 @@ compute_consensus_peaks <- function(grlist,
     }
     #### Remove non-standard chr ####
     grlist <- remove_nonstandard_chrom(grlist = grlist)
+    t1 <- Sys.time()
     #### Find consensus peaks in each group ####
-    consensus_peaks_grouped <- lapply(unique(groups), function(g){ 
-        messager("Computing conensus peaks for group:",g)
+    consensus_peaks_grouped <- lapply(unique(groups), function(g){  
         grlist2 <- grlist[which(groups==g)]
+        min_peaks <- min(unlist(lapply(grlist,length)), na.rm=TRUE)
+        max_peaks <- max(unlist(lapply(grlist,length)), na.rm=TRUE)
+        messager("Computing consensus peaks for group:",g,
+                 paste0("\n - ",length(grlist2)," files ",
+                        "\n - ",
+                        formatC(min_peaks,big.mark = ","),"-",
+                        formatC(max_peaks,big.mark = ","),
+                        " peaks each"
+                        ))
         if(length(grlist2)<2){
             messager(
                 "WARNING:",
@@ -103,5 +121,10 @@ compute_consensus_peaks <- function(grlist,
         return(consensus_peaks)
     }) 
     names(consensus_peaks_grouped) <- unique(groups)
+    #### Report time ####
+    t2 <- Sys.time()
+    messager("Done computing consensus peaks in",
+             round(difftime(t2, t1, units = "min"),2),"min.")
+    #### Return ####
     return(consensus_peaks_grouped)
 }

@@ -19,6 +19,8 @@
 * Include code in html report (collapsed by default). 
 * Add correlation matrix/plot functionality.
 * Add `compute_consensus_peaks()` as function for preprocessing peak files. 
+    - Add `group_files()` function to help assign each peakfile to a group based
+    on substring searches. 
 
 ### Bug fixes
 
