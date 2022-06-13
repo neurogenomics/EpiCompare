@@ -78,8 +78,8 @@ compute_consensus_peaks <- function(grlist,
     #### Find consensus peaks in each group ####
     consensus_peaks_grouped <- lapply(unique(groups), function(g){  
         grlist2 <- grlist[which(groups==g)]
-        min_peaks <- min(unlist(lapply(grlist,length)), na.rm=TRUE)
-        max_peaks <- max(unlist(lapply(grlist,length)), na.rm=TRUE)
+        min_peaks <- min(unlist(lapply(grlist2,length)), na.rm=TRUE)
+        max_peaks <- max(unlist(lapply(grlist2,length)), na.rm=TRUE)
         messager("Computing consensus peaks for group:",g,
                  paste0("\n - ",length(grlist2)," files ",
                         "\n - ",
