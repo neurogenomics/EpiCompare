@@ -98,7 +98,7 @@ compute_consensus_peaks <- function(grlist,
         }
         #### Report ####
         messager("Identified",formatC(length(consensus_peaks),big.mark = ","),
-                 "consensus peaks from",formatC(length(grlist),big.mark = ","),
+                 "consensus peaks from",formatC(length(grlist2),big.mark = ","),
                  "peak files")
         return(consensus_peaks)
     }) 
