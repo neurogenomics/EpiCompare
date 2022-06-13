@@ -89,11 +89,20 @@
 #' @param output_timestamp Default FALSE. If TRUE, date will be included in the
 #' file name.
 #' @param output_dir Path to where output HTML file should be saved.
+#' @param display After completion, automatically display the HTML report file
+#'  in one of the following ways:
+#' \itemize{
+#' \item{"browser" : }{Display the report in your default web browser.}  
+#' \item{"rsstudio" : }{Display the report in Rstudio.} 
+#' \item{NULL (default) : }{Do not display the report.} 
+#' }
 #'
-#' @return An HTML report
+#' @return Path to one or more HTML report files.
 #'
 #' @export
 #' @importFrom rmarkdown render
+#' @importFrom methods show
+#' @importFrom utils browseURL
 #'
 #' @examples
 #' ### Load Data ###
@@ -141,11 +150,12 @@ EpiCompare <- function(peakfiles,
                        save_output = FALSE,
                        output_filename = "EpiCompare",
                        output_timestamp = FALSE,
-                       output_dir){
+                       output_dir,
+                       display = NULL){
 
   # time
   t1 <- Sys.time()
-
+  if(!is.null(display)) display <- tolower(display)[1]
   ### Output Filename ###
   if(output_timestamp){
     date <- format(Sys.Date(), '%b_%d_%Y')
@@ -158,44 +168,44 @@ EpiCompare <- function(peakfiles,
                                package = "EpiCompare")
 
   ### Multiple Reference Files ###
-  if(length(reference)>1){
-    outpath <- paste0(output_dir,"/EpiCompare")
-    requireNamespace("here")
-    out_list <- lapply(names(reference), function(nm){
-      message("\n","======>> ",nm," <<======")
-      output_dir <- here::here("EpiCompare",nm)
-      dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
-
-      ### Parse Parameters Into Markdown & Render HTML ###
-      rmarkdown::render(
-        input = markdown_path,
-        output_dir = output_dir,
-        output_file = output_filename,
-        quiet = TRUE,
-        params = list(
-          peakfile = peakfiles,
-          genome_build = genome_build,
-          genome_build_output = genome_build_output,
-          blacklist = blacklist,
-          picard_files = picard_files,
-          reference = reference[nm],
-          upset_plot = upset_plot,
-          stat_plot = stat_plot,
-          chromHMM_plot= chromHMM_plot,
-          chromHMM_annotation = chromHMM_annotation,
-          chipseeker_plot = chipseeker_plot,
-          enrichment_plot = enrichment_plot,
-          tss_plot = tss_plot,
-          precision_recall_plot = precision_recall_plot,
-          corr_plot=corr_plot,
-          interact = interact,
-          save_output = save_output,
-          output_dir = output_dir)
-      )
-    })
-  }else{
-    outpath <- output_dir
+  if(length(reference)>1){ 
+      output_html <- lapply(names(reference), function(nm){
+          message("\n","======>> ",nm," <<======")
+          #### Create subfolder for each run ####
+          output_dir <- file.path(output_dir,nm) 
+          dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+          #### Parse Parameters Into Markdown & Render HTML ####
+          rmarkdown::render(
+            input = markdown_path,
+            output_dir = output_dir,
+            output_file = output_filename,
+            quiet = TRUE,
+            params = list(
+              peakfile = peakfiles,
+              genome_build = genome_build,
+              genome_build_output = genome_build_output,
+              blacklist = blacklist,
+              picard_files = picard_files,
+              reference = reference[nm],
+              upset_plot = upset_plot,
+              stat_plot = stat_plot,
+              chromHMM_plot= chromHMM_plot,
+              chromHMM_annotation = chromHMM_annotation,
+              chipseeker_plot = chipseeker_plot,
+              enrichment_plot = enrichment_plot,
+              tss_plot = tss_plot,
+              precision_recall_plot = precision_recall_plot,
+              corr_plot = corr_plot,
+              interact = interact,
+              save_output = save_output,
+              output_dir = output_dir)
+          )
+          return(file.path(output_dir,paste0(output_filename,".html")))
+        }) |> unlist()
+  }else{ 
     ### Parse Parameters Into Markdown & Render HTML ###
+      output_html <- file.path(output_dir,paste0(output_filename,".html"))
+      #### Parse Parameters Into Markdown & Render HTML ####
     rmarkdown::render(
       input = markdown_path,
       output_dir = output_dir,
@@ -216,18 +226,30 @@ EpiCompare <- function(peakfiles,
         enrichment_plot = enrichment_plot,
         tss_plot = tss_plot,
         precision_recall_plot = precision_recall_plot,
-        corr_plot=corr_plot,
+        corr_plot = corr_plot,
         interact = interact,
         save_output = save_output,
         output_dir = output_dir)
     )
-  }
-
+  } 
   ### Show Timer ###
   t2 <- Sys.time()
-  methods::show( difftime(t2, t1, units = "min") )
-
-  ### Return ###
-  message("All Outputs Saved At: ", outpath)
-
+  methods::show(paste(
+      "Done in",round(difftime(t2, t1, units = "min"),3),"min."
+  ))
+  ### Display results ###
+  messager("All outputs saved to:", output_dir)
+  if(is.null(display)){
+      return(output_html) 
+  } else if(display=="browser"){
+      for(x in output_html){
+          utils::browseURL(x)
+      }
+  } else if(display=="rstudio"){
+      for(x in output_html){
+          file.show(x)
+      }
+  }
+  #### Return paths to html reports ####
+  return(output_html) 
 }

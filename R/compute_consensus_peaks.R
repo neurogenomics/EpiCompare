@@ -10,7 +10,6 @@
 #' \link[EpiCompare]{compute_consensus_peaks}
 #' has been disrupted partway through.
 #' 
-#' @param searches A named list of substrings to group \code{peakfiles} by.
 #' @param grlist Named list of \link[GenomicRanges]{GRanges} objects.
 #' @param groups A character vector of the same length as \code{grlist} 
 #' defining how to group \link[GenomicRanges]{GRanges} objects when 

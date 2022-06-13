@@ -21,6 +21,9 @@
 * Add `compute_consensus_peaks()` as function for preprocessing peak files. 
     - Add `group_files()` function to help assign each peakfile to a group based
     on substring searches. 
+* `EpiCompare`:
+    - Return paths to HTML reports.
+    - Automatically open report in browser or rstudio. 
 
 ### Bug fixes
 
@@ -30,6 +33,8 @@
 * Remove threshold=1 from list of thresholds to test in precision-recall curves.
 * Set first chunk in *EpiCompare.Rmd* as `echo=FALSE` instead of `include=FALSE`
 so the output messages will still be printed (without showing the code). 
+* Remove `here` from *Suggests*. 
+* Fix directory creation in `EpiCompare::EpiCompare`. 
 
 
 ## CHANGES IN VERSION 0.99.19

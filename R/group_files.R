@@ -2,6 +2,7 @@
 #' 
 #' Assign group names to each file in a named list based on a series of string
 #' searches based on combinations of relevant metadata factors.
+#' @param searches A named list of substrings to group \code{peakfiles} by.
 #' @inheritParams EpiCompare
 #' 
 #' @export

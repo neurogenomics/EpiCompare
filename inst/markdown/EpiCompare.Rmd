@@ -50,7 +50,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ### Create Output Directory ###
 # if save_output = TRUE
 if(params$save_output){
-  outfile_dir <- paste0(params$output_dir,"/EpiCompare_file")
+  outfile_dir <- file.path(params$output_dir,"EpiCompare_file")
   if(!dir.exists(outfile_dir)){
     dir.create(outfile_dir, showWarnings = FALSE, recursive = TRUE)
   }

@@ -99,8 +99,6 @@ in the \code{narrowPeaks} and \code{peaks} parameters. Default = 1.}
 number of threads to use in parallel. The \code{nbrThreads} must be a
 positive integer. Default = 1.}
   }}
-
-\item{searches}{A named list of substrings to group \code{peakfiles} by.}
 }
 \value{
 Named list of consensus peak \link[GenomicRanges]{GRanges}.

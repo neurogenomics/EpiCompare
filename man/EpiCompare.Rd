@@ -24,7 +24,8 @@ EpiCompare(
   save_output = FALSE,
   output_filename = "EpiCompare",
   output_timestamp = FALSE,
-  output_dir
+  output_dir,
+  display = NULL
 )
 }
 \arguments{
@@ -131,9 +132,17 @@ will be saved in the specified name.}
 file name.}
 
 \item{output_dir}{Path to where output HTML file should be saved.}
+
+\item{display}{After completion, automatically display the HTML report file
+ in one of the following ways:
+\itemize{
+\item{"browser" : }{Display the report in your default web browser.}  
+\item{"rsstudio" : }{Display the report in Rstudio.} 
+\item{NULL (default) : }{Do not display the report.} 
+}}
 }
 \value{
-An HTML report
+Path to one or more HTML report files.
 }
 \description{
 This function compares and analyses multiple epigenetic datasets and outputs

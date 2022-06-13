@@ -13,6 +13,8 @@ object. EpiCompare also accepts a list containing a mix of GRanges objects
 and paths.Files must be listed and named using \code{list()}.
 E.g. \code{list("name1"=file1, "name2"=file2)}. If no names are specified,
 default file names will be assigned.}
+
+\item{searches}{A named list of substrings to group \code{peakfiles} by.}
 }
 \description{
 Assign group names to each file in a named list based on a series of string
