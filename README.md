@@ -19,7 +19,7 @@ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene</i>
 </h4>
 <h5>
-<i>Updated</i>: Jun-13-2022
+<i>Updated</i>: Jun-14-2022
 </h5>
 
 # Introduction
@@ -57,7 +57,9 @@ BiocManager::install("EpiCompare")
 
 # Documentation
 
-[EpiCompare website](https://neurogenomics.github.io/EpiCompare)
+## [EpiCompare website](https://neurogenomics.github.io/EpiCompare)
+
+## [Docker/Singularity container](https://neurogenomics.github.io/EpiCompare/articles/docker)
 
 # Usage
 

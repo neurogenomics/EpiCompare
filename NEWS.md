@@ -24,6 +24,7 @@
 * `EpiCompare`:
     - Return paths to HTML reports.
     - Automatically open report in browser or rstudio. 
+* Add Docker vignette and advertise in README. 
 
 ### Bug fixes
 

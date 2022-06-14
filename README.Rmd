@@ -56,7 +56,8 @@ BiocManager::install("EpiCompare")
 
 # Documentation
 
-[EpiCompare website](https://neurogenomics.github.io/EpiCompare)
+## [EpiCompare website](https://neurogenomics.github.io/EpiCompare) 
+## [Docker/Singularity container](https://neurogenomics.github.io/EpiCompare/articles/docker) 
 
 # Usage
 

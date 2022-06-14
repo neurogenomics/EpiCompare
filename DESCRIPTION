@@ -56,7 +56,8 @@ Imports:
     stats,
     stringr,
     utils,
-    BiocGenerics
+    BiocGenerics,
+    gtools
 Suggests: 
     badger,
     BiocFileCache,
@@ -81,8 +82,7 @@ Suggests:
     plyranges,
     scales,
     Matrix,
-    consensusSeekeR,
-    gtools
+    consensusSeekeR
 VignetteBuilder: 
     knitr
 biocViews: Epigenetics, Genetics, QualityControl, ChIPSeq,
