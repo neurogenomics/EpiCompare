@@ -56,8 +56,7 @@ Imports:
     stats,
     stringr,
     utils,
-    BiocGenerics,
-    gtools
+    BiocGenerics
 Suggests: 
     badger,
     BiocFileCache,
