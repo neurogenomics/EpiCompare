@@ -1,3 +1,12 @@
+## CHANGES IN VERSION 0.99.21
+
+### Bug fixes
+
+* Changed terminology from "epigenetic" to "epigenomic"
+* Updated README to include precision_recall_plot and corr_plot
+* Removed bugs in html report 
+* Added example EpiCompare report in inst/report/EpiCompare_example.html
+
 ## CHANGES IN VERSION 0.99.20
 
 ### New features

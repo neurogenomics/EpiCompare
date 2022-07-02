@@ -1,7 +1,7 @@
 Type: Package
 Package: EpiCompare
-Title: Comparison, Benchmarking & QC of Epigenetic Datasets
-Version: 0.99.20
+Title: Comparison, Benchmarking & QC of Epigenomic Datasets
+Version: 0.99.21
 Authors@R: c(
     person(given = "Sera", family = "Choi", 
         email = "serachoi1230@gmail.com", 
@@ -23,7 +23,7 @@ Authors@R: c(
         role = "aut",
         comment = c(ORCID = "0000-0002-6807-3180"))
   )
-Description: EpiCompare is used to compare and analyse epigenetic datasets
+Description: EpiCompare is used to compare and analyse epigenomic datasets
     for quality control and benchmarking purposes.  The package outputs an
     HTML report consisting of three sections: (1. General metrics) Metrics
     on peaks (percentage of blacklisted and non-standard peaks, and peak

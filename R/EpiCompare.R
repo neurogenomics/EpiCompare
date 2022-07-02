@@ -1,6 +1,6 @@
-#' Compare epigenetic datasets
+#' Compare epigenomic datasets
 #'
-#' This function compares and analyses multiple epigenetic datasets and outputs
+#' This function compares and analyses multiple epigenomic datasets and outputs
 #' an HTML report containing all results of the analysis. The report is mainly
 #' divided into three sections: (1) General Metrics on Peakfiles,
 #' (2) Peak Overlaps and (3) Functional Annotation of Peaks.
@@ -52,12 +52,12 @@
 #' @param stat_plot Default FALSE. If TRUE, the function creates a plot showing
 #' the statistical significance of overlapping/non-overlapping peaks.
 #' Reference peak file must be provided.
-#' @param precision_recall_plot Default is FALSE. If TRUE, 
-#' creates a precision-recall curve plot and an F1 plot using 
-#' \link[EpiCompare]{plot_precision_recall}. 
+#' @param precision_recall_plot Default is FALSE. If TRUE,
+#' creates a precision-recall curve plot and an F1 plot using
+#' \link[EpiCompare]{plot_precision_recall}.
 #' @param corr_plot Default is FALSE. If TRUE, creates a correlation plot across
-#' all peak files using 
-#' \link[EpiCompare]{plot_corr}. 
+#' all peak files using
+#' \link[EpiCompare]{plot_corr}.
 #' @param chromHMM_plot Default FALSE. If TRUE, the function outputs ChromHMM
 #' heatmap of individual peak files. If a reference peak file is provided,
 #' ChromHMM annotation of overlapping and non-overlapping peaks is also provided.
@@ -92,9 +92,9 @@
 #' @param display After completion, automatically display the HTML report file
 #'  in one of the following ways:
 #' \itemize{
-#' \item{"browser" : }{Display the report in your default web browser.}  
-#' \item{"rsstudio" : }{Display the report in Rstudio.} 
-#' \item{NULL (default) : }{Do not display the report.} 
+#' \item{"browser" : }{Display the report in your default web browser.}
+#' \item{"rsstudio" : }{Display the report in Rstudio.}
+#' \item{NULL (default) : }{Do not display the report.}
 #' }
 #'
 #' @return Path to one or more HTML report files.
@@ -108,7 +108,7 @@
 #' ### Load Data ###
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
-#' data("CnR_H3K27ac") # example dataset as GRanges object 
+#' data("CnR_H3K27ac") # example dataset as GRanges object
 #' data("hg19_blacklist") # hg38 blacklist dataset
 #' data("CnT_H3K27ac_picard") # example Picard summary output
 #' data("CnR_H3K27ac_picard") # example Picard summary output
@@ -130,7 +130,7 @@
 #'            blacklist = hg19_blacklist,
 #'            picard_files = picard,
 #'            reference = reference_peak,
-#'            output_dir = tempdir()) 
+#'            output_dir = tempdir())
 EpiCompare <- function(peakfiles,
                        genome_build,
                        genome_build_output = "hg19",
@@ -168,11 +168,11 @@ EpiCompare <- function(peakfiles,
                                package = "EpiCompare")
 
   ### Multiple Reference Files ###
-  if(length(reference)>1){ 
+  if(length(reference)>1){
       output_html <- lapply(names(reference), function(nm){
           message("\n","======>> ",nm," <<======")
           #### Create subfolder for each run ####
-          output_dir <- file.path(output_dir,nm) 
+          output_dir <- file.path(output_dir,nm)
           dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
           #### Parse Parameters Into Markdown & Render HTML ####
           rmarkdown::render(
@@ -202,7 +202,7 @@ EpiCompare <- function(peakfiles,
           )
           return(file.path(output_dir,paste0(output_filename,".html")))
         }) |> unlist()
-  }else{ 
+  }else{
     ### Parse Parameters Into Markdown & Render HTML ###
       output_html <- file.path(output_dir,paste0(output_filename,".html"))
       #### Parse Parameters Into Markdown & Render HTML ####
@@ -231,7 +231,7 @@ EpiCompare <- function(peakfiles,
         save_output = save_output,
         output_dir = output_dir)
     )
-  } 
+  }
   ### Show Timer ###
   t2 <- Sys.time()
   methods::show(paste(
@@ -240,7 +240,7 @@ EpiCompare <- function(peakfiles,
   ### Display results ###
   messager("All outputs saved to:", output_dir)
   if(is.null(display)){
-      return(output_html) 
+      return(output_html)
   } else if(display=="browser"){
       for(x in output_html){
           utils::browseURL(x)
@@ -251,5 +251,5 @@ EpiCompare <- function(peakfiles,
       }
   }
   #### Return paths to html reports ####
-  return(output_html) 
+  return(output_html)
 }

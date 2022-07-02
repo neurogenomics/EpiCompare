@@ -103,17 +103,18 @@ fig_height <- fig_length(default_size = 7,
                          max_items = 10)
 ```
 
-[EpiCompare](https://github.com/neurogenomics/EpiCompare) compares epigenetic 
+[EpiCompare](https://github.com/neurogenomics/EpiCompare) compares epigenomic 
 datasets for quality control and benchmarking purposes. 
 The report consists of three sections: 
 
-1. **General Metrics:** Metrics on peaks (percentage of blacklisted and 
-non-standard peaks, and peak widths) 
-and fragments (duplication rate) of samples.
-2. **Peak Overlap:** Percentage and statistical significance of overlapping and 
-non-overlapping peaks. Also includes upset plot. 
+1. **General Metrics:** Metrics on peaks - percentage of blacklisted and 
+non-standard peaks and peak widths - and fragments - duplication rate - of 
+samples.
+2. **Peak Overlap:** Frequency, percentage, statistical significance of 
+overlapping and non-overlapping peaks. This also includes Upset, 
+precision-recall and correlation plots. 
 3. **Functional Annotation:** Functional annotation (ChromHMM, ChIPseeker and 
-enrichment analysis) of peaks. Also includes peak enrichment around TSS. 
+enrichment analysis) of peaks. This also includes peak enrichment around TSS. 
 
 ***
 
@@ -181,7 +182,7 @@ in blacklisted regions and non-standard chromosomes)
 
 <br>
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 # Run peak_info()
 peak_info_df <- peak_info(peaklist = peaklist,
                           blacklist = blacklist)
@@ -357,7 +358,7 @@ The first plot shows the balance between precision and recall across multiple pe
 - **Recall**: Number of reference peaks in sample. 
 
 The second plot shows F1 score 
-(a score that combines precision and recall) across the different peak calling calling stringency thresholds.  
+(a score that combines precision and recall) across the different peak calling stringency thresholds.  
 
 - **F1**: `2*(precision*recall) / (precision+recall)`
 
@@ -380,8 +381,8 @@ remove(pr_out)
 
 ### Correlation Plot
 
-The correlation plot shows the correlation between the quantiles when the genome is binned at a set size. 
-These quantiles are based on the intensity of the peak,
+The correlation plot shows the correlation between the quantiles when the genome
+is binned at a set size. These quantiles are based on the intensity of the peak,
 dependent on the peak caller used (q-value for MACS2):
 
 ```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}

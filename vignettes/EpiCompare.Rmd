@@ -13,34 +13,34 @@ vignette: >
 
 # Overview
 
-The *EpiCompare* package is designed to facilitate the comparison of epigenetic 
+The *EpiCompare* package is designed to facilitate the comparison of epigenomic 
 datasets for quality control and benchmarking purposes. The package combines 
-several downstream analysis tools for epigenetic data and generates a single 
+several downstream analysis tools for epigenomic data and generates a single 
 report that collates all results of the analysis. This allows users to conduct 
-downstream analysis of multiple epigenetic datasets simultaneously and compare
+downstream analysis of multiple epigenomic datasets simultaneously and compare
 the results in a simple and efficient way. 
 
 ## Introduction
 
 For many years, ChIP-seq has been the standard method for epigenomic profiling,
-but it suffers from a host of limitations. Recently, many other epigenetic 
+but it suffers from a host of limitations. Recently, many other epigenomic 
 technologies (e.g. CUT&Run, CUT&Tag and TIP-seq etc.), designed to overcome 
 these constraints, have been developed. To better understand the performance of 
 these novel approaches, it is important that we systematically compare these 
 technologies and benchmark against a “gold-standard”.
 
 There are many tools in R (e.g. *ChIPseeker*) that can be used to conduct 
-downstream analysis and comparison of epigenetic datasets. However, these are 
+downstream analysis and comparison of epigenomic datasets. However, these are 
 often scattered across different packages and difficult to use for researchers
 with none or little computational experience. 
 
 *EpiCompare* is designed to provide a simple and comprehensive way of analysing
-and comparing epigenetic datasets. It combines many useful downstream analysis
+and comparing epigenomic datasets. It combines many useful downstream analysis
 tools, which can easily be controlled by users and it collates the results in a
 single report. This allows researchers to systematically compare different
-epigenetic technologies.
+epigenomic technologies.
 
-While the main functionality of *EpiCompare* is to contrast epigenetic
+While the main functionality of *EpiCompare* is to contrast epigenomic
 technologies, it can also be used to compare datasets generated using different
 experimental conditions and data analysis workflows of one technology. This
 can help researchers to establish a consensus regarding the optimal use of the 
