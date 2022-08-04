@@ -32,8 +32,10 @@
 #'  with both the rebinned 
 #' (standardised) peaks ("bin") and the correlation matrix ("cor").
 #' If \code{FALSE} (default), returns only the correlation matrix (unlisted). 
+#' 
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
+#' @inheritParams remove_nonstandard_chrom
 #' @return correlation matrix
 #' 
 #' @export
@@ -51,26 +53,32 @@
 #'                       genome_build = "hg19",
 #'                       bin_size = 1000)
 compute_corr <- function(peakfiles,
-                      reference,
-                      genome_build,
-                      bin_size = 100,
-                      method = "spearman",
-                      intensity_cols=c("total_signal", 
-                                       "qValue",
-                                       "Peak Score"),
-                      return_bins = FALSE,
-                      workers=1){
+                         reference = NULL,
+                         genome_build,
+                         keep_chr = NULL,
+                         bin_size = 100,
+                         method = "spearman",
+                         intensity_cols=c("total_signal", 
+                                          "qValue",
+                                          "Peak Score"),
+                         return_bins = FALSE,
+                         workers = 1){
     t1 <- Sys.time() 
     #### append all peak files since all to be compared ####
     #make sure reference not already added to peakfiles
-    all_peaks <- append(reference[!names(reference) %in% names(peakfiles)],
-                          peakfiles)
+    if(!is.null(reference)){
+        all_peaks <- append(reference[!names(reference) %in% names(peakfiles)],
+                            peakfiles)
+    } else {
+        all_peaks <- peakfiles
+    } 
     #sense check
     if(length(all_peaks)<=1)
       stop("Need more than one peak file to create correlation matrix.") 
     #### Re-bin data so comparisons made same regions ####
     gr_mat <- rebin_peaks(peakfiles = all_peaks, 
                           genome_build = genome_build, 
+                          keep_chr = keep_chr,
                           intensity_cols = intensity_cols,
                           bin_size = bin_size, 
                           ## stats::cor can only take dense matrices.

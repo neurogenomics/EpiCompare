@@ -17,7 +17,7 @@ translate_genome <- function(genome,
                              omit_subversion=TRUE){
     if(length(style)>1){
         style <- style[1]
-        messager("WARNING: >1 style supplied. Only using the first:",style)
+        # messager("WARNING: >1 style supplied. Only using the first:",style)
     }
     #### Map genome build synonyms ####
     if(toupper(style)=="NCBI"){

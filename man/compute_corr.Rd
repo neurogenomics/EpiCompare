@@ -6,8 +6,9 @@
 \usage{
 compute_corr(
   peakfiles,
-  reference,
+  reference = NULL,
   genome_build,
+  keep_chr = NULL,
   bin_size = 100,
   method = "spearman",
   intensity_cols = c("total_signal", "qValue", "Peak Score"),
@@ -37,6 +38,8 @@ calculate the correlation matrix on. If all peak and reference files are not
 of the same build use 
 \link[EpiCompare]{liftover_grlist} to convert them all before running. Genome
 build should be one of hg19, hg38, mm9, mm10.}
+
+\item{keep_chr}{Which chromosomes to keep.}
 
 \item{bin_size}{Default of 100. Base-pair size of the bins created to measure
 correlation. Use smaller value for higher resolution but longer run time and 

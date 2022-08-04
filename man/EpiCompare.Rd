@@ -2,7 +2,7 @@
 % Please edit documentation in R/EpiCompare.R
 \name{EpiCompare}
 \alias{EpiCompare}
-\title{Compare epigenetic datasets}
+\title{Compare epigenomic datasets}
 \usage{
 EpiCompare(
   peakfiles,
@@ -111,12 +111,12 @@ of KEGG and GO enrichment analysis of peak files.}
 \item{tss_plot}{Default FALSE. If TRUE, the report includes peak count
 frequency around transcriptional start site. Note that this can take awhile.}
 
-\item{precision_recall_plot}{Default is FALSE. If TRUE, 
-creates a precision-recall curve plot and an F1 plot using 
+\item{precision_recall_plot}{Default is FALSE. If TRUE,
+creates a precision-recall curve plot and an F1 plot using
 \link[EpiCompare]{plot_precision_recall}.}
 
 \item{corr_plot}{Default is FALSE. If TRUE, creates a correlation plot across
-all peak files using 
+all peak files using
 \link[EpiCompare]{plot_corr}.}
 
 \item{interact}{Default TRUE. By default, all heatmaps are interactive.
@@ -136,16 +136,16 @@ file name.}
 \item{display}{After completion, automatically display the HTML report file
  in one of the following ways:
 \itemize{
-\item{"browser" : }{Display the report in your default web browser.}  
-\item{"rsstudio" : }{Display the report in Rstudio.} 
-\item{NULL (default) : }{Do not display the report.} 
+\item{"browser" : }{Display the report in your default web browser.}
+\item{"rsstudio" : }{Display the report in Rstudio.}
+\item{NULL (default) : }{Do not display the report.}
 }}
 }
 \value{
 Path to one or more HTML report files.
 }
 \description{
-This function compares and analyses multiple epigenetic datasets and outputs
+This function compares and analyses multiple epigenomic datasets and outputs
 an HTML report containing all results of the analysis. The report is mainly
 divided into three sections: (1) General Metrics on Peakfiles,
 (2) Peak Overlaps and (3) Functional Annotation of Peaks.
@@ -154,7 +154,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
 ### Load Data ###
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
-data("CnR_H3K27ac") # example dataset as GRanges object 
+data("CnR_H3K27ac") # example dataset as GRanges object
 data("hg19_blacklist") # hg38 blacklist dataset
 data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
@@ -176,5 +176,5 @@ EpiCompare(peakfiles = peaks,
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
-           output_dir = tempdir()) 
+           output_dir = tempdir())
 }

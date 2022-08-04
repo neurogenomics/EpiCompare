@@ -268,9 +268,9 @@ Both outputs are saved in the specified `output_dir`.
 
 # Future Enhancements 
 
-In the current version, EpiCompare only recognizes certain BED formats. We hope
+In the current version, *EpiCompare* only recognizes certain BED formats. We hope
 to improve this. Moreover, if there are other downstream analysis tools that may
-be suitable in EpiCompare, feel free to report this through 
+be suitable in *EpiCompare*, feel free to report this through 
 [Github](https://github.com/neurogenomics/EpiCompare).  
 
 # Session Information

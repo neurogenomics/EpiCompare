@@ -1,19 +1,22 @@
-citHeader("To cite EpiCompare in publications use:")
+citHeader("To cite EpiCompare, please use:")
 
 citEntry(
   entry    = "Article",
-  title    = "EpiCompare: Comparison, Benchmarking & QC of Epigenetic Datasets",
+  title    = "EpiCompare: R package for the comparison and quality control of epigenomic peak files",
   author   = personList(as.person("Sera Choi"),
-                        as.person("Brian Schilder"),
-                        as.person("Alan Murphy"),
-                        as.person("Nathan Skene")),
-  journal  = "NA",
-  year     = "NA",
-  volume   = "NA",
-  number   = "NA",
-  pages    = "NA",
-  url      = "NA",
-  textVersion = paste("NA"
-
+                        as.person("Brian M. Schilder"),
+                        as.person("Leyla Abbasova"),
+                        as.person("Alan E. Murphy"),
+                        as.person("Nathan G. Skene")),
+  journal  = "bioRxiv",
+  year     = "2022",
+  volume   = NULL,
+  number   = NULL,
+  pages    = NULL,
+  url      = "https://doi.org/10.1101/2022.07.22.501149",
+  textVersion = paste(
+  "EpiCompare: R package for the comparison and quality control of epigenomic peak files (2022) 
+Sera Choi, Brian M. Schilder, Leyla Abbasova, Alan E. Murphy, Nathan G. Skene
+bioRxiv 2022.07.22.501149; doi: https://doi.org/10.1101/2022.07.22.501149"
   )
 )

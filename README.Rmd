@@ -21,6 +21,14 @@ editor_options:
     wrap: 72
 ---
 
+```{r, echo=FALSE, include=FALSE}
+pkg <- read.dcf("DESCRIPTION", fields = "Package")[1]
+title <- read.dcf("DESCRIPTION", fields = "Title")[1]
+description <- read.dcf("DESCRIPTION", fields = "Description")[1]
+URL <- read.dcf('DESCRIPTION', fields = 'URL')[1]
+owner <- tolower(strsplit(URL,"/")[[1]][4])
+```
+
 # Introduction
 
 `EpiCompare` is an R package for comparing multiple epigenomic datasets
@@ -46,12 +54,20 @@ removed from the files prior to analysis.
 
 To install `EpiCompare` use:
 
-``` r
+```r
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
 BiocManager::install("EpiCompare") 
 ```
+
+## Citation
+ 
+If you use ``r pkg``, please cite: 
+
+<!-- Modify this by editing the file: inst/CITATION  -->
+> `r citation(pkg)$textVersion`
+
 
 # Documentation
 
@@ -75,34 +91,41 @@ data("CnR_H3K27ac_picard") # example Picard summary output
 Prepare input files: 
 
 ```r
-peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac) # create named list of peakfiles 
-reference_peak <- list("ENCODE_H3K27ac" = encode_H3K27ac) # set ref file and name 
-picard <- list("CnT"=CnT_H3K27ac_picard, "CnR"=CnR_H3K27ac_picard) # create named list of Picard summary
+# create named list of peakfiles 
+peakfiles <- list("CnT"=CnT_H3K27ac, 
+                  "CnR"=CnR_H3K27ac) 
+# set ref file and name 
+reference <- list("ENCODE_H3K27ac" = encode_H3K27ac) 
+# create named list of Picard summary
+picard_files <- list("CnT"=CnT_H3K27ac_picard, 
+                     "CnR"=CnR_H3K27ac_picard) 
 ```
 
 Additional helps on preparing files:
 
 ```r
 # To import BED files as GRanges object
-peak <-  ChIPseeker::readPeakFile("/path/to/peak/file.bed", as = "GRanges")
-# EpiCompare also accepts paths (to BED files) as input 
-peaklist <- list("sample1"="/path/to/BED/file1.bed", 
-                 "sample2"="/path/to/BED/file2.bed")
-# To import Picard summary output txt file as data frame 
-picard <- read.table("/path/to/Picard/summary.txt", header = TRUE, fill = TRUE)
+peakfiles <-  EpiCompare::gather_files(dir = "path/to/peak", 
+                                       type = "peaks.stringent")
+# EpiCompare alternatively accepts paths (to BED files) as input 
+peakfiles <- list(sample1="/path/to/peak/file1_peaks.stringent.bed", 
+                  sample2="/path/to/peak/file2_peaks.stringent.bed")
+# To import Picard summary output txt file as data frame
+picard_files <- EpiCompare::gather_files(dir = "path/to/peak", 
+                                         type = "picard")
 ```
 
 Run `EpiCompare()`:
 
-``` r
-EpiCompare(peakfiles = peaklist,
+```r
+EpiCompare(peakfiles = peakfiles,
            genome_build = list(peakfiles="hg19",
                                reference="hg38",
                                blacklist="hg19"),
            genome_build_output = "hg19",
            blacklist = hg19_blacklist,
-           picard_files = picard,
-           reference = reference_peak,
+           picard_files = picard_files,
+           reference = reference,
            upset_plot = TRUE,
            stat_plot = TRUE,
            chromHMM_plot = TRUE,

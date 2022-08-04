@@ -6,7 +6,9 @@
 #' @param type whether to fetch the txdb or bsgen reference data
 #' @keywords internal
 #' @returns txdb or bsgen
-check_genome_build <- function(genome_build,type="txdb"){
+check_genome_build <- function(genome_build,
+                               type="txdb"){
+    genome_build <- translate_genome(genome = genome_build)
     if(type=="txdb"){
       if(genome_build == "hg19"){
           requireNamespace("TxDb.Hsapiens.UCSC.hg19.knownGene")

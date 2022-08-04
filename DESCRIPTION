@@ -31,7 +31,7 @@ Description: EpiCompare is used to compare and analyse epigenomic datasets
     Percentage and statistical significance of overlapping and
     non-overlapping peaks. Also includes upset plot and (3. Functional
     annotation) functional annotation (ChromHMM, ChIPseeker and enrichment
-    analysis) of peaks.  Also includes peak enrichment around TSS.
+    analysis) of peaks. Also includes peak enrichment around TSS.
 License: GPL-3
 URL: https://github.com/neurogenomics/EpiCompare
 BugReports: https://github.com/neurogenomics/EpiCompare/issues
@@ -89,4 +89,4 @@ biocViews: Epigenetics, Genetics, QualityControl, ChIPSeq,
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: FALSE
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1

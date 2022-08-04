@@ -2,7 +2,7 @@ compute_percentiles <- function(gr,
                                 thresholding_cols=c("total_signal", 
                                                     "qValue",
                                                     "Peak Score"),
-                                initial_threshold=0.5){
+                                initial_threshold=0){
     requireNamespace("scales")
     compute_pct <- function(vec,
                             initial_threshold){

@@ -1,13 +1,13 @@
 `EpiCompare`: QC and Benchmarking of Epigenomic Datasets
 ================
 <img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' height='300'><br><br>
-[![](https://img.shields.io/badge/devel%20version-0.99.21-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-1.1.1-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/badge/release%20version-1.0.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
 [![BioC
 status](http://www.bioconductor.org/shields/build/devel/bioc/EpiCompare.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/EpiCompare)
 [![platforms](http://www.bioconductor.org/images/shields/availability/all.svg)](https://bioconductor.org/packages/devel/bioc/html/EpiCompare.html#archives)
 [![](https://img.shields.io/badge/doi-https://doi.org/doi:10.18129/B9.bioc.EpiCompare-green.svg)](https://doi.org/https://doi.org/doi:10.18129/B9.bioc.EpiCompare)
-[![](https://img.shields.io/badge/download-115/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-164/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
@@ -19,7 +19,7 @@ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene</i>
 </h4>
 <h5>
-<i>Updated</i>: Jul-02-2022
+<i>Updated</i>: Aug-05-2022
 </h5>
 
 # Introduction
@@ -54,6 +54,17 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("EpiCompare") 
 ```
 
+## Citation
+
+If you use `EpiCompare`, please cite:
+
+<!-- Modify this by editing the file: inst/CITATION  -->
+
+> EpiCompare: R package for the comparison and quality control of
+> epigenomic peak files (2022) Sera Choi, Brian M. Schilder, Leyla
+> Abbasova, Alan E. Murphy, Nathan G. Skene bioRxiv 2022.07.22.501149;
+> doi: <https://doi.org/10.1101/2022.07.22.501149>
+
 # Documentation
 
 ## [EpiCompare website](https://neurogenomics.github.io/EpiCompare)
@@ -77,34 +88,41 @@ data("CnR_H3K27ac_picard") # example Picard summary output
 Prepare input files:
 
 ``` r
-peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac) # create named list of peakfiles 
-reference_peak <- list("ENCODE_H3K27ac" = encode_H3K27ac) # set ref file and name 
-picard <- list("CnT"=CnT_H3K27ac_picard, "CnR"=CnR_H3K27ac_picard) # create named list of Picard summary
+# create named list of peakfiles 
+peakfiles <- list("CnT"=CnT_H3K27ac, 
+                  "CnR"=CnR_H3K27ac) 
+# set ref file and name 
+reference <- list("ENCODE_H3K27ac" = encode_H3K27ac) 
+# create named list of Picard summary
+picard_files <- list("CnT"=CnT_H3K27ac_picard, 
+                     "CnR"=CnR_H3K27ac_picard) 
 ```
 
 Additional helps on preparing files:
 
 ``` r
 # To import BED files as GRanges object
-peak <-  ChIPseeker::readPeakFile("/path/to/peak/file.bed", as = "GRanges")
-# EpiCompare also accepts paths (to BED files) as input 
-peaklist <- list("sample1"="/path/to/BED/file1.bed", 
-                 "sample2"="/path/to/BED/file2.bed")
-# To import Picard summary output txt file as data frame 
-picard <- read.table("/path/to/Picard/summary.txt", header = TRUE, fill = TRUE)
+peakfiles <-  EpiCompare::gather_files(dir = "path/to/peak", 
+                                       type = "peaks.stringent")
+# EpiCompare alternatively accepts paths (to BED files) as input 
+peakfiles <- list(sample1="/path/to/peak/file1_peaks.stringent.bed", 
+                  sample2="/path/to/peak/file2_peaks.stringent.bed")
+# To import Picard summary output txt file as data frame
+picard_files <- EpiCompare::gather_files(dir = "path/to/peak", 
+                                         type = "picard")
 ```
 
 Run `EpiCompare()`:
 
 ``` r
-EpiCompare(peakfiles = peaklist,
+EpiCompare(peakfiles = peakfiles,
            genome_build = list(peakfiles="hg19",
                                reference="hg38",
                                blacklist="hg19"),
            genome_build_output = "hg19",
            blacklist = hg19_blacklist,
-           picard_files = picard,
-           reference = reference_peak,
+           picard_files = picard_files,
+           reference = reference,
            upset_plot = TRUE,
            stat_plot = TRUE,
            chromHMM_plot = TRUE,
@@ -248,22 +266,22 @@ utils::sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] BiocManager_1.30.18 compiler_4.2.0      pillar_1.7.0       
-    ##  [4] RColorBrewer_1.1-3  yulab.utils_0.0.4   tools_4.2.0        
+    ##  [1] BiocManager_1.30.18 pillar_1.8.0        compiler_4.2.0     
+    ##  [4] RColorBrewer_1.1-3  yulab.utils_0.0.5   tools_4.2.0        
     ##  [7] digest_0.6.29       jsonlite_1.8.0      evaluate_0.15      
-    ## [10] lifecycle_1.0.1     tibble_3.1.7        gtable_0.3.0       
-    ## [13] pkgconfig_2.0.3     rlang_1.0.2         DBI_1.1.2          
-    ## [16] cli_3.3.0           rstudioapi_0.13     rvcheck_0.2.1      
+    ## [10] lifecycle_1.0.1     tibble_3.1.8        gtable_0.3.0       
+    ## [13] pkgconfig_2.0.3     rlang_1.0.4         cli_3.3.0          
+    ## [16] DBI_1.1.3           rstudioapi_0.13     rvcheck_0.2.1      
     ## [19] yaml_2.3.5          xfun_0.31           fastmap_1.1.0      
     ## [22] stringr_1.4.0       dplyr_1.0.9         knitr_1.39         
-    ## [25] desc_1.4.1          generics_0.1.2      vctrs_0.4.1        
+    ## [25] desc_1.4.1          generics_0.1.3      vctrs_0.4.1        
     ## [28] dlstats_0.1.5       rprojroot_2.0.3     grid_4.2.0         
     ## [31] tidyselect_1.1.2    glue_1.6.2          R6_2.5.1           
     ## [34] fansi_1.0.3         rmarkdown_2.14      ggplot2_3.3.6      
     ## [37] purrr_0.3.4         badger_0.2.1        magrittr_2.0.3     
-    ## [40] scales_1.2.0        ellipsis_0.3.2      htmltools_0.5.2    
-    ## [43] assertthat_0.2.1    colorspace_2.0-3    utf8_1.2.2         
-    ## [46] stringi_1.7.6       munsell_0.5.0       crayon_1.5.1
+    ## [40] scales_1.2.0        htmltools_0.5.3     assertthat_0.2.1   
+    ## [43] colorspace_2.0-3    utf8_1.2.2          stringi_1.7.8      
+    ## [46] munsell_0.5.0
 
 </details>
 

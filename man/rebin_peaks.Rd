@@ -9,8 +9,10 @@ rebin_peaks(
   genome_build,
   intensity_cols = c("total_signal", "qValue", "Peak Score"),
   bin_size = 100,
+  keep_chr = NULL,
   as_sparse = TRUE,
-  workers = 1
+  workers = 1,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -48,11 +50,15 @@ correlations:
 correlation. Use smaller value for higher resolution but longer run time and 
 larger memory usage.}
 
+\item{keep_chr}{Which chromosomes to keep.}
+
 \item{as_sparse}{Return the rebinned peaks as a sparse matrix
 (default: \code{TRUE}), 
 which is more efficiently stored than a dense matrix (\code{FALSE}).}
 
 \item{workers}{Number of threads to parallelize across.}
+
+\item{verbose}{Print messages.}
 }
 \value{
 Binned peaks matrix

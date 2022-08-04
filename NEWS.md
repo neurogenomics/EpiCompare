@@ -1,9 +1,30 @@
 ## CHANGES IN VERSION 1.1.1
 
+### New features
+
+* `check_genome_build`: Add `translate_genome` as prestep.
+* `rebin_peaks`: 
+    1. Move all steps that could be done just once (e.g. creating the genome-wide tiles object) outside of the `BiocParallel::bpmapply` iterator.
+    2. Ensure all outputs of `BiocParallel::bpmapply` are of the same length, within the exact same bins, so that we can return  just the bare minimum data needed to create the matrix (1 numeric vector/sample).
+    3. Instead of `rbind`ing the results and then casting them back into a matrix (which is safer bc it can handle vectors of different lengths), simply `cbind` all vectors into one matrix directly and name the rows using the predefined genome-wide tiles.
+    4. Because we are no longer `rbind`ing a series of very long tables, this avoids the issue encountered here #103. This means this function is now much more scalable to many hundreds/thousands of samples (cells) even at very small bin sizes (e.g. 100bp).
+    5. A new argument `keep_chr` allows users to specify whether they want to restrict which chromosomes are used during binning. By default, all chromosomes in the reference genome are used (`keep_chr=NULL`), but specifying a subset of chromosomes (e.g. `paste0("chr",seq_len(12))`) can drastically speed up compute time and reduce memory usage. It can also be useful for removing non-standard chromosomes (e.g. "chr21_gl383579_alt", "chrUns...", "chrRand...").
+    6. As a bonus, `rebin_peaks` now reports the final binned matrix dimensions and a sparsity metric.  
+- `compute_corr`:
+    * Added unit tests at different bin sizes. 
+    * Allow `reference` to be `NULL`. 
+- Updated README to reflect latest vesion of `EpiCompare` with `gather_files`. 
+
 ### Bug fixes
 
-- Bumped version to align with Bioc devel (currently 1.1.0).
-- 
+* Bumped version to align with Bioc devel (currently 1.1.0).
+* `compute_percentiles`:
+    - Making default `initial_threshold=0`, 
+    so as not to assume any particular threshold. 
+* `rebin_peaks`: 
+    - Addressed error that occurs when there's many samples/cells 
+    with small bins.  
+    
 
 ## CHANGES IN VERSION 0.99.21
 
