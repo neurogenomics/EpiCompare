@@ -1,3 +1,10 @@
+## CHANGES IN VERSION 1.1.1
+
+### Bug fixes
+
+- Bumped version to align with Bioc devel (currently 1.1.0).
+- 
+
 ## CHANGES IN VERSION 0.99.21
 
 ### Bug fixes
