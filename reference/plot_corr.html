@@ -19,7 +19,7 @@ dependent on the peak calling approach."><!-- mathjax --><script src="https://cd
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.1</span>
       </span>
     </div>
 
@@ -70,17 +70,17 @@ dependent on the peak calling approach.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_corr</span><span class="op">(</span>
-  <span class="va">peakfiles</span>,
-  <span class="va">reference</span>,
-  <span class="va">genome_build</span>,
-  bin_size <span class="op">=</span> <span class="fl">100</span>,
-  method <span class="op">=</span> <span class="st">"spearman"</span>,
-  intensity_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"total_signal"</span>, <span class="st">"qValue"</span>, <span class="st">"Peak Score"</span><span class="op">)</span>,
-  interact <span class="op">=</span> <span class="cn">FALSE</span>,
-  workers <span class="op">=</span> <span class="fl">1</span>,
-  show_plot <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_corr</span><span class="op">(</span></span>
+<span>  <span class="va">peakfiles</span>,</span>
+<span>  <span class="va">reference</span>,</span>
+<span>  <span class="va">genome_build</span>,</span>
+<span>  bin_size <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"spearman"</span>,</span>
+<span>  intensity_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"total_signal"</span>, <span class="st">"qValue"</span>, <span class="st">"Peak Score"</span><span class="op">)</span>,</span>
+<span>  interact <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  workers <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  show_plot <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -164,21 +164,21 @@ If set FALSE, all heatmaps in the report will be static.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">peakfiles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR_H3K27ac<span class="op">=</span><span class="va">CnR_H3K27ac</span>, CnT_H3K27ac<span class="op">=</span><span class="va">CnT_H3K27ac</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span> <span class="op">=</span> <span class="va">encode_H3K27ac</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#increasing bin_size for speed but lower values will give more granular corr</span></span>
-<span class="r-in"><span class="va">cp</span> <span class="op">&lt;-</span> <span class="fu">plot_corr</span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peakfiles</span>,</span>
-<span class="r-in">                reference <span class="op">=</span> <span class="va">reference</span>,</span>
-<span class="r-in">                genome_build <span class="op">=</span> <span class="st">"hg19"</span>,</span>
-<span class="r-in">                bin_size <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">peakfiles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR_H3K27ac<span class="op">=</span><span class="va">CnR_H3K27ac</span>, CnT_H3K27ac<span class="op">=</span><span class="va">CnT_H3K27ac</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span> <span class="op">=</span> <span class="va">encode_H3K27ac</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#increasing bin_size for speed but lower values will give more granular corr</span></span></span>
+<span class="r-in"><span><span class="va">cp</span> <span class="op">&lt;-</span> <span class="fu">plot_corr</span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peakfiles</span>,</span></span>
+<span class="r-in"><span>                reference <span class="op">=</span> <span class="va">reference</span>,</span></span>
+<span class="r-in"><span>                genome_build <span class="op">=</span> <span class="st">"hg19"</span>,</span></span>
+<span class="r-in"><span>                bin_size <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Standardising peak files in bins of 1,000 bp.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Reshaping binned peaks.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating correlation matrix.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Done computing correlations in 28 seconds.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Done computing correlations in 26 seconds.</span>
 <span class="r-plt img"><img src="plot_corr-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -194,7 +194,7 @@ If set FALSE, all heatmaps in the report will be static.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

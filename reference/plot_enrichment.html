@@ -18,7 +18,7 @@ and generates dot plots."><!-- mathjax --><script src="https://cdnjs.cloudflare.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.1</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@ and generates dot plots.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_enrichment</span><span class="op">(</span><span class="va">peaklist</span>, <span class="va">annotation</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_enrichment</span><span class="op">(</span><span class="va">peaklist</span>, <span class="va">annotation</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -93,18 +93,18 @@ If not named, default file names will be assigned.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">### Load Data ###</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile GRanges object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile GRanges object</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### Create Named Peaklist ###</span></span>
-<span class="r-in"><span class="va">peaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"CnT"</span><span class="op">=</span><span class="va">CnT_H3K27ac</span>, <span class="st">"CnR"</span><span class="op">=</span><span class="va">CnR_H3K27ac</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## not run</span></span>
-<span class="r-in"><span class="co"># txdb&lt;-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene</span></span>
-<span class="r-in"><span class="co"># my_plot &lt;- plot_enrichment(peaklist = peaks,</span></span>
-<span class="r-in"><span class="co">#                            annotation = txdb)</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">### Load Data ###</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile GRanges object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span> <span class="co"># example peakfile GRanges object</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### Create Named Peaklist ###</span></span></span>
+<span class="r-in"><span><span class="va">peaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"CnT"</span><span class="op">=</span><span class="va">CnT_H3K27ac</span>, <span class="st">"CnR"</span><span class="op">=</span><span class="va">CnR_H3K27ac</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## not run</span></span></span>
+<span class="r-in"><span><span class="co"># txdb&lt;-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene</span></span></span>
+<span class="r-in"><span><span class="co"># my_plot &lt;- plot_enrichment(peaklist = peaks,</span></span></span>
+<span class="r-in"><span><span class="co">#                            annotation = txdb)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -119,7 +119,7 @@ If not named, default file names will be assigned.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

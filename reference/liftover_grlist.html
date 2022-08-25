@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.1</span>
       </span>
     </div>
 
@@ -68,16 +68,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">liftover_grlist</span><span class="op">(</span>
-  <span class="va">grlist</span>,
-  <span class="va">input_build</span>,
-  output_build <span class="op">=</span> <span class="st">"hg19"</span>,
-  style <span class="op">=</span> <span class="st">"UCSC"</span>,
-  keep_chr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"chr"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">22</span><span class="op">)</span>, <span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span><span class="op">)</span>,
-  as_grangeslist <span class="op">=</span> <span class="cn">FALSE</span>,
-  merge_all <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">liftover_grlist</span><span class="op">(</span></span>
+<span>  <span class="va">grlist</span>,</span>
+<span>  <span class="va">input_build</span>,</span>
+<span>  output_build <span class="op">=</span> <span class="st">"hg19"</span>,</span>
+<span>  style <span class="op">=</span> <span class="st">"UCSC"</span>,</span>
+<span>  keep_chr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"chr"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">22</span><span class="op">)</span>, <span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  as_grangeslist <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  merge_all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -130,15 +130,15 @@ set by <a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html" class=
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">grlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"gr1"</span><span class="op">=</span><span class="fu">GenomicRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span><span class="st">"4:1-100000"</span><span class="op">)</span>,</span>
-<span class="r-in">               <span class="st">"gr2"</span><span class="op">=</span><span class="fu">GenomicRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span><span class="st">"6:1-100000"</span><span class="op">)</span>,</span>
-<span class="r-in">               <span class="st">"gr3"</span><span class="op">=</span><span class="fu">GenomicRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span><span class="st">"8:1-100000"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">grlist_lifted</span> <span class="op">&lt;-</span> <span class="fu">liftover_grlist</span><span class="op">(</span>grlist <span class="op">=</span> <span class="va">grlist</span>,</span>
-<span class="r-in">                                 input_build <span class="op">=</span> <span class="st">"hg19"</span>,</span>
-<span class="r-in">                                 output_build<span class="op">=</span><span class="st">"hg38"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">grlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"gr1"</span><span class="op">=</span><span class="fu">GenomicRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span><span class="st">"4:1-100000"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               <span class="st">"gr2"</span><span class="op">=</span><span class="fu">GenomicRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span><span class="st">"6:1-100000"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               <span class="st">"gr3"</span><span class="op">=</span><span class="fu">GenomicRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span><span class="st">"8:1-100000"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">grlist_lifted</span> <span class="op">&lt;-</span> <span class="fu">liftover_grlist</span><span class="op">(</span>grlist <span class="op">=</span> <span class="va">grlist</span>,</span></span>
+<span class="r-in"><span>                                 input_build <span class="op">=</span> <span class="st">"hg19"</span>,</span></span>
+<span class="r-in"><span>                                 output_build<span class="op">=</span><span class="st">"hg38"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Preparing chain file.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> snapshotDate(): 2022-05-13</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> snapshotDate(): 2022-08-12</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> loading from cache</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> require(“rtracklayer”)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Performing liftover:  hg19  --&gt;  hg38</span>
@@ -157,7 +157,7 @@ set by <a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevelsStyle.html" class=
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

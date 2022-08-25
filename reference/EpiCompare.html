@@ -20,7 +20,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.1</span>
       </span>
     </div>
 
@@ -72,29 +72,29 @@ divided into three sections: (1) General Metrics on Peakfiles,
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">EpiCompare</span><span class="op">(</span>
-  <span class="va">peakfiles</span>,
-  <span class="va">genome_build</span>,
-  genome_build_output <span class="op">=</span> <span class="st">"hg19"</span>,
-  <span class="va">blacklist</span>,
-  picard_files <span class="op">=</span> <span class="cn">NULL</span>,
-  reference <span class="op">=</span> <span class="cn">NULL</span>,
-  upset_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  stat_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  chromHMM_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  chromHMM_annotation <span class="op">=</span> <span class="st">"K562"</span>,
-  chipseeker_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  enrichment_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  tss_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  precision_recall_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  corr_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  interact <span class="op">=</span> <span class="cn">TRUE</span>,
-  save_output <span class="op">=</span> <span class="cn">FALSE</span>,
-  output_filename <span class="op">=</span> <span class="st">"EpiCompare"</span>,
-  output_timestamp <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">output_dir</span>,
-  display <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">EpiCompare</span><span class="op">(</span></span>
+<span>  <span class="va">peakfiles</span>,</span>
+<span>  <span class="va">genome_build</span>,</span>
+<span>  genome_build_output <span class="op">=</span> <span class="st">"hg19"</span>,</span>
+<span>  <span class="va">blacklist</span>,</span>
+<span>  picard_files <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  reference <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  upset_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  stat_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  chromHMM_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  chromHMM_annotation <span class="op">=</span> <span class="st">"K562"</span>,</span>
+<span>  chipseeker_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  enrichment_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  tss_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  precision_recall_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  corr_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  interact <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  save_output <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  output_filename <span class="op">=</span> <span class="st">"EpiCompare"</span>,</span>
+<span>  output_timestamp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">output_dir</span>,</span>
+<span>  display <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -252,32 +252,32 @@ file name.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">### Load Data ###</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object </span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># hg38 blacklist dataset</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### Prepare Input ####</span></span>
-<span class="r-in"><span class="co"># create named list of peakfiles</span></span>
-<span class="r-in"><span class="va">peaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR<span class="op">=</span><span class="va">CnR_H3K27ac</span>, CnT<span class="op">=</span><span class="va">CnT_H3K27ac</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># create named list of picard outputs</span></span>
-<span class="r-in"><span class="va">picard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR<span class="op">=</span><span class="va">CnR_H3K27ac_picard</span>, CnT<span class="op">=</span><span class="va">CnT_H3K27ac_picard</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># reference peak file</span></span>
-<span class="r-in"><span class="va">reference_peak</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"ENCODE"</span> <span class="op">=</span> <span class="va">encode_H3K27ac</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### Run EpiCompare ###</span></span>
-<span class="r-in"><span class="fu">EpiCompare</span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peaks</span>,</span>
-<span class="r-in">           genome_build <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>peakfiles<span class="op">=</span><span class="st">"hg19"</span>,</span>
-<span class="r-in">                               reference<span class="op">=</span><span class="st">"hg19"</span>,</span>
-<span class="r-in">                               blacklist<span class="op">=</span><span class="st">"hg19"</span><span class="op">)</span>,</span>
-<span class="r-in">           genome_build_output <span class="op">=</span> <span class="st">"hg19"</span>,</span>
-<span class="r-in">           blacklist <span class="op">=</span> <span class="va">hg19_blacklist</span>,</span>
-<span class="r-in">           picard_files <span class="op">=</span> <span class="va">picard</span>,</span>
-<span class="r-in">           reference <span class="op">=</span> <span class="va">reference_peak</span>,</span>
-<span class="r-in">           output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">### Load Data ###</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object </span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># hg38 blacklist dataset</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### Prepare Input ####</span></span></span>
+<span class="r-in"><span><span class="co"># create named list of peakfiles</span></span></span>
+<span class="r-in"><span><span class="va">peaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR<span class="op">=</span><span class="va">CnR_H3K27ac</span>, CnT<span class="op">=</span><span class="va">CnT_H3K27ac</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># create named list of picard outputs</span></span></span>
+<span class="r-in"><span><span class="va">picard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR<span class="op">=</span><span class="va">CnR_H3K27ac_picard</span>, CnT<span class="op">=</span><span class="va">CnT_H3K27ac_picard</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># reference peak file</span></span></span>
+<span class="r-in"><span><span class="va">reference_peak</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"ENCODE"</span> <span class="op">=</span> <span class="va">encode_H3K27ac</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### Run EpiCompare ###</span></span></span>
+<span class="r-in"><span><span class="fu">EpiCompare</span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peaks</span>,</span></span>
+<span class="r-in"><span>           genome_build <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>peakfiles<span class="op">=</span><span class="st">"hg19"</span>,</span></span>
+<span class="r-in"><span>                               reference<span class="op">=</span><span class="st">"hg19"</span>,</span></span>
+<span class="r-in"><span>                               blacklist<span class="op">=</span><span class="st">"hg19"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>           genome_build_output <span class="op">=</span> <span class="st">"hg19"</span>,</span></span>
+<span class="r-in"><span>           blacklist <span class="op">=</span> <span class="va">hg19_blacklist</span>,</span></span>
+<span class="r-in"><span>           picard_files <span class="op">=</span> <span class="va">picard</span>,</span></span>
+<span class="r-in"><span>           reference <span class="op">=</span> <span class="va">reference_peak</span>,</span></span>
+<span class="r-in"><span>           output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Assigning 'peakfiles': hg19</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Assigning 'reference': hg19</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Assigning 'blacklist': hg19</span>
@@ -286,13 +286,15 @@ file name.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Preparing reference.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> grlist is already in the output_build format. Skipping liftover.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> grlist is already in the output_build format. Skipping liftover.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> --- Running peak_info() ---</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> --- Running width_boxplot() ---</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> --- Running overlap_heatmap() ---</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.068 min."</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/Rtmp7pK1WX</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp7pK1WX/EpiCompare.html"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.057 min."</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/RtmpH3UFRP</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpH3UFRP/EpiCompare.html"</span>
 </code></pre></div>
     </div>
   </div>
@@ -307,7 +309,7 @@ file name.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
