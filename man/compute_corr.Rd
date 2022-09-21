@@ -11,7 +11,7 @@ compute_corr(
   keep_chr = NULL,
   bin_size = 100,
   method = "spearman",
-  intensity_cols = c("total_signal", "qValue", "Peak Score"),
+  intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
   return_bins = FALSE,
   workers = 1
 )
@@ -84,11 +84,11 @@ data("CnR_H3K27ac")
 data("CnT_H3K27ac")
 data("encode_H3K27ac")
 peakfiles <- list(CnR_H3K27ac=CnR_H3K27ac, CnT_H3K27ac=CnT_H3K27ac)
-reference <- list("encode_H3K27ac" = encode_H3K27ac)
+reference <- list("encode_H3K27ac"=encode_H3K27ac)
 
 #increasing bin_size for speed but lower values will give more granular corr
 corr_mat <- compute_corr(peakfiles = peakfiles,
                       reference = reference,
                       genome_build = "hg19",
-                      bin_size = 1000)
+                      bin_size = 5000)
 }

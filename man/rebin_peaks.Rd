@@ -7,9 +7,10 @@
 rebin_peaks(
   peakfiles,
   genome_build,
-  intensity_cols = c("total_signal", "qValue", "Peak Score"),
+  intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
   bin_size = 100,
   keep_chr = NULL,
+  drop_empty_chr = FALSE,
   as_sparse = TRUE,
   workers = 1,
   verbose = TRUE
@@ -52,6 +53,9 @@ larger memory usage.}
 
 \item{keep_chr}{Which chromosomes to keep.}
 
+\item{drop_empty_chr}{Drop chromosomes that are not present in any of the 
+\code{peakfiles} (default: \code{FALSE}).}
+
 \item{as_sparse}{Return the rebinned peaks as a sparse matrix
 (default: \code{TRUE}), 
 which is more efficiently stored than a dense matrix (\code{FALSE}).}
@@ -75,5 +79,5 @@ peakfiles <- list(CnR_H3K27ac=CnR_H3K27ac, CnT_H3K27ac=CnT_H3K27ac)
 #increasing bin_size for speed
 peakfiles_rebinned <- rebin_peaks(peakfiles = peakfiles,
                                   genome_build = "hg19",
-                                  bin_size = 1000)
+                                  bin_size = 5000)
 }

@@ -11,7 +11,8 @@ test_that("liftover_grlist works", {
                                      input_build = "hg19",
                                      output_build="hg38")
     testthat::expect_length(grlist_lifted,length(grlist))
-    testthat::expect_true(all(unlist(lapply(grlist_lifted,methods::is,"GRanges"))))
+    testthat::expect_true(all(unlist(lapply(grlist_lifted,
+                                            methods::is,"GRanges"))))
     
     nm <- names(grlist)[1]
     gr1 <- grlist[[nm]] 

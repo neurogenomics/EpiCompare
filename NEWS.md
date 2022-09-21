@@ -1,3 +1,14 @@
+## CHANGES IN VERSION 1.1.2
+
+## New features
+
+* `rebin_peaks`:
+    - Added arg `drop_empty_chr` to automatically drop chroms that aren't in 
+    any of the `peakfiles`.
+    - Added "score" as one of the default `intensity_cols` in all relevant functions.
+    - Make examples use 5000bp bins to speed up. 
+    
+
 ## CHANGES IN VERSION 1.1.1
 
 ### New features

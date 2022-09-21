@@ -5,6 +5,8 @@
 #' @param as_sparse Return the rebinned peaks as a sparse matrix
 #' (default: \code{TRUE}), 
 #' which is more efficiently stored than a dense matrix (\code{FALSE}). 
+#' @param drop_empty_chr Drop chromosomes that are not present in any of the 
+#' \code{peakfiles} (default: \code{FALSE}). 
 #' @inheritParams compute_corr
 #' @inheritParams remove_nonstandard_chrom
 #' @returns Binned peaks matrix
@@ -23,14 +25,16 @@
 #' #increasing bin_size for speed
 #' peakfiles_rebinned <- rebin_peaks(peakfiles = peakfiles,
 #'                                   genome_build = "hg19",
-#'                                   bin_size = 1000)
+#'                                   bin_size = 5000)
 rebin_peaks <- function(peakfiles,
                         genome_build,
                         intensity_cols=c("total_signal", 
                                          "qValue",
-                                         "Peak Score"), 
+                                         "Peak Score",
+                                         "score"), 
                         bin_size=100,
-                        keep_chr=NULL, 
+                        keep_chr=NULL,
+                        drop_empty_chr=FALSE,
                         as_sparse=TRUE,
                         workers=1,
                         verbose=TRUE){ 
@@ -48,12 +52,23 @@ rebin_peaks <- function(peakfiles,
     peakfiles <- check_grlist_cols(grlist = peakfiles, 
                                    target_cols = intensity_cols)
     #### Specify chromosomes ####
+    if(isTRUE(drop_empty_chr)){
+        present_chr <- lapply(
+            peakfiles,
+            function(x){unique(GenomicRanges::seqnames(x))}) |> 
+            unlist() |> unique() |> as.character() 
+        if(is.null(keep_chr)) {
+            keep_chr <- present_chr
+        } else {
+            keep_chr <- keep_chr[keep_chr %in% present_chr] 
+        }
+    }
     if(!is.null(keep_chr)){
         keep_chr <- intersect(keep_chr, 
                               GenomicRanges::seqnames(ref_bsgen))
     } else {
         keep_chr <- GenomicRanges::seqnames(ref_bsgen)
-    } 
+    }  
     peakfiles <- remove_nonstandard_chrom(grlist = peakfiles,
                                           keep_chr = keep_chr,
                                           verbose = FALSE)

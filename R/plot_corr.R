@@ -16,13 +16,13 @@
 #' data("CnT_H3K27ac")
 #' data("encode_H3K27ac")
 #' peakfiles <- list(CnR_H3K27ac=CnR_H3K27ac, CnT_H3K27ac=CnT_H3K27ac)
-#' reference <- list("encode_H3K27ac" = encode_H3K27ac)
+#' reference <- list("encode_H3K27ac"=encode_H3K27ac)
 #' 
 #' #increasing bin_size for speed but lower values will give more granular corr
 #' cp <- plot_corr(peakfiles = peakfiles,
 #'                 reference = reference,
 #'                 genome_build = "hg19",
-#'                 bin_size = 1000)
+#'                 bin_size = 5000)
 plot_corr <- function(peakfiles,
                       reference,
                       genome_build,
@@ -30,7 +30,8 @@ plot_corr <- function(peakfiles,
                       method = "spearman",
                       intensity_cols=c("total_signal", 
                                        "qValue",
-                                       "Peak Score"),
+                                       "Peak Score",
+                                       "score"),
                       interact=FALSE,
                       workers=1,
                       show_plot=TRUE){
