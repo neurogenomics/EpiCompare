@@ -25,6 +25,13 @@ translate_genome <- function(genome,
                 default_genome
             )
             messager(msg)
+            genome <- default_genome
+        } else {
+            stp <- paste(
+                "Must provide a valid genome build",
+                "to translate_genome(genome=)."
+            )
+            stop(stp)
         }
     }
     #### Check style ####
