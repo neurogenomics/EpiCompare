@@ -20,7 +20,7 @@
 #'                                            source=c("Cn","ENCODE")))
 group_files <- function(peakfiles, 
                         searches){
-    # combos <- expand.grid(...)
+    
     requireNamespace("tidyr")
     combos <- data.frame(expand.grid(searches, stringsAsFactors = FALSE),
                          stringsAsFactors = FALSE)

@@ -5,6 +5,7 @@
 #' dependent on the peak calling approach.
 #' @param show_plot Show the plot. 
 #' @inheritParams compute_corr
+#' @inheritParams rebin_peaks
 #' @inheritParams EpiCompare 
 #' @return list with correlation plot (corr_plot) and correlation matrix (data)
 #' 
@@ -27,6 +28,8 @@ plot_corr <- function(peakfiles,
                       reference,
                       genome_build,
                       bin_size = 100,
+                      keep_chr = NULL,
+                      drop_empty_chr = FALSE,
                       method = "spearman",
                       intensity_cols=c("total_signal", 
                                        "qValue",
@@ -43,6 +46,8 @@ plot_corr <- function(peakfiles,
                              reference = reference,
                              genome_build = genome_build,
                              bin_size = bin_size,
+                             keep_chr = keep_chr,
+                             drop_empty_chr = drop_empty_chr,
                              method = method,
                              intensity_cols = intensity_cols,
                              workers = workers) 

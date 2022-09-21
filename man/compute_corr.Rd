@@ -9,6 +9,7 @@ compute_corr(
   reference = NULL,
   genome_build,
   keep_chr = NULL,
+  drop_empty_chr = FALSE,
   bin_size = 100,
   method = "spearman",
   intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),

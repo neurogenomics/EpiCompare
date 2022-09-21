@@ -9,6 +9,8 @@ plot_corr(
   reference,
   genome_build,
   bin_size = 100,
+  keep_chr = NULL,
+  drop_empty_chr = FALSE,
   method = "spearman",
   intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
   interact = FALSE,
@@ -42,6 +44,11 @@ build should be one of hg19, hg38, mm9, mm10.}
 \item{bin_size}{Default of 100. Base-pair size of the bins created to measure
 correlation. Use smaller value for higher resolution but longer run time and 
 larger memory usage.}
+
+\item{keep_chr}{Which chromosomes to keep.}
+
+\item{drop_empty_chr}{Drop chromosomes that are not present in any of the 
+\code{peakfiles} (default: \code{FALSE}).}
 
 \item{method}{Default spearman (i.e. non-parametric). A character string 
 indicating which correlation coefficient (or covariance) is to be computed. 
