@@ -7,6 +7,8 @@
     any of the `peakfiles`.
     - Added "score" as one of the default `intensity_cols` in all relevant functions.
     - Make examples use 5000bp bins to speed up. 
+* `translate_genome`:
+    - Add `default_genome` arg to handle `genome=NULL`. 
     
 
 ## CHANGES IN VERSION 1.1.1

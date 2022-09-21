@@ -2,8 +2,8 @@
 #' 
 #' Translate the name of a genome build from one format to another.
 #' @param omit_subversion Omit any subversion suffixes after the ".". 
+#' @param default_genome Default genome build when \code{genome} is \code{NULL}.
 #' @inheritParams GenomeInfoDb::mapGenomeBuilds
-#' 
 #' @returns Standardized genome build name as a character string. 
 #' 
 #' @export
@@ -14,7 +14,20 @@
 #' genome2 <- translate_genome(genome="mm10", style="UCSC")
 translate_genome <- function(genome,
                              style=c("UCSC", "Ensembl","NCBI"),
+                             default_genome=NULL,
                              omit_subversion=TRUE){
+    #### Check genome ####
+    force(genome)
+    if(is.null(genome)){
+        if(!is.null(default_genome)){
+            msg <- paste(
+                "WARNING: genome=NULL. Setting to default build:",
+                default_genome
+            )
+            messager(msg)
+        }
+    }
+    #### Check style ####
     if(length(style)>1){
         style <- style[1]
         # messager("WARNING: >1 style supplied. Only using the first:",style)

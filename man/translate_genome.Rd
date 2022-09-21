@@ -7,6 +7,7 @@
 translate_genome(
   genome,
   style = c("UCSC", "Ensembl", "NCBI"),
+  default_genome = NULL,
   omit_subversion = TRUE
 )
 }
@@ -16,6 +17,8 @@ translate_genome(
 
 \item{style}{A single value equivalent to "UCSC" or "Ensembl"
     specifying the output genome}
+
+\item{default_genome}{Default genome build when \code{genome} is \code{NULL}.}
 
 \item{omit_subversion}{Omit any subversion suffixes after the ".".}
 }
