@@ -12,10 +12,12 @@
 * `bpplapply`:
     - New exported function to automate handling of known issues with
     `BiocParallel` across OS platforms.  
+* `get_bpparam`: Add args to allow users to choose which `BiocParallel` func to use.
     
 ### Bug fixes
 
 * Fix `rebin_peaks` unit tests. 
+* Fix pkg size issue by adding *inst/report* to *.Rbuildignore*.
 
 ## CHANGES IN VERSION 1.1.1
 

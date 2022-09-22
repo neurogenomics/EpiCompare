@@ -4,7 +4,16 @@
 \alias{bpplapply}
 \title{Wrapper for \link[BiocParallel]{bplapply}}
 \usage{
-bpplapply(X, FUN, workers = 1, register_now = FALSE, ...)
+bpplapply(
+  X,
+  FUN,
+  workers = 1,
+  progressbar = workers > 1,
+  verbose = workers == 1,
+  use_snowparam = TRUE,
+  register_now = FALSE,
+  ...
+)
 }
 \arguments{
 \item{X}{
@@ -18,7 +27,18 @@ bpplapply(X, FUN, workers = 1, register_now = FALSE, ...)
 
 \item{workers}{Number of threads to parallelize across.}
 
-\item{register_now}{Register the cores now with 
+\item{progressbar}{
+    \code{logical(1)} Enable progress bar (based on plyr:::progress_text).
+  }
+
+\item{verbose}{Print messages.}
+
+\item{use_snowparam}{Whether to use
+\link[BiocParallel]{SnowParam} (default: \code{TRUE}) or
+\link[BiocParallel]{MulticoreParam} (\code{FALSE})
+ when parallelising across multiple \code{workers}.}
+
+\item{register_now}{Register the cores now with
 \link[BiocParallel]{register} (\code{TRUE}),
  or simply return the \code{BPPARAM object} (default: \code{FALSE}).}
 
@@ -46,7 +66,7 @@ bpplapply(X, FUN, workers = 1, register_now = FALSE, ...)
 }
 \description{
 Wrapper function for \link[BiocParallel]{bplapply} that automatically
-handles issues with \pkg[BiocParallel] related to different OS platforms.
+handles issues with \pkg{BiocParallel} related to different OS platforms.
 }
 \examples{
 X <- stats::setNames(seq_len(length(letters)), letters)

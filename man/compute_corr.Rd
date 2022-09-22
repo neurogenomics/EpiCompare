@@ -42,6 +42,9 @@ build should be one of hg19, hg38, mm9, mm10.}
 
 \item{keep_chr}{Which chromosomes to keep.}
 
+\item{drop_empty_chr}{Drop chromosomes that are not present in any of the 
+\code{peakfiles} (default: \code{FALSE}).}
+
 \item{bin_size}{Default of 100. Base-pair size of the bins created to measure
 correlation. Use smaller value for higher resolution but longer run time and 
 larger memory usage.}

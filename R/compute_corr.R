@@ -9,6 +9,8 @@
 #' @param bin_size Default of 100. Base-pair size of the bins created to measure
 #' correlation. Use smaller value for higher resolution but longer run time and 
 #' larger memory usage.
+#' @param drop_empty_chr Drop chromosomes that are not present in any of the 
+#' \code{peakfiles} (default: \code{FALSE}). 
 #' @param method Default spearman (i.e. non-parametric). A character string 
 #' indicating which correlation coefficient (or covariance) is to be computed. 
 #' One of "pearson", "kendall", or "spearman": can be abbreviated.

@@ -17,3 +17,5 @@ DOCKERFILE
 ^node_modules$
 package-lock.json
 package.json
+^inst/report
+^report/

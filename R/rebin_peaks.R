@@ -5,8 +5,6 @@
 #' @param as_sparse Return the rebinned peaks as a sparse matrix
 #' (default: \code{TRUE}), 
 #' which is more efficiently stored than a dense matrix (\code{FALSE}). 
-#' @param drop_empty_chr Drop chromosomes that are not present in any of the 
-#' \code{peakfiles} (default: \code{FALSE}). 
 #' @inheritParams compute_corr
 #' @inheritParams remove_nonstandard_chrom
 #' @returns Binned peaks matrix
