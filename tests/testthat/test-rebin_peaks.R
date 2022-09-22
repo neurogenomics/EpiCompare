@@ -7,6 +7,7 @@ test_that("rebin_peaks works", {
                       CnT_missing=CnT_H3K27ac)
     #### Remove the necessary column to compute percentiles ####
     GenomicRanges::mcols(peakfiles$CnT_missing)$qValue <- NULL
+    GenomicRanges::mcols(peakfiles$CnT_missing)$score <- NULL
     # Using large bin_size for speed
     #### With selected chroms ####
     peakfiles_rebinned <- EpiCompare::rebin_peaks(peakfiles = peakfiles,

@@ -1,6 +1,6 @@
 ## CHANGES IN VERSION 1.1.2
 
-## New features
+### New features
 
 * `rebin_peaks`:
     - Added arg `drop_empty_chr` to automatically drop chroms that aren't in 
@@ -9,7 +9,13 @@
     - Make examples use 5000bp bins to speed up. 
 * `translate_genome`:
     - Add `default_genome` arg to handle `genome=NULL`. 
+* `bpplapply`:
+    - New exported function to automate handling of known issues with
+    `BiocParallel` across OS platforms.  
     
+### Bug fixes
+
+* Fix `rebin_peaks` unit tests. 
 
 ## CHANGES IN VERSION 1.1.1
 
