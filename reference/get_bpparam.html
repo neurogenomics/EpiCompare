@@ -74,7 +74,12 @@ to  <a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class=
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_bpparam</span><span class="op">(</span><span class="va">workers</span>, register_now <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_bpparam</span><span class="op">(</span></span>
+<span>  <span class="va">workers</span>,</span>
+<span>  progressbar <span class="op">=</span> <span class="va">workers</span> <span class="op">&gt;</span> <span class="fl">1</span>,</span>
+<span>  use_snowparam <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  register_now <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -83,8 +88,19 @@ to  <a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class=
 <dd><p>Number of threads to parallelize across.</p></dd>
 
 
+<dt>progressbar</dt>
+<dd><p><code>logical(1)</code> Enable progress bar (based on plyr:::progress_text).</p></dd>
+
+
+<dt>use_snowparam</dt>
+<dd><p>Whether to use
+<a href="https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html" class="external-link">SnowParam</a> (default: <code>TRUE</code>) or
+<a href="https://rdrr.io/pkg/BiocParallel/man/MulticoreParam-class.html" class="external-link">MulticoreParam</a> (<code>FALSE</code>)
+ when parallelising across multiple <code>workers</code>.</p></dd>
+
+
 <dt>register_now</dt>
-<dd><p>Register the cores now with 
+<dd><p>Register the cores now with
 <a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">register</a> (<code>TRUE</code>),
  or simply return the <code>BPPARAM object</code> (default: <code>FALSE</code>).</p></dd>
 

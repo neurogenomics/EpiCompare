@@ -71,10 +71,13 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rebin_peaks</span><span class="op">(</span></span>
 <span>  <span class="va">peakfiles</span>,</span>
 <span>  <span class="va">genome_build</span>,</span>
-<span>  intensity_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"total_signal"</span>, <span class="st">"qValue"</span>, <span class="st">"Peak Score"</span><span class="op">)</span>,</span>
+<span>  intensity_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"total_signal"</span>, <span class="st">"qValue"</span>, <span class="st">"Peak Score"</span>, <span class="st">"score"</span><span class="op">)</span>,</span>
 <span>  bin_size <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  keep_chr <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  drop_empty_chr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  as_sparse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  workers <span class="op">=</span> <span class="fl">1</span></span>
+<span>  workers <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -120,6 +123,15 @@ correlation. Use smaller value for higher resolution but longer run time and
 larger memory usage.</p></dd>
 
 
+<dt>keep_chr</dt>
+<dd><p>Which chromosomes to keep.</p></dd>
+
+
+<dt>drop_empty_chr</dt>
+<dd><p>Drop chromosomes that are not present in any of the 
+<code>peakfiles</code> (default: <code>FALSE</code>).</p></dd>
+
+
 <dt>as_sparse</dt>
 <dd><p>Return the rebinned peaks as a sparse matrix
 (default: <code>TRUE</code>), 
@@ -128,6 +140,10 @@ which is more efficiently stored than a dense matrix (<code>FALSE</code>).</p></
 
 <dt>workers</dt>
 <dd><p>Number of threads to parallelize across.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Print messages.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -146,10 +162,12 @@ which is more efficiently stored than a dense matrix (<code>FALSE</code>).</p></
 <span class="r-in"><span><span class="co">#increasing bin_size for speed</span></span></span>
 <span class="r-in"><span><span class="va">peakfiles_rebinned</span> <span class="op">&lt;-</span> <span class="fu">rebin_peaks</span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peakfiles</span>,</span></span>
 <span class="r-in"><span>                                  genome_build <span class="op">=</span> <span class="st">"hg19"</span>,</span></span>
-<span class="r-in"><span>                                  bin_size <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Standardising peak files in bins of 1,000 bp.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Reshaping binned peaks.</span>
+<span class="r-in"><span>                                  bin_size <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Standardising peak files in 647,114 bins of 5,000 bp.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Merging data into matrix.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Converting to sparse matrix.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Binned matrix size: 647,114 x 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Matrix sparsity: 0.9968</span>
 </code></pre></div>
     </div>
   </div>
