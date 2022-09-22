@@ -176,5 +176,6 @@ EpiCompare(peakfiles = peaks,
            blacklist = hg19_blacklist,
            picard_files = picard,
            reference = reference_peak,
+           output_filename = "EpiCompare_test",
            output_dir = tempdir())
 }

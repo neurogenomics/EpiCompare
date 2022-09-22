@@ -204,7 +204,7 @@ EpiCompare(peakfiles = peaklist,
            tss_plot = FALSE,
            interact = FALSE,
            save_output = FALSE,
-           output_filename = "EpiCompare",
+           output_filename = "EpiCompare_test",
            output_timestamp = FALSE,
            output_dir = tempdir())
 ```

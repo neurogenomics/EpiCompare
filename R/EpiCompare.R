@@ -130,6 +130,7 @@
 #'            blacklist = hg19_blacklist,
 #'            picard_files = picard,
 #'            reference = reference_peak,
+#'            output_filename = "EpiCompare_test",
 #'            output_dir = tempdir())
 EpiCompare <- function(peakfiles,
                        genome_build,
@@ -160,16 +161,17 @@ EpiCompare <- function(peakfiles,
   if(output_timestamp){
     date <- format(Sys.Date(), '%b_%d_%Y')
     output_filename <- paste0(output_filename,"_",date)
-  }
-
+  } 
+  ### Parse Parameters Into Markdown & Render HTML ###
+  output_html <- paste0(output_filename,".html") 
   ### Locate Rmd ###
   markdown_path <- system.file("markdown",
                                "EpiCompare.Rmd",
-                               package = "EpiCompare")
-
+                               package = "EpiCompare") 
   ### Multiple Reference Files ###
   if(length(reference)>1){
-      output_html <- lapply(names(reference), function(nm){
+      output_html <- lapply(names(reference), 
+                            function(nm){
           message("\n","======>> ",nm," <<======")
           #### Create subfolder for each run ####
           output_dir <- file.path(output_dir,nm)
@@ -203,8 +205,7 @@ EpiCompare <- function(peakfiles,
           return(file.path(output_dir,paste0(output_filename,".html")))
         }) |> unlist()
   }else{
-    ### Parse Parameters Into Markdown & Render HTML ###
-      output_html <- file.path(output_dir,paste0(output_filename,".html"))
+      dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
       #### Parse Parameters Into Markdown & Render HTML ####
     rmarkdown::render(
       input = markdown_path,
