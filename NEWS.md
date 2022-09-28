@@ -18,6 +18,8 @@
 
 * Fix `rebin_peaks` unit tests. 
 * Fix pkg size issue by adding *inst/report* to *.Rbuildignore*.
+* `EpiCompare` wasn't being run when reference was a single unlisted `GRanges` object 
+    because it was indeed length>1, but the `names` were all `NULL`. Now fixed.
 
 ## CHANGES IN VERSION 1.1.1
 

@@ -101,7 +101,7 @@
 #'
 #' @export
 #' @importFrom rmarkdown render
-#' @importFrom methods show
+#' @importFrom methods show is
 #' @importFrom utils browseURL
 #'
 #' @examples
@@ -163,13 +163,14 @@ EpiCompare <- function(peakfiles,
     output_filename <- paste0(output_filename,"_",date)
   } 
   ### Parse Parameters Into Markdown & Render HTML ###
-  output_html <- paste0(output_filename,".html") 
+  html_file <- paste0(output_filename,".html") 
   ### Locate Rmd ###
   markdown_path <- system.file("markdown",
                                "EpiCompare.Rmd",
-                               package = "EpiCompare") 
+                               package = "EpiCompare")
   ### Multiple Reference Files ###
-  if(length(reference)>1){
+  if(methods::is(reference,"list") &&
+     length(reference)>1){
       output_html <- lapply(names(reference), 
                             function(nm){
           message("\n","======>> ",nm," <<======")
@@ -202,7 +203,7 @@ EpiCompare <- function(peakfiles,
               save_output = save_output,
               output_dir = output_dir)
           )
-          return(file.path(output_dir,paste0(output_filename,".html")))
+          return(file.path(output_dir,html_file))
         }) |> unlist()
   }else{
       dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
@@ -232,6 +233,7 @@ EpiCompare <- function(peakfiles,
         save_output = save_output,
         output_dir = output_dir)
     )
+    output_html <- file.path(output_dir,html_file)
   }
   ### Show Timer ###
   t2 <- Sys.time()
@@ -240,12 +242,15 @@ EpiCompare <- function(peakfiles,
   ))
   ### Display results ###
   messager("All outputs saved to:", output_dir)
+  #### Return path only ####
   if(is.null(display)){
       return(output_html)
+  #### Launch in web browser ####    
   } else if(display=="browser"){
       for(x in output_html){
           utils::browseURL(x)
       }
+  #### Launch in Rstudio ####
   } else if(display=="rstudio"){
       for(x in output_html){
           file.show(x)
