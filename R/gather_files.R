@@ -20,8 +20,8 @@
 #' \itemize{
 #' \item{"<pattern>"}{Finds files matching an arbitrary regex pattern
 #' specified by user.}
-#' \item{"peaks.stringent"}{Finds files ending in "*.peaks.bed.stringent.bed$"}
-#' \item{"peaks.consensus"}{Finds files ending in "*.peaks.bed.stringent.bed$"}
+#' \item{"peaks.stringent"}{Finds files ending in "*.stringent.bed$"}
+#' \item{"peaks.consensus"}{Finds files ending in "*.consensus.peaks.bed$"}
 #' \item{"peaks.consensus.filtered"}{
 #' Finds files ending in"*.consensus.peaks.filtered.awk.bed$"}
 #' \item{"picard"}{Finds files ending in
@@ -59,7 +59,7 @@ gather_files <- function(dir,
                          workers = 1){
   requireNamespace("BiocParallel")
   type_key <- c(
-    "peaks.stringent"="*.peaks.bed.stringent.bed$",
+    "peaks.stringent"="*.stringent.bed$",
     "peaks.consensus"="*.consensus.peaks.bed$",
     "peaks.consensus.filtered"="*.consensus.peaks.filtered.awk.bed$",
     "picard"= "*.target.markdup.MarkDuplicates.metrics.txt$"

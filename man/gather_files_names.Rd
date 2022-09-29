@@ -13,8 +13,8 @@ gather_files_names(paths, type, nfcore_cutandrun)
 \itemize{
 \item{"<pattern>"}{Finds files matching an arbitrary regex pattern
 specified by user.}
-\item{"peaks.stringent"}{Finds files ending in "*.peaks.bed.stringent.bed$"}
-\item{"peaks.consensus"}{Finds files ending in "*.peaks.bed.stringent.bed$"}
+\item{"peaks.stringent"}{Finds files ending in "*.stringent.bed$"}
+\item{"peaks.consensus"}{Finds files ending in "*.consensus.peaks.bed$"}
 \item{"peaks.consensus.filtered"}{
 Finds files ending in"*.consensus.peaks.filtered.awk.bed$"}
 \item{"picard"}{Finds files ending in
