@@ -80,11 +80,21 @@
 </ul></li>
 <li>
 <code>get_bpparam</code>: Add args to allow users to choose which <code>BiocParallel</code> func to use.</li>
+<li>
+<code>checkCache</code>: Make default arg <code>cache=BiocFileCache::BiocFileCache(ask = FALSE)</code> to skip user input during runtime.</li>
+<li>
+<code>precision_recall</code>:
+<ul><li>Change <code>increment_threshold</code> arg to <code>n_threshold</code> arg, using the <code>seq(length.out=)</code> feature to avoid accidentally choosing an inappropriately large <code>increment_threshold</code>.</li>
+</ul></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-1-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-2"></a></h3>
 <ul><li>Fix <code>rebin_peaks</code> unit tests.</li>
 <li>Fix pkg size issue by adding <em>inst/report</em> to <em>.Rbuildignore</em>.</li>
+<li>
+<code>EpiCompare</code> wasn’t being run when reference was a single unlisted <code>GRanges</code> object because it was indeed length&gt;1, but the <code>names</code> were all <code>NULL</code>. Now fixed.</li>
+<li>
+<code>plot_precision_recall</code>: Set default <code>initial_threshold=</code> to 0.</li>
 </ul></div>
 </div>
     <div class="section level2">
