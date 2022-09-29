@@ -38,13 +38,9 @@
 #' @returns A named list of \link[GenomicRanges]{GRanges} objects.
 #'
 #' @export 
-#' @importFrom methods is
 #' @importFrom stats setNames
 #' @importFrom stringr str_split
-#' @importFrom GenomicRanges makeGRangesFromDataFrame
-#' @importFrom rtracklayer import
-#' @importFrom data.table fread 
-#' @importFrom ChIPseeker readPeakFile
+#' @importFrom data.table fread
 #' @examples
 #' #### Make example files ####
 #' save_paths <- EpiCompare::write_example_peaks()
@@ -108,41 +104,20 @@ gather_files <- function(dir,
   files <- bpplapply(X = paths, 
                      workers = workers,
                      FUN = function(x){
-    # message_parallel(x,"\n")
-    if(startsWith(type,"peaks")){
-      dat <- ChIPseeker::readPeakFile(x, as = "GRanges")
-      if(type=="peaks.stringent" && 
-         (ncol(GenomicRanges::mcols(dat))==3)){
-          ## Colnames are not included in SEACR output,
-          ## but can be found in the SEACR documentation.
-          colnames(GenomicRanges::mcols(dat))  <- c("total_signal",
-                                                    "max_signal",
-                                                    "max_signal_region")
-      }
-    } else if(type=="picard"){
-      dat <- data.table::fread(x,
-                               skip = "LIBRARY",
-                               fill = TRUE,
-                               nrows = 1)
-    } else if(grepl("narrowPeak",x,ignore.case = TRUE)){
-      dat <- rtracklayer::import(x, format = "narrowPeak")
-    } else {
-      dat <- data.table::fread(x)
-    }
-    #### Ensure GRanges format ####
-    if(!methods::is(dat,"GRanges")) {
-      ## Try to convert to GRanges, but if it fails,
-      ## just return the data.table
-      dat <- tryCatch({
-        GenomicRanges::makeGRangesFromDataFrame(
-          df = dat,
-          keep.extra.columns = TRUE)
-      }, error = function(e) dat)
-    }
-    return(dat)
+    tryCatch({
+        if(type=="picard"){
+            dat <- data.table::fread(x,
+                                     skip = "LIBRARY",
+                                     fill = TRUE,
+                                     nrows = 1)
+        } else{
+            dat <- read_peaks(path = x,
+                              type = type)
+        }
+        return(dat)
+    }, error=function(e){message(e);NULL}) 
   }, ...) |> `names<-`(list_names)
   #### Report ####
   message(length(files)," files retrieved.")
   return(files)
 }
-
