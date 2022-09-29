@@ -7,6 +7,7 @@
 #' which is more efficiently stored than a dense matrix (\code{FALSE}). 
 #' @inheritParams compute_corr
 #' @inheritParams remove_nonstandard_chrom
+#' @inheritDotParams bpplapply
 #' @returns Binned peaks matrix
 #' 
 #' @export
@@ -35,7 +36,8 @@ rebin_peaks <- function(peakfiles,
                         drop_empty_chr=FALSE,
                         as_sparse=TRUE,
                         workers=1,
-                        verbose=TRUE){ 
+                        verbose=TRUE,
+                        ...){ 
     
     #### check genome build ####
     genome_build <- unique(tolower(genome_build))
@@ -79,17 +81,14 @@ rebin_peaks <- function(peakfiles,
             cut.last.tile.in.chrom=TRUE) 
     GenomeInfoDb::seqlevels(gr_windows,
                             pruning.mode="coarse") <- keep_chr
-    #### Rebin peaks ####
-    BPPARAM <- get_bpparam(workers = workers)
+    #### Rebin peaks #### 
     messager("Standardising peak files in",
              formatC(length(gr_windows),big.mark = ","),"bins of",
              paste0(formatC(bin_size,big.mark = ",")," bp."), v=verbose)
     rebinned_peaks <- 
-        BiocParallel::bpmapply(
-            peakfiles,
-            BPPARAM = BPPARAM,
-            SIMPLIFY = FALSE, 
-            FUN = function(gr){
+        bpplapply(X = peakfiles,
+                  workers = workers,
+                  FUN = function(gr){
                 ## Compute percentiles
                 gr <- compute_percentiles(
                     gr = gr, 
@@ -116,7 +115,7 @@ rebin_peaks <- function(peakfiles,
                                                    varname = "score",
                                                    na.rm = FALSE)
                 return(gr$score)
-    })   
+    }, ...)   
     #### Merge data into matrix ####
     messager("Merging data into matrix.",v=verbose)
     rebinned_peaks <- do.call("cbind", rebinned_peaks)

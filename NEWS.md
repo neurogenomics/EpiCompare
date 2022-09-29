@@ -11,7 +11,8 @@
     - Add `default_genome` arg to handle `genome=NULL`. 
 * `bpplapply`:
     - New exported function to automate handling of known issues with
-    `BiocParallel` across OS platforms.  
+    `BiocParallel` across OS platforms. 
+    - Enable users to specify their own apply function.
 * `get_bpparam`: Add args to allow users to choose which `BiocParallel` func to use.
 * `checkCache`: Make default arg `cache=BiocFileCache::BiocFileCache(ask = FALSE)`
     to skip user input during runtime. 
@@ -19,6 +20,9 @@
     - Change `increment_threshold` arg to `n_threshold` arg, 
     using the `seq(length.out=)` feature to avoid accidentally choosing an
     inappropriately large `increment_threshold`. 
+* `gather_files`: 
+    - Replace iterator with `bpplapply`.
+    - Pass up args from `bpplapply`.
     
 ### Bug fixes
 

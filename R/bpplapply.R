@@ -14,6 +14,7 @@
 #' out <- bpplapply(X, print) 
 bpplapply <- function(X, 
                       FUN, 
+                      apply_fun=BiocParallel::bplapply,
                       workers=1, 
                       progressbar=workers>1,
                       verbose=workers==1,
@@ -21,14 +22,22 @@ bpplapply <- function(X,
                       register_now=FALSE,
                       ...){
     
-    requireNamespace("BiocParallel")
-    BPPARAM <- get_bpparam(workers = workers,
-                           progressbar = progressbar,
-                           use_snowparam = use_snowparam,
-                           register_now = register_now)
-    if(isFALSE(verbose)) FUN <- function(FUN){suppressMessages(FUN)}
-    BiocParallel::bplapply(X = X, 
-                           FUN = FUN, 
-                           BPPARAM = BPPARAM, 
-                           ...)
+    #### Select method ####
+    if(any(attr(apply_fun,"package")=="BiocParallel")){
+        requireNamespace("BiocParallel")
+        BPPARAM <- get_bpparam(workers = workers,
+                               progressbar = progressbar,
+                               use_snowparam = use_snowparam,
+                               register_now = register_now)
+        if(isFALSE(verbose)) FUN <- function(FUN){suppressMessages(FUN)}
+        apply_fun(X = X, 
+                  FUN = FUN, 
+                  BPPARAM = BPPARAM, 
+                  ...)
+    } else {
+        if(isFALSE(verbose)) FUN <- function(FUN){suppressMessages(FUN)}
+        apply_fun(FUN = FUN,  
+                  X,
+                  ...)
+    } 
 }

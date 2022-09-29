@@ -6,10 +6,11 @@
 \usage{
 gather_files(
   dir,
-  type = "peaks.consensus.filtered",
+  type = "peaks.stringent",
   nfcore_cutandrun = FALSE,
   return_paths = FALSE,
-  workers = 1
+  workers = 1,
+  ...
 )
 }
 \arguments{
@@ -41,6 +42,29 @@ in as \link[GenomicRanges]{GRanges}.}
     environment variables \code{R_PARALLELLY_AVAILABLECORES_FALLBACK} or
     \code{BIOCPARALLEL_WORKER_NUMBER} are set otherwise.
   }
+
+\item{...}{
+  Arguments passed on to \code{\link[=bpplapply]{bpplapply}}
+  \describe{
+    \item{\code{verbose}}{Print messages.}
+    \item{\code{register_now}}{Register the cores now with
+\link[BiocParallel]{register} (\code{TRUE}),
+ or simply return the \code{BPPARAM object} (default: \code{FALSE}).}
+    \item{\code{use_snowparam}}{Whether to use
+\link[BiocParallel]{SnowParam} (default: \code{TRUE}) or
+\link[BiocParallel]{MulticoreParam} (\code{FALSE})
+ when parallelising across multiple \code{workers}.}
+    \item{\code{progressbar}}{
+    \code{logical(1)} Enable progress bar (based on plyr:::progress_text).
+  }
+    \item{\code{X}}{
+    Any object for which methods \code{length}, \code{[}, and
+    \code{[[} are implemented.
+  }
+    \item{\code{FUN}}{
+    The \code{function} to be applied to each element of \code{X}.
+  }
+  }}
 }
 \value{
 A named list of \link[GenomicRanges]{GRanges} objects.
@@ -66,7 +90,6 @@ and farthest downstream bases within the denoted coordinates
 #### Make example files ####
 save_paths <- EpiCompare::write_example_peaks()
 dir <- unique(dirname(save_paths))
-
 #### Gather/import files ####
 peaks <- EpiCompare::gather_files(dir=dir, type="*.narrowPeaks.bed$")
 }

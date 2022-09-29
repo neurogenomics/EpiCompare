@@ -34,7 +34,7 @@
 #' @param return_paths Return only the file paths without actually reading them 
 #' in as \link[GenomicRanges]{GRanges}. 
 #' @inheritParams BiocParallel::MulticoreParam
-#'
+#' @inheritDotParams bpplapply
 #' @returns A named list of \link[GenomicRanges]{GRanges} objects.
 #'
 #' @export 
@@ -49,25 +49,29 @@
 #' #### Make example files ####
 #' save_paths <- EpiCompare::write_example_peaks()
 #' dir <- unique(dirname(save_paths))
-#'
 #' #### Gather/import files ####
 #' peaks <- EpiCompare::gather_files(dir=dir, type="*.narrowPeaks.bed$")
 gather_files <- function(dir,
-                         type = "peaks.consensus.filtered",
+                         type = "peaks.stringent",
                          nfcore_cutandrun = FALSE,
                          return_paths = FALSE,
-                         workers = 1){
-  requireNamespace("BiocParallel")
+                         workers = 1,
+                         ...){
+     
+  #### Parse type arg ####
   type_key <- c(
     "peaks.stringent"="*.stringent.bed$",
     "peaks.consensus"="*.consensus.peaks.bed$",
     "peaks.consensus.filtered"="*.consensus.peaks.filtered.awk.bed$",
+    "peaks.pooled"="pooledPeak",
+    "peaks.narrow"="narrowPeak",
+    "peaks.broad"="broadPeak",
     "picard"= "*.target.markdup.MarkDuplicates.metrics.txt$"
   )
   pattern <- if(type %in% names(type_key)) type_key[tolower(type)] else type
   if(is.na(pattern)){
-    stop("type must be one of:\n",
-         paste("-",names(type_key), collapse = "\n"))
+    stop("type must be at least one of:\n",
+         paste("-",c(names(type_key),"<regex query>"), collapse = "\n"))
   }
   message("Searching for ",type," files...")
   paths <- list.files(path = dir,
@@ -78,7 +82,7 @@ gather_files <- function(dir,
   ## nfcore creates duplicates of same peak files 
   ## in different subfolders: "04_reporting" and "04_called_peaks".
   ## Omit one of these subfolders.
-  if(nfcore_cutandrun){
+  if(isTRUE(nfcore_cutandrun)){
       paths <- paths[!grepl("04_reporting",paths)]
   }
   #### Report files found ####
@@ -88,15 +92,14 @@ gather_files <- function(dir,
   list_names <- gather_files_names(paths=paths,
                                    type=type,
                                    nfcore_cutandrun=nfcore_cutandrun)
-  if(return_paths){
+  if(isTRUE(return_paths)){
       return(stats::setNames(paths,list_names))
   }
   #### Import files ####
-  message("Importing files.") 
-  BPPARAM <- get_bpparam(workers = workers)
-  files <- BiocParallel::bplapply(X = paths, 
-                                  BPPARAM = BPPARAM,
-                                  FUN = function(x){
+  message("Importing files.")  
+  files <- bpplapply(X = paths, 
+                     workers = workers,
+                     FUN = function(x){
     # message_parallel(x,"\n")
     if(startsWith(type,"peaks")){
       dat <- ChIPseeker::readPeakFile(x, as = "GRanges")
@@ -129,7 +132,7 @@ gather_files <- function(dir,
       }, error = function(e) dat)
     }
     return(dat)
-  }) |> `names<-`(list_names)
+  }, ...) |> `names<-`(list_names)
   #### Report ####
   message(length(files)," files retrieved.")
   return(files)

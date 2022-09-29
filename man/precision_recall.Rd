@@ -11,7 +11,8 @@ precision_recall(
   initial_threshold = 0,
   n_threshold = 10,
   max_threshold = 1,
-  workers = 1
+  workers = 1,
+  ...
 )
 }
 \arguments{
@@ -57,9 +58,32 @@ control.}
 \item{max_threshold}{Maximum threshold to test.}
 
 \item{workers}{Number of threads to parallelize across.}
+
+\item{...}{
+  Arguments passed on to \code{\link[=bpplapply]{bpplapply}}
+  \describe{
+    \item{\code{verbose}}{Print messages.}
+    \item{\code{register_now}}{Register the cores now with
+\link[BiocParallel]{register} (\code{TRUE}),
+ or simply return the \code{BPPARAM object} (default: \code{FALSE}).}
+    \item{\code{use_snowparam}}{Whether to use
+\link[BiocParallel]{SnowParam} (default: \code{TRUE}) or
+\link[BiocParallel]{MulticoreParam} (\code{FALSE})
+ when parallelising across multiple \code{workers}.}
+    \item{\code{progressbar}}{
+    \code{logical(1)} Enable progress bar (based on plyr:::progress_text).
+  }
+    \item{\code{X}}{
+    Any object for which methods \code{length}, \code{[}, and
+    \code{[[} are implemented.
+  }
+    \item{\code{FUN}}{
+    The \code{function} to be applied to each element of \code{X}.
+  }
+  }}
 }
 \value{
-overlap
+Overlap
 }
 \description{
 Compute precision and recall using each \link[GenomicRanges]{GRanges}

@@ -13,7 +13,8 @@ rebin_peaks(
   drop_empty_chr = FALSE,
   as_sparse = TRUE,
   workers = 1,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -63,6 +64,28 @@ which is more efficiently stored than a dense matrix (\code{FALSE}).}
 \item{workers}{Number of threads to parallelize across.}
 
 \item{verbose}{Print messages.}
+
+\item{...}{
+  Arguments passed on to \code{\link[=bpplapply]{bpplapply}}
+  \describe{
+    \item{\code{register_now}}{Register the cores now with
+\link[BiocParallel]{register} (\code{TRUE}),
+ or simply return the \code{BPPARAM object} (default: \code{FALSE}).}
+    \item{\code{use_snowparam}}{Whether to use
+\link[BiocParallel]{SnowParam} (default: \code{TRUE}) or
+\link[BiocParallel]{MulticoreParam} (\code{FALSE})
+ when parallelising across multiple \code{workers}.}
+    \item{\code{progressbar}}{
+    \code{logical(1)} Enable progress bar (based on plyr:::progress_text).
+  }
+    \item{\code{X}}{
+    Any object for which methods \code{length}, \code{[}, and
+    \code{[[} are implemented.
+  }
+    \item{\code{FUN}}{
+    The \code{function} to be applied to each element of \code{X}.
+  }
+  }}
 }
 \value{
 Binned peaks matrix

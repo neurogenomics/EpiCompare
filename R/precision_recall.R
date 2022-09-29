@@ -28,7 +28,8 @@
 #' @param n_threshold Number of thresholds to test. 
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
-#' @return overlap
+#' @inheritDotParams bpplapply
+#' @return Overlap
 #' 
 #' @export
 #' @importFrom data.table rbindlist
@@ -49,8 +50,9 @@ precision_recall <- function(peakfiles,
                              initial_threshold=0,
                              n_threshold=10,
                              max_threshold=1,
-                             workers=1){
-    requireNamespace("BiocParallel")
+                             workers=1,
+                             ...){ 
+    
     threshold_list <- seq(from=initial_threshold, 
                           to=1-(max_threshold/n_threshold), 
                           length.out=n_threshold)
@@ -58,12 +60,10 @@ precision_recall <- function(peakfiles,
     #### Check which have necessary columns #####
     peakfiles <- check_grlist_cols(grlist = peakfiles, 
                                    target_cols = thresholding_cols)
-    ##### Iterate over peakfiles #####
-    BPPARAM <- get_bpparam(workers = workers)
-    overlap <- BiocParallel::bpmapply(threshold_list,
-                                      BPPARAM = BPPARAM,
-                                      SIMPLIFY = FALSE,
-                                      FUN = function(thresh){
+    ##### Iterate over peakfiles ##### 
+    overlap <- bpplapply(X = threshold_list,
+                         workers = workers,
+                         FUN = function(thresh){
       message_parallel("Threshold=",thresh,": Filtering peaks")
       peakfiles_filt <- mapply(peakfiles, 
                               FUN=function(gr){  
@@ -85,6 +85,6 @@ precision_recall <- function(peakfiles,
                             suppress_messages = FALSE,
                             precision_recall = TRUE)
       return(df)
-    }) |> data.table::rbindlist(use.names = TRUE, idcol = "threshold")
+    }, ...) |> data.table::rbindlist(use.names = TRUE, idcol = "threshold")
     return(overlap)
 }

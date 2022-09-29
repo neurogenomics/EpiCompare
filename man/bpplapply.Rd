@@ -7,6 +7,7 @@
 bpplapply(
   X,
   FUN,
+  apply_fun = BiocParallel::bplapply,
   workers = 1,
   progressbar = workers > 1,
   verbose = workers == 1,
