@@ -73,11 +73,14 @@ gather_files <- function(dir,
     stop("type must be at least one of:\n",
          paste("-",c(names(type_key),"<regex query>"), collapse = "\n"))
   }
+  #### Search for files recursively ####
   message("Searching for ",type," files...")
   paths <- list.files(path = dir,
                       pattern = paste(unname(pattern), collapse = "|"),
                       recursive = TRUE,
                       full.names = TRUE)
+  #### Remove any R scripts ####
+  paths <- grep("\\.R", paths, value = TRUE, invert = TRUE) 
   #### Omit duplicate files ####
   ## nfcore creates duplicates of same peak files 
   ## in different subfolders: "04_reporting" and "04_called_peaks".
@@ -86,8 +89,13 @@ gather_files <- function(dir,
       paths <- paths[!grepl("04_reporting",paths)]
   }
   #### Report files found ####
-  if(length(paths)==0) stop(length(paths)," matching files identified.")
-  message(length(paths)," matching files identified.")
+  if(length(paths)==0) {
+      msg <- "0 matching files identified. Returning NULL."
+      message(msg)
+      return(NULL)
+  }
+  message(formatC(length(paths),big.mark = ","),
+          " matching files identified.")
   #### Construct names ####
   list_names <- gather_files_names(paths=paths,
                                    type=type,

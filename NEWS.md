@@ -23,6 +23,7 @@
 * `gather_files`: 
     - Replace iterator with `bpplapply`.
     - Pass up args from `bpplapply`.
+    - Provide warning message, not error, when 0 files found. Returns `NULL`.
     
 ### Bug fixes
 
