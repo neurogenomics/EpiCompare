@@ -13,6 +13,12 @@
     - New exported function to automate handling of known issues with
     `BiocParallel` across OS platforms.  
 * `get_bpparam`: Add args to allow users to choose which `BiocParallel` func to use.
+* `checkCache`: Make default arg `cache=BiocFileCache::BiocFileCache(ask = FALSE)`
+    to skip user input during runtime. 
+* `precision_recall`:
+    - Change `increment_threshold` arg to `n_threshold` arg, 
+    using the `seq(length.out=)` feature to avoid accidentally choosing an
+    inappropriately large `increment_threshold`. 
     
 ### Bug fixes
 
@@ -20,6 +26,7 @@
 * Fix pkg size issue by adding *inst/report* to *.Rbuildignore*.
 * `EpiCompare` wasn't being run when reference was a single unlisted `GRanges` object 
     because it was indeed length>1, but the `names` were all `NULL`. Now fixed.
+* `plot_precision_recall`: Set default `initial_threshold=` to 0.
 
 ## CHANGES IN VERSION 1.1.1
 

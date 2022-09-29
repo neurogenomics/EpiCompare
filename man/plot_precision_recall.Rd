@@ -8,9 +8,9 @@ plot_precision_recall(
   peakfiles,
   reference,
   thresholding_cols = c("total_signal", "qValue", "Peak Score"),
-  initial_threshold = 0.5,
-  increment_threshold = 0.05,
-  max_threshold = 1 - increment_threshold,
+  initial_threshold = 0,
+  n_threshold = 10,
+  max_threshold = 1,
   workers = 1,
   plot_f1 = TRUE,
   subtitle = NULL,
@@ -59,7 +59,7 @@ showing statistical significance of overlapping/non-overlapping peaks; and
 (via the parameter \code{--ctrl}) when calling peaks without an IgG 
 control.}
 
-\item{increment_threshold}{Unit to increment tested thresholds by.}
+\item{n_threshold}{Number of thresholds to test.}
 
 \item{max_threshold}{Maximum threshold to test.}
 

@@ -43,9 +43,9 @@ plot_precision_recall <- function(peakfiles,
                                   thresholding_cols=c("total_signal", 
                                                       "qValue",
                                                       "Peak Score"),
-                                  initial_threshold=0.5,
-                                  increment_threshold=0.05,
-                                  max_threshold=1-increment_threshold,
+                                  initial_threshold=0,
+                                  n_threshold=10,
+                                  max_threshold=1,
                                   workers = 1,
                                   plot_f1 = TRUE,
                                   subtitle = NULL,
@@ -55,46 +55,14 @@ plot_precision_recall <- function(peakfiles,
                                   interact = FALSE,
                                   show_plot = TRUE){
     requireNamespace("ggplot2")
-    precision <- recall <- F1 <- NULL;
-    #### Resampling ####
-    ## I tried resampling both peakfiles and reference for N iterations
-    ## to create more varied PR curves, 
-    ## but this strategy doesn't add much variation along the x/y axes and 
-    ## reduces the max precision/recall. 
-    ## Better to increase increment_threshold to smooth out the curve.
-    # sample_grlist <- function(grl,
-    #                           frac=.5){
-    #     mapply(grl, FUN=function(gr){
-    #         i_rows <- sample.int(n = length(gr), 
-    #                              size = as.integer(length(gr)*frac),
-    #                              replace = FALSE)
-    #         gr[i_rows,] 
-    #     })
-    # } 
-    # iterations <- seq_len(10)
-    # names(iterations) <- iterations
-    # pr_df <- mapply(iterations,
-    #                 SIMPLIFY = FALSE,
-    #                 FUN = function(i){
-    #                     precision_recall(
-    #                         peakfiles = sample_grlist(grl = peakfiles),
-    #                         reference = sample_grlist(grl = reference),
-    #                         thresholding_cols = thresholding_cols,
-    #                         initial_threshold = initial_threshold,
-    #                         max_threshold = max_threshold,
-    #                         increment_threshold = increment_threshold,
-    #                         workers = workers
-    #                     )
-    #                 } 
-    # ) |> data.table::rbindlist(use.names = TRUE, idcol = "sample")
-    
+    precision <- recall <- F1 <- NULL; 
     # #### Gather precision-recall data ####
     pr_df <- precision_recall(peakfiles = peakfiles,
                               reference = reference,
                               thresholding_cols = thresholding_cols,
                               initial_threshold = initial_threshold,
                               max_threshold = max_threshold,
-                              increment_threshold = increment_threshold,
+                              n_threshold = n_threshold,
                               workers = workers
                               )
     pr_df <- data.table::data.table(pr_df)

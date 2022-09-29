@@ -25,7 +25,7 @@
 #' (via the parameter \code{--ctrl}) when calling peaks without an IgG 
 #' control.
 #' @param max_threshold Maximum threshold to test.
-#' @param increment_threshold Unit to increment tested thresholds by.
+#' @param n_threshold Number of thresholds to test. 
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
 #' @return overlap
@@ -47,13 +47,13 @@ precision_recall <- function(peakfiles,
                                                  "qValue",
                                                  "Peak Score"),
                              initial_threshold=0,
-                             increment_threshold=0.1,
-                             max_threshold=1-increment_threshold,
+                             n_threshold=10,
+                             max_threshold=1,
                              workers=1){
     requireNamespace("BiocParallel")
     threshold_list <- seq(from=initial_threshold, 
-                          to=max_threshold, 
-                          by=increment_threshold)
+                          to=1-(max_threshold/n_threshold), 
+                          length.out=n_threshold)
     names(threshold_list) <- threshold_list 
     #### Check which have necessary columns #####
     peakfiles <- check_grlist_cols(grlist = peakfiles, 

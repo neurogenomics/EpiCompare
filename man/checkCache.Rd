@@ -4,7 +4,7 @@
 \alias{checkCache}
 \title{Check cache}
 \usage{
-checkCache(cache = BiocFileCache::BiocFileCache(), url)
+checkCache(cache = BiocFileCache::BiocFileCache(ask = FALSE), url)
 }
 \arguments{
 \item{cache}{BiocFileCache.}
