@@ -31,6 +31,10 @@ read_peaks <- function(path,
         dat <- data.table::fread(path)
     }
     #### Ensure GRanges format ####
+    if(length(dat)==0){
+        messager("WARNING: File contains 0 rows.")
+        return(NULL)
+    }
     if(!methods::is(dat,"GRanges")) {
         ## Try to convert to GRanges, but if it fails,
         ## just return the data.table
@@ -38,7 +42,7 @@ read_peaks <- function(path,
             GenomicRanges::makeGRangesFromDataFrame(
                 df = dat,
                 keep.extra.columns = TRUE)
-        }, error = function(e) dat)
-    }
+        }, error = function(e) {message(e); NULL}) 
+    } 
     return(dat)
 }
