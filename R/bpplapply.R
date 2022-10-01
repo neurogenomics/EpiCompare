@@ -14,7 +14,7 @@
 #' out <- bpplapply(X, print) 
 bpplapply <- function(X, 
                       FUN, 
-                      apply_fun=BiocParallel::bplapply,
+                      apply_fun=parallel::mclapply,
                       workers=1, 
                       progressbar=workers>1,
                       verbose=workers==1,
@@ -35,6 +35,9 @@ bpplapply <- function(X,
                   BPPARAM = BPPARAM, 
                   ...)
     } else {
+        if(environmentName(environment(apply_fun))=="parallel"){
+            requireNamespace("parallel")
+        }
         if(isFALSE(verbose)) FUN <- function(FUN){suppressMessages(FUN)}
         apply_fun(FUN = FUN,  
                   X,

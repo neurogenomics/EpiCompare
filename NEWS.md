@@ -32,6 +32,8 @@
 * `EpiCompare` wasn't being run when reference was a single unlisted `GRanges` object 
     because it was indeed length>1, but the `names` were all `NULL`. Now fixed.
 * `plot_precision_recall`: Set default `initial_threshold=` to 0.
+*  Switch from `BiocParallel` to `parallel`, 
+    as the former is extremely buggy and inconsistent.
 
 ## CHANGES IN VERSION 1.1.1
 

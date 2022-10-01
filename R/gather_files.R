@@ -115,7 +115,7 @@ gather_files <- function(dir,
                               type = type)
         }
         return(dat)
-    }, error=function(e){message(e);NULL}) 
+    }, error=function(e){messager(x,":",e,"\n");NULL}) 
   }, ...) |> `names<-`(list_names)
   #### Report ####
   message(length(files)," files retrieved.")
