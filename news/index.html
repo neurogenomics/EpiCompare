@@ -76,7 +76,8 @@
 </ul></li>
 <li>
 <code>bpplapply</code>:
-<ul><li>New exported function to automate handling of known issues with <code>BiocParallel</code> across OS platforms.<br></li>
+<ul><li>New exported function to automate handling of known issues with <code>BiocParallel</code> across OS platforms.</li>
+<li>Enable users to specify their own apply function.</li>
 </ul></li>
 <li>
 <code>get_bpparam</code>: Add args to allow users to choose which <code>BiocParallel</code> func to use.</li>
@@ -85,6 +86,24 @@
 <li>
 <code>precision_recall</code>:
 <ul><li>Change <code>increment_threshold</code> arg to <code>n_threshold</code> arg, using the <code>seq(length.out=)</code> feature to avoid accidentally choosing an inappropriately large <code>increment_threshold</code>.</li>
+</ul></li>
+<li>
+<code>gather_files</code>:
+<ul><li>Replace iterator with <code>bpplapply</code>.</li>
+<li>Pass up args from <code>bpplapply</code>.</li>
+<li>Provide warning message, not error, when 0 files found. Returns <code>NULL</code>.</li>
+</ul></li>
+<li>
+<code>rebin_peaks</code>/<code>compute_corr</code>: -Change default<code>bin_size</code> from 100 –&gt; 5kb to improve efficiency and align with other defaults of other packages (e.g <code>Signac</code>).</li>
+<li>
+<code>tss_plot</code>:
+<ul><li>Pass up more arg for specifying upstream/downstream.</li>
+</ul></li>
+<li>
+<code>EpiCompare</code>: Pass up new args:
+<ul><li><code>bin_size</code></li>
+<li><code>n_threshold</code></li>
+<li><code>workers</code></li>
 </ul></li>
 </ul></div>
 <div class="section level3">
@@ -95,6 +114,7 @@
 <code>EpiCompare</code> wasn’t being run when reference was a single unlisted <code>GRanges</code> object because it was indeed length&gt;1, but the <code>names</code> were all <code>NULL</code>. Now fixed.</li>
 <li>
 <code>plot_precision_recall</code>: Set default <code>initial_threshold=</code> to 0.</li>
+<li>Switch from <code>BiocParallel</code> to <code>parallel</code>, as the former is extremely buggy and inconsistent.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -128,8 +148,10 @@
 </ul></li>
 <li>
 <code>rebin_peaks</code>:
-<ul><li>Addressed error that occurs when there’s many samples/cells with small bins.</li>
+<ul><li>Addressed error that occurs when there’s many samples/cells with small bins.<br></li>
 </ul></li>
+<li>
+<code>plot_precision_recall</code>: Don’t plot the reference as part of the PR curve.</li>
 </ul></div>
 </div>
     <div class="section level2">

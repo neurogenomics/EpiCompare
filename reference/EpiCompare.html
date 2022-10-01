@@ -87,13 +87,16 @@ divided into three sections: (1) General Metrics on Peakfiles,
 <span>  enrichment_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  tss_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  precision_recall_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  n_threshold <span class="op">=</span> <span class="fl">15</span>,</span>
 <span>  corr_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  bin_size <span class="op">=</span> <span class="fl">5000</span>,</span>
 <span>  interact <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  save_output <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  output_filename <span class="op">=</span> <span class="st">"EpiCompare"</span>,</span>
 <span>  output_timestamp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">output_dir</span>,</span>
-<span>  display <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  display <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  workers <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -205,10 +208,20 @@ creates a precision-recall curve plot and an F1 plot using
 <a href="plot_precision_recall.html">plot_precision_recall</a>.</p></dd>
 
 
+<dt>n_threshold</dt>
+<dd><p>Number of thresholds to test.</p></dd>
+
+
 <dt>corr_plot</dt>
 <dd><p>Default is FALSE. If TRUE, creates a correlation plot across
 all peak files using
 <a href="plot_corr.html">plot_corr</a>.</p></dd>
+
+
+<dt>bin_size</dt>
+<dd><p>Default of 100. Base-pair size of the bins created to measure
+correlation. Use smaller value for higher resolution but longer run time and 
+larger memory usage.</p></dd>
 
 
 <dt>interact</dt>
@@ -241,6 +254,11 @@ file name.</p></dd>
 <li><p>"rsstudio" : Display the report in Rstudio.</p></li>
 <li><p>NULL (default) : Do not display the report.</p></li>
 </ul></dd>
+
+
+<dt>workers</dt>
+<dd><p>Number of cores to parallelise across 
+(in applicable functions).</p></dd>
 
 </dl></div>
     <div id="value">
@@ -293,9 +311,9 @@ file name.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> --- Running overlap_heatmap() ---</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.063 min."</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/RtmpUKCKG1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpUKCKG1/EpiCompare_test.html"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.042 min."</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/Rtmp4IAVbg</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp4IAVbg/EpiCompare_test.html"</span>
 </code></pre></div>
     </div>
   </div>

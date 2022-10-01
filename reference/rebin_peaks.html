@@ -72,12 +72,13 @@
 <span>  <span class="va">peakfiles</span>,</span>
 <span>  <span class="va">genome_build</span>,</span>
 <span>  intensity_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"total_signal"</span>, <span class="st">"qValue"</span>, <span class="st">"Peak Score"</span>, <span class="st">"score"</span><span class="op">)</span>,</span>
-<span>  bin_size <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  bin_size <span class="op">=</span> <span class="fl">5000</span>,</span>
 <span>  keep_chr <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  drop_empty_chr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  as_sparse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  workers <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -139,11 +140,41 @@ which is more efficiently stored than a dense matrix (<code>FALSE</code>).</p></
 
 
 <dt>workers</dt>
-<dd><p>Number of threads to parallelize across.</p></dd>
+<dd><p>Number of cores to parallelise across 
+(in applicable functions).</p></dd>
 
 
 <dt>verbose</dt>
 <dd><p>Print messages.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Arguments passed on to <code><a href="bpplapply.html">bpplapply</a></code></p><dl><dt><code>apply_fun</code></dt>
+<dd><p>Iterator function to use.</p></dd>
+
+    <dt><code>register_now</code></dt>
+<dd><p>Register the cores now with
+<a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">register</a> (<code>TRUE</code>),
+ or simply return the <code>BPPARAM object</code> (default: <code>FALSE</code>).</p></dd>
+
+    <dt><code>use_snowparam</code></dt>
+<dd><p>Whether to use
+<a href="https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html" class="external-link">SnowParam</a> (default: <code>TRUE</code>) or
+<a href="https://rdrr.io/pkg/BiocParallel/man/MulticoreParam-class.html" class="external-link">MulticoreParam</a> (<code>FALSE</code>)
+ when parallelising across multiple <code>workers</code>.</p></dd>
+
+    <dt><code>progressbar</code></dt>
+<dd><p><code>logical(1)</code> Enable progress bar (based on plyr:::progress_text).</p></dd>
+
+    <dt><code>X</code></dt>
+<dd><p>Any object for which methods <code>length</code>, <code>[</code>, and
+    <code>[[</code> are implemented.</p></dd>
+
+    <dt><code>FUN</code></dt>
+<dd><p>The <code>function</code> to be applied to each element of <code>X</code>.</p></dd>
+
+  
+</dl></dd>
 
 </dl></div>
     <div id="value">

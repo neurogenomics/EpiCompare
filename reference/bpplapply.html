@@ -71,6 +71,7 @@ handles issues with <span class="pkg">BiocParallel</span> related to different O
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bpplapply</span><span class="op">(</span></span>
 <span>  <span class="va">X</span>,</span>
 <span>  <span class="va">FUN</span>,</span>
+<span>  apply_fun <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span>,</span>
 <span>  workers <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  progressbar <span class="op">=</span> <span class="va">workers</span> <span class="op">&gt;</span> <span class="fl">1</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="va">workers</span> <span class="op">==</span> <span class="fl">1</span>,</span>
@@ -89,6 +90,10 @@ handles issues with <span class="pkg">BiocParallel</span> related to different O
 
 <dt>FUN</dt>
 <dd><p>The <code>function</code> to be applied to each element of <code>X</code>.</p></dd>
+
+
+<dt>apply_fun</dt>
+<dd><p>Iterator function to use.</p></dd>
 
 
 <dt>workers</dt>
@@ -147,32 +152,6 @@ handles issues with <span class="pkg">BiocParallel</span> related to different O
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span><span class="op">)</span>, <span class="va">letters</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">bpplapply</span><span class="op">(</span><span class="va">X</span>, <span class="va">print</span><span class="op">)</span> </span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26</span>
 </code></pre></div>
     </div>
   </div>
