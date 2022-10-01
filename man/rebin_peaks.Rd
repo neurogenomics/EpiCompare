@@ -8,7 +8,7 @@ rebin_peaks(
   peakfiles,
   genome_build,
   intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
-  bin_size = 100,
+  bin_size = 5000,
   keep_chr = NULL,
   drop_empty_chr = FALSE,
   as_sparse = TRUE,
@@ -61,13 +61,15 @@ larger memory usage.}
 (default: \code{TRUE}), 
 which is more efficiently stored than a dense matrix (\code{FALSE}).}
 
-\item{workers}{Number of threads to parallelize across.}
+\item{workers}{Number of cores to parallelise across 
+(in applicable functions).}
 
 \item{verbose}{Print messages.}
 
 \item{...}{
   Arguments passed on to \code{\link[=bpplapply]{bpplapply}}
   \describe{
+    \item{\code{apply_fun}}{Iterator function to use.}
     \item{\code{register_now}}{Register the cores now with
 \link[BiocParallel]{register} (\code{TRUE}),
  or simply return the \code{BPPARAM object} (default: \code{FALSE}).}

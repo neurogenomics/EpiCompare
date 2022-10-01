@@ -46,6 +46,7 @@ in as \link[GenomicRanges]{GRanges}.}
 \item{...}{
   Arguments passed on to \code{\link[=bpplapply]{bpplapply}}
   \describe{
+    \item{\code{apply_fun}}{Iterator function to use.}
     \item{\code{verbose}}{Print messages.}
     \item{\code{register_now}}{Register the cores now with
 \link[BiocParallel]{register} (\code{TRUE}),

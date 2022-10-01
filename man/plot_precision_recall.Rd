@@ -63,7 +63,8 @@ control.}
 
 \item{max_threshold}{Maximum threshold to test.}
 
-\item{workers}{Number of threads to parallelize across.}
+\item{workers}{Number of cores to parallelise across 
+(in applicable functions).}
 
 \item{plot_f1}{Generate a plot with the F1 score vs. threshold as well.}
 

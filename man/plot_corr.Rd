@@ -8,7 +8,7 @@ plot_corr(
   peakfiles,
   reference,
   genome_build,
-  bin_size = 100,
+  bin_size = 5000,
   keep_chr = NULL,
   drop_empty_chr = FALSE,
   method = "spearman",
@@ -74,7 +74,8 @@ correlations:
 \item{interact}{Default TRUE. By default, all heatmaps are interactive.
 If set FALSE, all heatmaps in the report will be static.}
 
-\item{workers}{Number of threads to parallelize across.}
+\item{workers}{Number of cores to parallelise across 
+(in applicable functions).}
 
 \item{show_plot}{Show the plot.}
 }

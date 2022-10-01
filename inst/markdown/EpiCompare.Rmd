@@ -37,12 +37,18 @@ params:
     value: FALSE
   precision_recall_plot:
     value: FALSE
+  n_threshold:
+    value: 15
   corr_plot:
     value: FALSE  
+  bin_size:
+    value: 5000      
   interact:
     value: TRUE
   save_output:
     value: FALSE
+  workers:
+    value: 1
 ---
 
 ```{r setup, warning=FALSE, message=FALSE}
@@ -82,8 +88,9 @@ blacklist <- liftover_grlist(grlist = params$blacklist,
                              output_build = output_build) 
 
 ### Standardise peaklist(s) ###
-peaklist_tidy <- tidy_peakfile(peaklist = peaklist,
-                               blacklist = blacklist)
+peaklist <- tidy_peakfile(peaklist = peaklist,
+                          blacklist = blacklist)
+peaklist_tidy <- peaklist
 
 ### Standardise reference(s) ###
 # and include in peaklist
@@ -151,10 +158,12 @@ EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
            enrichment_plot = `r params$enrichment_plot`,
            tss_plot = `r params$tss_plot`,
            precision_recall_plot = `r params$precision_recall_plot`,
+           n_threshold = `r params$n_threshold`,
            corr_plot=`r params$corr_plot`,
            interact = `r params$interact`,
            save_output = `r params$save_output`,
-           output_dir = "`r params$output_dir`")
+           output_dir = "`r params$output_dir`",
+           workers = `r params$workers`)
 ``` 
 
 ***
@@ -261,8 +270,12 @@ remove(width_plot)
 Percentage of overlapping peaks between samples. 
 Hover over heatmap for percentage values. 
 
-N.B. How to interpret heatmap: [Samples in x-axis of heatmap] peaks in 
-[Samples in y-axis of heatmap] peaks 
+**NOTES**: How to interpret heatmap: [Samples in x-axis of heatmap] peaks in [Samples in y-axis of heatmap] peaks. In other words:  
+- *Recall: y-axis*: Percent of peaks in y-axis samples 
+that overlap with peaks in x-axis samples. 
+in the x-axis samples.  
+- *Precision: x-axis*: Percent of peaks in x-axis samples 
+that overlap with peaks in y-axis samples.  
 
 <br>
 
@@ -366,9 +379,11 @@ The second plot shows F1 score
 ```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
 pr_out <- NULL
 if(params$precision_recall_plot && (!is.null(reference))){
-    pr_out <- plot_precision_recall(peakfiles = peaklist_tidy, 
+    pr_out <- plot_precision_recall(peakfiles = peaklist, 
                                     reference = reference_tidy,
-                                    interact = params$interact, 
+                                    interact = params$interact,
+                                    n_threshold = params$n_threshold,
+                                    workers = params$workers,
                                     show_plot = FALSE) 
 }
 pr_out$precision_recall_plot
@@ -391,7 +406,9 @@ if(params$corr_plot){
     cp_out <- plot_corr(peakfiles = peaklist_tidy, 
                         reference = reference_tidy,
                         genome_build = output_build,
-                        interact = params$interact, 
+                        interact = params$interact,
+                        bin_size = params$bin_size,
+                        workers = params$workers,
                         show_plot = FALSE) 
 }
 cp_out$corr_plot
@@ -409,7 +426,7 @@ annotates and characterises peaks into different chromatin states. ChromHMM
 annotations used in EpiCompare were obtained from
 [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).
 
-* Cell-type annotation file used in this analysis: `r params$chromHMM_annotation`
+* Cell-type annotation file used in this analysis: __`r params$chromHMM_annotation`__
 
 #### All samples 
 
@@ -716,7 +733,7 @@ if (params$enrichment_plot){
 
 This plots peaks that are mapping to transcriptional start sites (TSS). 
 TSS regions are defined as the flanking sequence of the TSS sites. 
-The frequency of peaks in downstream (-3000bp) and upstream (+3000bp) of 
+The frequency of peaks upstream (-3000bp) and downstream (+3000bp) of 
 TSS is plotted. Faint color line around the main frequency line represents 
 the 95% confidence interval estimated by bootstrap method. 
 
@@ -724,11 +741,14 @@ the 95% confidence interval estimated by bootstrap method.
 ```{r,fig.height=3,fig.width=10,warning=FALSE,message=FALSE}
 # Run tss_plot()
 if (params$tss_plot){
-  tss_plot <- tss_plot(peaklist = peaklist_tidy,
-                       annotation = txdb)}
-# Print plot
-for (plot in tss_plot){
-  print(plot)}
+  tssplt <- tss_plot(peaklist = peaklist_tidy,
+                     annotation = txdb,
+                     workers = params$workers)
+  # Print plot
+    for (plot in tssplt){
+      print(plot)
+    }
+}
 ```
 
 

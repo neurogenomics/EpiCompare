@@ -48,7 +48,7 @@ precision_recall <- function(peakfiles,
                                                  "qValue",
                                                  "Peak Score"),
                              initial_threshold=0,
-                             n_threshold=10,
+                             n_threshold=15,
                              max_threshold=1,
                              workers=1,
                              ...){ 

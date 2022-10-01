@@ -4,7 +4,15 @@
 \alias{tss_plot}
 \title{Read count frequency around TSS}
 \usage{
-tss_plot(peaklist, annotation)
+tss_plot(
+  peaklist,
+  annotation,
+  upstream = 3000,
+  downstream = upstream,
+  conf = 0.95,
+  resample = 500,
+  workers = 1
+)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
@@ -13,6 +21,20 @@ e.g. \code{list("name1"=file1, "name2"=file2)}
 If not named, default file names will be assigned.}
 
 \item{annotation}{A TxDb annotation object from Bioconductor.}
+
+\item{upstream}{upstream from TSS site}
+
+\item{downstream}{downstream from TSS site}
+
+\item{conf}{Confidence interval threshold estimated by bootstrapping
+ (\code{0.95} means 95%).
+Argument passed to \link[ChIPseeker]{plotAvgProf}.}
+
+\item{resample}{Number of bootstrapped iterations to run.
+Argument passed to \link[ChIPseeker]{plotAvgProf}.}
+
+\item{workers}{Number of cores to parallelise bootstrapping across.
+Argument passed to \link[ChIPseeker]{plotAvgProf}.}
 }
 \value{
 profile plot in a list.
@@ -24,15 +46,9 @@ This function generates a plot of read count frequency around TSS.
 ### Load Data ###
 data("CnT_H3K27ac") # example peaklist GRanges object
 data("CnR_H3K27ac") # example peaklist GRanges object
-
 ### Create Named Peaklist ###
 peaks <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
-
-## not run
-# txdb<-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
-# my_plot <- tss_plot(peaklist = peaks,
-#                     annotation = txdb)
-## first plot
-# my_plot[1]
-
+txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+my_plot <- tss_plot(peaklist = peaks,
+                    annotation = txdb)
 }

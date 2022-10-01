@@ -79,7 +79,6 @@ plot_precision_recall <- function(peakfiles,
     #### Compute F1 ##### 
     plot_dat[,F1:=(2*(precision*recall) / (precision+recall))] 
     plot_dat[is.na(F1),]$F1 <- 0
-    
     #### Plot precision-recall ####
     gg <- ggplot2::ggplot(
         data = plot_dat, 

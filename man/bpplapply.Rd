@@ -26,6 +26,8 @@ bpplapply(
     The \code{function} to be applied to each element of \code{X}.
   }
 
+\item{apply_fun}{Iterator function to use.}
+
 \item{workers}{Number of threads to parallelize across.}
 
 \item{progressbar}{

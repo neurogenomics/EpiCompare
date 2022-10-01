@@ -27,7 +27,7 @@
 plot_corr <- function(peakfiles,
                       reference,
                       genome_build,
-                      bin_size = 100,
+                      bin_size = 5000,
                       keep_chr = NULL,
                       drop_empty_chr = FALSE,
                       method = "spearman",

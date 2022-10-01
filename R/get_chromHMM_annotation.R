@@ -25,8 +25,9 @@
 #' @importFrom genomation readBed
 #' @import GenomicRanges
 #' @keywords internal
-get_chromHMM_annotation <- function(cell_line,
-                                    cache=BiocFileCache::BiocFileCache()){
+get_chromHMM_annotation <- function(
+        cell_line,
+        cache=BiocFileCache::BiocFileCache(ask = FALSE)){
   #use bioconductor caching package
   requireNamespace("BiocFileCache")
     

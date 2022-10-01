@@ -10,7 +10,7 @@ compute_corr(
   genome_build,
   keep_chr = NULL,
   drop_empty_chr = FALSE,
-  bin_size = 100,
+  bin_size = 5000,
   method = "spearman",
   intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
   return_bins = FALSE,
@@ -75,7 +75,8 @@ correlations:
 (standardised) peaks ("bin") and the correlation matrix ("cor").
 If \code{FALSE} (default), returns only the correlation matrix (unlisted).}
 
-\item{workers}{Number of threads to parallelize across.}
+\item{workers}{Number of cores to parallelise across 
+(in applicable functions).}
 }
 \value{
 correlation matrix

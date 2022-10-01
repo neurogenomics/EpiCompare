@@ -96,7 +96,10 @@
 #' \item{"rsstudio" : }{Display the report in Rstudio.}
 #' \item{NULL (default) : }{Do not display the report.}
 #' }
-#'
+#' @param workers Number of cores to parallelise across 
+#' (in applicable functions).
+#' @inheritParams plot_precision_recall
+#' @inheritParams plot_corr
 #' @return Path to one or more HTML report files.
 #'
 #' @export
@@ -146,15 +149,18 @@ EpiCompare <- function(peakfiles,
                        enrichment_plot = FALSE,
                        tss_plot = FALSE,
                        precision_recall_plot = FALSE,
+                       n_threshold = 15,
                        corr_plot=FALSE,
+                       bin_size = 5000,
                        interact = TRUE,
                        save_output = FALSE,
                        output_filename = "EpiCompare",
                        output_timestamp = FALSE,
                        output_dir,
-                       display = NULL){
+                       display = NULL,
+                       workers=1){
 
-  # time
+  #### time ####
   t1 <- Sys.time()
   if(!is.null(display)) display <- tolower(display)[1]
   ### Output Filename ###
@@ -198,10 +204,13 @@ EpiCompare <- function(peakfiles,
               enrichment_plot = enrichment_plot,
               tss_plot = tss_plot,
               precision_recall_plot = precision_recall_plot,
+              n_threshold = n_threshold,
               corr_plot = corr_plot,
+              bin_size = bin_size,
               interact = interact,
               save_output = save_output,
-              output_dir = output_dir)
+              output_dir = output_dir,
+              workers = workers)
           )
           return(file.path(output_dir,html_file))
         }) |> unlist()
@@ -228,10 +237,13 @@ EpiCompare <- function(peakfiles,
         enrichment_plot = enrichment_plot,
         tss_plot = tss_plot,
         precision_recall_plot = precision_recall_plot,
+        n_threshold = n_threshold,
         corr_plot = corr_plot,
+        bin_size = bin_size,
         interact = interact,
         save_output = save_output,
-        output_dir = output_dir)
+        output_dir = output_dir,
+        workers = workers)
     )
     output_html <- file.path(output_dir,html_file)
   }

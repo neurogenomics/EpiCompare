@@ -19,13 +19,16 @@ EpiCompare(
   enrichment_plot = FALSE,
   tss_plot = FALSE,
   precision_recall_plot = FALSE,
+  n_threshold = 15,
   corr_plot = FALSE,
+  bin_size = 5000,
   interact = TRUE,
   save_output = FALSE,
   output_filename = "EpiCompare",
   output_timestamp = FALSE,
   output_dir,
-  display = NULL
+  display = NULL,
+  workers = 1
 )
 }
 \arguments{
@@ -115,9 +118,15 @@ frequency around transcriptional start site. Note that this can take awhile.}
 creates a precision-recall curve plot and an F1 plot using
 \link[EpiCompare]{plot_precision_recall}.}
 
+\item{n_threshold}{Number of thresholds to test.}
+
 \item{corr_plot}{Default is FALSE. If TRUE, creates a correlation plot across
 all peak files using
 \link[EpiCompare]{plot_corr}.}
+
+\item{bin_size}{Default of 100. Base-pair size of the bins created to measure
+correlation. Use smaller value for higher resolution but longer run time and 
+larger memory usage.}
 
 \item{interact}{Default TRUE. By default, all heatmaps are interactive.
 If set FALSE, all heatmaps in the report will be static.}
@@ -140,6 +149,9 @@ file name.}
 \item{"rsstudio" : }{Display the report in Rstudio.}
 \item{NULL (default) : }{Do not display the report.}
 }}
+
+\item{workers}{Number of cores to parallelise across 
+(in applicable functions).}
 }
 \value{
 Path to one or more HTML report files.

@@ -4,7 +4,10 @@
 \alias{get_chromHMM_annotation}
 \title{Download ChromHMM annotation file(s)}
 \usage{
-get_chromHMM_annotation(cell_line, cache = BiocFileCache::BiocFileCache())
+get_chromHMM_annotation(
+  cell_line,
+  cache = BiocFileCache::BiocFileCache(ask = FALSE)
+)
 }
 \arguments{
 \item{cell_line}{ChromHMM annotation for user-specified cell-line.

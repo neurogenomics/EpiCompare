@@ -9,7 +9,7 @@ precision_recall(
   reference,
   thresholding_cols = c("total_signal", "qValue", "Peak Score"),
   initial_threshold = 0,
-  n_threshold = 10,
+  n_threshold = 15,
   max_threshold = 1,
   workers = 1,
   ...
@@ -57,11 +57,13 @@ control.}
 
 \item{max_threshold}{Maximum threshold to test.}
 
-\item{workers}{Number of threads to parallelize across.}
+\item{workers}{Number of cores to parallelise across 
+(in applicable functions).}
 
 \item{...}{
   Arguments passed on to \code{\link[=bpplapply]{bpplapply}}
   \describe{
+    \item{\code{apply_fun}}{Iterator function to use.}
     \item{\code{verbose}}{Print messages.}
     \item{\code{register_now}}{Register the cores now with
 \link[BiocParallel]{register} (\code{TRUE}),

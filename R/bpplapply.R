@@ -2,6 +2,7 @@
 #' 
 #' Wrapper function for \link[BiocParallel]{bplapply} that automatically
 #' handles issues with \pkg{BiocParallel} related to different OS platforms.
+#' @param apply_fun Iterator function to use. 
 #' @param verbose Print messages. 
 #' @inheritParams get_bpparam 
 #' @inheritParams BiocParallel::bplapply

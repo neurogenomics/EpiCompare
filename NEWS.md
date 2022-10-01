@@ -24,6 +24,15 @@
     - Replace iterator with `bpplapply`.
     - Pass up args from `bpplapply`.
     - Provide warning message, not error, when 0 files found. Returns `NULL`.
+*  `rebin_peaks`/`compute_corr`:
+    -Change default`bin_size` from 100 --> 5kb to improve efficiency 
+    and align with other defaults of other packages (e.g `Signac`).
+* `tss_plot`:
+    - Pass up more arg for specifying upstream/downstream. 
+* `EpiCompare`: Pass up new args:
+    - `bin_size`
+    - `n_threshold`
+    - `workers`
     
 ### Bug fixes
 
@@ -61,6 +70,7 @@
 * `rebin_peaks`: 
     - Addressed error that occurs when there's many samples/cells 
     with small bins.  
+* `plot_precision_recall`: Don't plot the reference as part of the PR curve. 
     
 
 ## CHANGES IN VERSION 0.99.21
