@@ -59,7 +59,9 @@ tss_plot <- function(peaklist,
                                     conf = conf,
                                     resample = resample,
                                     facet = "row",
-                                    ncpus = workers,
+                                    ## Remove for now 
+                                    ## (making everything super slow by default)
+                                    # ncpus = workers,
                                     verbose = FALSE) +
       ggplot2::labs(title=names(file))
     list(plot)

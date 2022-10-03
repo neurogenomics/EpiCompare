@@ -22,7 +22,8 @@ gather_files_names <- function(paths,
           dirname(
             dirname(
               dirname(
-                paths
+                ## Some versions of nfcore/cutandrun include a seacr subdir
+                gsub(file.path("","seacr",""),file.path("",""),paths)
               )
             )
           )
