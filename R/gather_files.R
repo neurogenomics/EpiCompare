@@ -117,14 +117,14 @@ gather_files <- function(dir,
                               type=type,
                               nfcore_cutandrun=nfcore_cutandrun)
   if(isTRUE(return_paths)){
+      messager("Returning paths.",v=verbose)
       return(paths)
   }
   #### Import files ####
   messager("Importing files.",v=verbose)  
   files <- bpplapply(X = paths, 
                      workers = workers,
-                     FUN = function(x){
-    # tryCatch({
+                     FUN = function(x){ 
         if(type=="picard"){
             dat <- read_picard(path = x,
                                verbose = verbose)
@@ -145,9 +145,8 @@ gather_files <- function(dir,
                               type = type,
                               verbose = verbose)
         }
-        return(dat)
-    # }, error=function(e){messager(x,":",e,"\n");NULL}) 
-  }, ...) 
+        return(dat) 
+  }) 
   #### Report ####
   message(length(files)," files retrieved.")
   return(files)
