@@ -51,12 +51,7 @@ gather_files_names <- function(paths,
                            simplify = TRUE)[,1],
         sep=".")
     } else if(type=="multiqc"){
-        list_names <- paste(
-            basename(dirname(dirname(paths))),
-            stringr::str_split(basename(paths),"[.]",
-                               simplify = TRUE)[,1],
-            sep="."
-        ) 
+        list_names <- basename(dirname(dirname(paths)))
     }else if(startsWith(type,"bowtie")){
         list_names <- paste(
             basename(dirname(dirname(dirname(dirname(paths))))),
