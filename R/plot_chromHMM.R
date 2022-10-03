@@ -82,7 +82,8 @@ plot_chromHMM <- function(peaklist,
       features = chromHMM_annotation)
   # obtain matrix
   message("Obtaining target annotation matrix.")
-  matrix <- genomation::heatTargetAnnotation(annotation, plot = FALSE)
+  matrix <- genomation::heatTargetAnnotation(annotation, 
+                                             plot = FALSE)
   # remove numbers in front of states
   label_corrected <- gsub('X', '', colnames(matrix))
   colnames(matrix) <- label_corrected # set corrected labels
@@ -90,7 +91,8 @@ plot_chromHMM <- function(peaklist,
   matrix_melt <- reshape2::melt(matrix)
   colnames(matrix_melt) <- c("Sample", "State", "value")
   # order State labels
-  sorted_label <- unique(stringr::str_sort(matrix_melt$State, numeric = TRUE))
+  sorted_label <- unique(stringr::str_sort(matrix_melt$State,
+                                           numeric = TRUE))
   nm <- factor(matrix_melt$State, levels=sorted_label)
   matrix_melt$State <- nm
   # create heatmap

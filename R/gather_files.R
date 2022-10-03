@@ -62,7 +62,8 @@ gather_files <- function(dir,
     "peaks.pooled"="pooledPeak",
     "peaks.narrow"="narrowPeak",
     "peaks.broad"="broadPeak",
-    "picard"= "*.target.markdup.MarkDuplicates.metrics.txt$"
+    "picard"= "*.target.markdup.MarkDuplicates.metrics.txt$",
+    "multiqc" = "meta_table_ctrl.csv$"
   )
   pattern <- if(type %in% names(type_key)) type_key[tolower(type)] else type
   if(is.na(pattern)){
@@ -110,6 +111,8 @@ gather_files <- function(dir,
                                      skip = "LIBRARY",
                                      fill = TRUE,
                                      nrows = 1)
+        } else if(type=="multiqc"){
+            dat <- data.table::fread(f)
         } else{
             dat <- read_peaks(path = x,
                               type = type)

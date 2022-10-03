@@ -24,6 +24,7 @@
     - Replace iterator with `bpplapply`.
     - Pass up args from `bpplapply`.
     - Provide warning message, not error, when 0 files found. Returns `NULL`.
+    - Add "multiqc" as a search option. 
 *  `rebin_peaks`/`compute_corr`:
     -Change default`bin_size` from 100 --> 5kb to improve efficiency 
     and align with other defaults of other packages (e.g `Signac`).
