@@ -50,5 +50,6 @@ read_peaks <- function(path,
                 keep.extra.columns = TRUE)
         }, error = function(e) {message(e); NULL}) 
     } 
+    dat@metadata <- list(path=path)
     return(dat)
 }

@@ -19,6 +19,7 @@ read_bowtie <- function(path,
             "[%]","pct",
             gsub("[()]|[)]","",
                  gsub("[ ]","_",trimws(metric,whitespace = ":"))))]
-    }
+    } 
+    dat[,path:=path]
     return(dat)
 }

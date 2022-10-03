@@ -9,9 +9,9 @@ gather_files(
   type = "peaks.stringent",
   nfcore_cutandrun = FALSE,
   return_paths = FALSE,
+  rbind_list = FALSE,
   workers = 1,
-  verbose = TRUE,
-  ...
+  verbose = TRUE
 )
 }
 \arguments{
@@ -36,6 +36,8 @@ Finds files ending in"*.consensus.peaks.filtered.awk.bed$"}
 
 \item{return_paths}{Return only the file paths without actually reading them 
 in as \link[GenomicRanges]{GRanges}.}
+
+\item{rbind_list}{Bind all objects into one.}
 
 \item{workers}{
     \code{integer(1)} Number of workers. Defaults to the maximum of 1 or
@@ -93,5 +95,5 @@ and farthest downstream bases within the denoted coordinates
 save_paths <- EpiCompare::write_example_peaks()
 dir <- unique(dirname(save_paths))
 #### Gather/import files ####
-peaks <- EpiCompare::gather_files(dir=dir, type="*.narrowPeaks.bed$")
+peaks <- EpiCompare::gather_files(dir=dir, type="peaks.narrow")
 }

@@ -15,6 +15,6 @@ read_trimgalore <- function(path,
         value=as.integer(dat_vals[,1]),
         percent=as.numeric(dat_vals[,2])
     )
+    dat[,path:=path]
     return(dat)
-    # GenomicAlignments::readGAlignments(x)
 }

@@ -33,6 +33,7 @@
 #'  automatically generate more descriptive file names with sample IDs.
 #' @param return_paths Return only the file paths without actually reading them 
 #' in as \link[GenomicRanges]{GRanges}. 
+#' @param rbind_list Bind all objects into one.
 #' @inheritParams BiocParallel::MulticoreParam
 #' @inheritDotParams bpplapply
 #' @returns A named list of \link[GenomicRanges]{GRanges} objects.
@@ -40,22 +41,22 @@
 #' @export 
 #' @importFrom stats setNames
 #' @importFrom stringr str_split
-#' @importFrom data.table fread
+#' @importFrom data.table fread := rbindlist
+#' @importFrom GenomicRanges GRangesList
 #' @examples
 #' #### Make example files ####
 #' save_paths <- EpiCompare::write_example_peaks()
 #' dir <- unique(dirname(save_paths))
 #' #### Gather/import files ####
-#' peaks <- EpiCompare::gather_files(dir=dir, type="*.narrowPeaks.bed$")
+#' peaks <- EpiCompare::gather_files(dir=dir, type="peaks.narrow")
 gather_files <- function(dir,
                          type = "peaks.stringent",
                          nfcore_cutandrun = FALSE,
                          return_paths = FALSE,
+                         rbind_list = FALSE,
                          workers = 1,
-                         verbose = TRUE,
-                         ...){
-    
-  type <- tolower(type)[[1]]
+                         verbose = TRUE){
+
   #### Parse type arg ####
   type_key <- c(
     ## peak files
@@ -93,7 +94,8 @@ gather_files <- function(dir,
   paths <- list.files(path = dir,
                       pattern = paste(unname(pattern), collapse = "|"),
                       recursive = TRUE,
-                      full.names = TRUE)
+                      full.names = TRUE, 
+                      ignore.case = TRUE)
   #### Remove any R scripts ####
   paths <- grep("\\.R", paths, value = TRUE, invert = TRUE) 
   #### Omit duplicate files ####
@@ -147,7 +149,19 @@ gather_files <- function(dir,
         }
         return(dat) 
   }) 
+  #### rbind into one object ####
+  if(isTRUE(rbind_list)){
+      messager("Binding all files into one.",v=verbose)
+      if(startsWith(type,"peaks")){
+          files <- unlist(GenomicRanges::GRangesList(files))
+      } else {
+          files <- data.table::rbindlist(files,
+                                         use.names = TRUE,
+                                         idcol = "batch",
+                                         fill = TRUE)
+      }
+  }
   #### Report ####
-  message(length(files)," files retrieved.")
+  messager(formatC(length(files),big.mark = ","),"files retrieved.",v=verbose)
   return(files)
 }

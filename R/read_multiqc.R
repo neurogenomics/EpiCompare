@@ -3,5 +3,6 @@ read_multiqc <- function(path,
     
     messager("Reading multiQC report.",v=verbose)
     dat <- data.table::fread(path)
+    dat[,path:=path]
     return(dat)
 }
