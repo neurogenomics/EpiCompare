@@ -93,6 +93,10 @@
 <li>Pass up args from <code>bpplapply</code>.</li>
 <li>Provide warning message, not error, when 0 files found. Returns <code>NULL</code>.</li>
 <li>Add “multiqc” as a search option.</li>
+<li>Add dedicated subfunctions for reading in a variety of <em>nf-core/cutandrun</em> outputs files: <code>read_picard</code>,<code>read_multiqc</code>,<code>read_bowtie</code>, <code>read_trimgalore</code>,<code>read_bam</code>,<code>read_peaks</code>
+</li>
+<li>Add file paths to each object.</li>
+<li>Add new arg <code>rbind_list</code>.</li>
 </ul></li>
 <li>
 <code>rebin_peaks</code>/<code>compute_corr</code>: -Change default<code>bin_size</code> from 100 –&gt; 5kb to improve efficiency and align with other defaults of other packages (e.g <code>Signac</code>).</li>
