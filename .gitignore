@@ -54,3 +54,5 @@ vignettes/*.R
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+# Ignore example html report for now 
+inst/report
