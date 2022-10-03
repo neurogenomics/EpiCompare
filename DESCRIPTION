@@ -66,6 +66,7 @@ Suggests:
     parallel,
     BiocStyle,
     clusterProfiler,
+    GenomicAlignments,
     grDevices, 
     htmlwidgets,
     knitr,

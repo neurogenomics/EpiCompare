@@ -2,6 +2,7 @@
 #' 
 #' Read peak files.
 #' @param path Path to peak file.
+#' @param verbose Print messages.
 #' @inheritParams gather_files
 #' @return \link[GenomicRanges]{GRanges}
 #' 
@@ -12,9 +13,12 @@
 #' @importFrom data.table fread 
 #' @importFrom ChIPseeker readPeakFile
 read_peaks <- function(path,
-                       type){
+                       type,
+                       verbose=TRUE){
     
+   
     if(startsWith(type,"peaks")){
+        messager("Reading peaks.",v=verbose)
         dat <- ChIPseeker::readPeakFile(path, as = "GRanges")
         if(type=="peaks.stringent" && 
            (ncol(GenomicRanges::mcols(dat))==3)){
@@ -25,14 +29,16 @@ read_peaks <- function(path,
                                                       "max_signal_region")
         }
     } else if(grepl("narrowPeak",path,ignore.case = TRUE)){
+        messager("Reading narrowPeaks",v=verbose)
         dat <- rtracklayer::import(path, 
                                    format = "narrowPeak")
     } else {
+        messager("Reading peaks with data.table.",v=verbose)
         dat <- data.table::fread(path)
     }
     #### Ensure GRanges format ####
     if(length(dat)==0){
-        messager("WARNING: File contains 0 rows.")
+        messager("WARNING: File contains 0 rows.",v=verbose)
         return(NULL)
     }
     if(!methods::is(dat,"GRanges")) {

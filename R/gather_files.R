@@ -52,26 +52,44 @@ gather_files <- function(dir,
                          nfcore_cutandrun = FALSE,
                          return_paths = FALSE,
                          workers = 1,
+                         verbose = TRUE,
                          ...){
-     
+    
+  type <- tolower(type)[[1]]
   #### Parse type arg ####
   type_key <- c(
+    ## peak files
     "peaks.stringent"="*.stringent.bed$",
     "peaks.consensus"="*.consensus.peaks.bed$",
     "peaks.consensus.filtered"="*.consensus.peaks.filtered.awk.bed$",
     "peaks.pooled"="pooledPeak",
     "peaks.narrow"="narrowPeak",
     "peaks.broad"="broadPeak",
+    ## picard files 
     "picard"= "*.target.markdup.MarkDuplicates.metrics.txt$",
-    "multiqc" = "meta_table_ctrl.csv$"
+    ## multiQC files 
+    "multiqc"="^meta_table_ctrl.csv$",
+    ## trimgalore files
+    "trimgalore"="*.fastq.gz_trimming_report.txt$",
+    ## bowtie files
+    "bowtie.stats"="*\\.stats$",
+    "bowtie.idxstats"="*\\.idxstats$",
+    "bowtie.target.stats"=".*\\.stats$",
+    "bowtie.target.idxstats"=".*\\.idxstats$",
+    ## bam files
+    "bam"="*.bam$",
+    "bam.dedup"="*.dedup.bam$",
+    "bam.dedup.sorted"="*.dedup.sorted.bam$",
+    "bam.dedup.sorted.target"="*.target.dedup.sorted.bam$"
   )
+  #### Check for known file types ####
   pattern <- if(type %in% names(type_key)) type_key[tolower(type)] else type
   if(is.na(pattern)){
     stop("type must be at least one of:\n",
          paste("-",c(names(type_key),"<regex query>"), collapse = "\n"))
   }
   #### Search for files recursively ####
-  message("Searching for ",type," files...")
+  messager("Searching for",type,"files...",v=verbose)
   paths <- list.files(path = dir,
                       pattern = paste(unname(pattern), collapse = "|"),
                       recursive = TRUE,
@@ -82,44 +100,54 @@ gather_files <- function(dir,
   ## nfcore creates duplicates of same peak files 
   ## in different subfolders: "04_reporting" and "04_called_peaks".
   ## Omit one of these subfolders.
-  if(isTRUE(nfcore_cutandrun)){
+  if(isTRUE(nfcore_cutandrun) && 
+     (type=="peaks")){
       paths <- paths[!grepl("04_reporting",paths)]
   }
   #### Report files found ####
   if(length(paths)==0) {
       msg <- "0 matching files identified. Returning NULL."
-      message(msg)
+      messager(msg,v=verbose)
       return(NULL)
   }
-  message(formatC(length(paths),big.mark = ","),
-          " matching files identified.")
+  messager(formatC(length(paths),big.mark = ","),
+          "matching files identified.",v=verbose)
   #### Construct names ####
-  list_names <- gather_files_names(paths=paths,
-                                   type=type,
-                                   nfcore_cutandrun=nfcore_cutandrun)
+  paths <- gather_files_names(paths=paths,
+                              type=type,
+                              nfcore_cutandrun=nfcore_cutandrun)
   if(isTRUE(return_paths)){
-      return(stats::setNames(paths,list_names))
+      return(paths)
   }
   #### Import files ####
-  message("Importing files.")  
+  messager("Importing files.",v=verbose)  
   files <- bpplapply(X = paths, 
                      workers = workers,
                      FUN = function(x){
-    tryCatch({
+    # tryCatch({
         if(type=="picard"){
-            dat <- data.table::fread(x,
-                                     skip = "LIBRARY",
-                                     fill = TRUE,
-                                     nrows = 1)
+            dat <- read_picard(path = x,
+                               verbose = verbose)
         } else if(type=="multiqc"){
-            dat <- data.table::fread(f)
-        } else{
+            dat <- read_multiqc(path = x,
+                                verbose = verbose)
+        } else if(startsWith(type,"bowtie")){
+            dat <- read_bowtie(path = x,
+                               verbose = verbose)
+        } else if(type=="trimgalore"){
+            dat <- read_trimgalore(path = x,
+                                   verbose = verbose)
+        } else if(startsWith(type,"bam")){
+            dat <- read_bam(path = x,
+                            verbose = verbose)
+        } else {
             dat <- read_peaks(path = x,
-                              type = type)
+                              type = type,
+                              verbose = verbose)
         }
         return(dat)
-    }, error=function(e){messager(x,":",e,"\n");NULL}) 
-  }, ...) |> `names<-`(list_names)
+    # }, error=function(e){messager(x,":",e,"\n");NULL}) 
+  }, ...) 
   #### Report ####
   message(length(files)," files retrieved.")
   return(files)

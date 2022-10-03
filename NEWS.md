@@ -25,6 +25,10 @@
     - Pass up args from `bpplapply`.
     - Provide warning message, not error, when 0 files found. Returns `NULL`.
     - Add "multiqc" as a search option. 
+    - Add dedicated subfunctions for reading in a variety of 
+    *nf-core/cutandrun* outputs files: 
+    `read_picard`,`read_multiqc`,`read_bowtie`,
+    `read_trimgalore`,`read_bam`,`read_peaks`
 *  `rebin_peaks`/`compute_corr`:
     -Change default`bin_size` from 100 --> 5kb to improve efficiency 
     and align with other defaults of other packages (e.g `Signac`).

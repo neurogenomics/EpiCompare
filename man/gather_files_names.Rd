@@ -4,7 +4,7 @@
 \alias{gather_files_names}
 \title{Make file names}
 \usage{
-gather_files_names(paths, type, nfcore_cutandrun)
+gather_files_names(paths, type, nfcore_cutandrun, verbose = TRUE)
 }
 \arguments{
 \item{paths}{Character vector of file paths.}
@@ -25,9 +25,11 @@ Finds files ending in"*.consensus.peaks.filtered.awk.bed$"}
 \href{https://nf-co.re/cutandrun}{nf-core/cutandrun} Nextflow pipeline.
  If \code{TRUE}, can use the standardised folder structure to
  automatically generate more descriptive file names with sample IDs.}
+
+\item{verbose}{Print messages.}
 }
 \value{
-Character vector of file names.
+Named character vector.
 }
 \description{
 Support function for \link[EpiCompare]{gather_files}.

@@ -4,7 +4,7 @@
 \alias{read_peaks}
 \title{Read peaks}
 \usage{
-read_peaks(path, type)
+read_peaks(path, type, verbose = TRUE)
 }
 \arguments{
 \item{path}{Path to peak file.}
@@ -20,6 +20,8 @@ Finds files ending in"*.consensus.peaks.filtered.awk.bed$"}
 \item{"picard"}{Finds files ending in
 "*.target.markdup.MarkDuplicates.metrics.txt$"}
 }}
+
+\item{verbose}{Print messages.}
 }
 \value{
 \link[GenomicRanges]{GRanges}

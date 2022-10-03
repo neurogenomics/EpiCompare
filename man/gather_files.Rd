@@ -10,6 +10,7 @@ gather_files(
   nfcore_cutandrun = FALSE,
   return_paths = FALSE,
   workers = 1,
+  verbose = TRUE,
   ...
 )
 }
