@@ -55,4 +55,4 @@ vignettes/*.R
 *.utf8.md
 *.knit.md
 # Ignore example html report for now 
-/inst/report/EpiCompare_example.html
+inst/report
