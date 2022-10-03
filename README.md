@@ -2,12 +2,12 @@
 ================
 <img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' height='300'><br><br>
 [![](https://img.shields.io/badge/devel%20version-1.1.1-black.svg)](https://github.com/neurogenomics/EpiCompare)
-[![](https://img.shields.io/badge/release%20version-1.0.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
+[![](https://img.shields.io/badge/release%20version-1.1.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
 [![BioC
 status](http://www.bioconductor.org/shields/build/devel/bioc/EpiCompare.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/EpiCompare)
 [![platforms](http://www.bioconductor.org/images/shields/availability/all.svg)](https://bioconductor.org/packages/devel/bioc/html/EpiCompare.html#archives)
 [![](https://img.shields.io/badge/doi-https://doi.org/doi:10.18129/B9.bioc.EpiCompare-green.svg)](https://doi.org/https://doi.org/doi:10.18129/B9.bioc.EpiCompare)
-[![](https://img.shields.io/badge/download-164/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-244/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
@@ -19,7 +19,7 @@ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene</i>
 </h4>
 <h5>
-<i>Updated</i>: Aug-05-2022
+<i>Updated</i>: Oct-03-2022
 </h5>
 
 # Introduction
@@ -251,9 +251,9 @@ An example report comparing ATAC-seq and Dnase-seq can be found
 utils::sessionInfo()
 ```
 
-    ## R version 4.2.0 (2022-04-22)
+    ## R version 4.2.1 (2022-06-23)
     ## Platform: x86_64-apple-darwin17.0 (64-bit)
-    ## Running under: macOS Big Sur/Monterey 10.16
+    ## Running under: macOS Big Sur ... 10.16
     ## 
     ## Matrix products: default
     ## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
@@ -266,20 +266,20 @@ utils::sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] BiocManager_1.30.18 pillar_1.8.0        compiler_4.2.0     
-    ##  [4] RColorBrewer_1.1-3  yulab.utils_0.0.5   tools_4.2.0        
-    ##  [7] digest_0.6.29       jsonlite_1.8.0      evaluate_0.15      
-    ## [10] lifecycle_1.0.1     tibble_3.1.8        gtable_0.3.0       
-    ## [13] pkgconfig_2.0.3     rlang_1.0.4         cli_3.3.0          
-    ## [16] DBI_1.1.3           rstudioapi_0.13     rvcheck_0.2.1      
-    ## [19] yaml_2.3.5          xfun_0.31           fastmap_1.1.0      
-    ## [22] stringr_1.4.0       dplyr_1.0.9         knitr_1.39         
-    ## [25] desc_1.4.1          generics_0.1.3      vctrs_0.4.1        
-    ## [28] dlstats_0.1.5       rprojroot_2.0.3     grid_4.2.0         
+    ##  [1] BiocManager_1.30.18 pillar_1.8.1        compiler_4.2.1     
+    ##  [4] RColorBrewer_1.1-3  yulab.utils_0.0.5   tools_4.2.1        
+    ##  [7] digest_0.6.29       jsonlite_1.8.1      evaluate_0.16      
+    ## [10] lifecycle_1.0.2     tibble_3.1.8        gtable_0.3.1       
+    ## [13] pkgconfig_2.0.3     rlang_1.0.6         cli_3.4.1          
+    ## [16] DBI_1.1.3           rstudioapi_0.14     rvcheck_0.2.1      
+    ## [19] yaml_2.3.5          xfun_0.33           fastmap_1.1.0      
+    ## [22] stringr_1.4.1       dplyr_1.0.10        knitr_1.40         
+    ## [25] desc_1.4.2          generics_0.1.3      vctrs_0.4.2        
+    ## [28] dlstats_0.1.5       rprojroot_2.0.3     grid_4.2.1         
     ## [31] tidyselect_1.1.2    glue_1.6.2          R6_2.5.1           
-    ## [34] fansi_1.0.3         rmarkdown_2.14      ggplot2_3.3.6      
+    ## [34] fansi_1.0.3         rmarkdown_2.16      ggplot2_3.3.6      
     ## [37] purrr_0.3.4         badger_0.2.1        magrittr_2.0.3     
-    ## [40] scales_1.2.0        htmltools_0.5.3     assertthat_0.2.1   
+    ## [40] scales_1.2.1        htmltools_0.5.3     assertthat_0.2.1   
     ## [43] colorspace_2.0-3    utf8_1.2.2          stringi_1.7.8      
     ## [46] munsell_0.5.0
 
