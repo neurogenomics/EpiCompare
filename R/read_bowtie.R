@@ -1,6 +1,7 @@
 read_bowtie <- function(path,
                         verbose=TRUE){
     
+    metric <- NULL;
     if(endsWith("idxstats",path)){
         # Header info from: http://www.htslib.org/doc/samtools-idxstats.html
         messager("Reading bowtie2 idxstats.",v=verbose) 

@@ -34,8 +34,8 @@
 #' @param return_paths Return only the file paths without actually reading them 
 #' in as \link[GenomicRanges]{GRanges}. 
 #' @param rbind_list Bind all objects into one.
-#' @inheritParams BiocParallel::MulticoreParam
-#' @inheritDotParams bpplapply
+#' @param verbose Print messages. 
+#' @inheritParams BiocParallel::MulticoreParam 
 #' @returns A named list of \link[GenomicRanges]{GRanges} objects.
 #'
 #' @export 
