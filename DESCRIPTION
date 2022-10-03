@@ -1,4 +1,5 @@
 Type: Package
+<<<<<<< HEAD
 Package: EpiCompare
 Title: Comparison, Benchmarking & QC of Epigenomic Datasets
 Version: 1.1.1
@@ -33,6 +34,42 @@ Description: EpiCompare is used to compare and analyse epigenomic datasets
     annotation) functional annotation (ChromHMM, ChIPseeker and enrichment
     analysis) of peaks. Also includes peak enrichment around TSS.
 License: GPL-3
+=======
+Title: Comparison, Benchmarking & QC of Epigenetic Datasets
+Version: 1.1.0
+Authors@R: 
+    c(person(given = "Sera",
+             family = "Choi",
+             role = c("aut", "cre"),
+             email = "serachoi1230@gmail.com",
+             comment = c(ORCID = "0000-0002-5077-1984")),
+      person(given = "Brian",
+             family = "Schilder",
+             role = c("aut"),
+             email = "brian_schilder@alumni.brown.edu",
+             comment = c(ORCID = "0000-0001-5949-2191")),
+      person(given = "Alan",
+             family = "Murphy",
+             role = c("aut"),
+             email = "alanmurph94@hotmail.com",
+             comment = c(ORCID = "0000-0002-2487-8753")),
+      person(given = "Nathan",
+             family = "Skene",
+             role = c("aut"),
+             email = "nathan.skene@gmail.com",
+             comment = c(ORCID = "0000-0002-6807-3180")))
+Description: EpiCompare is used to compare and analyse epigenetic datasets 
+  for quality control and benchmarking purposes. 
+  The package outputs an HTML report consisting of three sections: 
+  (1. General metrics) Metrics on peaks (percentage of blacklisted and 
+  non-standard peaks, and peak widths) and fragments (duplication rate) 
+  of samples, 
+  (2. Peak overlap) Percentage and statistical significance of 
+  overlapping and non-overlapping peaks. Also includes upset plot and 
+  (3. Functional annotation) functional annotation 
+  (ChromHMM, ChIPseeker and enrichment analysis) of peaks. 
+  Also includes peak enrichment around TSS.
+>>>>>>> upstream/master
 URL: https://github.com/neurogenomics/EpiCompare
 BugReports: https://github.com/neurogenomics/EpiCompare/issues
 Depends: 
