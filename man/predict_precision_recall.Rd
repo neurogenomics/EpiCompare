@@ -24,8 +24,6 @@ predict_precision_recall(
 \item{precision}{Precision values to predict recall from.}
 
 \item{recall}{Recall values to predict precision from.}
-
-\item{...}{Addiitional arguments passed to \code{fun}.}
 }
 \value{
 A named list of fitted models and predictions.

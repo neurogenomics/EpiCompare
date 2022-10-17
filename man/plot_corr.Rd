@@ -79,6 +79,8 @@ If set FALSE, all heatmaps in the report will be static.}
 (in applicable functions).}
 
 \item{show_plot}{Show the plot.}
+
+\item{save_path}{Path to save a table of correlation results to.}
 }
 \value{
 list with correlation plot (corr_plot) and correlation matrix (data)

@@ -8,8 +8,7 @@
 #' \link[EpiCompare]{precision_recall}.
 #' @param fun Function to fit the data with.
 #' @param precision Precision values to predict recall from.
-#' @param recall Recall values to predict precision from.
-#' @param ... Addiitional arguments passed to \code{fun}.
+#' @param recall Recall values to predict precision from. 
 #' @returns A named list of fitted models and predictions.
 #' @source \href{https://stackoverflow.com/a/27796497}{
 #' Fix for producing NAs from loess fun.}
@@ -32,6 +31,8 @@ predict_precision_recall <- function(pr_df,
     
     # templateR:::source_all()
     # templateR:::args2vars(EpiCompare::predict_precision_recall) 
+    
+    peaklist1 <- peaklist2 <- NULL;
     
      res <- lapply(stats::setNames(unique(pr_df$peaklist1),
                                    unique(pr_df$peaklist1)),

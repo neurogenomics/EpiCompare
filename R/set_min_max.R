@@ -7,17 +7,15 @@
 #' @param max_val Maximum value.
 #' @returns data.frame
 #' 
-#' @keywords internal
-#' @importFrom dplyr mutate_at
+#' @keywords internal 
+#' @importFrom data.table data.table :=
 set_min_max <- function(df,
                         colname,
                         min_val=0,
                         max_val=100){ 
-    df |>
-        dplyr::mutate_at(
-            .vars = colname, 
-            .funs = function(x){ifelse(x<min_val,min_val,x)}) |>
-        dplyr::mutate_at(
-            .vars = colname, 
-            .funs = function(x){ifelse(x>max_val,max_val,x)}) 
+    
+    df <- data.table::data.table(df)
+    df[,(colname):=ifelse(get(colname)<min_val,min_val,get(colname)),]
+    df[,(colname):=ifelse(get(colname)>max_val,max_val,get(colname)),]
+    return(df)
 }

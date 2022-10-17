@@ -34,7 +34,7 @@
 #'  with both the rebinned 
 #' (standardised) peaks ("bin") and the correlation matrix ("cor").
 #' If \code{FALSE} (default), returns only the correlation matrix (unlisted). 
-#' 
+#' @param save_path Path to save a table of correlation results to.
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
 #' @inheritParams remove_nonstandard_chrom

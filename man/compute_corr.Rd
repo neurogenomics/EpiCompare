@@ -78,6 +78,8 @@ If \code{FALSE} (default), returns only the correlation matrix (unlisted).}
 
 \item{workers}{Number of cores to parallelise across 
 (in applicable functions).}
+
+\item{save_path}{Path to save a table of correlation results to.}
 }
 \value{
 correlation matrix
