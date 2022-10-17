@@ -14,7 +14,8 @@ compute_corr(
   method = "spearman",
   intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
   return_bins = FALSE,
-  workers = 1
+  workers = 1,
+  save_path = tempfile(fileext = ".corr.csv.gz")
 )
 }
 \arguments{
@@ -93,7 +94,7 @@ reference <- list("encode_H3K27ac"=encode_H3K27ac)
 
 #increasing bin_size for speed but lower values will give more granular corr
 corr_mat <- compute_corr(peakfiles = peakfiles,
-                      reference = reference,
-                      genome_build = "hg19",
-                      bin_size = 5000)
+                         reference = reference,
+                         genome_build = "hg19",
+                         bin_size = 5000)
 }

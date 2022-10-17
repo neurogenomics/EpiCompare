@@ -37,7 +37,8 @@ plot_corr <- function(peakfiles,
                                        "score"),
                       interact=FALSE,
                       workers=1,
-                      show_plot=TRUE){
+                      show_plot=TRUE,
+                      save_path = tempfile(fileext = ".corr.csv.gz")){
     
     requireNamespace("ggplot2")
     peakfile1 <- peakfile2 <- corr <- NULL;
@@ -50,7 +51,8 @@ plot_corr <- function(peakfiles,
                              drop_empty_chr = drop_empty_chr,
                              method = method,
                              intensity_cols = intensity_cols,
-                             workers = workers) 
+                             workers = workers,
+                             save_path = save_path) 
     #### Plot correlation plot ####
     # diag(corr_mat) <- NA
     corr_mat_melt <- reshape2::melt(data = corr_mat,

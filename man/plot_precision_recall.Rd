@@ -9,7 +9,7 @@ plot_precision_recall(
   reference,
   thresholding_cols = c("total_signal", "qValue", "Peak Score"),
   initial_threshold = 0,
-  n_threshold = 10,
+  n_threshold = 20,
   max_threshold = 1,
   workers = 1,
   plot_f1 = TRUE,
@@ -18,7 +18,8 @@ plot_precision_recall(
   shape = color,
   facets = "peaklist2 ~ .",
   interact = FALSE,
-  show_plot = TRUE
+  show_plot = TRUE,
+  save_path = tempfile(fileext = "precision_recall.csv")
 )
 }
 \arguments{
@@ -81,6 +82,8 @@ and \code{cols} instead.}
 If set FALSE, all heatmaps in the report will be static.}
 
 \item{show_plot}{Show the plot.}
+
+\item{save_path}{File path to save precision-recall results to.}
 }
 \value{
 list with data and precision recall and F1 plots

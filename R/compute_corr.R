@@ -51,9 +51,9 @@
 #' 
 #' #increasing bin_size for speed but lower values will give more granular corr
 #' corr_mat <- compute_corr(peakfiles = peakfiles,
-#'                       reference = reference,
-#'                       genome_build = "hg19",
-#'                       bin_size = 5000)
+#'                          reference = reference,
+#'                          genome_build = "hg19",
+#'                          bin_size = 5000)
 compute_corr <- function(peakfiles,
                          reference = NULL,
                          genome_build,
@@ -66,7 +66,11 @@ compute_corr <- function(peakfiles,
                                           "Peak Score",
                                           "score"),
                          return_bins = FALSE,
-                         workers = 1){
+                         workers = 1,
+                         save_path = tempfile(fileext = ".corr.csv.gz")){
+    # templateR:::source_all()
+    # templateR:::args2vars(EpiCompare::compute_corr)
+    
     t1 <- Sys.time() 
     #### append all peak files since all to be compared ####
     #make sure reference not already added to peakfiles
@@ -95,8 +99,14 @@ compute_corr <- function(peakfiles,
     #### Report time ####
     t2 <- Sys.time()
     messager("Done computing correlations in",
-             round(difftime(t2,t1,units = "s"),0),"seconds.")
-    if(return_bins){ 
+             round(difftime(t2,t1,units = "s"),0),"seconds.") 
+    #### Save ####
+    save_path <- save_results(
+        dat = data.table::data.table(cor_mat, keep.rownames = TRUE), 
+        save_path = save_path, 
+        type = "correlation")
+    #### Return ####
+    if(isTRUE(return_bins)){ 
        return(
            list(bins = gr_mat,
                 cor = cor_mat)

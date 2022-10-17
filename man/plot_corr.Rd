@@ -15,7 +15,8 @@ plot_corr(
   intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
   interact = FALSE,
   workers = 1,
-  show_plot = TRUE
+  show_plot = TRUE,
+  save_path = tempfile(fileext = ".corr.csv.gz")
 )
 }
 \arguments{

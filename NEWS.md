@@ -1,3 +1,18 @@
+## CHANGES IN VERSION 1.1.3
+
+### New features
+
+* New function: `predict_precision_recall`
+    - Added unit tests. 
+* `compute_corr` and `precision_recall` now save outputs, 
+    including when run via `EpiCompare` Rmarkdown script. 
+    
+### Bug fixes
+
+* Update `gather_files` to match new Picard file scheme
+    in *nf-core/cutandrun* 3.0. 
+
+
 ## CHANGES IN VERSION 1.1.2
 
 ### New features

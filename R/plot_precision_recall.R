@@ -28,7 +28,7 @@
 #' 
 #' @export 
 #' @importFrom methods show
-#' @importFrom data.table data.table dcast
+#' @importFrom data.table data.table dcast :=
 #' @examples 
 #' data("CnR_H3K27ac")
 #' data("CnT_H3K27ac")
@@ -44,7 +44,7 @@ plot_precision_recall <- function(peakfiles,
                                                       "qValue",
                                                       "Peak Score"),
                                   initial_threshold=0,
-                                  n_threshold=10,
+                                  n_threshold=20,
                                   max_threshold=1,
                                   workers = 1,
                                   plot_f1 = TRUE,
@@ -53,32 +53,22 @@ plot_precision_recall <- function(peakfiles,
                                   shape = color,
                                   facets = "peaklist2 ~ .",
                                   interact = FALSE,
-                                  show_plot = TRUE){
+                                  show_plot = TRUE,
+                                  save_path=
+                                      tempfile(fileext = "precision_recall.csv")
+                                  ){
+    
     requireNamespace("ggplot2")
-    precision <- recall <- F1 <- NULL; 
     # #### Gather precision-recall data ####
-    pr_df <- precision_recall(peakfiles = peakfiles,
-                              reference = reference,
-                              thresholding_cols = thresholding_cols,
-                              initial_threshold = initial_threshold,
-                              max_threshold = max_threshold,
-                              n_threshold = n_threshold,
-                              workers = workers
-                              )
-    pr_df <- data.table::data.table(pr_df)
-    #### Post-process data ####
-    plot_dat <- data.table::dcast(
-        data = pr_df,
-        formula = "peaklist1 + peaklist2 + threshold ~ type", 
-        fun.aggregate = mean,
-        value.var = c("Percentage","overlap","total")) 
-    data.table::setnames(plot_dat,
-                         c("Percentage_precision","Percentage_recall"), 
-                         c("precision","recall"))
-    plot_dat$threshold <- as.numeric(plot_dat$threshold) 
-    #### Compute F1 ##### 
-    plot_dat[,F1:=(2*(precision*recall) / (precision+recall))] 
-    plot_dat[is.na(F1),]$F1 <- 0
+    plot_dat <- precision_recall(peakfiles = peakfiles,
+                                 reference = reference,
+                                 thresholding_cols = thresholding_cols,
+                                 initial_threshold = initial_threshold,
+                                 max_threshold = max_threshold,
+                                 n_threshold = n_threshold,
+                                 workers = workers,
+                                 cast = TRUE,
+                                 save_path = save_path)
     #### Plot precision-recall ####
     gg <- ggplot2::ggplot(
         data = plot_dat, 
@@ -102,9 +92,10 @@ plot_precision_recall <- function(peakfiles,
         ggplot2::theme(
             strip.background = ggplot2::element_rect(fill = "grey20"),
             strip.text = ggplot2::element_text(color="white"),
-            legend.title = ggplot2::element_text(size=7),
-            legend.spacing.y = ggplot2::unit(.001, units = "npc"),
-            legend.text=ggplot2::element_text(size=7)
+            plot.margin = ggplot2::margin(.5,.5,.5,.5)
+            # legend.title = ggplot2::element_text(size=7),
+            # legend.spacing.y = ggplot2::unit(.001, units = "npc"),
+            # legend.text=ggplot2::element_text(size=7)
             ) 
     if(interact) gg <- plotly::ggplotly(gg)
     #### Plot F1 #####
@@ -135,7 +126,7 @@ plot_precision_recall <- function(peakfiles,
         ggf1 <- NULL
     }
     #### Show plots ####
-    if(show_plot) {
+    if(isTRUE(show_plot)) {
         methods::show(gg)
         methods::show(ggf1)
     }

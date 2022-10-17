@@ -14,8 +14,7 @@
 #' @importFrom htmltools save_html
 #'
 #' @return Saved data frames and plots.
-#' @keywords internal
-#'
+#' @keywords internal 
 save_output <- function(save_output = FALSE,
                         file,
                         file_type,

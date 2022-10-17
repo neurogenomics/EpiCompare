@@ -9,9 +9,11 @@ precision_recall(
   reference,
   thresholding_cols = c("total_signal", "qValue", "Peak Score"),
   initial_threshold = 0,
-  n_threshold = 15,
+  n_threshold = 20,
   max_threshold = 1,
+  cast = TRUE,
   workers = 1,
+  save_path = tempfile(fileext = "precision_recall.csv"),
   ...
 )
 }
@@ -57,8 +59,13 @@ control.}
 
 \item{max_threshold}{Maximum threshold to test.}
 
+\item{cast}{Cast the data into a format that's more compatible with 
+\pkg{ggplot2}.}
+
 \item{workers}{Number of cores to parallelise across 
 (in applicable functions).}
+
+\item{save_path}{File path to save precision-recall results to.}
 
 \item{...}{
   Arguments passed on to \code{\link[=bpplapply]{bpplapply}}

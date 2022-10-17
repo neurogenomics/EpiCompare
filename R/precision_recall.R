@@ -26,6 +26,9 @@
 #' control.
 #' @param max_threshold Maximum threshold to test.
 #' @param n_threshold Number of thresholds to test. 
+#' @param cast Cast the data into a format that's more compatible with 
+#' \pkg{ggplot2}.
+#' @param save_path File path to save precision-recall results to.
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
 #' @inheritDotParams bpplapply
@@ -48,10 +51,15 @@ precision_recall <- function(peakfiles,
                                                  "qValue",
                                                  "Peak Score"),
                              initial_threshold=0,
-                             n_threshold=15,
+                             n_threshold=20,
                              max_threshold=1,
+                             cast=TRUE,
                              workers=1,
+                             save_path=
+                                 tempfile(fileext = "precision_recall.csv"),
                              ...){ 
+    
+    precision <- recall <- F1 <- NULL; 
     
     threshold_list <- seq(from=initial_threshold, 
                           to=1-(max_threshold/n_threshold), 
@@ -61,7 +69,7 @@ precision_recall <- function(peakfiles,
     peakfiles <- check_grlist_cols(grlist = peakfiles, 
                                    target_cols = thresholding_cols)
     ##### Iterate over peakfiles ##### 
-    overlap <- bpplapply(X = threshold_list,
+    pr_df <- bpplapply(X = threshold_list,
                          workers = workers,
                          FUN = function(thresh){
       message_parallel("Threshold=",thresh,": Filtering peaks")
@@ -86,5 +94,27 @@ precision_recall <- function(peakfiles,
                             precision_recall = TRUE)
       return(df)
     }, ...) |> data.table::rbindlist(use.names = TRUE, idcol = "threshold")
-    return(overlap)
+    #### Recast data ###
+    if(isTRUE(cast)){ 
+        #### Post-process data ####
+        messager("Reformatting precision-recall data.")
+        pr_df <- data.table::dcast(
+            data = pr_df,
+            formula = "peaklist1 + peaklist2 + threshold ~ type", 
+            fun.aggregate = mean,
+            value.var = c("Percentage","overlap","total")) 
+        data.table::setnames(pr_df,
+                             c("Percentage_precision","Percentage_recall"), 
+                             c("precision","recall"))
+        pr_df$threshold <- as.numeric(pr_df$threshold) 
+        #### Compute F1 ##### 
+        pr_df[,F1:=(2*(precision*recall) / (precision+recall))] 
+        pr_df[is.na(F1),]$F1 <- 0
+    }
+    #### Save ####
+    save_path <- save_results(dat = pr_df, 
+                              save_path = save_path, 
+                              type = "precision-recall")
+    #### Return ####
+    return(pr_df)
 }

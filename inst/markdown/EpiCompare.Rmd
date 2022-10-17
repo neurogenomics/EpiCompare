@@ -380,12 +380,17 @@ The second plot shows F1 score
 pr_out <- NULL
 if(params$precision_recall_plot &&
    (!is.null(reference))){
+    #### Create save path ####
+    save_path <- if(isFALSE(params$save_output)){NULL}else{
+        file.path(outfile_dir,"precision_recall.csv")
+    }
     pr_out <- plot_precision_recall(peakfiles = peaklist, 
                                     reference = reference_tidy,
                                     interact = params$interact,
                                     n_threshold = params$n_threshold,
                                     workers = params$workers,
-                                    show_plot = FALSE) 
+                                    show_plot = FALSE,
+                                    save_path = save_path) 
 }
 pr_out$precision_recall_plot
 cat("\n")
@@ -404,13 +409,18 @@ dependent on the peak caller used (q-value for MACS2):
 ```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
 cp_out <- NULL
 if(params$corr_plot){
+    #### Create save path ####
+    save_path <- if(isFALSE(params$save_output)){NULL}else{
+        file.path(outfile_dir,"corr.csv.gz")
+    }
     cp_out <- plot_corr(peakfiles = peaklist_tidy, 
                         reference = reference_tidy,
                         genome_build = output_build,
                         interact = params$interact,
                         bin_size = params$bin_size,
                         workers = params$workers,
-                        show_plot = FALSE) 
+                        show_plot = FALSE,
+                        save_path = save_path) 
 }
 cp_out$corr_plot
 remove(cp_out)

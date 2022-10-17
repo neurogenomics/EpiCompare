@@ -67,9 +67,11 @@ gather_files <- function(dir,
     "peaks.narrow"="narrowPeak",
     "peaks.broad"="broadPeak",
     ## picard files 
-    "picard"= "*.target.markdup.MarkDuplicates.metrics.txt$",
+    # "picard"= "*.target.markdup.MarkDuplicates.metrics.txt$",
+    "picard"= "^multiqc_picard*",
     ## multiQC files 
-    "multiqc"=c("^meta_table"),
+    # "multiqc"=c("^meta_table"),
+    "multiqc"="multiqc_general_stats.txt$",
     ## trimgalore files
     "trimgalore"="*.fastq.gz_trimming_report.txt$",
     ## bowtie files

@@ -19,7 +19,7 @@ EpiCompare(
   enrichment_plot = FALSE,
   tss_plot = FALSE,
   precision_recall_plot = FALSE,
-  n_threshold = 15,
+  n_threshold = 20,
   corr_plot = FALSE,
   bin_size = 5000,
   interact = TRUE,
