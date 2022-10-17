@@ -142,6 +142,12 @@
     <loc>/reference/precision_recall.html</loc>
   </url>
   <url>
+    <loc>/reference/predict_precision_recall.html</loc>
+  </url>
+  <url>
+    <loc>/reference/predict_values.html</loc>
+  </url>
+  <url>
     <loc>/reference/prepare_genome_builds.html</loc>
   </url>
   <url>
@@ -161,6 +167,9 @@
   </url>
   <url>
     <loc>/reference/save_output.html</loc>
+  </url>
+  <url>
+    <loc>/reference/set_min_max.html</loc>
   </url>
   <url>
     <loc>/reference/stopper.html</loc>
