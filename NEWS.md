@@ -6,6 +6,9 @@
     - Added unit tests. 
 * `compute_corr` and `precision_recall` now save outputs, 
     including when run via `EpiCompare` Rmarkdown script. 
+* Make subfunctions for `plot_precision_recall`:
+    - `plot_precision_recall_prcurve`
+    - `plot_precision_recall_f1`
     
 ### Bug fixes
 
