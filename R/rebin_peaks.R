@@ -5,6 +5,8 @@
 #' @param as_sparse Return the rebinned peaks as a sparse matrix
 #' (default: \code{TRUE}), 
 #' which is more efficiently stored than a dense matrix (\code{FALSE}). 
+#' @param sep Separator to be used after chromosome name (first item) and 
+#' between start/end genomic coordinates (second item). 
 #' @inheritParams compute_corr
 #' @inheritParams remove_nonstandard_chrom
 #' @inheritDotParams bpplapply
@@ -33,6 +35,7 @@ rebin_peaks <- function(peakfiles,
                                          "score"), 
                         bin_size=5000,
                         keep_chr=NULL,
+                        sep=c(":","-"),
                         drop_empty_chr=FALSE,
                         as_sparse=TRUE,
                         workers=1,
@@ -119,9 +122,11 @@ rebin_peaks <- function(peakfiles,
     #### Merge data into matrix ####
     messager("Merging data into matrix.",v=verbose)
     rebinned_peaks <- do.call("cbind", rebinned_peaks)
-    rownames(rebinned_peaks) <- paste0(GenomicRanges::seqnames(gr_windows),":",
-                                       GenomicRanges::start(gr_windows),"-",
-                                       GenomicRanges::end(gr_windows))
+    if(length(sep)==1) sep <- rep(sep,2)
+    rownames(rebinned_peaks) <- paste0(
+        GenomicRanges::seqnames(gr_windows),sep[1],
+        GenomicRanges::start(gr_windows),sep[2],
+        GenomicRanges::end(gr_windows))
     #### Convert to sparse ####
     if(isTRUE(as_sparse)){
         messager("Converting to sparse matrix.",v=verbose)

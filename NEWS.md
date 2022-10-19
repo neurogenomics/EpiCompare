@@ -9,6 +9,8 @@
 * Make subfunctions for `plot_precision_recall`:
     - `plot_precision_recall_prcurve`
     - `plot_precision_recall_f1`
+* `rebin_peaks`:
+    - Allow users to specify `sep` between genomic coordinates in rownames.
     
 ### Bug fixes
 

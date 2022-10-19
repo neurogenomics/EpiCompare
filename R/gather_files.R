@@ -71,7 +71,7 @@ gather_files <- function(dir,
     "picard"= "^multiqc_picard*",
     ## multiQC files 
     # "multiqc"=c("^meta_table"),
-    "multiqc"="multiqc_general_stats.txt$",
+    "multiqc"="multiqc_general_stats.txt$|meta_table_ctrl.csv",
     ## trimgalore files
     "trimgalore"="*.fastq.gz_trimming_report.txt$",
     ## bowtie files
@@ -86,8 +86,12 @@ gather_files <- function(dir,
     "bam.dedup.sorted.target"="*.target.dedup.sorted.bam$"
   )
   #### Check for known file types ####
-  pattern <- if(type %in% names(type_key)) type_key[tolower(type)] else type
-  if(is.na(pattern)){
+  pattern <- if(all(type %in% names(type_key))) {
+      type_key[tolower(type)]
+  } else {
+      type
+  }
+  if(all(is.na(pattern))){
     stop("type must be at least one of:\n",
          paste("-",c(names(type_key),"<regex query>"), collapse = "\n"))
   }

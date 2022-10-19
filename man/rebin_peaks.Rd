@@ -10,6 +10,7 @@ rebin_peaks(
   intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
   bin_size = 5000,
   keep_chr = NULL,
+  sep = c(":", "-"),
   drop_empty_chr = FALSE,
   as_sparse = TRUE,
   workers = 1,
@@ -53,6 +54,9 @@ correlation. Use smaller value for higher resolution but longer run time and
 larger memory usage.}
 
 \item{keep_chr}{Which chromosomes to keep.}
+
+\item{sep}{Separator to be used after chromosome name (first item) and 
+between start/end genomic coordinates (second item).}
 
 \item{drop_empty_chr}{Drop chromosomes that are not present in any of the 
 \code{peakfiles} (default: \code{FALSE}).}
