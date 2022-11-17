@@ -74,6 +74,7 @@
 <span>  intensity_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"total_signal"</span>, <span class="st">"qValue"</span>, <span class="st">"Peak Score"</span>, <span class="st">"score"</span><span class="op">)</span>,</span>
 <span>  bin_size <span class="op">=</span> <span class="fl">5000</span>,</span>
 <span>  keep_chr <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">":"</span>, <span class="st">"-"</span><span class="op">)</span>,</span>
 <span>  drop_empty_chr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  as_sparse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  workers <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -126,6 +127,11 @@ larger memory usage.</p></dd>
 
 <dt>keep_chr</dt>
 <dd><p>Which chromosomes to keep.</p></dd>
+
+
+<dt>sep</dt>
+<dd><p>Separator to be used after chromosome name (first item) and 
+between start/end genomic coordinates (second item).</p></dd>
 
 
 <dt>drop_empty_chr</dt>
@@ -213,7 +219,7 @@ which is more efficiently stored than a dense matrix (<code>FALSE</code>).</p></
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
