@@ -7,7 +7,7 @@ author: "<img src='`r read.dcf('DESCRIPTION', fields = 'URL')[1]`/raw/master/ins
         [![platforms](http://www.bioconductor.org/images/shields/availability/all.svg)](https://bioconductor.org/packages/devel/bioc/html/EpiCompare.html#archives)
         `r badger::badge_doi(doi = 'https://doi.org/doi:10.18129/B9.bioc.EpiCompare', color='green')`
         `r badger::badge_bioc_download(color='green', by='total')`
-        `r badger::badge_github_actions(action = 'R-CMD-check-bioc')`
+        `r badger::badge_github_actions(action = 'rworkflows')`
         `r badger::badge_last_commit(branch='master')`
         `r badger::badge_codecov(branch='master')` 
         `r badger::badge_license()` 

@@ -1,26 +1,22 @@
 `EpiCompare`: QC and Benchmarking of Epigenomic Datasets
 ================
 <img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' height='300'><br><br>
-[![](https://img.shields.io/badge/devel%20version-1.1.1-black.svg)](https://github.com/neurogenomics/EpiCompare)
-[![](https://img.shields.io/badge/release%20version-1.1.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-1.1.3-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/release%20version-1.2.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
 [![BioC
 status](http://www.bioconductor.org/shields/build/devel/bioc/EpiCompare.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/EpiCompare)
 [![platforms](http://www.bioconductor.org/images/shields/availability/all.svg)](https://bioconductor.org/packages/devel/bioc/html/EpiCompare.html#archives)
 [![](https://img.shields.io/badge/doi-https://doi.org/doi:10.18129/B9.bioc.EpiCompare-green.svg)](https://doi.org/https://doi.org/doi:10.18129/B9.bioc.EpiCompare)
-[![](https://img.shields.io/badge/download-244/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-316/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![R build
-status](https://github.com/neurogenomics/EpiCompare/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
+status](https://github.com/neurogenomics/EpiCompare/workflows/rworkflows/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
 [![](https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://app.codecov.io/gh/neurogenomics/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
-<h4>
-Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
-Nathan Skene</i>
-</h4>
-<h5>
-<i>Updated</i>: Oct-03-2022
-</h5>
+¶ <h4> ¶ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan
+Murphy, Nathan Skene</i> ¶ </h4>
+<h5> ¶ <i>Updated</i>: Nov-19-2022 ¶ </h5>
 
 # Introduction
 
@@ -40,8 +36,8 @@ report in HTML format consisting of three sections:
 
 *Notes*:
 
--   Peaks located in blacklisted regions and non-standard chromosomes
-    are removed from the files prior to analysis.
+- Peaks located in blacklisted regions and non-standard chromosomes are
+  removed from the files prior to analysis.
 
 # Installation
 
@@ -139,96 +135,92 @@ EpiCompare(peakfiles = peakfiles,
 
 These input parameters must be provided:
 
--   `peakfiles` : Peakfiles you want to analyse. EpiCompare accepts
-    peakfiles as GRanges object and/or as paths to BED files. Files must
-    be listed and named using `list()`. E.g.
-    `list("name1"=peakfile1, "name2"=peakfile2)`.
--   `genome_build` : A named list indicating the human genome build used
-    to generate each of the following inputs:
-    -   `peakfiles` : Genome build for the `peakfiles` input. Assumes
-        genome build is the same for each element in the `peakfiles`
-        list.
-    -   `reference` : Genome build for the `reference` input.
-    -   `blacklist` : Genome build for the `blacklist` input. <br> E.g.
-        `genome_build = list(peakfiles="hg38", reference="hg19", blacklist="hg19")`
--   `genome_build_output` Genome build to standardise all inputs to.
-    Liftovers will be performed automatically as needed. Default is
-    “hg19”.
--   `blacklist` : Peakfile as GRanges object specifying genomic regions
-    that have anomalous and/or unstructured signals independent of the
-    cell-line or experiment. For human hg19 and hg38 genome, use
-    built-in data `data(hg19_blacklist)` and `data(hg38_blacklist)`
-    respectively.
--   `output_dir` : Please specify the path to directory, where all
-    EpiCompare outputs will be saved.
+- `peakfiles` : Peakfiles you want to analyse. EpiCompare accepts
+  peakfiles as GRanges object and/or as paths to BED files. Files must
+  be listed and named using `list()`. E.g.
+  `list("name1"=peakfile1, "name2"=peakfile2)`.
+- `genome_build` : A named list indicating the human genome build used
+  to generate each of the following inputs:
+  - `peakfiles` : Genome build for the `peakfiles` input. Assumes genome
+    build is the same for each element in the `peakfiles` list.
+  - `reference` : Genome build for the `reference` input.
+  - `blacklist` : Genome build for the `blacklist` input. <br> E.g.
+    `genome_build = list(peakfiles="hg38", reference="hg19", blacklist="hg19")`
+- `genome_build_output` Genome build to standardise all inputs to.
+  Liftovers will be performed automatically as needed. Default is
+  “hg19”.
+- `blacklist` : Peakfile as GRanges object specifying genomic regions
+  that have anomalous and/or unstructured signals independent of the
+  cell-line or experiment. For human hg19 and hg38 genome, use built-in
+  data `data(hg19_blacklist)` and `data(hg38_blacklist)` respectively.
+- `output_dir` : Please specify the path to directory, where all
+  EpiCompare outputs will be saved.
 
 #### Optional Inputs
 
--   `picard_files` : A list of summary metrics output from
-    [Picard](https://broadinstitute.github.io/picard/). *Picard
-    MarkDuplicates* can be used to identify the duplicate reads amongst
-    the alignment. This tool generates a summary output, normally with
-    the ending *.markdup.MarkDuplicates.metrics.txt*. If this input is
-    provided, metrics on fragments (e.g. mapped fragments and
-    duplication rate) will be included in the report. Files must be in
-    data.frame format and listed using `list()` and named using
-    `names()`. To import Picard duplication metrics (.txt file) into R
-    as data frame, use
-    `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
--   `reference` : Reference peak file(s) is used in `stat_plot` and
-    `chromHMM_plot`. File must be in GRanges object, listed and named
-    using `list("reference_name" = GRanges_obect)`. If more than one
-    reference is specified, EpiCompare outputs individual reports for
-    each reference. However, please note that this can take awhile.
+- `picard_files` : A list of summary metrics output from
+  [Picard](https://broadinstitute.github.io/picard/). *Picard
+  MarkDuplicates* can be used to identify the duplicate reads amongst
+  the alignment. This tool generates a summary output, normally with the
+  ending *.markdup.MarkDuplicates.metrics.txt*. If this input is
+  provided, metrics on fragments (e.g. mapped fragments and duplication
+  rate) will be included in the report. Files must be in data.frame
+  format and listed using `list()` and named using `names()`. To import
+  Picard duplication metrics (.txt file) into R as data frame, use
+  `picard <- read.table("/path/to/picard/output", header = TRUE, fill = TRUE)`.
+- `reference` : Reference peak file(s) is used in `stat_plot` and
+  `chromHMM_plot`. File must be in GRanges object, listed and named
+  using `list("reference_name" = GRanges_obect)`. If more than one
+  reference is specified, EpiCompare outputs individual reports for each
+  reference. However, please note that this can take awhile.
 
 #### Optional Plots
 
 By default, these plots will not be included in the report unless set
 `TRUE`.
 
--   `upset_plot` : Upset plot of overlapping peaks between samples.
--   `stat_plot` : included only if a `reference` dataset is provided.
-    The plot shows statistical significance (p/q-values) of sample peaks
-    that are overlapping/non-overlapping with the `reference` dataset.
--   `chromHMM_plot` : ChromHMM annotation of peaks. If a `reference`
-    dataset is provided, ChromHMM annotation of overlapping and
-    non-overlapping peaks with the `reference` is also included in the
-    report.
--   `chipseeker_plot` : ChIPseeker annotation of peaks.
--   `enrichment_plot` : KEGG pathway and GO enrichment analysis of
-    peaks.
--   `tss_plot` : Peak frequency around (+/- 3000bp) transcriptional
-    start site. Note that it may take awhile to generate this plot for
-    large sample sizes.
--   `precision_recall_plot` : Plot showing the precision-recall score
-    across the peak calling stringency thresholds.
--   `corr_plot` : Plot showing the correlation between the quantiles
-    when the genome is binned at a set size. These quantiles are based
-    on the intensity of the peak, dependent on the peak caller used
-    (q-value for MACS2).
+- `upset_plot` : Upset plot of overlapping peaks between samples.
+- `stat_plot` : included only if a `reference` dataset is provided. The
+  plot shows statistical significance (p/q-values) of sample peaks that
+  are overlapping/non-overlapping with the `reference` dataset.
+- `chromHMM_plot` : ChromHMM annotation of peaks. If a `reference`
+  dataset is provided, ChromHMM annotation of overlapping and
+  non-overlapping peaks with the `reference` is also included in the
+  report.
+- `chipseeker_plot` : ChIPseeker annotation of peaks.
+- `enrichment_plot` : KEGG pathway and GO enrichment analysis of peaks.
+- `tss_plot` : Peak frequency around (+/- 3000bp) transcriptional start
+  site. Note that it may take awhile to generate this plot for large
+  sample sizes.
+- `precision_recall_plot` : Plot showing the precision-recall score
+  across the peak calling stringency thresholds.
+- `corr_plot` : Plot showing the correlation between the quantiles when
+  the genome is binned at a set size. These quantiles are based on the
+  intensity of the peak, dependent on the peak caller used (q-value for
+  MACS2).
 
 #### Other Options
 
--   `chromHMM_annotation` : Cell-line annotation for ChromHMM. Default
-    is K562. Options are:
-    -   “K562” = K-562 cells
-    -   “Gm12878” = Cellosaurus cell-line GM12878
-    -   “H1hesc” = H1 Human Embryonic Stem Cell
-    -   “Hepg2” = Hep G2 cell
-    -   “Hmec” = Human Mammary Epithelial Cell
-    -   “Hsmm” = Human Skeletal Muscle Myoblasts
-    -   “Huvec” = Human Umbilical Vein Endothelial Cells
-    -   “Nhek” = Normal Human Epidermal Keratinocytes
-    -   “Nhlf” = Normal Human Lung Fibroblasts
--   `interact` : By default, all heatmaps (percentage overlap and
-    ChromHMM heatmaps) in the report will be interactive. If set FALSE,
-    all heatmaps will be static. N.B. If `interact=TRUE`, interactive
-    heatmaps will be saved as html files, which may take time for larger
-    sample sizes.
--   `output_filename` : By default, the report is named EpiCompare.html.
-    You can specify the filename of the report here.
--   `output_timestamp` : By default FALSE. If TRUE, the filename of the
-    report includes the date.
+- `chromHMM_annotation` : Cell-line annotation for ChromHMM. Default is
+  K562. Options are:
+  - “K562” = K-562 cells
+  - “Gm12878” = Cellosaurus cell-line GM12878
+  - “H1hesc” = H1 Human Embryonic Stem Cell
+  - “Hepg2” = Hep G2 cell
+  - “Hmec” = Human Mammary Epithelial Cell
+  - “Hsmm” = Human Skeletal Muscle Myoblasts
+  - “Huvec” = Human Umbilical Vein Endothelial Cells
+  - “Nhek” = Normal Human Epidermal Keratinocytes
+  - “Nhlf” = Normal Human Lung Fibroblasts
+- `interact` : By default, all heatmaps (percentage overlap and ChromHMM
+  heatmaps) in the report will be interactive. If set FALSE, all
+  heatmaps will be static. N.B. If `interact=TRUE`, interactive heatmaps
+  will be saved as html files, which may take time for larger sample
+  sizes.
+- `output_filename` : By default, the report is named EpiCompare.html.
+  You can specify the filename of the report here.
+- `output_timestamp` : By default FALSE. If TRUE, the filename of the
+  report includes the date.
 
 #### Outputs
 
@@ -266,22 +258,21 @@ utils::sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] BiocManager_1.30.18 pillar_1.8.1        compiler_4.2.1     
+    ##  [1] BiocManager_1.30.19 compiler_4.2.1      pillar_1.8.1       
     ##  [4] RColorBrewer_1.1-3  yulab.utils_0.0.5   tools_4.2.1        
-    ##  [7] digest_0.6.29       jsonlite_1.8.1      evaluate_0.16      
-    ## [10] lifecycle_1.0.2     tibble_3.1.8        gtable_0.3.1       
+    ##  [7] digest_0.6.30       jsonlite_1.8.3      evaluate_0.18      
+    ## [10] lifecycle_1.0.3     tibble_3.1.8        gtable_0.3.1       
     ## [13] pkgconfig_2.0.3     rlang_1.0.6         cli_3.4.1          
     ## [16] DBI_1.1.3           rstudioapi_0.14     rvcheck_0.2.1      
-    ## [19] yaml_2.3.5          xfun_0.33           fastmap_1.1.0      
+    ## [19] yaml_2.3.6          xfun_0.34           fastmap_1.1.0      
     ## [22] stringr_1.4.1       dplyr_1.0.10        knitr_1.40         
-    ## [25] desc_1.4.2          generics_0.1.3      vctrs_0.4.2        
+    ## [25] desc_1.4.2          generics_0.1.3      vctrs_0.5.0        
     ## [28] dlstats_0.1.5       rprojroot_2.0.3     grid_4.2.1         
-    ## [31] tidyselect_1.1.2    glue_1.6.2          R6_2.5.1           
-    ## [34] fansi_1.0.3         rmarkdown_2.16      ggplot2_3.3.6      
-    ## [37] purrr_0.3.4         badger_0.2.1        magrittr_2.0.3     
-    ## [40] scales_1.2.1        htmltools_0.5.3     assertthat_0.2.1   
-    ## [43] colorspace_2.0-3    utf8_1.2.2          stringi_1.7.8      
-    ## [46] munsell_0.5.0
+    ## [31] tidyselect_1.2.0    glue_1.6.2          R6_2.5.1           
+    ## [34] fansi_1.0.3         rmarkdown_2.18      ggplot2_3.4.0      
+    ## [37] badger_0.2.2        magrittr_2.0.3      scales_1.2.1       
+    ## [40] htmltools_0.5.3     assertthat_0.2.1    colorspace_2.0-3   
+    ## [43] utf8_1.2.2          stringi_1.7.8       munsell_0.5.0
 
 </details>
 
