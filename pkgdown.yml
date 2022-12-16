@@ -4,5 +4,6 @@ pkgdown_sha: ~
 articles:
   EpiCompare: EpiCompare.html
   docker: docker.html
-last_built: 2022-12-16T17:27Z
+  example_report: example_report.html
+last_built: 2022-12-16T18:29Z
 

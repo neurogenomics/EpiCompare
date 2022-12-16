@@ -37,6 +37,9 @@
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/docker.html">Docker/Singularity Containers</a>
     </li>
+    <li>
+      <a href="../articles/example_report.html">Example report</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -64,10 +67,19 @@
 <h2 class="page-header" data-toc-text="1.1.4" id="changes-in-version-114">CHANGES IN VERSION 1.1.4<a class="anchor" aria-label="anchor" href="#changes-in-version-114"></a></h2>
 <div class="section level3">
 <h3 id="new-features-1-1-4">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-4"></a></h3>
-<ul><li>Add back example report html, but put it in the main dir and add it to the <em>.Rbuildgitignore</em>: <em>report/EpiCompare_example.html</em>
+<ul><li>Add back example report html:
+<ul><li>ut it in the main dir</li>
+<li>add it to the <em>.Rbuildgitignore</em>: <em>report/EpiCompare_example.html</em>
 </li>
+<li>Add a new vignette that renders the HTML from the pre-saved file.</li>
+</ul></li>
 <li>Remove <em>Dockerfile</em>, as it’s no longer necessary with the updated version of <code>rworkflows</code>
 </li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-4"></a></h3>
+<ul><li>Add <code>@returns</code> to <code>group_files</code> function.</li>
+<li>Add all authors to vignettes.</li>
 </ul></div>
 </div>
     <div class="section level2">
