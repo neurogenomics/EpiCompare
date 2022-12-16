@@ -4,6 +4,7 @@
 #' searches based on combinations of relevant metadata factors.
 #' @param searches A named list of substrings to group \code{peakfiles} by.
 #' @inheritParams EpiCompare
+#' @returns Named peak files
 #' 
 #' @export
 #' @importFrom stats setNames

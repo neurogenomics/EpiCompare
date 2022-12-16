@@ -16,6 +16,9 @@ default file names will be assigned.}
 
 \item{searches}{A named list of substrings to group \code{peakfiles} by.}
 }
+\value{
+Named peak files
+}
 \description{
 Assign group names to each file in a named list based on a series of string
 searches based on combinations of relevant metadata factors.

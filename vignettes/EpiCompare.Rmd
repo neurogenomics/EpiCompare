@@ -1,7 +1,7 @@
 ---
 title: "`EpiCompare`: Getting started"
-author: "<h5><i>Authors</i>: Sera Choi</h5>"
-date: "<h5><i>Updated</i>: `r format(Sys.Date(), '%b-%d-%Y')`</h5>"
+author: "<h4>Authors: <i>`r auths <- eval(parse(text = gsub('person','c',read.dcf('../DESCRIPTION', fields = 'Authors@R'))));paste(auths[names(auths)=='given'],auths[names(auths)=='family'], collapse = ', ')`</i></h4>" 
+date: "<h4>Vignette updated: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h4>"
 csl: nature.csl
 output:
   BiocStyle::html_document:
