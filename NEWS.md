@@ -1,3 +1,13 @@
+## CHANGES IN VERSION 1.1.4
+
+### New features
+
+* Add back example report html, but put it in the main dir and 
+    add it to the *.Rbuildgitignore*: 
+    *report/EpiCompare_example.html*
+* Remove *Dockerfile*, as it's no longer necessary with 
+    the updated version of `rworkflows`
+
 ## CHANGES IN VERSION 1.1.3
 
 ### New features
