@@ -58,7 +58,7 @@ plot_precision_recall <- function(peakfiles,
                                       tempfile(fileext = "precision_recall.csv")
                                   ){
     
-    requireNamespace("ggplot2")
+    check_dep("ggplot2")
     # #### Gather precision-recall data ####
     plot_dat <- precision_recall(peakfiles = peakfiles,
                                  reference = reference,

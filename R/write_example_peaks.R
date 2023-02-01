@@ -16,7 +16,7 @@ write_example_peaks <- function(dir = file.path(tempdir(),
                                 datasets = c("encode_H3K27ac",
                                              "CnT_H3K27ac",
                                              "CnR_H3K27ac")){
-    requireNamespace("plyranges")
+  check_dep("plyranges")
   dir.create(dir, showWarnings = FALSE, recursive = TRUE)
   save_paths <- vapply(datasets, function(x){
     save_path <- file.path(dir,paste0(x,".narrowPeaks.bed"))

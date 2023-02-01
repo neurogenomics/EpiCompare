@@ -130,7 +130,7 @@ rebin_peaks <- function(peakfiles,
     #### Convert to sparse ####
     if(isTRUE(as_sparse)){
         messager("Converting to sparse matrix.",v=verbose)
-        requireNamespace("Matrix")
+        check_dep("Matrix") 
         rebinned_peaks <- Matrix::Matrix(rebinned_peaks, sparse=TRUE)
     }
     #### Report ####

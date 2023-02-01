@@ -4,7 +4,13 @@
 \alias{overlap_heatmap}
 \title{Generate heatmap of percentage overlap}
 \usage{
-overlap_heatmap(peaklist, interact = TRUE)
+overlap_heatmap(
+  peaklist,
+  interact = TRUE,
+  draw_cellnote = TRUE,
+  fill_diag = NA,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
@@ -14,6 +20,12 @@ If not named, default file names will be assigned.}
 
 \item{interact}{Default TRUE. By default heatmap is interactive.
 If FALSE, heatmap is static.}
+
+\item{draw_cellnote}{Draw the numeric values within each heatmap cell.}
+
+\item{fill_diag}{Fill the diagonal of the overlap matrix.}
+
+\item{verbose}{Print messages.}
 }
 \value{
 An interactive heatmap
@@ -26,11 +38,8 @@ between peak files.
 ### Load Data ###
 data("encode_H3K27ac") # example peakfile GRanges object
 data("CnT_H3K27ac") # example peakfile GRanges object
-
 ### Create Named List ###
-peaks <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
-
+peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 ### Run ###
-my_heatmap <- overlap_heatmap(peaklist = peaks)
-
+my_heatmap <- overlap_heatmap(peaklist = peaklist) 
 }

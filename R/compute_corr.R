@@ -38,6 +38,7 @@
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
 #' @inheritParams remove_nonstandard_chrom
+#' @inheritParams precision_recall_matrix
 #' @return correlation matrix
 #' 
 #' @export
@@ -53,7 +54,7 @@
 #' corr_mat <- compute_corr(peakfiles = peakfiles,
 #'                          reference = reference,
 #'                          genome_build = "hg19",
-#'                          bin_size = 5000)
+#'                          bin_size = 200000)
 compute_corr <- function(peakfiles,
                          reference = NULL,
                          genome_build,
@@ -66,6 +67,7 @@ compute_corr <- function(peakfiles,
                                           "Peak Score",
                                           "score"),
                          return_bins = FALSE,
+                         fill_diag = NA,
                          workers = 1,
                          save_path = tempfile(fileext = ".corr.csv.gz")){
     # templateR:::source_all()
@@ -96,6 +98,8 @@ compute_corr <- function(peakfiles,
     #### Run all pairwise correlations #####
     messager("Calculating correlation matrix.")
     cor_mat <- stats::cor(gr_mat, method=method)
+    #### Fill diagonal ####
+    if(!is.null(fill_diag)) diag(cor_mat) <- fill_diag
     #### Report time ####
     t2 <- Sys.time()
     messager("Done computing correlations in",

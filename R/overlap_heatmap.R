@@ -9,10 +9,11 @@
 #' If not named, default file names will be assigned.
 #' @param interact Default TRUE. By default heatmap is interactive.
 #' If FALSE, heatmap is static.
+#' @param draw_cellnote Draw the numeric values within each heatmap cell.
+#' @param verbose Print messages.
+#' @inheritParams precision_recall_matrix
+#' @returns An interactive heatmap
 #'
-#' @return An interactive heatmap
-#'
-#' @importMethodsFrom IRanges subsetByOverlaps
 #' @import ggplot2
 #' @importFrom reshape2 melt
 #' @importFrom plotly plot_ly
@@ -22,59 +23,61 @@
 #' ### Load Data ###
 #' data("encode_H3K27ac") # example peakfile GRanges object
 #' data("CnT_H3K27ac") # example peakfile GRanges object
-#'
 #' ### Create Named List ###
-#' peaks <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
-#'
+#' peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 #' ### Run ###
-#' my_heatmap <- overlap_heatmap(peaklist = peaks)
-#'
+#' my_heatmap <- overlap_heatmap(peaklist = peaklist) 
 overlap_heatmap <- function(peaklist,
-                            interact=TRUE){
+                            interact=TRUE,
+                            draw_cellnote=TRUE,
+                            fill_diag=NA,
+                            verbose=TRUE){
 
   ### Variables ###
   Var1 <- Var2  <- value <- NULL;
-  message("--- Running overlap_heatmap() ---")
-
+  t1 <- Sys.time()
+  messager("--- Running overlap_heatmap() ---",v=verbose) 
+  #### Check deps ####
+  fill_diag <- check_heatmap_args(draw_cellnote = draw_cellnote, 
+                                  interact = interact, 
+                                  fill_diag = fill_diag, 
+                                  verbose = verbose)
   ### Check Peaklist Names ###
-  peaklist <- check_list_names(peaklist)
-
-  ### Calculate Overlap Percentage ###
-  overlap_list <- list() # empty list
-  for(mainfile in peaklist){
-    percent_list <- c()
-    for(subfile in peaklist){
-      # overlapping peaks
-      overlap <- IRanges::subsetByOverlaps(x = subfile, ranges = mainfile)
-      # calculate percentage overlap
-      percent <- length(overlap)/length(subfile)*100
-      percent_list <- c(percent_list, percent)
-    }
-    percent_list <- list(percent_list)
-    overlap_list <- c(overlap_list, percent_list)
-  }
-
-  ### Create Matrix ###
-  overlap_matrix <- matrix(unlist(overlap_list),
-                           ncol = max(lengths(overlap_list)),
-                           byrow = FALSE)
-  colnames(overlap_matrix) <- names(peaklist) # set colnames as sample names
-  rownames(overlap_matrix) <- names(peaklist) # set rownames as sample names
-
+  peaklist <- check_list_names(peaklist) 
+  ### Calculate Overlap Percentage ### 
+  overlap_matrix <- precision_recall_matrix(peaklist = peaklist,
+                                            fill_diag = fill_diag,
+                                            verbose = verbose)
   ### Create Static Heatmap ###
-  if(!interact){
-    melt <- reshape2::melt(overlap_matrix)
-    overlap_heatmap <- ggplot2::ggplot(
-        data = melt,
-        ggplot2::aes(x=Var1, y=Var2, fill=value)) +
-        ggplot2::geom_tile()
-  }else{
-    ### Create Ineractive Heatmap ###
-    overlap_heatmap <- plotly::plot_ly(x=colnames(overlap_matrix),
-                                       y=rownames(overlap_matrix),
-                                       z=overlap_matrix,
-                                       type="heatmap")
+  if(isFALSE(interact)){
+    mtx_melt <- reshape2::melt(overlap_matrix)
+    plt <- ggplot2::ggplot(
+        data = mtx_melt,
+        ggplot2::aes(x=Var1, y=Var2,
+                     fill=value, 
+                     label=round(value,2))) +
+        ggplot2::geom_tile() + 
+        ggplot2::labs(x="Recall", y="Precision",
+                      fill=gsub(" ","\n","% overlap")) +
+        ggplot2::scale_fill_viridis_c(na.value = "transparent") +
+        ggplot2::theme_bw()
+    if(isTRUE(draw_cellnote)){ 
+        plt <- plt + ggplot2::geom_label(fill=ggplot2::alpha("white",.8), 
+                                         label.size = NA,
+                                         na.rm = TRUE)
+    }
+  } else{
+      ### Create Interactive Heatmap ###
+      if(isTRUE(draw_cellnote)){
+        #### heatmaply ####
+        plt <- heatmap_heatmaply(X=overlap_matrix)
+      } else {
+        #### plotly #### 
+        plt <- heatmap_plotly(X=overlap_matrix)
+      }  
   }
-  message("Done.")
-  return(overlap_heatmap)
+  report_time(t1 = t1,
+              func="overlap_heatmap",
+              verbose = verbose)
+  return(plt)
 }

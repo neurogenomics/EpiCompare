@@ -6,7 +6,7 @@ data("CnT_H3K27ac_picard")
 data("CnR_H3K27ac_picard")
 
 # Create directory for test outputs
-outpath <- paste0(tempdir(),"/EpiCompare_test")
+outpath <- file.path(tempdir(),"EpiCompare_test")
 if(!dir.exists(outpath)){
   dir.create(outpath)
 }
@@ -33,7 +33,7 @@ test_that("All options TRUE (interact=T) and no ref,
                          save_output = TRUE,
                          output_dir = outpath)
 
-  files <- list.files(paste0(outpath,"/EpiCompare_file"))
+  files <- list.files(file.path(outpath,"EpiCompare_file"))
   expect_equal(length(files), 10)
   expect_true(is.element("peak_info.txt", files))
   expect_true(is.element("fragment_info.txt", files))
@@ -79,6 +79,6 @@ test_that("All options FALSE, correct outputs generated",{
                          save_output = TRUE,
                          output_dir = outpath)
 
-  files <- list.files(paste0(outpath,"/EpiCompare_file"))
+  files <- list.files(file.path(outpath,"EpiCompare_file"))
   expect_equal(length(files), 4)
 })

@@ -3,7 +3,7 @@ compute_percentiles <- function(gr,
                                                     "qValue",
                                                     "Peak Score"),
                                 initial_threshold=0){
-    requireNamespace("scales")
+    check_dep("scales")
     compute_pct <- function(vec,
                             initial_threshold){
         vec2 <- stats::ecdf(vec)(vec)

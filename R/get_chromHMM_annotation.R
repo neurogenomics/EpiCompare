@@ -29,9 +29,8 @@ get_chromHMM_annotation <- function(
         cell_line,
         cache=BiocFileCache::BiocFileCache(ask = FALSE)){
   #use bioconductor caching package
-  requireNamespace("BiocFileCache")
-    
-    cell_line <- check_cell_lines(cell_lines = cell_line) 
+  check_dep("BiocFileCache")
+  cell_line <- check_cell_lines(cell_lines = cell_line) 
   chromHMM_list_all <- lapply(cell_line, function(x){
       chrHMM_url <- paste0("http://hgdownload.cse.ucsc.edu/goldenPath/hg19/",
                            "encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmm",

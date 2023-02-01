@@ -27,21 +27,17 @@
 #' # my_plot <- plot_enrichment(peaklist = peaks,
 #' #                            annotation = txdb)
 #'
-plot_enrichment <- function(peaklist, annotation){
+plot_enrichment <- function(peaklist, 
+                            annotation){
+  
   message("--- Running plot_enrichment() ---")
-
+  ### Check deps ### 
+  check_dep("clusterProfiler")  
+  check_dep("org.Hs.eg.db")
   ### Check Peaklist Names ###
-  peaklist <- check_list_names(peaklist)
-
+  peaklist <- check_list_names(peaklist) 
   ### TxDB Annotation ###
-  txdb <- annotation
-
-  ### Check Package ###
-  if(!requireNamespace("clusterProfiler", quietly = TRUE)){
-    stop("Package \"clusterProfiler\" must be installed to use this funtion.",
-         call. = TRUE)
-  }
-
+  txdb <- annotation 
   ### Annotate Peak ###
   peak_annotated <- lapply(peaklist,
                            ChIPseeker::annotatePeak,
@@ -72,11 +68,6 @@ plot_enrichment <- function(peaklist, annotation){
   kegg_plot$data$Cluster <- sample_names
 
   ### GO ###
-  # Check annotation is available
-  if(!requireNamespace("org.Hs.eg.db", quietly = TRUE)){
-    stop("Package \"org.Hs.eg.db\" must be installed to use this function.",
-         call. = FALSE)
-  }
   compGO <- clusterProfiler::compareCluster(geneCluster = genes,
                                            OrgDb = "org.Hs.eg.db",
                                            fun = "enrichGO",

@@ -22,7 +22,7 @@
 group_files <- function(peakfiles, 
                         searches){
     
-    requireNamespace("tidyr")
+    check_dep("tidyr")
     combos <- data.frame(expand.grid(searches, stringsAsFactors = FALSE),
                          stringsAsFactors = FALSE)
     rownames(combos) <- tidyr::unite(data = combos, "merged")[,1] 

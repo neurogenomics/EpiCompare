@@ -28,14 +28,16 @@
 #' peaks <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
 #' txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
 #' my_plot <- tss_plot(peaklist = peaks,
-#'                     annotation = txdb)
+#'                     annotation = txdb,
+#'                     upstream=50,
+#'                     workers = 1)
 tss_plot <- function(peaklist,
                      annotation,
                      upstream=3000,
                      downstream=upstream,
                      conf=0.95,
                      resample=500,
-                     workers=1){
+                     workers=parallel::detectCores()-1){
     
   message("--- Running tss_plot() ---")
   ### Check Peaklist Names ###
@@ -61,7 +63,7 @@ tss_plot <- function(peaklist,
                                     facet = "row",
                                     ## Remove for now 
                                     ## (making everything super slow by default)
-                                    # ncpus = workers,
+                                    ncpus = workers,
                                     verbose = FALSE) +
       ggplot2::labs(title=names(file))
     list(plot)

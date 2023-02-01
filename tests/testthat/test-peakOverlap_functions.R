@@ -18,7 +18,9 @@ testthat::test_that("overlap_heatmap() generates correct plot
 # test upset_plot()
 testthat::test_that("overlap_upset_plot() generates correct plot", {
   p <- EpiCompare::overlap_upset_plot(peaklist)
-  testthat::expect_true(methods::is(p,"upset"))
+  ## Account for switch from UpSetR to ComplexUpset
+  testthat::expect_true(methods::is(p,"upset") | 
+                          methods::is(p,"patchwork"))
 })
 
 # example reference

@@ -21,7 +21,7 @@ get_bpparam <- function(workers,
                         use_snowparam=TRUE,
                         register_now=FALSE){
     
-    requireNamespace("BiocParallel")
+    check_dep("BiocParallel")
     if(.Platform$OS.type == "windows"){
         BPPARAM <-  BiocParallel::SerialParam()
     } else {

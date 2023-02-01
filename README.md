@@ -1,22 +1,22 @@
 `EpiCompare`: QC and Benchmarking of Epigenomic Datasets
 ================
-<img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' height='300'><br><br>
-[![](https://img.shields.io/badge/devel%20version-1.1.4-black.svg)](https://github.com/neurogenomics/EpiCompare)
-[![](https://img.shields.io/badge/release%20version-1.2.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
-[![BioC
-status](http://www.bioconductor.org/shields/build/devel/bioc/EpiCompare.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/EpiCompare)
-[![platforms](http://www.bioconductor.org/images/shields/availability/all.svg)](https://bioconductor.org/packages/devel/bioc/html/EpiCompare.html#archives)
-[![](https://img.shields.io/badge/doi-https://doi.org/doi:10.18129/B9.bioc.EpiCompare-green.svg)](https://doi.org/https://doi.org/doi:10.18129/B9.bioc.EpiCompare)
-[![](https://img.shields.io/badge/download-347/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+<img src= 'https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' height= '600' ><br><br><br><br>
+[![](https://img.shields.io/badge/devel%20version-1.3.0-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/rworkflows/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
-[![](https://app.codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://app.codecov.io/gh/neurogenomics/EpiCompare)
+[![](https://img.shields.io/github/languages/code-size/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://codecov.io/gh/neurogenomics/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
+[![](https://img.shields.io/badge/doi-https://doi.org/10.1101/2022.07.22.501149-blue.svg)](https://doi.org/https://doi.org/10.1101/2022.07.22.501149)
+[![](https://img.shields.io/badge/release%20version-1.2.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
+[![](https://img.shields.io/badge/download-37/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-403/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![download](http://www.bioconductor.org/shields/downloads/release/EpiCompare.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 ¶ <h4> ¶ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan
 Murphy, Nathan Skene</i> ¶ </h4>
-<h5> ¶ <i>Updated</i>: Dec-16-2022 ¶ </h5>
+<h5> ¶ <i>Updated</i>: Jan-31-2023 ¶ </h5>
 
 # Introduction
 
@@ -252,27 +252,27 @@ utils::sessionInfo()
     ## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
     ## 
     ## locale:
-    ## [1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
+    ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
     ## 
     ## attached base packages:
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] BiocManager_1.30.19 compiler_4.2.1      pillar_1.8.1       
-    ##  [4] RColorBrewer_1.1-3  yulab.utils_0.0.5   tools_4.2.1        
-    ##  [7] digest_0.6.31       jsonlite_1.8.4      evaluate_0.19      
+    ##  [1] pillar_1.8.1        compiler_4.2.1      RColorBrewer_1.1-3 
+    ##  [4] BiocManager_1.30.19 yulab.utils_0.0.6   tools_4.2.1        
+    ##  [7] digest_0.6.31       jsonlite_1.8.4      evaluate_0.20      
     ## [10] lifecycle_1.0.3     tibble_3.1.8        gtable_0.3.1       
-    ## [13] pkgconfig_2.0.3     rlang_1.0.6         cli_3.4.1          
-    ## [16] DBI_1.1.3           rstudioapi_0.14     rvcheck_0.2.1      
-    ## [19] yaml_2.3.6          xfun_0.35           fastmap_1.1.0      
-    ## [22] stringr_1.5.0       dplyr_1.0.10        knitr_1.41         
-    ## [25] desc_1.4.2          generics_0.1.3      vctrs_0.5.1        
-    ## [28] dlstats_0.1.6       rprojroot_2.0.3     grid_4.2.1         
-    ## [31] tidyselect_1.2.0    glue_1.6.2          R6_2.5.1           
-    ## [34] fansi_1.0.3         rmarkdown_2.18      ggplot2_3.4.0      
-    ## [37] badger_0.2.2        magrittr_2.0.3      scales_1.2.1       
-    ## [40] htmltools_0.5.3     assertthat_0.2.1    colorspace_2.0-3   
-    ## [43] utf8_1.2.2          stringi_1.7.8       munsell_0.5.0
+    ## [13] pkgconfig_2.0.3     rlang_1.0.6         cli_3.6.0          
+    ## [16] rstudioapi_0.14     rvcheck_0.2.1       yaml_2.3.7         
+    ## [19] xfun_0.36           fastmap_1.1.0       dplyr_1.1.0        
+    ## [22] knitr_1.42          generics_0.1.3      desc_1.4.2         
+    ## [25] vctrs_0.5.2         dlstats_0.1.6       rprojroot_2.0.3    
+    ## [28] grid_4.2.1          tidyselect_1.2.0    here_1.0.1         
+    ## [31] glue_1.6.2          R6_2.5.1            fansi_1.0.4        
+    ## [34] rmarkdown_2.20      ggplot2_3.4.0       badger_0.2.2       
+    ## [37] magrittr_2.0.3      scales_1.2.1        htmltools_0.5.4    
+    ## [40] rworkflows_0.99.5   colorspace_2.1-0    utf8_1.2.2         
+    ## [43] munsell_0.5.0
 
 </details>
 

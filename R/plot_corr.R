@@ -7,6 +7,8 @@
 #' @inheritParams compute_corr
 #' @inheritParams rebin_peaks
 #' @inheritParams EpiCompare 
+#' @inheritParams precision_recall_matrix
+#' @inheritParams overlap_heatmap
 #' @return list with correlation plot (corr_plot) and correlation matrix (data)
 #' 
 #' @export 
@@ -36,12 +38,19 @@ plot_corr <- function(peakfiles,
                                        "Peak Score",
                                        "score"),
                       interact=FALSE,
+                      draw_cellnote=TRUE,
+                      fill_diag=NA,
                       workers=1,
                       show_plot=TRUE,
                       save_path = tempfile(fileext = ".corr.csv.gz")){
     
-    requireNamespace("ggplot2")
+    # templateR:::args2vars(plot_corr); genome_build = "hg19";
+    check_dep("ggplot2")
     peakfile1 <- peakfile2 <- corr <- NULL;
+    #### Check deps ####
+    fill_diag <- check_heatmap_args(draw_cellnote = draw_cellnote, 
+                                    interact = interact, 
+                                    fill_diag = fill_diag)
     #### Get corr matrix ####
     corr_mat <- compute_corr(peakfiles = peakfiles,
                              reference = reference,
@@ -51,8 +60,9 @@ plot_corr <- function(peakfiles,
                              drop_empty_chr = drop_empty_chr,
                              method = method,
                              intensity_cols = intensity_cols,
+                             fill_diag = fill_diag,
                              workers = workers,
-                             save_path = save_path) 
+                             save_path = save_path,) 
     #### Plot correlation plot ####
     # diag(corr_mat) <- NA
     corr_mat_melt <- reshape2::melt(data = corr_mat,
@@ -63,14 +73,13 @@ plot_corr <- function(peakfiles,
                                                  width = width)
     corr_mat_melt$peakfile2 <- stringr::str_wrap(corr_mat_melt$peakfile2, 
                                                  width = width)
-    corr_mat_melt$corr <- round(corr_mat_melt$corr,3)
-    corr_plot <- ggplot2::ggplot(corr_mat_melt, 
+    corr_mat_melt$corr <- round(corr_mat_melt$corr,2)
+    plt <- ggplot2::ggplot(corr_mat_melt, 
                     ggplot2::aes(x=peakfile1, 
                                  y=peakfile2, 
                                  fill=corr,
                                  label=corr)) + 
         ggplot2::geom_tile() + 
-        ggplot2::geom_text(color="white", size=5) + 
         ggplot2::scale_fill_viridis_c(option="magma", 
                                       na.value = "grey10",
                                       breaks=seq(0,1,.5),
@@ -78,8 +87,21 @@ plot_corr <- function(peakfiles,
         ggplot2::labs(x=NULL, y=NULL, title="Peak correlation matrix") +
         ggplot2::theme_bw() +
         ggplot2::theme(axis.text.x = ggplot2::element_text(angle=45,hjust=1))
-    if(interact){
-        corr_plot <- plotly::ggplotly(corr_plot)
+    
+    if(isTRUE(draw_cellnote)){ 
+      plt <- plt + ggplot2::geom_label(fill=ggplot2::alpha("white",.8), 
+                                       label.size = NA,
+                                       na.rm = TRUE)
+    }
+    if(isTRUE(interact)){
+      ### Create Interactive Heatmap ###
+      if(isTRUE(draw_cellnote)){
+        #### heatmaply ####
+        plt <- heatmap_heatmaply(X=corr_mat)
+      } else {
+        #### plotly #### 
+        plt <- heatmap_plotly(X=corr_mat)
+      } 
     }
     #### With corrplot ####
     # corr_plot <-
@@ -92,12 +114,10 @@ plot_corr <- function(peakfiles,
     # corr_plot <- grDevices::recordPlot()
     
     #### Show plots ####
-    if(show_plot) {
-        methods::show(corr_plot)
-    }
+    if(isTRUE(show_plot))  methods::show(plt)
     #### Return both the plot and data ####
     return(list(
         data=corr_mat,
-        corr_plot=corr_plot
+        corr_plot=plt
     ))
 }

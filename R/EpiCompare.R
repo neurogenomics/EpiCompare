@@ -96,6 +96,10 @@
 #' \item{"rsstudio" : }{Display the report in Rstudio.}
 #' \item{NULL (default) : }{Do not display the report.}
 #' }
+#' @param run_all Convenience argument that enables all plots/features
+#' (without specifying each argument manually)
+#'  by overriding the default values.
+#'  Default: \code{FALSE}.
 #' @param workers Number of cores to parallelise across 
 #' (in applicable functions).
 #' @inheritParams plot_precision_recall
@@ -112,7 +116,7 @@
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #' data("CnR_H3K27ac") # example dataset as GRanges object
-#' data("hg19_blacklist") # hg38 blacklist dataset
+#' data("hg19_blacklist") # hg19 blacklist dataset
 #' data("CnT_H3K27ac_picard") # example Picard summary output
 #' data("CnR_H3K27ac_picard") # example Picard summary output
 #'
@@ -158,10 +162,18 @@ EpiCompare <- function(peakfiles,
                        output_timestamp = FALSE,
                        output_dir,
                        display = NULL,
+                       run_all=FALSE,
                        workers=1){
 
   #### time ####
   t1 <- Sys.time()
+  #### Set all args to true ####
+  if(isTRUE(run_all)){
+    upset_plot <- stat_plot <- chromHMM_plot <- chipseeker_plot <-
+      enrichment_plot <- enrichment_plot <- tss_plot <-
+      precision_recall_plot <- corr_plot <- save_output <- TRUE    
+    if(is.null(output_dir)) output_dir <- tempdir()
+  }
   if(!is.null(display)) display <- tolower(display)[1]
   ### Output Filename ###
   if(output_timestamp){

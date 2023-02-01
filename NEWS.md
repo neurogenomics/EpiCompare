@@ -1,3 +1,32 @@
+## CHANGES IN VERSION 1.3.1
+
+### New features
+
+* Replace `badger` with `rworkfows`:
+    - Use `rworkflows::use_badges`
+* New helper functions:
+    - `precision_recall_matrix`
+    - `report_time`
+* `overlap_upset_plot`:
+  - Switched out `UpSetR` for `ComplexUpset`to show percentages.
+  - Moved up dep checks to beginning of function.
+* Handle bug with `heatmaply` by checking args where it might be used:
+  - `check_heatmap_args`
+* `tss_plot`:
+  - Add unit tests 
+  - Drastically reduce example/test runtime by setting `upstream=50`
+* `compute_corr`:
+  - Reduce exampl runtime by setting ` bin_size = 200000` (takes <2s).
+
+### Bug fixes
+
+* Fix typo in `EpiCompare` docs: "hg38 blacklist dataset"
+* Avoid explicitly specifying "/" in paths to help cross-platform testing.
+* `tss_plot`: 
+  - Use `parallel::detectCores-1` by default to set workers, 
+    but set to 1 in examples/tests to meet CRAN/Bioc standards. 
+  
+
 ## CHANGES IN VERSION 1.1.4
 
 ### New features

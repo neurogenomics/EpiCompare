@@ -11,7 +11,7 @@ tss_plot(
   downstream = upstream,
   conf = 0.95,
   resample = 500,
-  workers = 1
+  workers = parallel::detectCores() - 1
 )
 }
 \arguments{
@@ -50,5 +50,7 @@ data("CnR_H3K27ac") # example peaklist GRanges object
 peaks <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
 txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
 my_plot <- tss_plot(peaklist = peaks,
-                    annotation = txdb)
+                    annotation = txdb,
+                    upstream=50,
+                    workers = 1)
 }

@@ -25,7 +25,7 @@ bpplapply <- function(X,
     
     #### Select method ####
     if(any(attr(apply_fun,"package")=="BiocParallel")){
-        requireNamespace("BiocParallel")
+        check_dep("BiocParallel")
         BPPARAM <- get_bpparam(workers = workers,
                                progressbar = progressbar,
                                use_snowparam = use_snowparam,
@@ -37,7 +37,7 @@ bpplapply <- function(X,
                   ...)
     } else {
         if(environmentName(environment(apply_fun))=="parallel"){
-            requireNamespace("parallel")
+            check_dep("parallel")
         }
         if(isFALSE(verbose)) FUN <- function(FUN){suppressMessages(FUN)}
         apply_fun(FUN = FUN,  

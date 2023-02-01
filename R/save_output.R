@@ -41,7 +41,7 @@ save_output <- function(save_output = FALSE,
         unlink(paste0(filename,".png"))
       }
     }else if(file_type == "image"){
-      requireNamespace("grDevices")
+      check_dep("grDevices")
       grDevices::png(paste0(outpath,"/",filename,".png"))
       print(file)
       grDevices::dev.off()

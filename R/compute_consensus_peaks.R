@@ -58,7 +58,7 @@ compute_consensus_peaks <- function(grlist,
                                     ...){
     method <- tolower(method)[1]
     if(method=="consensusseeker"){
-        requireNamespace("consensusSeekeR")
+        check_dep("consensusSeekeR")
         if(missing(genome_build)){
             stopper("Must provide genome_build when method='consensusseeker'")
         }

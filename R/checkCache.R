@@ -7,8 +7,8 @@
 #' @returns path 
 checkCache <- function(cache=BiocFileCache::BiocFileCache(ask = FALSE),
                        url) {
-    if (!requireNamespace("BiocFileCache"))
-        stop("install BiocFileCache to use this function.")
+  
+    check_dep("BiocFileCache")
     cached <- BiocFileCache::bfcinfo(cache)$rname
     return(url %in% cached)
 }

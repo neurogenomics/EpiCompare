@@ -4,7 +4,7 @@ data("CnR_H3K27ac")
 data("hg19_blacklist")
 
 # Create directory for test outputs
-outpath <- paste0(tempdir(),"/EpiCompare_test")
+outpath <- file.path(tempdir(),"EpiCompare_test")
 if(!dir.exists(outpath)){
   dir.create(outpath)
 }
@@ -17,10 +17,10 @@ testthat::test_that("outputs are saved in EpiCompare_file", {
                          blacklist = hg19_blacklist,
                          save_output = TRUE,
                         output_dir = outpath )
-  files <- list.files(paste0(outpath,"/EpiCompare_file"))
+  files <- list.files(file.path(outpath,"EpiCompare_file"))
   testthat::expect_equal(length(files)>1, TRUE)
   testthat::expect_equal(is.element("peak_info.txt", files), TRUE)
-  testthat::expect_equal(file.exists(paste0(outpath,"/EpiCompare.html")), TRUE)
+  testthat::expect_equal(file.exists(file.path(outpath,"EpiCompare.html")), TRUE)
 })
 
 test_that("outputs are saved in EpiCompare_file", {
@@ -29,7 +29,7 @@ test_that("outputs are saved in EpiCompare_file", {
                          blacklist = hg19_blacklist,
                          save_output = FALSE,
                          output_dir = outpath )
-  expect_equal(file.exists(paste0(outpath,"/EpiCompare.html")), TRUE)
+  expect_equal(file.exists(file.path(outpath,"EpiCompare.html")), TRUE)
 })
 
 test_that("output filename set by users",{
@@ -44,7 +44,7 @@ test_that("output filename set by users",{
   name <- "testthat_example"
   filename <-  paste0(name,"_",date)
   files <- list.files(outpath)
-  expect_equal(file.exists(paste0(outpath,"/",filename,".html")), TRUE)
+  expect_equal(file.exists(file.path(outpath,paste0(filename,".html"))), TRUE)
 })
 
 # remove test directory

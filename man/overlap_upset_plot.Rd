@@ -4,29 +4,31 @@
 \alias{overlap_upset_plot}
 \title{Generate Upset plot for overlapping peaks}
 \usage{
-overlap_upset_plot(peaklist)
+overlap_upset_plot(peaklist, verbose = TRUE)
 }
 \arguments{
 \item{peaklist}{A named list of peak files as GRanges object.
 Objects must be listed and named using \code{list()}.
 e.g. \code{list("name1"=file1, "name2"=file2)}.
 If not named, default file names are assigned.}
+
+\item{verbose}{Print messages}
 }
 \value{
-Upset plot of overlapping peaks
+Upset plot of overlapping peaks.
 }
 \description{
-This function generates upset plot (UpSetR package) of overlapping peaks.
+This function generates upset plot of overlapping peaks files
+using the 
+\href{https://cran.r-project.org/web/packages/ComplexUpset}{
+\pkg{ComplexUpset}} package.
 }
 \examples{
 ### Load Data ###
 data("encode_H3K27ac") # load example data
 data("CnT_H3K27ac") # load example data
-
 ### Create Named List ###
 peakfile <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
-
 ### Run ###
 my_plot <- overlap_upset_plot(peaklist = peakfile)
-
 }

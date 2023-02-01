@@ -28,6 +28,7 @@ EpiCompare(
   output_timestamp = FALSE,
   output_dir,
   display = NULL,
+  run_all = FALSE,
   workers = 1
 )
 }
@@ -150,6 +151,11 @@ file name.}
 \item{NULL (default) : }{Do not display the report.}
 }}
 
+\item{run_all}{Convenience argument that enables all plots/features
+(without specifying each argument manually)
+ by overriding the default values.
+ Default: \code{FALSE}.}
+
 \item{workers}{Number of cores to parallelise across 
 (in applicable functions).}
 }
@@ -167,7 +173,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object
-data("hg19_blacklist") # hg38 blacklist dataset
+data("hg19_blacklist") # hg19 blacklist dataset
 data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
 

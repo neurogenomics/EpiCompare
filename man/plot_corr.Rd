@@ -14,6 +14,8 @@ plot_corr(
   method = "spearman",
   intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
   interact = FALSE,
+  draw_cellnote = TRUE,
+  fill_diag = NA,
   workers = 1,
   show_plot = TRUE,
   save_path = tempfile(fileext = ".corr.csv.gz")
@@ -74,6 +76,10 @@ correlations:
 
 \item{interact}{Default TRUE. By default, all heatmaps are interactive.
 If set FALSE, all heatmaps in the report will be static.}
+
+\item{draw_cellnote}{Draw the numeric values within each heatmap cell.}
+
+\item{fill_diag}{Fill the diagonal of the overlap matrix.}
 
 \item{workers}{Number of cores to parallelise across 
 (in applicable functions).}
