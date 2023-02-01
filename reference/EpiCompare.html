@@ -20,7 +20,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -99,6 +99,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
 <span>  output_timestamp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">output_dir</span>,</span>
 <span>  display <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  run_all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  workers <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -259,6 +260,13 @@ file name.</p></dd>
 </ul></dd>
 
 
+<dt>run_all</dt>
+<dd><p>Convenience argument that enables all plots/features
+(without specifying each argument manually)
+ by overriding the default values.
+ Default: <code>FALSE</code>.</p></dd>
+
+
 <dt>workers</dt>
 <dd><p>Number of cores to parallelise across 
 (in applicable functions).</p></dd>
@@ -277,7 +285,7 @@ file name.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># hg38 blacklist dataset</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># hg19 blacklist dataset</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></span></span>
 <span class="r-in"><span></span></span>
@@ -300,9 +308,9 @@ file name.</p></dd>
 <span class="r-in"><span>           reference <span class="op">=</span> <span class="va">reference_peak</span>,</span></span>
 <span class="r-in"><span>           output_filename <span class="op">=</span> <span class="st">"EpiCompare_test"</span>,</span></span>
 <span class="r-in"><span>           output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.053 min."</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/Rtmpv23BZQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpv23BZQ/EpiCompare_test.html"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.075 min."</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/RtmpDyaFqq</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpDyaFqq/EpiCompare_test.html"</span>
 </code></pre></div>
     </div>
   </div>

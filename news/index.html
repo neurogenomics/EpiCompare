@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -63,6 +63,47 @@
       <small>Source: <a href="https://github.com/neurogenomics/EpiCompare/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.3.1" id="changes-in-version-131">CHANGES IN VERSION 1.3.1<a class="anchor" aria-label="anchor" href="#changes-in-version-131"></a></h2>
+<div class="section level3">
+<h3 id="new-features-1-3-1">New features<a class="anchor" aria-label="anchor" href="#new-features-1-3-1"></a></h3>
+<ul><li>Replace <code>badger</code> with <code>rworkfows</code>:
+<ul><li>Use <code><a href="https://rdrr.io/pkg/rworkflows/man/use_badges.html" class="external-link">rworkflows::use_badges</a></code>
+</li>
+</ul></li>
+<li>New helper functions:
+<ul><li><code>precision_recall_matrix</code></li>
+<li><code>report_time</code></li>
+</ul></li>
+<li>
+<code>overlap_upset_plot</code>:
+<ul><li>Switched out <code>UpSetR</code> for <code>ComplexUpset</code>to show percentages.</li>
+<li>Moved up dep checks to beginning of function.</li>
+</ul></li>
+<li>Handle bug with <code>heatmaply</code> by checking args where it might be used:
+<ul><li><code>check_heatmap_args</code></li>
+</ul></li>
+<li>
+<code>tss_plot</code>:
+<ul><li>Add unit tests</li>
+<li>Drastically reduce example/test runtime by setting <code>upstream=50</code>
+</li>
+</ul></li>
+<li>
+<code>compute_corr</code>:
+<ul><li>Reduce exampl runtime by setting <code>bin_size = 200000</code> (takes &lt;2s).</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-1"></a></h3>
+<ul><li>Fix typo in <code>EpiCompare</code> docs: “hg38 blacklist dataset”</li>
+<li>Avoid explicitly specifying “/” in paths to help cross-platform testing.</li>
+<li>
+<code>tss_plot</code>:
+<ul><li>Use <code>parallel::detectCores-1</code> by default to set workers, but set to 1 in examples/tests to meet CRAN/Bioc standards.</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.4" id="changes-in-version-114">CHANGES IN VERSION 1.1.4<a class="anchor" aria-label="anchor" href="#changes-in-version-114"></a></h2>
 <div class="section level3">
