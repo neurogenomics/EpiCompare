@@ -132,8 +132,8 @@ ENCODE blacklist contains regions of the genome that have anomalous
 and/or unstructured signals independent of the cell-line or experiment. Removal 
 of these regions from peakfiles is recommended for quality measure.
 
-*EpiCompare* contains two blacklist files, hg19 and hg38, downloaded from
-[here](https://github.com/Boyle-Lab/Blacklist).
+*EpiCompare* has three built-in blacklist files, hg19, hg38 and mm10, downloaded 
+from ENCODE. Run `?hg19_blacklist` for more information.
 
 In this example analysis, since all peakfiles (`encode_H3K27ac`, `CnT_H3K27ac`,
 `CnR_H3K27ac`)  were generated using human genome reference build hg19, 

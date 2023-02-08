@@ -7,8 +7,7 @@
 tss_plot(
   peaklist,
   annotation,
-  upstream = 3000,
-  downstream = upstream,
+  tss_distance = c(3000, 3000),
   conf = 0.95,
   resample = 500,
   workers = parallel::detectCores() - 1
@@ -22,9 +21,9 @@ If not named, default file names will be assigned.}
 
 \item{annotation}{A TxDb annotation object from Bioconductor.}
 
-\item{upstream}{upstream from TSS site}
-
-\item{downstream}{downstream from TSS site}
+\item{tss_distance}{A vector specifying the distance upstream and downstream
+around TSS. Default value is \code{c(3000,3000)}, meaning peak frequency 
+3000bp upstream and downstream of TSS will be displayed.}
 
 \item{conf}{Confidence interval threshold estimated by bootstrapping
  (\code{0.95} means 95%).

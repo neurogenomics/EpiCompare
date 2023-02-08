@@ -159,7 +159,7 @@ These input parameters must be provided:
     that have anomalous and/or unstructured signals independent of the
     cell-line or experiment. For human hg19 and hg38 genome, use
     built-in data `data(hg19_blacklist)` and `data(hg38_blacklist)`
-    respectively.
+    respectively. For mouse mm10 genome, use built-in data `data(mm10_blacklist)`.
 -   `output_dir` : Please specify the path to directory, where all
     EpiCompare outputs will be saved.
 
@@ -242,7 +242,22 @@ By default, these plots will not be included in the report unless set
 An example report comparing ATAC-seq and Dnase-seq can be found
 [here](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare_example.html)
 
-# Session Info
+## Datasets 
+
+<details>
+-   `encode_H3K27ac`: Human H3K27ac peak file generated with ChIP-seq using K562
+cell-line. Taken from [ENCODE](https://www.encodeproject.org/files/ENCFF044JNJ/)
+project. For more information, run `?encode_H3K27ac`.  
+-   `CnT_H3K27ac`: Human H3K27ac peak file generated with CUT&Tag using K562 
+cell-line from [Kaya-Okur et al., (2019)](https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8383507). For more
+information, run `?CnT_H3K27ac`. 
+-   `CnR_H3K27ac`: Human H3K27ac peak file generated with CUT&Run using K562 
+cell-line from [Meers et al., (2019)](https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR8581604).
+For more details, run `?CnR_H3K27ac`. 
+
+</details>
+
+## Session Info
 
 <details>
 

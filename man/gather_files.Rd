@@ -40,10 +40,8 @@ in as \link[GenomicRanges]{GRanges}.}
 \item{rbind_list}{Bind all objects into one.}
 
 \item{workers}{
-    \code{integer(1)} Number of workers. Defaults to the maximum of 1 or
-    the number of cores determined by \code{detectCores} minus 2 unless
-    environment variables \code{R_PARALLELLY_AVAILABLECORES_FALLBACK} or
-    \code{BIOCPARALLEL_WORKER_NUMBER} are set otherwise.
+    \code{integer(1)} Number of workers. Defaults to all cores available as
+    determined by \code{detectCores}.
   }
 
 \item{verbose}{Print messages.}

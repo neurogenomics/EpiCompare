@@ -331,8 +331,8 @@ EpiCompare generates paired boxplot
 per sample showing the distribution of -log10(q-value) of reference peaks that 
 are overlapping and non-overlapping with the sample dataset. 
 * Reference dataset does not have BED6+4 format: EpiCompare generates a barplot 
-of percentage of overlapping sample peaks with the reference, coloured by 
-statistical significance (adjusted p-value) of the overlap. 
+of percentage of overlapping sample peaks with the reference. Statistical 
+significance (adjusted p-value) is written above each bar. 
 
 **Reference peakfile**: `r names(reference_tidy)` 
 
@@ -347,7 +347,7 @@ Keys:
 # Reference is provided AND stat_plot=TRUE, execute overlap_stat_plot() 
 if (!is.null(reference) && (params$stat_plot)){
   stat_plot <- overlap_stat_plot(reference = reference_tidy,
-                                 peaklist = peaklist_tidy,
+                                 peaklist = peaklist,
                                  annotation = txdb)
   print(stat_plot[[1]])
   # Save output 
@@ -438,6 +438,28 @@ annotations used in EpiCompare were obtained from
 [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).
 
 * Cell-type annotation file used in this analysis: __`r params$chromHMM_annotation`__
+
+ChromHMM annotation 
+
+<details>
+
+1. Active promoter:  
+2. Weak promoter:
+3. Poised promoter:
+4. Strong enhancer:
+5. Strong enhancer:
+6. Weak enhancer:
+7. Weak enhancer: 
+8. Insulator:
+9. Txn elongation:
+10. Txn elongation:
+11. Weak Txn:
+12. Repressed 
+13. Heterochrom.Io
+14. Repetitive CNV
+15. Repetitive CNV
+
+</details>
 
 #### All samples 
 
@@ -722,6 +744,14 @@ if (params$enrichment_plot){
 ***
 
 #### GO 
+
+<details>
+
+GeneRatio is the number of observed genes divided by the number of expected genes
+from each GO category. GO terms can be useful when assessing different biological
+themes present in each epigenomic dataset. 
+
+</details>
 
 ```{r,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
 if (params$enrichment_plot){

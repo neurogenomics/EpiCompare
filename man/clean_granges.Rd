@@ -6,8 +6,8 @@
 \usage{
 clean_granges(
   gr,
-  nono_cols = c("seqnames", "ranges", "strand", "seqlevels", "seqlengths", "isCircular",
-    "start", "end", "width", "element")
+  nono_cols = c("seqnames", "ranges", "strand", "seqlevels", "seqlengths",
+    "isCircular", "start", "end", "width", "element")
 )
 }
 \arguments{

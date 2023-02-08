@@ -156,16 +156,16 @@ overlap_stat_plot <- function(reference,
       # and statistical significance of overlapping peaks
       plot <- ggplot2::ggplot(data=overlap_result,
                               ggplot2::aes(x=tSample,
-                                           y=percent_overlap,
-                                           fill=p.adjust)) +
-              ggplot2::geom_bar(stat="identity") +
-              ggplot2::scale_fill_continuous(type="viridis") +
-              ggplot2::theme_light() +
-              ggplot2::labs(x="",y="Percentage overlap (%)") +
-              ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
-                                                                 vjust = 1,
-                                                                 hjust=1)) +
-              ggplot2::ylim(0,100)
+                                           y=percent_overlap)) +
+          ggplot2::geom_bar(stat="identity") +
+          ggplot2::geom_text(ggplot2::aes(label=p.adjust),
+                             position=ggplot2::position_dodge(width=0.9),vjust=-0.25)+
+          ggplot2::theme_light() +
+          ggplot2::labs(x="",y="Percentage overlap (%)") +
+          ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                             vjust = 1,
+                                                             hjust=1)) +
+          ggplot2::ylim(0,100)
       # return both plot and data frame
       message("Done.")
       return(list(plot, overlap_result))

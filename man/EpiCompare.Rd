@@ -62,7 +62,15 @@ genome build. For example:\cr
 Liftovers will be performed automatically as needed.
 Default: "hg19".}
 
-\item{blacklist}{A GRanges object containing blacklisted regions.}
+\item{blacklist}{A GRanges object containing blacklisted regions.
+\itemize{
+\item "hg19_blacklist" = regions of hg19 genome that have anomalous
+and/or unstructured signals. \link[EpiCompare]{hg19_blacklist}
+\item "hg38_blacklist" = regions of hg38 genome that have anomalous
+and/or unstructured signals. \link[EpiCompare]{hg38_blacklist}
+\item "mm10_blacklist" = regions of mm10 genome that have anomalous
+and/or unstructured signals. \link[EpiCompare]{mm10_blacklist} 
+}}
 
 \item{picard_files}{A list of summary metrics output from Picard.
 Files must be in data.frame format and listed using \code{list()}

@@ -131,3 +131,20 @@
 #' @usage data("hg38_blacklist")
 "hg38_blacklist"
 
+#' Mouse genome mm10 blacklisted regions
+#'
+#' Obtained from \url{https://www.encodeproject.org/files/ENCFF547MET/}.
+#' The ENCODE blacklist includes regions of the mm10 genome that have anomalous and/
+#' or unstructured signals independent of the cell-line or experiment. Removal
+#' of ENCODE blacklist is recommended for quality measure.
+#'
+#' @source
+#' The code to prepare the .Rda file is:
+#'
+#' \code{## blacklisted regions were directly downloaded} \cr
+#' \code{## from https://www.encodeproject.org/files/ENCFF547MET/} \cr
+#' \code{mm10_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")} \cr
+#' \code{usethis::use_data(mm10_blacklist, overwrite = TRUE)} \cr
+#' @usage data("mm10_blacklist")
+"mm10_blacklist"
+
