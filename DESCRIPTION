@@ -59,12 +59,12 @@ Imports:
     stringr,
     utils,
     BiocGenerics,
-    downloadthis
+    downloadthis,
+    parallel
 Suggests: 
     rworkflows,
     BiocFileCache,
     BiocParallel,
-    parallel,
     BiocStyle,
     clusterProfiler,
     GenomicAlignments,
