@@ -50,11 +50,11 @@ s_size = .85
 stick <- hexSticker::sticker( 
   subplot = here::here("inst/hex/genetic_scale.png"),
   #### Package name ####
-  package = pkg, p_size=5, p_y = 1.5,
+  package = pkg, p_size=18, p_y = 1.5,
   #### Subplot #####
   s_x=1, s_y=.965,  s_height = s_size, s_width = s_size,
   #### Fill & border ####
-  h_fill = "#07273f", h_color = "#007c7c",
+  h_fill = "#07273f", h_color = "#007c7c", h_size = 2,
   #### Spotlight ####
   spotlight = TRUE, l_alpha = .3, l_width = 5,
   #### File output ####
