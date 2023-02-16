@@ -16,7 +16,7 @@ citEntry(
   url      = "https://doi.org/10.1101/2022.07.22.501149",
   textVersion = paste(
   "EpiCompare: R package for the comparison and quality control of epigenomic peak files (2022) 
-Sera Choi, Brian M. Schilder, Leyla Abbasova, Alan E. Murphy, Nathan G. Skene
-bioRxiv 2022.07.22.501149; doi: https://doi.org/10.1101/2022.07.22.501149"
+  Sera Choi, Brian M. Schilder, Leyla Abbasova, Alan E. Murphy, Nathan G. Skene, 
+  bioRxiv, 2022.07.22.501149; doi: https://doi.org/10.1101/2022.07.22.501149"
   )
 )

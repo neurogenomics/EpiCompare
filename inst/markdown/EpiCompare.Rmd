@@ -1,13 +1,15 @@
 ---
-title: "EpiCompare Report"
+title: "`r EpiCompare::report_header()`"
 date: "`r format(Sys.Date(), '%b-%d-%Y')`"
 output: 
   html_document: 
     toc: yes
     toc_float: yes
     code_folding: hide 
+    number_sections: true
+    css: custom.css
 params:
-  peakfile: 
+  peakfiles: 
     value: NULL
   output_dir: 
     value: NULL
@@ -35,6 +37,8 @@ params:
     value: FALSE
   tss_plot:
     value: FALSE
+  tss_distance:
+    value: c(-3000,3000)
   precision_recall_plot:
     value: FALSE
   n_threshold:
@@ -49,10 +53,19 @@ params:
     value: FALSE
   workers:
     value: 1
+  error:
+    value: FALSE
+  debug:
+    value: FALSE
 ---
 
 ```{r setup, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = params$debug,
+                      warning = params$debug,
+                      cache = FALSE, 
+                      error = params$error,
+                      results = if(isTRUE(params$interact)) 'asis' else 'markup')
 ### Create Output Directory ###
 # if save_output = TRUE
 if(params$save_output){
@@ -65,13 +78,14 @@ if(params$save_output){
 #### ------ Prepare genome builds ------ ####
 # e.g. genome_build <- list(reference="hg19",peakfiles="hg38",blacklist="hg19")
 # or... genome_build <- "hg19"
-builds <- prepare_genome_builds(genome_build = params$genome_build)
+builds <- prepare_genome_builds(genome_build = params$genome_build,
+                                blacklist = params$blacklist)
 ## Standardise all data to hg19 build 
 output_build <- prepare_output_build(params$genome_build_output)
 
 #### ------ Prepare peaklist(s) ------ ####
 # and check that the list is named, if not default filenames are used 
-peaklist <- prepare_peaklist(peaklist = params$peakfile) 
+peaklist <- prepare_peaklist(peaklist = params$peakfiles) 
 peaklist <- liftover_grlist(grlist = peaklist, 
                             input_build = builds$peaklist,
                             output_build = output_build)
@@ -83,9 +97,9 @@ reference <- liftover_grlist(grlist = reference,
                             output_build = output_build)
 
 #### ------ Prepare blacklist ------ ####
-blacklist <- liftover_grlist(grlist = params$blacklist,
-                             input_build = builds$blacklist, 
-                             output_build = output_build) 
+blacklist <- prepare_blacklist(blacklist = params$blacklist,
+                               output_build = output_build,
+                               blacklist_build = builds$blacklist) 
 
 ### Standardise peaklist(s) ###
 peaklist <- tidy_peakfile(peaklist = peaklist,
@@ -108,185 +122,202 @@ txdb <- check_genome_build(genome_build = output_build)
 fig_height <- fig_length(default_size = 7,
                          number_of_items = length(peaklist_tidy),
                          max_items = 10)
-```
 
-[EpiCompare](https://github.com/neurogenomics/EpiCompare) compares epigenomic 
-datasets for quality control and benchmarking purposes. 
-The report consists of three sections: 
-
-1. **General Metrics:** Metrics on peaks - percentage of blacklisted and 
-non-standard peaks and peak widths - and fragments - duplication rate - of 
-samples.
-2. **Peak Overlap:** Frequency, percentage, statistical significance of 
-overlapping and non-overlapping peaks. This also includes Upset, 
-precision-recall and correlation plots. 
-3. **Functional Annotation:** Functional annotation (ChromHMM, ChIPseeker and 
-enrichment analysis) of peaks. This also includes peak enrichment around TSS. 
-
-***
-
-##### Input Datasets 
-
-* Reference peakfile: `r names(reference_tidy)`
-* Total of `r length(peaklist_tidy)` peak files: 
-
-```{r name}
-# print peak file names and numerate 
-n <- 1
-for (name in names(peaklist_tidy)){
-  print(paste0("File", n, ": ", name))
-  n <- n + 1
+needs_ref <- function(arg,
+                      reference=NULL){ 
+  if(isTRUE(arg)){
+    if(is.null(reference)){
+      cat("NOTE: This plot is not generated when reference=NULL.")
+      return(FALSE)
+    } else{
+      return(TRUE)
+    }
+  } else {
+    return(FALSE)
+  }
 }
 ```
 
-##### Code
+[`EpiCompare`](https://github.com/neurogenomics/EpiCompare) compares epigenomic 
+datasets for quality control and benchmarking purposes. 
 
-The function call used to create the report. 
+# Summary {-}
 
-```R
-EpiCompare(peakfiles = list(`r names(peaklist_tidy)`),
-           genome_build = `r params$genome_build`,
-           genome_build_output = `r params$genome_build_output`,
-           blacklist = blacklist,
-           picard_files = list(`r names(params$picard_files)`),
-           reference = `r names(reference_tidy)`,
-           upset_plot = `r params$upset_plot`,
-           stat_plot = `r params$stat_plot`,
-           chromHMM_plot = `r params$chromHMM_plot`,
-           chromHMM_annotation = "`r params$chromHMM_annotation`",
-           chipseeker_plot = `r params$chipseeker_plot`,
-           enrichment_plot = `r params$enrichment_plot`,
-           tss_plot = `r params$tss_plot`,
-           precision_recall_plot = `r params$precision_recall_plot`,
-           n_threshold = `r params$n_threshold`,
-           corr_plot=`r params$corr_plot`,
-           interact = `r params$interact`,
-           save_output = `r params$save_output`,
-           output_dir = "`r params$output_dir`",
-           workers = `r params$workers`)
-``` 
+## Table of Contents {-}
+
+The report consists of three sections: 
+
+1. [**General Metrics:**](#general_metrics) Metrics on peaks for each sample: % blacklisted and non-standard peaks, peak widths, fragments, duplication rates. 
+
+2. [**Peak Overlap:**](#peak_overlap) Frequency, percentage, statistical significance of 
+overlapping and non-overlapping peaks. This also includes upset, precision-recall, and correlation plots. 
+
+3. [**Functional Annotation:**](#functional_annotation) Functional annotation (`ChromHMM` analysis, peak annotation, and enrichment analysis) of peaks. This also includes peak distributions around transcription start sites (TSS). 
 
 ***
 
-## 1. General Metrics {.tabset}
+## Input Datasets {-}
 
-### Peak Information 
+* Reference peakfile: `r names(reference_tidy)`
+* Total of `r length(peaklist_tidy)` peak files: 
+```{r list file names}
+# print peak file names and numerate 
+cat(paste0(" - File ",seq_len(length(names(peaklist_tidy))),": ",
+        names(peaklist_tidy),
+        collapse = "\n\n"))
+```
 
-Column Description:
+Processed, filtered and lifted files for: `peaklist`, `reference`, `blacklist`
 
-* PeakN before tidy: Total number of peaks including those blacklisted and those 
+```{r download processed peaks} 
+download_button(object = list(peaklist = peaklist,
+                              reference = reference_tidy,
+                              blacklist = blacklist),
+                save_output = params$save_output, 
+                filename = paste0("processed_peakfiles_",output_build), 
+                outfile_dir = outfile_dir)
+```
+
+## Command {-}
+
+The `EpiCompare` function call used to generate the report: 
+
+```{r report_command}
+cmd <- report_command(params = params, 
+                      peaklist_tidy = peaklist_tidy,
+                      reference_tidy = reference_tidy)
+cat(cmd)
+```
+
+
+***
+
+# General Metrics {#general_metrics .tabset}
+
+## Peak Information 
+
+### Column descriptions
+
+* **PeakN before tidy**: Total number of peaks including those blacklisted and those 
 in non-standard chromosomes. 
-* Blacklisted peaks removed (%): Percentage of blacklisted peaks in samples. 
-E.g. [ENCODE hg19 blacklist](https://www.encodeproject.org/files/ENCFF000KJP/) 
+* **Blacklisted peaks removed (%)**: Percentage of blacklisted peaks in samples. 
+e.g. [ENCODE hg19 blacklist](https://www.encodeproject.org/files/ENCFF000KJP/) 
 includes regions in the hg19 genome that have anomalous and/or unstructured 
 signals independent of the cell-line or experiment.
-* Non-standard peaks removed (%): Percentage of peaks in non-standard and/or 
+* **Non-standard peaks removed (%)**: Percentage of peaks in non-standard and/or 
 mitochondrial chromosomes.
 Identified using `BRGenomics::tidyChromosomes()`.  
-* PeakN after tidy: Total number of peaks after removing those in blacklisted 
+* **PeakN after tidy**: Total number of peaks after removing those in blacklisted 
 regions and non-standard chromosomes. 
 
-**NB**: EpiCompare uses *filtered* peakfiles (i.e. datasets after removing peaks
-in blacklisted regions and non-standard chromosomes)
+:information: **Note**: All `EpiCompare` analyses conducted on the peak files after they have been *filtered* (i.e. blacklisted regions and non-standard chromosomes removed) and lifted (as needed).
 
 <br>
 
-```{r, warning=FALSE, message=FALSE}
-# Run peak_info()
+```{r peak_info} 
 peak_info_df <- peak_info(peaklist = peaklist,
                           blacklist = blacklist)
+download_button(object = peak_info_df,
+                filename = "peak_info_df", 
+                output_extension = ".csv")
 # Print table 
-knitr::kable(peak_info_df, format = "markdown")
-# Save output
+knitr::kable(peak_info_df, format = "markdown") 
 save_output(save_output = params$save_output,
             file = peak_info_df,
             file_type = "data.frame",
             filename = "peak_info",
-            outpath = outfile_dir)
-# Remove variable
+            outpath = outfile_dir) 
 remove(peak_info_df)
 ```
 
 ***
 
-### Fragment Information
+## Fragment Information
 
 Metrics on fragments is shown only if Picard summary is provided. 
 See [manual](https://neurogenomics.github.io/EpiCompare/) for help. 
 
-Column Description:
+### Column descriptions
 
-* Mapped_Fragments: Number of mapped read pairs in the file. 
-* Duplication_Rate: Percentage of mapped sequence that is marked as duplicate.
-* Unique_Fragments: Number of mapped sequence that is not marked as duplicate. 
+* **Mapped_Fragments**: Number of mapped read pairs in the file. 
+* **Duplication_Rate**: Percentage of mapped sequence that is marked as duplicate.
+* **Unique_Fragments**: Number of mapped sequence that is not marked as duplicate. 
 
 <br>
 
-```{r, warning=FALSE, results='asis'}
-# Only if picard_files are provided, fragment_info() is executed 
+```{r picard_files} 
 if (!is.null(params$picard_files)){
   fragment_info_df <- fragment_info(picard_list = params$picard_files)
+  download_button(object = fragment_info_df,
+                  filename = "fragment_info",
+                  output_extension = ".csv")
   # Print data frame
-  print(knitr::kable(fragment_info_df, format = "markdown"))
-  # Save output 
+  knitr::kable(fragment_info_df, format = "markdown") 
   save_output(save_output = params$save_output,
               file = fragment_info_df,
               file_type = "data.frame",
               filename = "fragment_info",
-              outpath = outfile_dir)
-  # Remove variable
+              outpath = outfile_dir) 
   remove(fragment_info_df)
 }   
 ```
 
 ***
 
-### Peak widths 
+## Peak widths 
 
 Distribution of peak widths in samples 
 
 <br> 
 
-```{r,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
-# Boxplot of peak widths 
-width_plot <- width_boxplot(peaklist = peaklist_tidy)
-print(width_plot)
+```{r width_boxplot,fig.width=10,fig.height=fig_height} 
+width_plot <- width_boxplot(peaklist = peaklist_tidy, 
+                            interact = params$interact)
+download_button(object = width_plot,
+                filename = "width_boxplot",
+                self_contained = params$interact)
+width_plot$plot
 # Save boxplot
 save_output(save_output = params$save_output,
-            file = width_plot,
+            file = width_plot$plot,
             file_type = "ggplot",
             filename = "width_plot",
-            outpath = outfile_dir)
+            outpath = outfile_dir, 
+            interactive = params$interact)
 # Remove variable
 remove(width_plot)
 ```
 
 ***
 
-## 2. Peak Overlap {.tabset}
+# Peak Overlap {#peak_overlap .tabset}
 
-### Percentage Overlap  
+## Percentage Overlap  
 
 Percentage of overlapping peaks between samples. 
 Hover over heatmap for percentage values. 
 
-**NOTES**: How to interpret heatmap: [Samples in x-axis of heatmap] peaks in [Samples in y-axis of heatmap] peaks. In other words:  
-- *Recall: y-axis*: Percent of peaks in y-axis samples 
+The heatmap can be interpreted as follows: 
+
+* **Recall**: *y-axis*: Percent of peaks in y-axis samples 
 that overlap with peaks in x-axis samples. 
 in the x-axis samples.  
-- *Precision: x-axis*: Percent of peaks in x-axis samples 
+* **Precision**: *x-axis*: Percent of peaks in x-axis samples 
 that overlap with peaks in y-axis samples.  
 
 <br>
 
-```{r,warning=FALSE,message=FALSE,fig.width=10,fig.height=fig_height}
-# Execute overlap_heatmap()
+```{r overlap_heatmap,fig.width=10,fig.height=fig_height} 
 overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
                                    interact = params$interact)
-overlap_heatmap
+download_button(object = overlap_heatmap,
+                filename = "overlap_heatmap", 
+                self_contained = params$interact)
+overlap_heatmap$plot
+
 # Save output 
 save_output(save_output = params$save_output,
-            file = overlap_heatmap,
+            file = overlap_heatmap$plot,
             file_type = "ggplot",
             filename = "samples_percent_overlap",
             outpath = outfile_dir,
@@ -297,65 +328,70 @@ remove(overlap_heatmap)
 
 ***
 
-### Upset Plot 
+## Upset Plot 
 
 Upset plot of overlapping peaks between samples. See 
 [here](https://jokergoo.github.io/ComplexHeatmap-reference/book/upset-plot.html)
 on how to interpret the plot.   
 
-```{r,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE,results='asis'}
-# If TRUE, execute overlap_upset_plot()
-if(params$upset_plot){
+```{r overlap_upset_plot,fig.width=10,fig.height=fig_height}
+upset_plot <- NULL
+if(isTRUE(params$upset_plot)){
   upset_plot <- overlap_upset_plot(peaklist = peaklist_tidy)
-  print(upset_plot)
-  # Save output 
+  download_button(object = upset_plot,
+                  filename = "upset_plot") 
   save_output(save_output = params$save_output,
               file = upset_plot,
               file_type = "image",
               filename = "upset_plot",
               outpath = outfile_dir)
-  # Delete variable
-  remove(upset_plot)
 }
+upset_plot
+remove(upset_plot)
 ```
 
 ***
 
-### Statistical Significance  
+## Statistical Significance  
 
-Depending on the format of the reference file, EpiCompare outputs different 
+Depending on the format of the reference file, `EpiCompare` produces different 
 plots: 
 
-* Reference dataset has BED6+4 format (peak calling performed with MACS2): 
-EpiCompare generates paired boxplot 
-per sample showing the distribution of -log10(q-value) of reference peaks that 
+* **Reference dataset has BED6+4 format** (peak calling performed with [`MACS2`](https://github.com/macs3-project/MACS)): 
+`EpiCompare` generates paired boxplot 
+per sample showing the distribution of *-log10(q-value)* of reference peaks that 
 are overlapping and non-overlapping with the sample dataset. 
-* Reference dataset does not have BED6+4 format: EpiCompare generates a barplot 
+* **Reference dataset does not have BED6+4 format**: `EpiCompare` generates a barplot 
 of percentage of overlapping sample peaks with the reference. Statistical 
-significance (adjusted p-value) is written above each bar. 
+significance (*adjusted p-value*) is written above each bar. 
 
 **Reference peakfile**: `r names(reference_tidy)` 
 
-Keys:
+#### Keys
 
 * **Overlap**: Sample peaks in Reference peaks 
 * **Unique**: Sample peaks not in Reference peaks  
 
 <br>
 
-```{r,fig.width=10,warning=FALSE,message=FALSE,fig.height=fig_height}
-# Reference is provided AND stat_plot=TRUE, execute overlap_stat_plot() 
-if (!is.null(reference) && (params$stat_plot)){
+```{r overlap_stat_plot,fig.width=10,fig.height=fig_height} 
+if (needs_ref(params$stat_plot, reference)){
   stat_plot <- overlap_stat_plot(reference = reference_tidy,
                                  peaklist = peaklist,
-                                 annotation = txdb)
-  print(stat_plot[[1]])
+                                 txdb = txdb, 
+                                 interact = params$interact)
+  download_button(object = stat_plot,
+                  filename = "overlap_stat_plot", 
+                  button_label = "Download overlap stat plot",
+                  self_contained = params$interact)
+  stat_plot$plot
   # Save output 
   save_output(save_output = params$save_output,
-              file = stat_plot[[1]],
+              file = stat_plot$plot,
               file_type = "ggplot",
               filename = "stat_plot",
-              outpath = outfile_dir)
+              outpath = outfile_dir, 
+              interactive = params$interact)
   # Remove variables
   remove(stat_plot)
 }
@@ -363,7 +399,7 @@ if (!is.null(reference) && (params$stat_plot)){
 
 ***
 
-### Precision-Recall Curves
+## Precision-Recall Curves
 
 The first plot shows the balance between precision and recall across multiple peak calling stringency thresholds.  
 
@@ -376,51 +412,58 @@ The second plot shows F1 score
 - **F1**: `2*(precision*recall) / (precision+recall)`
 
 
-```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
+```{r precision_recall_plot,fig.width=7,fig.height=fig_height}
 pr_out <- NULL
-if(params$precision_recall_plot &&
-   (!is.null(reference))){
+if(needs_ref(params$precision_recall_plot, reference)){
     #### Create save path ####
     save_path <- if(isFALSE(params$save_output)){NULL}else{
         file.path(outfile_dir,"precision_recall.csv")
     }
     pr_out <- plot_precision_recall(peakfiles = peaklist, 
                                     reference = reference_tidy,
-                                    interact = params$interact,
                                     n_threshold = params$n_threshold,
                                     workers = params$workers,
                                     show_plot = FALSE,
-                                    save_path = save_path) 
+                                    verbose = FALSE,
+                                    save_path = save_path, 
+                                    interact = params$interact)
+    download_button(object = pr_out,
+                    filename = "precision_recall", 
+                    self_contained = params$interact)  
 }
 pr_out$precision_recall_plot
-cat("\n")
+cat("\n\n")
 pr_out$f1_plot
 remove(pr_out)
 ```
 
 ***
 
-### Correlation Plot
+## Correlation Plot
 
 The correlation plot shows the correlation between the quantiles when the genome
 is binned at a set size. These quantiles are based on the intensity of the peak,
 dependent on the peak caller used (q-value for MACS2):
 
-```{r,fig.width=7,warning=FALSE,message=FALSE,fig.height=fig_height}
+```{r Correlation Plot,fig.width=7,fig.height=fig_height}
 cp_out <- NULL
-if(params$corr_plot){
+if(isTRUE(params$corr_plot)){
     #### Create save path ####
     save_path <- if(isFALSE(params$save_output)){NULL}else{
         file.path(outfile_dir,"corr.csv.gz")
     }
     cp_out <- plot_corr(peakfiles = peaklist_tidy, 
+                        # reference can be NULL
                         reference = reference_tidy,
                         genome_build = output_build,
-                        interact = params$interact,
                         bin_size = params$bin_size,
                         workers = params$workers,
                         show_plot = FALSE,
-                        save_path = save_path) 
+                        save_path = save_path,
+                        interact = params$interact)  
+    download_button(object = cp_out,
+                    filename = "correlation_plot", 
+                    self_contained = params$interact)
 }
 cp_out$corr_plot
 remove(cp_out)
@@ -428,18 +471,19 @@ remove(cp_out)
 
 ***
 
-## 3. Functional Annotation 
+# Functional Annotation {#functional_annotation}
 
-### 3.1 ChromHMM {.tabset}
+## ChromHMM {.tabset}
 
-[ChromHMM](http://compbio.mit.edu/ChromHMM/#:~:text=ChromHMM%20is%20software%20for%20learning%20and%20characterizing%20chromatin%20states.&text=ChromHMM%20is%20based%20on%20a,one%20or%20more%20cell%20types.) 
-annotates and characterises peaks into different chromatin states. ChromHMM 
-annotations used in EpiCompare were obtained from
+[`ChromHMM`](http://compbio.mit.edu/ChromHMM/) annotates and characterises peaks into different chromatin states. 
+
+`ChromHMM` annotations used in `EpiCompare` were obtained from
 [here](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeBroadHmm/).
 
 * Cell-type annotation file used in this analysis: __`r params$chromHMM_annotation`__
 
-ChromHMM annotation 
+
+**ChromHMM annotation definitions:**
 
 <details>
 
@@ -461,97 +505,106 @@ ChromHMM annotation
 
 </details>
 
-#### All samples 
+<br>
+
+### All samples 
 
 ChromHMM annotation of individual samples. 
 
-```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-# If chromHMM_plot=TRUE, execute ChromHMM
-if(params$chromHMM_plot){
+```{r plot_chromHMM1, fig.width=9, fig.height=fig_height} 
+samples_chromHMM <- NULL
+if(isTRUE(params$chromHMM_plot)){
   # Get ChromHMM annotation file 
   chromHMM_list <- get_chromHMM_annotation(cell_line = params$chromHMM_annotation)
   # Plot chromHMM
   samples_chromHMM <- plot_chromHMM(peaklist = peaklist_tidy, 
-                                   chromHMM_annotation = chromHMM_list, 
-                                   genome_build = output_build,
-                                   interact = params$interact)
-  print(samples_chromHMM)
-  #Save output 
+                                    chromHMM_annotation = chromHMM_list, 
+                                    genome_build = output_build,
+                                    interact = params$interact)
+  download_button(object = samples_chromHMM,
+                  filename = "samples_ChromHMM",
+                  self_contained = params$interact) 
   save_output(save_output = params$save_output,
               file = samples_chromHMM,
               file_type = "ggplot",
               filename = "samples_ChromHMM",
               outpath = outfile_dir,
-              interactive = params$interact)
-  
-  #Remove variables
-  remove(samples_chromHMM)
+              interactive = params$interact)  
 }
+samples_chromHMM
+remove(samples_chromHMM)
 ```
 
-#### **Overlap**: Sample peaks in Reference peaks 
+### **Overlap**: Sample peaks in Reference peaks 
 
 Percentage of Sample peaks found in Reference peaks 
 (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
-if((params$chromHMM_plot && !is.null(reference))){
+```{r overlap_percent1, fig.width=9}
+if(needs_ref(params$chromHMM_plot, reference)){
   # generate data frame of percentage overlap 
   sample_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
                                       peaklist2 = reference_tidy,
                                       invert = FALSE)
-  knitr::kable(sample_in_ref_df, format = "markdown")
+  download_button(object = sample_in_ref_df,
+                  filename = "sample_in_ref_df",
+                  output_extension = ".csv")
+  knitr::kable(sample_in_ref_df, format = "markdown") 
 }
 ```
 
 ChromHMM annotation of sample peaks found in reference peaks.   
 
-```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-if((params$chromHMM_plot) && !is.null(reference)){
-    # Obtain overlapping peaks 
-    sample_in_ref_list <- mapply(peaklist_tidy, FUN=function(file){
-        IRanges::subsetByOverlaps(x = file, 
-                                  ranges = reference_tidy[[1]])
-    }) 
-    # Run ChromHMM
-    sample_in_ref_chromHMM <- plot_chromHMM(peaklist = sample_in_ref_list,
-                                            chromHMM_annotation = chromHMM_list,
-                                            genome_build = output_build,
-                                            interact = params$interact)
-    print(sample_in_ref_chromHMM)
-    
-    # Save output 
-    save_output(save_output = params$save_output,
-                file = sample_in_ref_chromHMM,
-                file_type = "ggplot",
-                filename = "sample_in_ref_ChromHMM",
-                outpath = outfile_dir,
-                interactive = params$interact)
-    
-    # Remove variables
-    remove(sample_in_ref_chromHMM)
+```{r plot_chromHMM2,fig.width=9, fig.height=fig_height}
+sample_in_ref_chromHMM <- NULL
+if(needs_ref(params$chromHMM_plot, reference)){ 
+  # Obtain overlapping peaks 
+  sample_in_ref_list <- mapply(peaklist_tidy, FUN=function(file){
+      IRanges::subsetByOverlaps(x = file, 
+                                ranges = reference_tidy[[1]])
+  }) 
+  # Run ChromHMM
+  sample_in_ref_chromHMM <- plot_chromHMM(peaklist = sample_in_ref_list,
+                                          chromHMM_annotation = chromHMM_list,
+                                          genome_build = output_build,
+                                          interact = params$interact)
+  download_button(object = sample_in_ref_chromHMM,
+                filename = "sample_in_ref_chromHMM", 
+                self_contained = params$interact) 
+  save_output(save_output = params$save_output,
+              file = sample_in_ref_chromHMM,
+              file_type = "ggplot",
+              filename = "sample_in_ref_ChromHMM",
+              outpath = outfile_dir,
+              interactive = params$interact)  
 }
+sample_in_ref_chromHMM
+remove(sample_in_ref_chromHMM)
 ```
 
-#### **Overlap**: Reference peaks in Sample peaks 
+### **Overlap**: Reference peaks in Sample peaks 
 
 Percentage of Reference peaks found in Sample peaks 
 (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
-if ((params$chromHMM_plot) && !is.null(reference)){
+```{r overlap_percent2, fig.width=9}
+if (needs_ref(params$chromHMM_plot, reference)){
     # Data frame of overlapping peaks 
     ref_in_sample_df <- overlap_percent(peaklist1 = reference_tidy,
                                         peaklist2 = peaklist_tidy,
                                         invert = FALSE)
-    knitr::kable(ref_in_sample_df, format = "markdown")
+   download_button(object = ref_in_sample_df,
+                  filename = "ref_in_sample_df",
+                  output_extension = ".csv")
+   knitr::kable(ref_in_sample_df, format = "markdown")
 }
 ```
 
 ChromHMM annotation of reference peaks found in sample peaks.   
 
-```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-if ((params$chromHMM_plot) && !is.null(reference)){
+```{r plot_chromHMM3, fig.width=9, fig.height=fig_height}
+ref_in_sample_chromHMM <- NULL
+if (needs_ref(params$chromHMM_plot, reference)){
   # Subset overlapping peaks
   ref_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
     IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
@@ -562,40 +615,43 @@ if ((params$chromHMM_plot) && !is.null(reference)){
                                           chromHMM_annotation = chromHMM_list,
                                           genome_build = output_build,
                                           interact = params$interact)
-  print(ref_in_sample_chromHMM)
-  
-  # Save output
+  download_button(object = ref_in_sample_chromHMM,
+                  filename = "ref_in_sample_chromHMM", 
+                  self_contained = params$interact)  
   save_output(save_output = params$save_output,
               file = ref_in_sample_chromHMM,
               file_type = "ggplot",
               filename = "ref_in_sample_ChromHMM",
               outpath = outfile_dir,
-              interactive = params$interact)
-  
-  # Remove variable
-  remove(ref_in_sample_chromHMM)
+              interactive = params$interact) 
 }
+ref_in_sample_chromHMM
+remove(ref_in_sample_chromHMM)
 ```
 
-#### **Unique**: Sample peaks not in Reference peaks 
+### **Unique**: Sample peaks not in Reference peaks 
 
 Percentage of sample peaks not found in reference peaks 
 (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
-if ((params$chromHMM_plot) && !is.null(reference)){
+```{r overlap_percent3, fig.width=9}
+if (needs_ref(params$chromHMM_plot, reference)){
   # Data frame of non-overlapping peaks 
   sample_not_in_ref_df <- overlap_percent(peaklist1 = peaklist_tidy,
                                           peaklist2 = reference_tidy,
                                           invert = TRUE)
+  download_button(object = sample_not_in_ref_df,
+                  filename = "sample_not_in_ref_df", 
+                  output_extension = ".csv")
   knitr::kable(sample_not_in_ref_df, format = "markdown")
 }
 ```
 
 ChromHMM annotation of sample peaks not found in reference peaks. 
 
-```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-if ((params$chromHMM_plot) && !is.null(reference)){
+```{r plot_chromHMM4, fig.width=9, fig.height=fig_height}
+sample_not_in_ref_chromHMM <- NULL
+if (needs_ref(params$chromHMM_plot, reference)){
   sample_not_in_ref_list <- mapply(peaklist_tidy, FUN = function(file){
     IRanges::subsetByOverlaps(x = file, 
                               ranges = reference_tidy[[1]], 
@@ -606,41 +662,43 @@ if ((params$chromHMM_plot) && !is.null(reference)){
                                             chromHMM_annotation = chromHMM_list,
                                             genome_build = output_build,
                                             interact = params$interact)
-  print(sample_not_in_ref_chromHMM)
-  
-  # Save output 
+  download_button(object = sample_not_in_ref_chromHMM,
+                 filename = "sample_not_in_ref_chromHMM", 
+                 self_contained = params$interact)  
   save_output(save_output = params$save_output,
               file = sample_not_in_ref_chromHMM,
               file_type = "ggplot",
               filename = "sample_not_in_ref_ChromHMM",
               outpath = outfile_dir,
-              interactive = params$interact)
-  
-  # Remove variable
-  remove(sample_not_in_ref_chromHMM)
-}
-
+              interactive = params$interact)  
+} 
+sample_not_in_ref_chromHMM
+remove(sample_not_in_ref_chromHMM)
 ```
 
-#### **Unique**: Reference peaks not in Sample peaks 
+### **Unique**: Reference peaks not in Sample peaks 
 
 Percentage of reference peaks not found in sample peaks 
 (**Reference peakfile: `r names(reference_tidy)`**)
 
-```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis'}
-if ((params$chromHMM_plot) && !is.null(reference)){
+```{r overlap_percent4, fig.width=9}
+if (needs_ref(params$chromHMM_plot, reference)){
   # Data frame of non-overlapping peaks 
   ref_not_in_sample_df <- overlap_percent(peaklist1 = reference_tidy,
                                           peaklist2 = peaklist_tidy,
                                           invert = TRUE)
+  download_button(object = ref_not_in_sample_df,
+                  filename = "ref_not_in_sample_df", 
+                  output_extension = ".csv")
   knitr::kable(ref_not_in_sample_df, format = "markdown")
 }
 ```
 
 ChromHMM annotation of reference peaks not found in sample peaks. 
 
-```{r, fig.width=9, warning=FALSE, message=FALSE, results='asis', fig.height=fig_height}
-if ((params$chromHMM_plot) && !is.null(reference)){
+```{r plot_chromHMM5, fig.width=9, fig.height=fig_height}
+ref_not_in_sample_chromHMM <- NULL
+if (needs_ref(params$chromHMM_plot, reference)){
   # Subset unique peaks 
   ref_not_in_sample_list <- mapply(peaklist_tidy, FUN = function(file){
     IRanges::subsetByOverlaps(x = reference_tidy[[1]], 
@@ -652,154 +710,183 @@ if ((params$chromHMM_plot) && !is.null(reference)){
                                             chromHMM_annotation = chromHMM_list,
                                             genome_build = output_build,
                                             interact = params$interact)
-  print(ref_not_in_sample_chromHMM)
-  
-  # Save output
+  download_button(object = ref_not_in_sample_chromHMM,
+                  filename = "ref_not_in_sample_chromHMM", 
+                  self_contained = params$interact)  
   save_output(save_output = params$save_output,
               file = ref_not_in_sample_chromHMM,
               file_type = "ggplot",
               filename = "ref_not_in_sample_ChromHMM",
               outpath = outfile_dir,
-              interactive = params$interact)
-  # Remove variable 
-  remove(ref_not_in_sample_chromHMM)
+              interactive = params$interact) 
 }
+ref_not_in_sample_chromHMM
+remove(ref_not_in_sample_chromHMM)
 ```
 
 ***
 
-### 3.2 ChIPseeker 
+## Annotate Peaks 
 
-EpiCompare uses `ChIPseeker::annotatePeak()` to annotate peaks with the nearest 
+`EpiCompare` uses `ChIPseeker::annotatePeak()` to annotate peaks with the nearest 
 gene and genomic regions where the peak is located. The peaks are annotated 
-with genes taken from human genome annotations (hg19 or hg38) provided by 
-Bioconductor.
+with genes taken from human genome annotations (hg19 or hg38) distributed by 
+[*Bioconductor*](https://bioconductor.org/).
 
-```{r, fig.width=9, warning=FALSE, message=FALSE}
-# if set TRUE, generate chipseeker annotation plot 
-if(params$chipseeker_plot){
-  chipseeker_plot <- plot_ChIPseeker_annotation(peaklist = peaklist_tidy,
-                                                annotation = txdb)
-  print(chipseeker_plot)
-  # Save output 
+```{r Annotate Peaks, fig.width=9} 
+chipseeker_plot <- NULL
+if(isTRUE(params$chipseeker_plot)){
+  chipseeker_plot <- plot_ChIPseeker_annotation(
+    peaklist = peaklist_tidy,
+    txdb = txdb, 
+    tss_distance = params$tss_distance,
+    interact = params$interact)
+  download_button(object = chipseeker_plot,
+                  filename = "chipseeker_plot", 
+                  self_contained = params$interact) 
   save_output(save_output = params$save_output,
               file = chipseeker_plot,
               file_type = "ggplot",
               filename = "chipseeker_annotation",
-              outpath = outfile_dir)
-  # Remove variable
-  remove(chipseeker_plot)
+              outpath = outfile_dir, 
+              interactive = params$interact) 
 }
+chipseeker_plot
+remove(chipseeker_plot)
 ```
 
 ***
 
-### 3.3 Functional Enrichment Analysis {.tabset}
+## Functional Enrichment Analyses {.tabset}
 
-EpiCompare performs KEGG pathway and GO enrichment analysis using 
+`EpiCompare` performs KEGG pathway and GO enrichment analysis using 
 `clusterProfiler`. `ChIPseeker::annotatePeak()` is first used to assign peaks 
 to nearest genes. Biological themes amongst the genes are identified using 
 ontologies (KEGG and GO). The peaks are annotated with genes taken from 
 annotations of human genome (hg19 or hg38) provided by Bioconductor.
 
 
-```{r, warning=FALSE, message=FALSE, include=FALSE}
-# Run plot_enrichment()
-if (params$enrichment_plot){
+```{r plot_enrichment} 
+enrichment_plots <- NULL
+if (isTRUE(params$enrichment_plot)){
   enrichment_plots <- plot_enrichment(peaklist = peaklist_tidy,
-                                      annotation = txdb)
-  KEGG_plot <- enrichment_plots[[1]]
-  GO_plot <- enrichment_plots[[2]]
-  
-  # Remove variable
-  remove(enrichment_plots)
-  
+                                      txdb = txdb, 
+                                      tss_distance = params$tss_distance,
+                                      interact = params$interact) 
   # Figure height
-  max_terms <- max(length(unique(KEGG_plot$data$Description)),
-                   length(unique(GO_plot$data$Description)))
+  max_terms <- max(
+    length(unique(enrichment_plots$kegg_plot$data$Description)),
+    length(unique(enrichment_plots$go_plot$data$Description))
+  )
   fig_height <- fig_length(default_size = 10,
-                                      number_of_items = max_terms,
-                                      max_items = 20)
+                           number_of_items = max_terms,
+                           max_items = 20)
 }
 ```
 
 ***
 
-#### KEGG
+### KEGG
 
-```{r,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
-if (params$enrichment_plot){
-  print(KEGG_plot)
-  # Save output 
+[Kyoto Encyclopedia of Genes and Genomes (KEGG)](https://www.genome.jp/kegg) enrichment results.
+
+```{r KEGG_plot,fig.width=10,fig.height=fig_height}
+if (isTRUE(params$enrichment_plot)){
+  download_button(object = enrichment_plots$kegg_plot,
+                  filename = "KEGG_plot", 
+                  self_contained = params$interact)  
   save_output(save_output = params$save_output,
-              file = KEGG_plot,
+              file = enrichment_plots$kegg_plot,
               file_type = "ggplot",
               filename = "KEGG_analysis",
-              outpath = outfile_dir)
-  # Remove variable
-  remove(KEGG_plot)
+              outpath = outfile_dir, 
+              interactive = params$interact)
 }
+enrichment_plots$kegg_plot
 ```
 
 ***
 
-#### GO 
+### GO 
+
+[Gene Ontology (GO)](http://geneontology.org/) enrichment results.
+
+**GeneRatio definition**:
 
 <details>
-
-GeneRatio is the number of observed genes divided by the number of expected genes
+*GeneRatio* is the number of observed genes divided by the number of expected genes
 from each GO category. GO terms can be useful when assessing different biological
 themes present in each epigenomic dataset. 
-
 </details>
 
-```{r,fig.width=10,fig.height=fig_height,warning=FALSE,message=FALSE}
-if (params$enrichment_plot){
-  print(GO_plot)
-  # Save output 
+```{r GO_plot,fig.width=10,fig.height=fig_height}
+if (isTRUE(params$enrichment_plot)){
+  download_button(object = enrichment_plots$go_plot,
+                  filename = "GO_plot", 
+                  self_contained = params$interact) 
   save_output(save_output = params$save_output,
-              file = GO_plot,
+              file = enrichment_plots$go_plot,
               file_type = "ggplot",
               filename = "GO_analysis",
-              outpath = outfile_dir)
-  # Remove variable
-  remove(GO_plot)
-}
-
+              outpath = outfile_dir,
+              interactive = params$interact)  
+} 
+enrichment_plots$go_plot
 ```
+
+```{r}
+remove(enrichment_plots)
+```
+
 
 ***
 
-### 3.4 Peak Frequency around TSS 
+## Peak Frequency around TSS 
 
 This plots peaks that are mapping to transcriptional start sites (TSS). 
-TSS regions are defined as the flanking sequence of the TSS sites. 
-The frequency of peaks upstream (-3000bp) and downstream (+3000bp) of 
-TSS is plotted. Faint color line around the main frequency line represents 
-the 95% confidence interval estimated by bootstrap method. 
+TSS regions are defined as the flanking sequence of the TSS sites.   
+
+* By default, this function plots the frequency of peaks upstream (*-3000bp*) 
+and downstream (*default: +3000bp*) of TSS. These ranges can be adjusted with 
+the argument `EpCompare(tss_distance=)`. 
+
+* The grey area around the main frequency line represents 
+the 95% confidence interval estimated by bootstrapping. 
 
 
-```{r,fig.height=3,fig.width=10,warning=FALSE,message=FALSE}
-# Run tss_plot()
-if (params$tss_plot){
+```{r tss_plots,fig.height=3,fig.width=10} 
+tssplt <- NULL
+if (isTRUE(params$tss_plot)){
   tssplt <- tss_plot(peaklist = peaklist_tidy,
-                     annotation = txdb,
-                     workers = params$workers)
-  # Print plot
-    for (plot in tssplt){
-      print(plot)
-    }
+                     txdb = txdb,
+                     tss_distance = params$tss_distance,
+                     workers = params$workers,
+                     interact = params$interact)
+  download_button(object = tssplt,
+                  filename = "tss_plots", 
+                  self_contained = params$interact)
 }
+tssplt
+remove(tssplt,p)
+```
+
+# Citation {-}
+
+If you use `EpiCompare`, please cite: 
+
+```{r} 
+cat(utils::citation("EpiCompare")$textVersion)
 ```
 
 
-### 4. Session Info
+# Session Info {-}
 
 <details> 
 
-```{r Session Info}
+```{r Session Info, results='markup'}
 utils::sessionInfo()
 ```
 
-</details>  
+</details> 
+<hr>
 

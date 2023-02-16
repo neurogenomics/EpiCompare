@@ -1,0 +1,61 @@
+:root {
+  /* #99c43c */ 
+  --c1: #22983B;
+  --c2: #007c7c; 
+  --c3: #377bb5;
+}
+
+
+.header-section-number::after {
+  content: ".";
+}
+
+#main .nav-pills > li.active > a,
+#main .nav-pills > li.active > a:hover,
+#main .nav-pills > li.active > a:focus {
+    color: var(--c1);
+}
+
+#main .nav-pills > li > a:hover {
+    color: var(--c1);
+}
+
+h1 {
+    color: var(--c1);
+}
+
+h2 {
+    color: var(--c2);
+}
+
+h3, h4, h5, h6, legend {
+    color: var(--c3);
+}
+
+#nav-top span.glyphicon {
+    color: var(--c1);
+}
+
+/* From: https://stackoverflow.com/a/42586042 */
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    z-index: 2;
+    color: #fff;
+    background-color: var(--c2);
+    border-color: var(--c3);
+}
+
+.btn-success {
+  background-color: var(--c3);
+}
+
+a {
+  color: var(--c2);
+}
+a:hover {
+    color: var(--c1);
+}
+
+a:visited {
+    color: var(--c3);
+}
+
