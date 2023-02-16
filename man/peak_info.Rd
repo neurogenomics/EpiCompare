@@ -31,6 +31,5 @@ peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
 
 ### Run ###
 df <- peak_info(peaklist = peaklist,
-                blacklist = hg19_blacklist)
-
+                blacklist = hg19_blacklist) 
 }

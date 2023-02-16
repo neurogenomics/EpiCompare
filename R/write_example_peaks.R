@@ -21,12 +21,12 @@ write_example_peaks <- function(dir = file.path(tempdir(),
   save_paths <- vapply(datasets, function(x){
     save_path <- file.path(dir,paste0(x,".narrowPeaks.bed"))
     message("Writing ==> ",save_path)
-    #save in bed format - rtracklayer doesn't work for soem reason
+    #save in bed format - rtracklayer doesn't work for some reason
     #use get(x) to get the dataset from the package named char stored in x
     #rtracklayer::export.bed(get(x),con=save_path)
     #rtracklayer::export(get(x),con=save_path,format="narrowPeak",
     #                    extraCols = extraCols_narrowPeak)
-    utils::data(list = x)
+    utils::data(list = x, package = "EpiCompare")
     plyranges::write_narrowpeaks(get(x),file=save_path)
     return(save_path)
   }, character(1))

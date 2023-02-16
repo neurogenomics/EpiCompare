@@ -12,7 +12,8 @@ test_that("rebin_peaks works", {
     #### With selected chroms ####
     peakfiles_rebinned <- EpiCompare::rebin_peaks(peakfiles = peakfiles,
                                                   genome_build = "hg19",
-                                                  bin_size = 5000)
+                                                  bin_size = 5000,
+                                                  workers = 1)
     testthat::expect_true(methods::is(peakfiles_rebinned,"Matrix"))
     testthat::expect_equal(dim(peakfiles_rebinned),c(647114,2))
     
@@ -21,7 +22,8 @@ test_that("rebin_peaks works", {
     peakfiles_rebinned2 <- EpiCompare::rebin_peaks(peakfiles = peakfiles,
                                                    keep_chr = keep_chr,
                                                    genome_build = "hg19",
-                                                   bin_size = 5000)
+                                                   bin_size = 5000,
+                                                   workers = 1)
     testthat::expect_true(methods::is(peakfiles_rebinned2,"Matrix"))
     testthat::expect_equal(dim(peakfiles_rebinned2),c(416959,2))
 })

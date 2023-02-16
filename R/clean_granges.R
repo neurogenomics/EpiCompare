@@ -18,7 +18,7 @@ clean_granges <- function(gr,
                                          "start", 
                                          "end", 
                                          "width", 
-                                         "element")){ 
+                                         "element")){  
     cnames <- colnames(GenomicRanges::mcols(gr))
     rm_cols <- cnames[cnames %in% nono_cols]
     if(length(rm_cols)>0){

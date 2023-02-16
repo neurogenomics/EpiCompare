@@ -10,7 +10,7 @@ gather_files(
   nfcore_cutandrun = FALSE,
   return_paths = FALSE,
   rbind_list = FALSE,
-  workers = 1,
+  workers = check_workers(),
   verbose = TRUE
 )
 }
@@ -39,10 +39,9 @@ in as \link[GenomicRanges]{GRanges}.}
 
 \item{rbind_list}{Bind all objects into one.}
 
-\item{workers}{
-    \code{integer(1)} Number of workers. Defaults to all cores available as
-    determined by \code{detectCores}.
-  }
+\item{workers}{Number of cores to parallelise across 
+(in applicable functions).
+If \code{NULL}, will set to the total number of available cores minus 1.}
 
 \item{verbose}{Print messages.}
 }
@@ -71,5 +70,7 @@ and farthest downstream bases within the denoted coordinates
 save_paths <- EpiCompare::write_example_peaks()
 dir <- unique(dirname(save_paths))
 #### Gather/import files ####
-peaks <- EpiCompare::gather_files(dir=dir, type="peaks.narrow")
+peaks <- EpiCompare::gather_files(dir=dir, 
+                                  type="peaks.narrow",
+                                  workers = 1)
 }

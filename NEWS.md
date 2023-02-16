@@ -1,3 +1,71 @@
+## CHANGES IN VERSION 1.3.3
+
+### New features
+
+* `download_button`:
+  - Saves and downloads files.
+* `prepare_blacklist`:
+  - Auto-selects appropriate blacklist, or returns user-specified option.
+  - `EpiCompare(blacklist=NULL)` is now the default.
+* `prepare_genome_builds`:
+  - Update to handle supplying builds for "peakfiles" and "reference" 
+    but not "blacklist" 
+    (so long as the `blacklist` arg is not a user-supplied `GRanges` object)
+* Added `mm9_blacklist` 
+* Made more plots interactive:
+  - `width_boxplot`
+  - `plot_enrichment`
+  - `plot_ChIPseeker_annotation`
+* `overlap_stat_plot`
+  - Name elements in output list.
+* Change `annotation` arg to more informative `txdb` arg, 
+  and set default to `NULL`, which `ChIPseeker` functions will 
+  automatically handle.
+* New function `as_interactive`:
+  - Help standardise this.
+* New `EpiCompare::EpiCompare` arguments:
+  - `error`: keep knitting even on errors.
+  - `tss_distance`: upstream/downstream of TSS.
+  - `quiet`: knit quietly
+* Rename *'test-EpiCompare_combinations.R'* --> *'test-EpiCompare.R'*
+* Separate *test-generalMetrics_functions.R* into function-specific test files.
+* Separate *test-peakOverlap_functions.R* into function-specific test files.
+* Make fancy header with new func:
+  - `report_header()`
+* Create `EpiCompare` command code as text:
+  - `report_command()`
+* `width_boxplot`:
+  - Make more efficient with `data.table` and `lapply`
+* Update hex sticker to match *custom.css* palette.
+* *README.Rmd*
+  - Collapse more detailed sections.
+
+### Bug fixes
+
+* `tss_plot`:
+  - Fix examples/tests after Sera updated the arguments.
+  - Pass upstream/downstream to `ChIPseeker::getTagMatrix`
+  - Make interactive
+  - Name plots in list
+  - Remove unnecessary extra level of list nesting.
+* Make documentation width <80 lines where possible.
+* *EpiCompare.Rmd*
+  - Remove `methods::show` from all parts
+  - Name all chunks
+  - Make explanations more clear
+  - Add table of contents for main 3 sections.
+  - Fix header levels 
+  - Set `results='asis'` globally instead of in each chunk header. 
+  - Automatically number sections with yaml arg: `number_sections: true`
+  - Omit specific headers from numbering system with `{-}` tags.
+  - Add *custom.css*
+* `plot_chromHMM`:
+  - `Error in (function (classes, fdef, mtable) unable to find an inherited method for function ‘annotateWithFeatures’ for signature ‘"SimpleGRangesList", "list"’`
+  - Misleading error message; was actually due to `chromHMM_annotation` 
+    not being converted from a list to a `GRangesList`.
+  - Change yaml arg `peakfile` --> `peakfiles` 
+    to be consistent with other variables.
+
 ## CHANGES IN VERSION 1.3.1
 
 ### New features
@@ -16,7 +84,7 @@
   - Add unit tests 
   - Drastically reduce example/test runtime by setting `upstream=50`
 * `compute_corr`:
-  - Reduce exampl runtime by setting ` bin_size = 200000` (takes <2s).
+  - Reduce example runtime by setting ` bin_size = 200000` (takes <2s).
 
 ### Bug fixes
 

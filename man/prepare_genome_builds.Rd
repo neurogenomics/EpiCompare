@@ -4,7 +4,7 @@
 \alias{prepare_genome_builds}
 \title{Prepare genome builds}
 \usage{
-prepare_genome_builds(genome_build)
+prepare_genome_builds(genome_build, blacklist = NULL)
 }
 \arguments{
 \item{genome_build}{A named list indicating the human genome build used to
@@ -24,6 +24,25 @@ This should \emph{only} be done in situations where all three inputs
 (\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same
 genome build. For example:\cr
 \code{genome_build = "hg19"}}
+
+\item{blacklist}{A \link[GenomicRanges]{GRanges} object
+ containing blacklisted genomic regions.
+Blacklists included in \pkg{EpiCompare} are:
+\itemize{
+\item{\code{NULL} (default): }{Automatically selects the appropriate
+ blacklist based on the \code{genome_build_output} argument.}
+\item{"hg19_blacklist": }{Regions of hg19 genome that have anomalous
+and/or unstructured signals. \link[EpiCompare]{hg19_blacklist}}
+\item{"hg38_blacklist": }{Regions of hg38 genome that have anomalous
+and/or unstructured signals. \link[EpiCompare]{hg38_blacklist}}
+\item{"mm10_blacklist": }{Regions of mm10 genome that have anomalous
+and/or unstructured signals. \link[EpiCompare]{mm10_blacklist}} 
+\item{"mm9_blacklist": }{Blacklisted regions of mm10 genome that have been
+ lifted over from \link[EpiCompare]{mm10_blacklist}. 
+ \link[EpiCompare]{mm9_blacklist}} 
+\item{\code{<user_input>}: }{A custom user-provided blacklist in 
+\link[GenomicRanges]{GRanges} format.}
+}}
 }
 \value{
 Named list.

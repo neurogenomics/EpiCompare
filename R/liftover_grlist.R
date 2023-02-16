@@ -52,7 +52,11 @@ liftover_grlist <- function(grlist,
     if(input_build==output_build){
         messager("grlist is already in the output_build format.",
                  "Skipping liftover.",v=verbose)
-        ## Exit early
+      if(isTRUE(as_grangeslist)){
+        messager("Converting to GRangesList.",v=verbose)
+        grlist <- GenomicRanges::GRangesList(grlist,
+                                             compress = FALSE) 
+      }
         return(grlist)
     } 
     #### Check if it's a single element ####
@@ -83,18 +87,19 @@ liftover_grlist <- function(grlist,
     })    
     #### Clean up chroms ####
     grlist_lifted <- remove_nonstandard_chrom(grlist = grlist_lifted, 
-                                              keep_chr = keep_chr)
+                                              keep_chr = keep_chr,
+                                              verbose = verbose)
     #### Merge list into one ####
-    if(merge_all) as_grangeslist <- TRUE
-    if(as_grangeslist){
+    if(isTRUE(merge_all)) as_grangeslist <- TRUE
+    if(isTRUE(as_grangeslist)){
         messager("Converting to GRangesList.",v=verbose)
         grlist_lifted <- GenomicRanges::GRangesList(grlist_lifted, 
                                                     compress = FALSE) 
     }
-    if(merge_all){
+    if(isTRUE(merge_all)){
         messager("Merging all GRanges into one.",v=verbose)
         grlist_lifted <- unlist(grlist_lifted)
     }
-    if(tmp_list) grlist_lifted <- grlist_lifted[[1]]
+    if(isTRUE(tmp_list)) grlist_lifted <- grlist_lifted[[1]]
     return(grlist_lifted)
 }

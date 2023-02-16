@@ -35,6 +35,7 @@
 #' in as \link[GenomicRanges]{GRanges}. 
 #' @param rbind_list Bind all objects into one.
 #' @param verbose Print messages. 
+#' @inheritParams check_workers
 #' @inheritParams BiocParallel::MulticoreParam 
 #' @returns A named list of \link[GenomicRanges]{GRanges} objects.
 #'
@@ -48,13 +49,15 @@
 #' save_paths <- EpiCompare::write_example_peaks()
 #' dir <- unique(dirname(save_paths))
 #' #### Gather/import files ####
-#' peaks <- EpiCompare::gather_files(dir=dir, type="peaks.narrow")
+#' peaks <- EpiCompare::gather_files(dir=dir, 
+#'                                   type="peaks.narrow",
+#'                                   workers = 1)
 gather_files <- function(dir,
                          type = "peaks.stringent",
                          nfcore_cutandrun = FALSE,
                          return_paths = FALSE,
                          rbind_list = FALSE,
-                         workers = 1,
+                         workers = check_workers(),
                          verbose = TRUE){
 
   #### Parse type arg ####

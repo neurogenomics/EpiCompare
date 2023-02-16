@@ -19,11 +19,9 @@
 #' @examples
 #' ### Load Data ###
 #' data("encode_H3K27ac") # load example data
-#' data("CnT_H3K27ac") # load example data
-#' ### Create Named List ###
-#' peakfile <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
-#' ### Run ###
-#' my_plot <- overlap_upset_plot(peaklist = peakfile)
+#' data("CnT_H3K27ac") # load example data 
+#' peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac) 
+#' my_plot <- overlap_upset_plot(peaklist = peaklist)
 overlap_upset_plot <- function(peaklist,
                                verbose=TRUE){
     
@@ -42,7 +40,8 @@ overlap_upset_plot <- function(peaklist,
   # So it doesn't interfere
   for(i in seq_len(length(peaklist))){
     my_label <- make.unique(rep("name",
-                           ncol(GenomicRanges::elementMetadata(peaklist[[i]]))))
+                           ncol(GenomicRanges::elementMetadata(peaklist[[i]])))
+                           )
     colnames(GenomicRanges::elementMetadata(peaklist[[i]])) <- my_label
   }
   ### Erase Names ###
@@ -89,5 +88,6 @@ overlap_upset_plot <- function(peaklist,
   report_time(t1 = t1,
               func="overlap_upset_plot",
               verbose = verbose)
-  return(plt)
+  return(list(plot=plt,
+              data=overlap_df))
 }

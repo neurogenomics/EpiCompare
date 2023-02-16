@@ -9,6 +9,7 @@ test_that("plot_corr works", {
     cp_out <- plot_corr(peakfiles = peakfiles,
                         reference = reference,
                         genome_build = "hg19", 
+                        workers = 1,
                         bin_size = 5000)
     testthat::expect_equal(nrow(cp_out$data), 3)
     testthat::expect_equal(round(mean(cp_out$data, na.rm=TRUE),2), 0.63)

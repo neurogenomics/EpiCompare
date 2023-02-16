@@ -11,7 +11,7 @@ plot_precision_recall(
   initial_threshold = 0,
   n_threshold = 20,
   max_threshold = 1,
-  workers = 1,
+  workers = check_workers(),
   plot_f1 = TRUE,
   subtitle = NULL,
   color = "peaklist1",
@@ -19,7 +19,8 @@ plot_precision_recall(
   facets = "peaklist2 ~ .",
   interact = FALSE,
   show_plot = TRUE,
-  save_path = tempfile(fileext = "precision_recall.csv")
+  save_path = tempfile(fileext = "precision_recall.csv"),
+  verbose = TRUE
 )
 }
 \arguments{
@@ -64,8 +65,7 @@ control.}
 
 \item{max_threshold}{Maximum threshold to test.}
 
-\item{workers}{Number of cores to parallelise across 
-(in applicable functions).}
+\item{workers}{Number of threads to parallelize across.}
 
 \item{plot_f1}{Generate a plot with the F1 score vs. threshold as well.}
 
@@ -78,12 +78,14 @@ control.}
 \item{facets}{This argument is soft-deprecated, please use \code{rows}
 and \code{cols} instead.}
 
-\item{interact}{Default TRUE. By default, all heatmaps are interactive.
-If set FALSE, all heatmaps in the report will be static.}
+\item{interact}{Default TRUE. By default, plots are interactive.
+If set FALSE, all plots in the report will be static.}
 
 \item{show_plot}{Show the plot.}
 
 \item{save_path}{File path to save precision-recall results to.}
+
+\item{verbose}{Print messages.}
 }
 \value{
 list with data and precision recall and F1 plots
@@ -112,5 +114,6 @@ peakfiles <- list(CnR_H3K27ac=CnR_H3K27ac, CnT_H3K27ac=CnT_H3K27ac)
 reference <- list("encode_H3K27ac" = encode_H3K27ac)
 
 pr_out <- plot_precision_recall(peakfiles = peakfiles,
-                                reference = reference)
+                                reference = reference,
+                                workers = 1)
 }

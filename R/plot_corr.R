@@ -6,28 +6,28 @@
 #' @param show_plot Show the plot. 
 #' @inheritParams compute_corr
 #' @inheritParams rebin_peaks
-#' @inheritParams EpiCompare 
+#' @inheritParams check_workers 
 #' @inheritParams precision_recall_matrix
 #' @inheritParams overlap_heatmap
 #' @return list with correlation plot (corr_plot) and correlation matrix (data)
 #' 
 #' @export 
-#' @importFrom stringr str_wrap
-#' @importFrom plotly ggplotly
+#' @importFrom stringr str_wrap 
 #' @examples 
 #' data("CnR_H3K27ac")
 #' data("CnT_H3K27ac")
 #' data("encode_H3K27ac")
 #' peakfiles <- list(CnR_H3K27ac=CnR_H3K27ac, CnT_H3K27ac=CnT_H3K27ac)
 #' reference <- list("encode_H3K27ac"=encode_H3K27ac)
-#' 
-#' #increasing bin_size for speed but lower values will give more granular corr
+#' ## Increasing bin_size for speed here,
+#' ## but lower values will give more precise results (and lower correlations)
 #' cp <- plot_corr(peakfiles = peakfiles,
 #'                 reference = reference,
 #'                 genome_build = "hg19",
-#'                 bin_size = 5000)
+#'                 bin_size = 5000,
+#'                 workers = 1)
 plot_corr <- function(peakfiles,
-                      reference,
+                      reference = NULL,
                       genome_build,
                       bin_size = 5000,
                       keep_chr = NULL,
@@ -40,7 +40,7 @@ plot_corr <- function(peakfiles,
                       interact=FALSE,
                       draw_cellnote=TRUE,
                       fill_diag=NA,
-                      workers=1,
+                      workers=check_workers(),
                       show_plot=TRUE,
                       save_path = tempfile(fileext = ".corr.csv.gz")){
     
@@ -62,7 +62,7 @@ plot_corr <- function(peakfiles,
                              intensity_cols = intensity_cols,
                              fill_diag = fill_diag,
                              workers = workers,
-                             save_path = save_path,) 
+                             save_path = save_path) 
     #### Plot correlation plot ####
     # diag(corr_mat) <- NA
     corr_mat_melt <- reshape2::melt(data = corr_mat,
@@ -102,6 +102,7 @@ plot_corr <- function(peakfiles,
         #### plotly #### 
         plt <- heatmap_plotly(X=corr_mat)
       } 
+      plt <- as_interactive(plt)
     }
     #### With corrplot ####
     # corr_plot <-

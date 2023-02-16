@@ -13,7 +13,7 @@ rebin_peaks(
   sep = c(":", "-"),
   drop_empty_chr = FALSE,
   as_sparse = TRUE,
-  workers = 1,
+  workers = check_workers(),
   verbose = TRUE,
   ...
 )
@@ -65,8 +65,7 @@ between start/end genomic coordinates (second item).}
 (default: \code{TRUE}), 
 which is more efficiently stored than a dense matrix (\code{FALSE}).}
 
-\item{workers}{Number of cores to parallelise across 
-(in applicable functions).}
+\item{workers}{Number of threads to parallelize across.}
 
 \item{verbose}{Print messages.}
 
@@ -108,5 +107,6 @@ peakfiles <- list(CnR_H3K27ac=CnR_H3K27ac, CnT_H3K27ac=CnT_H3K27ac)
 #increasing bin_size for speed
 peakfiles_rebinned <- rebin_peaks(peakfiles = peakfiles,
                                   genome_build = "hg19",
-                                  bin_size = 5000)
+                                  bin_size = 5000,
+                                  workers = 1)
 }

@@ -7,9 +7,9 @@
 plot_chromHMM(
   peaklist,
   chromHMM_annotation,
-  cell_line = NULL,
   genome_build,
-  interact = TRUE,
+  cell_line = NULL,
+  interact = FALSE,
   return_data = FALSE
 )
 }
@@ -19,13 +19,13 @@ If list is not named, default names will be assigned.}
 
 \item{chromHMM_annotation}{ChromHMM annotation list.}
 
+\item{genome_build}{The human genome reference build used to generate
+peakfiles. "hg19" or "hg38".}
+
 \item{cell_line}{If not \code{cell_line},
 will replace \code{chromHMM_annotation}
  by importing chromHMM data for a given cell line using
  \link[EpiCompare]{get_chromHMM_annotation}.}
-
-\item{genome_build}{The human genome reference build used to generate
-peakfiles. "hg19" or "hg38".}
 
 \item{interact}{Default TRUE. By default, the heatmaps are interactive.
 If\code{FALSE}, the function generates a static ChromHMM heatmap.}
@@ -45,14 +45,11 @@ over to the \code{genome_build} to match the build of the \code{peaklist}.
 \examples{
 ### Load Data ###
 data("CnT_H3K27ac") # example dataset as GRanges object
-data("CnR_H3K27ac") # example dataset as GRanges object
-
+data("CnR_H3K27ac") # example dataset as GRanges object 
 ### Create Named Peaklist ###
-peaklist <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac)
-
+peaklist <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac) 
 ### Run ###
 my_plot <- plot_chromHMM(peaklist = peaklist,
                          cell_line = "K562",
-                         genome_build = "hg19")
-
+                         genome_build = "hg19") 
 }

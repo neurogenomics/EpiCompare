@@ -9,6 +9,7 @@
 #' between start/end genomic coordinates (second item). 
 #' @inheritParams compute_corr
 #' @inheritParams remove_nonstandard_chrom
+#' @inheritParams check_workers
 #' @inheritDotParams bpplapply
 #' @returns Binned peaks matrix
 #' 
@@ -26,7 +27,8 @@
 #' #increasing bin_size for speed
 #' peakfiles_rebinned <- rebin_peaks(peakfiles = peakfiles,
 #'                                   genome_build = "hg19",
-#'                                   bin_size = 5000)
+#'                                   bin_size = 5000,
+#'                                   workers = 1)
 rebin_peaks <- function(peakfiles,
                         genome_build,
                         intensity_cols=c("total_signal", 
@@ -38,7 +40,7 @@ rebin_peaks <- function(peakfiles,
                         sep=c(":","-"),
                         drop_empty_chr=FALSE,
                         as_sparse=TRUE,
-                        workers=1,
+                        workers=check_workers(),
                         verbose=TRUE,
                         ...){ 
     

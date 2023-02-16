@@ -19,8 +19,10 @@
 #' @param subtitle Plot subtitle.
 #' @param color Variable to color data points by. 
 #' @param shape Variable to set data point shapes by. 
+#' @param verbose Print messages.
 #' @inheritParams precision_recall
 #' @inheritParams EpiCompare
+#' @inheritParams check_workers
 #' @inheritParams get_bpparam
 #' @inheritParams ggplot2::aes_string
 #' @inheritParams ggplot2::facet_grid
@@ -37,7 +39,8 @@
 #' reference <- list("encode_H3K27ac" = encode_H3K27ac)
 #' 
 #' pr_out <- plot_precision_recall(peakfiles = peakfiles,
-#'                                 reference = reference)
+#'                                 reference = reference,
+#'                                 workers = 1)
 plot_precision_recall <- function(peakfiles,
                                   reference,
                                   thresholding_cols=c("total_signal", 
@@ -46,7 +49,7 @@ plot_precision_recall <- function(peakfiles,
                                   initial_threshold=0,
                                   n_threshold=20,
                                   max_threshold=1,
-                                  workers = 1,
+                                  workers = check_workers(),
                                   plot_f1 = TRUE,
                                   subtitle = NULL,
                                   color = "peaklist1",
@@ -55,7 +58,8 @@ plot_precision_recall <- function(peakfiles,
                                   interact = FALSE,
                                   show_plot = TRUE,
                                   save_path=
-                                      tempfile(fileext = "precision_recall.csv")
+                                      tempfile(fileext = "precision_recall.csv"),
+                                  verbose = TRUE
                                   ){
     
     check_dep("ggplot2")
@@ -68,7 +72,8 @@ plot_precision_recall <- function(peakfiles,
                                  n_threshold = n_threshold,
                                  workers = workers,
                                  cast = TRUE,
-                                 save_path = save_path)
+                                 save_path = save_path,
+                                 verbose = verbose)
     #### Plot precision-recall ####
     gg <- plot_precision_recall_prcurve(plot_dat=plot_dat,
                                         color=color,

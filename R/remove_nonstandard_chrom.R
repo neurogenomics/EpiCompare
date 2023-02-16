@@ -14,6 +14,8 @@ remove_nonstandard_chrom <- function(grlist,
                                          "chr",c(seq_len(22),"X","Y")
                                      ),
                                      verbose = TRUE){
+    #### Check if keep_chr is NULL ####
+    if(is.null(keep_chr)) return(grlist)
     messager("Removing non-standard chromosomes.",v=verbose)
     #### Check if it's a single element ####
     tmp_list <- FALSE
@@ -21,9 +23,7 @@ remove_nonstandard_chrom <- function(grlist,
         grlist <- list(gr1=grlist)
         tmp_list <- TRUE
     }
-    grlist <- mapply(grlist,
-           SIMPLIFY = FALSE,
-           FUN = function(gr){ 
+    grlist <- lapply(grlist, function(gr){ 
                suppressMessages(suppressWarnings(
                    GenomeInfoDb::seqlevelsStyle(gr) <- "UCSC"
                ))

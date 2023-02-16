@@ -4,12 +4,15 @@
 \alias{width_boxplot}
 \title{Peak width boxplot}
 \usage{
-width_boxplot(peaklist)
+width_boxplot(peaklist, interact = FALSE)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
 Files must be named and listed using \code{list()}.
 e.g. \code{list("name1"=file1, "name2"=file2)}}
+
+\item{interact}{Default TRUE. By default, plots are interactive.
+If set FALSE, all plots in the report will be static.}
 }
 \value{
 A boxplot of peak widths.
@@ -21,12 +24,7 @@ each peak file.
 \examples{
 ### Load Data ###
 data("encode_H3K27ac") # example peaklist GRanges object
-data("CnT_H3K27ac") # example peaklist GRanges object
-
-### Create Named Peaklist ###
-peaks <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
-
-### Run ###
-my_plot <- width_boxplot(peaklist = peaks)
-
+data("CnT_H3K27ac") # example peaklist GRanges object  
+peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)  
+my_plot <- width_boxplot(peaklist = peaklist) 
 }

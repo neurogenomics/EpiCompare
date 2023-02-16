@@ -25,8 +25,7 @@
 #'
 #' ### Run ###
 #' df <- peak_info(peaklist = peaklist,
-#'                 blacklist = hg19_blacklist)
-#'
+#'                 blacklist = hg19_blacklist) 
 peak_info <- function(peaklist, blacklist){
   message("--- Running peak_info() ---")
   ### Check peaklist names ###

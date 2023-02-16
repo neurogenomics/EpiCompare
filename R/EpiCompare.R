@@ -31,14 +31,23 @@
 #' @param genome_build_output Genome build to standardise all inputs to.
 #' Liftovers will be performed automatically as needed.
 #' Default: "hg19".
-#' @param blacklist A GRanges object containing blacklisted regions.
+#' @param blacklist A \link[GenomicRanges]{GRanges} object
+#'  containing blacklisted genomic regions.
+#' Blacklists included in \pkg{EpiCompare} are:
 #' \itemize{
-#' \item "hg19_blacklist" = regions of hg19 genome that have anomalous
-#' and/or unstructured signals. \link[EpiCompare]{hg19_blacklist}
-#' \item "hg38_blacklist" = regions of hg38 genome that have anomalous
-#' and/or unstructured signals. \link[EpiCompare]{hg38_blacklist}
-#' \item "mm10_blacklist" = regions of mm10 genome that have anomalous
-#' and/or unstructured signals. \link[EpiCompare]{mm10_blacklist} 
+#' \item{\code{NULL} (default): }{Automatically selects the appropriate
+#'  blacklist based on the \code{genome_build_output} argument.}
+#' \item{"hg19_blacklist": }{Regions of hg19 genome that have anomalous
+#' and/or unstructured signals. \link[EpiCompare]{hg19_blacklist}}
+#' \item{"hg38_blacklist": }{Regions of hg38 genome that have anomalous
+#' and/or unstructured signals. \link[EpiCompare]{hg38_blacklist}}
+#' \item{"mm10_blacklist": }{Regions of mm10 genome that have anomalous
+#' and/or unstructured signals. \link[EpiCompare]{mm10_blacklist}} 
+#' \item{"mm9_blacklist": }{Blacklisted regions of mm10 genome that have been
+#'  lifted over from \link[EpiCompare]{mm10_blacklist}. 
+#'  \link[EpiCompare]{mm9_blacklist}} 
+#' \item{\code{<user_input>}: }{A custom user-provided blacklist in 
+#' \link[GenomicRanges]{GRanges} format.}
 #' }
 #' @param picard_files A list of summary metrics output from Picard.
 #' Files must be in data.frame format and listed using \code{list()}
@@ -68,7 +77,8 @@
 #' \link[EpiCompare]{plot_corr}.
 #' @param chromHMM_plot Default FALSE. If TRUE, the function outputs ChromHMM
 #' heatmap of individual peak files. If a reference peak file is provided,
-#' ChromHMM annotation of overlapping and non-overlapping peaks is also provided.
+#' ChromHMM annotation of overlapping and non-overlapping peaks 
+#' is also provided.
 #' @param chromHMM_annotation ChromHMM annotation for ChromHMM plots.
 #' Default K562 cell-line. Cell-line options are:
 #' \itemize{
@@ -88,8 +98,8 @@
 #' of KEGG and GO enrichment analysis of peak files.
 #' @param tss_plot Default FALSE. If TRUE, the report includes peak count
 #' frequency around transcriptional start site. Note that this can take awhile.
-#' @param interact Default TRUE. By default, all heatmaps are interactive.
-#' If set FALSE, all heatmaps in the report will be static.
+#' @param interact Default TRUE. By default, plots are interactive.
+#' If set FALSE, all plots in the report will be static.
 #' @param save_output Default FALSE. If TRUE, all outputs (tables and plots) of
 #' the analysis will be saved in a folder (EpiCompare_file).
 #' @param output_filename Default EpiCompare.html. If otherwise, the html report
@@ -108,10 +118,16 @@
 #' (without specifying each argument manually)
 #'  by overriding the default values.
 #'  Default: \code{FALSE}.
-#' @param workers Number of cores to parallelise across 
-#' (in applicable functions).
+#' @param error If \code{TRUE}, the Rmarkdown report will continue to render 
+#' even when some chunks encounter errors (default: \code{FALSE}).
+#' Passed to \link[knitr]{opts_chunk}.
+#' @param debug Run in debug mode, where are messages and warnings 
+#' are printed within the HTML report (default: \code{FALSE}).
 #' @inheritParams plot_precision_recall
 #' @inheritParams plot_corr
+#' @inheritParams tss_plot
+#' @inheritParams check_workers
+#' @inheritParams rmarkdown::render
 #' @return Path to one or more HTML report files.
 #'
 #' @export
@@ -124,33 +140,30 @@
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object
 #' data("CnR_H3K27ac") # example dataset as GRanges object
-#' data("hg19_blacklist") # hg19 blacklist dataset
 #' data("CnT_H3K27ac_picard") # example Picard summary output
 #' data("CnR_H3K27ac_picard") # example Picard summary output
 #'
 #' #### Prepare Input ####
 #' # create named list of peakfiles
-#' peaks <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac)
+#' peakfiles <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac)
 #' # create named list of picard outputs
-#' picard <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard)
+#' picard_files <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard)
 #' # reference peak file
-#' reference_peak <- list("ENCODE" = encode_H3K27ac)
+#' reference <- list("ENCODE" = encode_H3K27ac)
 #'
 #' ### Run EpiCompare ###
-#' EpiCompare(peakfiles = peaks,
+#' output_html <- EpiCompare(peakfiles = peakfiles,
 #'            genome_build = list(peakfiles="hg19",
-#'                                reference="hg19",
-#'                                blacklist="hg19"),
-#'            genome_build_output = "hg19",
-#'            blacklist = hg19_blacklist,
-#'            picard_files = picard,
-#'            reference = reference_peak,
+#'                                reference="hg19"),
+#'            picard_files = picard_files,
+#'            reference = reference,
 #'            output_filename = "EpiCompare_test",
 #'            output_dir = tempdir())
+#' # utils::browseURL(output_html) 
 EpiCompare <- function(peakfiles,
                        genome_build,
                        genome_build_output = "hg19",
-                       blacklist,
+                       blacklist = NULL,
                        picard_files = NULL,
                        reference = NULL,
                        upset_plot = FALSE,
@@ -160,9 +173,10 @@ EpiCompare <- function(peakfiles,
                        chipseeker_plot = FALSE,
                        enrichment_plot = FALSE,
                        tss_plot = FALSE,
+                       tss_distance = c(-3000,3000),
                        precision_recall_plot = FALSE,
                        n_threshold = 20,
-                       corr_plot=FALSE,
+                       corr_plot = FALSE,
                        bin_size = 5000,
                        interact = TRUE,
                        save_output = FALSE,
@@ -170,24 +184,50 @@ EpiCompare <- function(peakfiles,
                        output_timestamp = FALSE,
                        output_dir,
                        display = NULL,
-                       run_all=FALSE,
-                       workers=1){
+                       run_all = FALSE,
+                       workers = 1,
+                       quiet = FALSE,
+                       error = FALSE, 
+                       debug = FALSE){
 
+  # templateR:::args2vars(EpiCompare)
   #### time ####
   t1 <- Sys.time()
+  #### Check that essential args are not missing ####
+  force(output_dir)
+  force(genome_build)
   #### Set all args to true ####
   if(isTRUE(run_all)){
-    upset_plot <- stat_plot <- chromHMM_plot <- chipseeker_plot <-
-      enrichment_plot <- enrichment_plot <- tss_plot <-
-      precision_recall_plot <- corr_plot <- save_output <- TRUE    
+    upset_plot <- stat_plot <- chromHMM_plot <- 
+      chipseeker_plot <- enrichment_plot <- tss_plot <- 
+      precision_recall_plot <- corr_plot <- TRUE;
+    save_output <- TRUE;
     if(is.null(output_dir)) output_dir <- tempdir()
   }
+  #### Report which features are NOT being used ####
+  check_unused_args(upset_plot=upset_plot, 
+                    stat_plot=stat_plot, 
+                    chromHMM_plot=chromHMM_plot, 
+                    chipseeker_plot=chipseeker_plot, 
+                    enrichment_plot=enrichment_plot, 
+                    tss_plot=tss_plot, 
+                    precision_recall_plot=precision_recall_plot, 
+                    corr_plot=corr_plot)  
+  #### Display HTML after it's been rendered ####
   if(!is.null(display)) display <- tolower(display)[1]
   ### Output Filename ###
-  if(output_timestamp){
+  if(isTRUE(output_timestamp)){
     date <- format(Sys.Date(), '%b_%d_%Y')
     output_filename <- paste0(output_filename,"_",date)
   } 
+  #### Check args ####
+  if(is.null(reference)){
+    if(isTRUE(precision_recall_plot)){
+      messager(
+        "WARNING:",
+        "precision-recall curves cannot be generated when reference=NULL.") 
+    }
+  }
   ### Parse Parameters Into Markdown & Render HTML ###
   html_file <- paste0(output_filename,".html") 
   ### Locate Rmd ###
@@ -208,9 +248,9 @@ EpiCompare <- function(peakfiles,
             input = markdown_path,
             output_dir = output_dir,
             output_file = output_filename,
-            quiet = TRUE,
+            quiet = quiet,
             params = list(
-              peakfile = peakfiles,
+              peakfiles = peakfiles,
               genome_build = genome_build,
               genome_build_output = genome_build_output,
               blacklist = blacklist,
@@ -223,6 +263,7 @@ EpiCompare <- function(peakfiles,
               chipseeker_plot = chipseeker_plot,
               enrichment_plot = enrichment_plot,
               tss_plot = tss_plot,
+              tss_distance = tss_distance,
               precision_recall_plot = precision_recall_plot,
               n_threshold = n_threshold,
               corr_plot = corr_plot,
@@ -230,20 +271,22 @@ EpiCompare <- function(peakfiles,
               interact = interact,
               save_output = save_output,
               output_dir = output_dir,
-              workers = workers)
+              workers = workers, 
+              error = error,
+              debug = debug)
           )
           return(file.path(output_dir,html_file))
         }) |> unlist()
   }else{
-      dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
-      #### Parse Parameters Into Markdown & Render HTML ####
+    dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+    #### Parse Parameters Into Markdown & Render HTML ####
     rmarkdown::render(
       input = markdown_path,
       output_dir = output_dir,
       output_file = output_filename,
-      quiet = TRUE,
+      quiet = quiet,
       params = list(
-        peakfile = peakfiles,
+        peakfiles = peakfiles,
         genome_build = genome_build,
         genome_build_output = genome_build_output,
         blacklist = blacklist,
@@ -256,6 +299,7 @@ EpiCompare <- function(peakfiles,
         chipseeker_plot = chipseeker_plot,
         enrichment_plot = enrichment_plot,
         tss_plot = tss_plot,
+        tss_distance = tss_distance,
         precision_recall_plot = precision_recall_plot,
         n_threshold = n_threshold,
         corr_plot = corr_plot,
@@ -263,14 +307,16 @@ EpiCompare <- function(peakfiles,
         interact = interact,
         save_output = save_output,
         output_dir = output_dir,
-        workers = workers)
+        workers = workers, 
+        error = error,
+        debug = debug)
     )
     output_html <- file.path(output_dir,html_file)
   }
   ### Show Timer ###
   t2 <- Sys.time()
   methods::show(paste(
-      "Done in",round(difftime(t2, t1, units = "min"),3),"min."
+      "Done in",round(difftime(t2, t1, units = "min"),2),"min."
   ))
   ### Display results ###
   messager("All outputs saved to:", output_dir)

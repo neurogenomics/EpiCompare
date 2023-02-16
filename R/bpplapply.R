@@ -16,7 +16,7 @@
 bpplapply <- function(X, 
                       FUN, 
                       apply_fun=parallel::mclapply,
-                      workers=1, 
+                      workers=check_workers(), 
                       progressbar=workers>1,
                       verbose=workers==1,
                       use_snowparam=TRUE,

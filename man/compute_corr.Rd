@@ -15,7 +15,7 @@ compute_corr(
   intensity_cols = c("total_signal", "qValue", "Peak Score", "score"),
   return_bins = FALSE,
   fill_diag = NA,
-  workers = 1,
+  workers = check_workers(),
   save_path = tempfile(fileext = ".corr.csv.gz")
 )
 }
@@ -79,8 +79,7 @@ If \code{FALSE} (default), returns only the correlation matrix (unlisted).}
 
 \item{fill_diag}{Fill the diagonal of the overlap matrix.}
 
-\item{workers}{Number of cores to parallelise across 
-(in applicable functions).}
+\item{workers}{Number of threads to parallelize across.}
 
 \item{save_path}{Path to save a table of correlation results to.}
 }
@@ -101,5 +100,6 @@ reference <- list("encode_H3K27ac"=encode_H3K27ac)
 corr_mat <- compute_corr(peakfiles = peakfiles,
                          reference = reference,
                          genome_build = "hg19",
-                         bin_size = 200000)
+                         bin_size = 200000, 
+                         workers = 1)
 }

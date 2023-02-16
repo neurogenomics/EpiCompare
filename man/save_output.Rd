@@ -10,7 +10,8 @@ save_output(
   file_type,
   filename,
   outpath,
-  interactive = FALSE
+  interactive = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ save_output(
 
 \item{interactive}{Default FALSE. If TRUE, interactive plots are saved as
 html.}
+
+\item{verbose}{Print messages.}
 }
 \value{
 Saved data frames and plots.

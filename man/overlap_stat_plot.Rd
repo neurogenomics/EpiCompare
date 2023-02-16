@@ -4,7 +4,15 @@
 \alias{overlap_stat_plot}
 \title{Statistical significance of overlapping peaks}
 \usage{
-overlap_stat_plot(reference, peaklist, annotation = NULL)
+overlap_stat_plot(
+  reference,
+  peaklist,
+  txdb = NULL,
+  interact = FALSE,
+  nShuffle = 50,
+  digits = 4,
+  workers = check_workers()
+)
 }
 \arguments{
 \item{reference}{A reference peak file as GRanges object.}
@@ -14,38 +22,49 @@ Files must be listed and named using \code{list()}.
 E.g. \code{list("name1"=file1, "name2"=file2)}.
 If not named, default file names will be assigned.}
 
-\item{annotation}{A TxDb annotation object from Bioconductor. This is
+\item{txdb}{A TxDb annotation object from Bioconductor. This is
 required only if the reference file does not have BED6+4 format.}
+
+\item{interact}{Default TRUE. By default, plots are interactive.
+If set FALSE, all plots in the report will be static.}
+
+\item{nShuffle}{shuffle numbers}
+
+\item{digits}{integer indicating the number of decimal places
+    (\code{round}) or significant digits (\code{signif}) to be used.
+    For \code{round}, negative values are allowed (see \sQuote{Details}).}
+
+\item{workers}{Number of threads to parallelize across.}
 }
 \value{
-A boxplot or barplot showing the statistical significance of
-overlapping/non-overlapping peaks.
+A named list. 
+\itemize{
+\item{"plot"}{boxplot/barplot showing the statistical significance of
+overlapping/non-overlapping peaks.}
+\item{"data"}{Plot data.}
+}
 }
 \description{
 This function calculates the statistical significance of overlapping/
-non-overlapping peaks against a reference peak file.If the reference peak
+non-overlapping peaks against a reference peak file. If the reference peak
 file has the BED6+4 format (peak called by MACS2), the function generates a
-series of boxplots showing the distribution of q-values for sample peaks that
-are overlapping and non-overlapping with the reference. If the reference peak
-file does not have the BED6+4 format, the function uses `enrichPeakOverlap()`
-from `ChIPseeker` package to calculate the statistical significance of
+series of box plots showing the distribution of q-values for sample peaks 
+that are overlapping and non-overlapping with the reference. 
+If the reference peak file does not have the BED6+4 format, the function uses 
+\link[ChIPseeker]{enrichPeakOverlap}
+from \pkg{ChIPseeker} package to calculate the statistical significance of
 overlapping peaks only. In this case, please provide an annotation file as
-TxDb object.
+a TxDb object.
 }
 \examples{
 ### Load Data ###
 data("encode_H3K27ac") # example peakfile GRanges object
 data("CnT_H3K27ac") # example peakfile GRanges object
-data("CnR_H3K27ac") # example peakfile GRanges object
-
+data("CnR_H3K27ac") # example peakfile GRanges object 
 ### Create Named Peaklist & Reference ###
 peaklist <- list('CnT'=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
-reference <- list("ENCODE"=encode_H3K27ac)
-
-### Run ###
+reference <- list("ENCODE"=encode_H3K27ac) 
 out <- overlap_stat_plot(reference = reference,
-                         peaklist = peaklist)
-stat_plot <- out[[1]] # plot
-stat_df <- out[[2]] # df
-
+                         peaklist = peaklist,
+                         workers = 1) 
 }

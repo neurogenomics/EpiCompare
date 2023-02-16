@@ -16,6 +16,7 @@ test_that("compute_corr works", {
         compute_corr(peakfiles = peakfiles,
                      reference = reference,
                      genome_build = "hg19",
+                     workers = 1,
                      bin_size = bin_size)
     })
     cor_mats2 <- mapply(cor_mats, 

@@ -27,6 +27,6 @@ plot_precision_recall_f1 <- function(plot_dat,
             strip.background = ggplot2::element_rect(fill = "grey20"),
             strip.text = ggplot2::element_text(color="white")
         )
-    if(isTRUE(interact)) ggf1 <- plotly::ggplotly(ggf1)
+    if(isTRUE(interact)) ggf1 <- as_interactive(ggf1)
     return(ggf1)
 }

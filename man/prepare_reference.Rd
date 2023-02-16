@@ -4,7 +4,13 @@
 \alias{prepare_reference}
 \title{Prepare referemce as GRanges}
 \usage{
-prepare_reference(reference, max_elements = NULL, remove_empty = TRUE)
+prepare_reference(
+  reference,
+  max_elements = NULL,
+  remove_empty = TRUE,
+  as_list = TRUE,
+  as_grangeslist = FALSE
+)
 }
 \arguments{
 \item{reference}{A named list of \link[GenomicRanges]{GRanges} objects, 
@@ -15,6 +21,11 @@ named list.}
 Set to \code{NULL} (default) to use all elements.}
 
 \item{remove_empty}{Remove any empty elements in the list.}
+
+\item{as_list}{Return as a list.}
+
+\item{as_grangeslist}{Return as a \link[GenomicRanges]{GRangesList}
+(overrides \code{as_list}).}
 }
 \value{
 A list of \link[GenomicRanges]{GRanges} objects

@@ -8,7 +8,7 @@ EpiCompare(
   peakfiles,
   genome_build,
   genome_build_output = "hg19",
-  blacklist,
+  blacklist = NULL,
   picard_files = NULL,
   reference = NULL,
   upset_plot = FALSE,
@@ -18,6 +18,7 @@ EpiCompare(
   chipseeker_plot = FALSE,
   enrichment_plot = FALSE,
   tss_plot = FALSE,
+  tss_distance = c(-3000, 3000),
   precision_recall_plot = FALSE,
   n_threshold = 20,
   corr_plot = FALSE,
@@ -29,7 +30,10 @@ EpiCompare(
   output_dir,
   display = NULL,
   run_all = FALSE,
-  workers = 1
+  workers = 1,
+  quiet = FALSE,
+  error = FALSE,
+  debug = FALSE
 )
 }
 \arguments{
@@ -62,14 +66,23 @@ genome build. For example:\cr
 Liftovers will be performed automatically as needed.
 Default: "hg19".}
 
-\item{blacklist}{A GRanges object containing blacklisted regions.
+\item{blacklist}{A \link[GenomicRanges]{GRanges} object
+ containing blacklisted genomic regions.
+Blacklists included in \pkg{EpiCompare} are:
 \itemize{
-\item "hg19_blacklist" = regions of hg19 genome that have anomalous
-and/or unstructured signals. \link[EpiCompare]{hg19_blacklist}
-\item "hg38_blacklist" = regions of hg38 genome that have anomalous
-and/or unstructured signals. \link[EpiCompare]{hg38_blacklist}
-\item "mm10_blacklist" = regions of mm10 genome that have anomalous
-and/or unstructured signals. \link[EpiCompare]{mm10_blacklist} 
+\item{\code{NULL} (default): }{Automatically selects the appropriate
+ blacklist based on the \code{genome_build_output} argument.}
+\item{"hg19_blacklist": }{Regions of hg19 genome that have anomalous
+and/or unstructured signals. \link[EpiCompare]{hg19_blacklist}}
+\item{"hg38_blacklist": }{Regions of hg38 genome that have anomalous
+and/or unstructured signals. \link[EpiCompare]{hg38_blacklist}}
+\item{"mm10_blacklist": }{Regions of mm10 genome that have anomalous
+and/or unstructured signals. \link[EpiCompare]{mm10_blacklist}} 
+\item{"mm9_blacklist": }{Blacklisted regions of mm10 genome that have been
+ lifted over from \link[EpiCompare]{mm10_blacklist}. 
+ \link[EpiCompare]{mm9_blacklist}} 
+\item{\code{<user_input>}: }{A custom user-provided blacklist in 
+\link[GenomicRanges]{GRanges} format.}
 }}
 
 \item{picard_files}{A list of summary metrics output from Picard.
@@ -98,7 +111,8 @@ Reference peak file must be provided.}
 
 \item{chromHMM_plot}{Default FALSE. If TRUE, the function outputs ChromHMM
 heatmap of individual peak files. If a reference peak file is provided,
-ChromHMM annotation of overlapping and non-overlapping peaks is also provided.}
+ChromHMM annotation of overlapping and non-overlapping peaks 
+is also provided.}
 
 \item{chromHMM_annotation}{ChromHMM annotation for ChromHMM plots.
 Default K562 cell-line. Cell-line options are:
@@ -123,6 +137,11 @@ of KEGG and GO enrichment analysis of peak files.}
 \item{tss_plot}{Default FALSE. If TRUE, the report includes peak count
 frequency around transcriptional start site. Note that this can take awhile.}
 
+\item{tss_distance}{A vector specifying the distance upstream and downstream
+around transcription start sites (TSS). 
+The default value is \code{c(-3000,3000)}; meaning peak frequency 
+3000bp upstream and downstream of TSS will be displayed.}
+
 \item{precision_recall_plot}{Default is FALSE. If TRUE,
 creates a precision-recall curve plot and an F1 plot using
 \link[EpiCompare]{plot_precision_recall}.}
@@ -137,8 +156,8 @@ all peak files using
 correlation. Use smaller value for higher resolution but longer run time and 
 larger memory usage.}
 
-\item{interact}{Default TRUE. By default, all heatmaps are interactive.
-If set FALSE, all heatmaps in the report will be static.}
+\item{interact}{Default TRUE. By default, plots are interactive.
+If set FALSE, all plots in the report will be static.}
 
 \item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of
 the analysis will be saved in a folder (EpiCompare_file).}
@@ -164,8 +183,19 @@ file name.}
  by overriding the default values.
  Default: \code{FALSE}.}
 
-\item{workers}{Number of cores to parallelise across 
-(in applicable functions).}
+\item{workers}{Number of threads to parallelize across.}
+
+\item{quiet}{An option to suppress printing during rendering from knitr,
+pandoc command line and others. To only suppress printing of the last
+"Output created: " message, you can set \code{rmarkdown.render.message} to
+\code{FALSE}}
+
+\item{error}{If \code{TRUE}, the Rmarkdown report will continue to render 
+even when some chunks encounter errors (default: \code{FALSE}).
+Passed to \link[knitr]{opts_chunk}.}
+
+\item{debug}{Run in debug mode, where are messages and warnings 
+are printed within the HTML report (default: \code{FALSE}).}
 }
 \value{
 Path to one or more HTML report files.
@@ -181,27 +211,24 @@ divided into three sections: (1) General Metrics on Peakfiles,
 data("encode_H3K27ac") # example dataset as GRanges object
 data("CnT_H3K27ac") # example dataset as GRanges object
 data("CnR_H3K27ac") # example dataset as GRanges object
-data("hg19_blacklist") # hg19 blacklist dataset
 data("CnT_H3K27ac_picard") # example Picard summary output
 data("CnR_H3K27ac_picard") # example Picard summary output
 
 #### Prepare Input ####
 # create named list of peakfiles
-peaks <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac)
+peakfiles <- list(CnR=CnR_H3K27ac, CnT=CnT_H3K27ac)
 # create named list of picard outputs
-picard <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard)
+picard_files <- list(CnR=CnR_H3K27ac_picard, CnT=CnT_H3K27ac_picard)
 # reference peak file
-reference_peak <- list("ENCODE" = encode_H3K27ac)
+reference <- list("ENCODE" = encode_H3K27ac)
 
 ### Run EpiCompare ###
-EpiCompare(peakfiles = peaks,
+output_html <- EpiCompare(peakfiles = peakfiles,
            genome_build = list(peakfiles="hg19",
-                               reference="hg19",
-                               blacklist="hg19"),
-           genome_build_output = "hg19",
-           blacklist = hg19_blacklist,
-           picard_files = picard,
-           reference = reference_peak,
+                               reference="hg19"),
+           picard_files = picard_files,
+           reference = reference,
            output_filename = "EpiCompare_test",
            output_dir = tempdir())
+# utils::browseURL(output_html) 
 }

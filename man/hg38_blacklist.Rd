@@ -12,7 +12,8 @@ The code to prepare the .Rda file is:
 
 \code{## blacklisted regions were directly downloaded} \cr
 \code{## from https://www.encodeproject.org/files/ENCFF356LFX/} \cr
-\code{hg38_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")} \cr
+\code{hg38_blacklist <- 
+ChIPseeker::readPeakFile(file.path(path), as = "GRanges")} \cr
 \code{usethis::use_data(hg38_blacklist, overwrite = TRUE)} \cr
 }
 \usage{
@@ -20,8 +21,9 @@ data("hg38_blacklist")
 }
 \description{
 Obtained from \url{https://www.encodeproject.org/files/ENCFF356LFX/}.
-The ENCODE blacklist includes regions of the hg38 genome that have anomalous and/
-or unstructured signals independent of the cell-line or experiment. Removal
+The ENCODE blacklist includes regions of the hg38 genome that have 
+anomalous and/or unstructured signals 
+independent of the cell-line or experiment. Removal
 of ENCODE blacklist is recommended for quality measure.
 }
 \keyword{datasets}

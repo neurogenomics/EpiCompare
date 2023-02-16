@@ -18,22 +18,18 @@
 #' @examples
 #' ### Load Data ###
 #' data(CnT_H3K27ac_picard) # example picard output
-#' data(CnR_H3K27ac_picard) # example picard output
-#'
+#' data(CnR_H3K27ac_picard) # example picard output 
 #' ### Import Picard Metrics ###
 #' # To import Picard duplication metrics (.txt file) into R as data frame
-#' # CnT_H3K27ac_picard <- read.table("/path/to/picard/output.txt", header = TRUE,fill = TRUE)
-#'
+#' # CnT_H3K27ac_picard <- read.table("/path/to/picard/output.txt",
+#' #  header = TRUE,fill = TRUE) 
 #' ### Create Named List ###
-#' picard <- list("CnT_H3K27ac"=CnT_H3K27ac_picard,
-#'                "CnR_H3K27ac"=CnR_H3K27ac_picard)
-#'
-#' ### Run ###
-#' df <- fragment_info(picard_list = picard)
-#'
+#' picard_list <- list("CnT_H3K27ac"=CnT_H3K27ac_picard,
+#'                "CnR_H3K27ac"=CnR_H3K27ac_picard) 
+#' df <- fragment_info(picard_list = picard_list)
 fragment_info <- function(picard_list){
+  
   message("--- Running fragment_info() ---")
-
   ### Check List Names ###
   picard_list <- check_list_names(picard_list)
 
@@ -43,9 +39,12 @@ fragment_info <- function(picard_list){
   Unique_Fragments <- c()
 
   for(i in seq_len(length(picard_list))){
-    Mapped_Fragments <- c(Mapped_Fragments, picard_list[[i]]$READ_PAIRS_EXAMINED[1])
-    Duplication_Rate <- c(Duplication_Rate, round(picard_list[[i]]$PERCENT_DUPLICATION[1]*100, 2))
-    unique <- ((1-picard_list[[i]]$PERCENT_DUPLICATION[1]))*as.numeric(picard_list[[i]]$READ_PAIRS_EXAMINED[1])
+    Mapped_Fragments <- c(Mapped_Fragments, 
+                          picard_list[[i]]$READ_PAIRS_EXAMINED[1])
+    Duplication_Rate <- c(Duplication_Rate, 
+                          round(picard_list[[i]]$PERCENT_DUPLICATION[1]*100, 2))
+    unique <- ((1-picard_list[[i]]$PERCENT_DUPLICATION[1]))*
+      as.numeric(picard_list[[i]]$READ_PAIRS_EXAMINED[1])
     Unique_Fragments <- c(Unique_Fragments, round(unique))
   }
 

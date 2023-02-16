@@ -33,6 +33,6 @@ plot_precision_recall_prcurve <- function(plot_dat,
             # legend.spacing.y = ggplot2::unit(.001, units = "npc"),
             # legend.text=ggplot2::element_text(size=7)
         ) 
-    if(isTRUE(interact)) gg <- plotly::ggplotly(gg)
+    if(isTRUE(interact)) gg <- as_interactive(gg)
     return(gg)
 }

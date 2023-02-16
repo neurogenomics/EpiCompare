@@ -12,7 +12,8 @@ The code to prepare the .Rda file is:
 
 \code{# blacklisted regions were directly downloaded} \cr
 \code{# from https://www.encodeproject.org/files/ENCFF001TDO/} \cr
-\code{hg19_blacklist <- ChIPseeker::readPeakFile(file.path(path), as = "GRanges")} \cr
+\code{hg19_blacklist <- 
+ChIPseeker::readPeakFile(file.path(path), as = "GRanges")} \cr
 \code{usethis::use_data(hg19_blacklist, overwrite = TRUE)} \cr
 }
 \usage{

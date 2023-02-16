@@ -4,9 +4,8 @@
 #'  or paths to BED files.
 #' @param remove_empty Remove any empty elements in the list.
 #' @param as_grangeslist Convert output to class
-#'  \link[GenomicRanges]{GRangesList} before returning.
-#'
-#' @return A list of \link[GenomicRanges]{GRanges} objects
+#'  \link[GenomicRanges]{GRangesList} before returning. 
+#' @returns A list of \link[GenomicRanges]{GRanges} objects
 #'
 #' @keywords internal
 #' @importFrom methods is
@@ -26,12 +25,12 @@ prepare_peaklist <- function(peaklist,
     peaklist <- check_list_names(peaklist = peaklist,
                                  default_prefix = "sample")
     #### Remove empty elements ####
-    if(remove_empty){
+    if(isTRUE(remove_empty)){
         peaklist <- remove_empty_elements(peaklist = peaklist)
     }
     #### Import files if necessary
     ## if path is provided, create GRanges object
-    peaklist <- mapply(peaklist, FUN=function(x){
+    peaklist <- lapply(peaklist, FUN=function(x){
       if(!methods::is(x,"GRanges")){
           x <- ChIPseeker::readPeakFile(x, as = "GRanges")
       }
@@ -40,7 +39,7 @@ prepare_peaklist <- function(peaklist,
   })
 
   # create GRangeList from GRanges objects
-    if(as_grangeslist){
+    if(isTRUE(as_grangeslist)){
         peaklist <- GenomicRanges::GRangesList(peaklist,
                                                compress = FALSE)
     }

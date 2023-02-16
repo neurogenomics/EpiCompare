@@ -13,8 +13,10 @@ The code to prepare the .Rda file from the raw peak file is:
 \code{# dataset was directly downloaded from} \cr
 \code{# https://www.encodeproject.org/files/ENCFF044JNJ/}
 \code{encode_H3K27ac <- ChIPseeker::readPeakFile("path", as = "GRanges")} \cr
-\code{encode_H3K27ac <- encode_H3K27ac[seqnames(encode_H3K27ac) == "chr1"]} \cr
-\code{my_label <- c("name","score","strand","signalValue","pValue","qValue","peak")} \cr
+\code{encode_H3K27ac <- 
+encode_H3K27ac[seqnames(encode_H3K27ac) == "chr1"]} \cr
+\code{my_label <-
+ c("name","score","strand","signalValue","pValue","qValue","peak")} \cr
 \code{colnames(GenomicRanges::mcols(encode_H3K27ac)) <- my_label} \cr
 \code{usethis::use_data(encode_H3K27ac, overwrite = TRUE)} \cr
 }

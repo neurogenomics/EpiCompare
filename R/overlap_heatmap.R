@@ -79,5 +79,7 @@ overlap_heatmap <- function(peaklist,
   report_time(t1 = t1,
               func="overlap_heatmap",
               verbose = verbose)
-  return(plt)
+  #### Return ####
+  return(list(plot=plt,
+              data=overlap_matrix))
 }

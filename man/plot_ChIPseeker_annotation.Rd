@@ -4,7 +4,12 @@
 \alias{plot_ChIPseeker_annotation}
 \title{Create ChIPseeker annotation plot}
 \usage{
-plot_ChIPseeker_annotation(peaklist, annotation)
+plot_ChIPseeker_annotation(
+  peaklist,
+  txdb = NULL,
+  tss_distance = c(-3000, 3000),
+  interact = FALSE
+)
 }
 \arguments{
 \item{peaklist}{A list of peak files as GRanges object.
@@ -12,10 +17,18 @@ Files must be listed and named using \code{list()}.
 e.g. \code{list("name1"=file1, "name2"=file2)}.
 If not named, default file names will be assigned.}
 
-\item{annotation}{A TxDb annotation object from Bioconductor.}
+\item{txdb}{A TxDb annotation object from Bioconductor.}
+
+\item{tss_distance}{A vector specifying the distance upstream and downstream
+around transcription start sites (TSS). 
+The default value is \code{c(-3000,3000)}; meaning peak frequency 
+3000bp upstream and downstream of TSS will be displayed.}
+
+\item{interact}{Default TRUE. By default, plots are interactive.
+If set FALSE, all plots in the report will be static.}
 }
 \value{
-barplot
+ggplot barplot
 }
 \description{
 This function annotates peaks using \code{ChIPseeker::annotatePeak}.
@@ -24,14 +37,8 @@ It outputs functional annotation of each peak file in a barplot.
 \examples{
 ### Load Data ###
 data("CnT_H3K27ac") # example peakfile GRanges object
-data("CnR_H3K27ac") # example peakfile GRanges object
-
-### Create Named Peaklist ###
-peaks <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
-
-## not run
-# txdb<-TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
-# my_plot <- plot_ChIPseeker_annotation(peaklist = peaks
-#                                       annotation = txdb)
-
+data("CnR_H3K27ac") # example peakfile GRanges object 
+peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
+my_plot <- plot_ChIPseeker_annotation(peaklist = peaklist, 
+                                      tss_distance = c(-50,50))
 }

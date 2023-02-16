@@ -13,6 +13,7 @@ precision_recall(
   max_threshold = 1,
   cast = TRUE,
   workers = 1,
+  verbose = TRUE,
   save_path = tempfile(fileext = "precision_recall.csv"),
   ...
 )
@@ -62,8 +63,9 @@ control.}
 \item{cast}{Cast the data into a format that's more compatible with 
 \pkg{ggplot2}.}
 
-\item{workers}{Number of cores to parallelise across 
-(in applicable functions).}
+\item{workers}{Number of threads to parallelize across.}
+
+\item{verbose}{Print messages.}
 
 \item{save_path}{File path to save precision-recall results to.}
 
@@ -71,7 +73,6 @@ control.}
   Arguments passed on to \code{\link[=bpplapply]{bpplapply}}
   \describe{
     \item{\code{apply_fun}}{Iterator function to use.}
-    \item{\code{verbose}}{Print messages.}
     \item{\code{register_now}}{Register the cores now with
 \link[BiocParallel]{register} (\code{TRUE}),
  or simply return the \code{BPPARAM object} (default: \code{FALSE}).}
@@ -108,5 +109,6 @@ peakfiles <- list(CnR_H3K27ac=CnR_H3K27ac, CnT_H3K27ac=CnT_H3K27ac)
 reference <- list("encode_H3K27ac" = encode_H3K27ac)
 
 pr_df <- precision_recall(peakfiles = peakfiles,
-                          reference = reference)
+                          reference = reference,
+                          workers = 1)
 }

@@ -29,8 +29,10 @@
 #' @param cast Cast the data into a format that's more compatible with 
 #' \pkg{ggplot2}.
 #' @param save_path File path to save precision-recall results to.
+#' @param verbose Print messages.
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
+#' @inheritParams check_workers
 #' @inheritDotParams bpplapply
 #' @return Overlap
 #' 
@@ -44,7 +46,8 @@
 #' reference <- list("encode_H3K27ac" = encode_H3K27ac)
 #'
 #' pr_df <- precision_recall(peakfiles = peakfiles,
-#'                           reference = reference)
+#'                           reference = reference,
+#'                           workers = 1)
 precision_recall <- function(peakfiles,
                              reference,
                              thresholding_cols=c("total_signal", 
@@ -55,6 +58,7 @@ precision_recall <- function(peakfiles,
                              max_threshold=1,
                              cast=TRUE,
                              workers=1,
+                             verbose=TRUE,
                              save_path=
                                  tempfile(fileext = "precision_recall.csv"),
                              ...){ 
@@ -72,7 +76,7 @@ precision_recall <- function(peakfiles,
     pr_df <- bpplapply(X = threshold_list,
                          workers = workers,
                          FUN = function(thresh){
-      message_parallel("Threshold=",thresh,": Filtering peaks")
+      if(verbose) message_parallel("Threshold=",thresh,": Filtering peaks")
       peakfiles_filt <- mapply(peakfiles, 
                               FUN=function(gr){  
                                   ## Compute percentiles

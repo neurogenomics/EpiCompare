@@ -24,8 +24,6 @@
 #' @importFrom genomation heatTargetAnnotation
 #' @importFrom GenomicRanges GRangesList
 #' @importFrom reshape2 melt
-#' @importFrom plotly ggplotly
-#' @importFrom htmltools tagList
 #' @import ggplot2
 #' @importMethodsFrom rtracklayer liftOver
 #' @importFrom AnnotationHub AnnotationHub
@@ -34,23 +32,20 @@
 #' @examples
 #' ### Load Data ###
 #' data("CnT_H3K27ac") # example dataset as GRanges object
-#' data("CnR_H3K27ac") # example dataset as GRanges object
-#'
+#' data("CnR_H3K27ac") # example dataset as GRanges object 
 #' ### Create Named Peaklist ###
-#' peaklist <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac)
-#'
+#' peaklist <- list(CnT=CnT_H3K27ac, CnR=CnR_H3K27ac) 
 #' ### Run ###
 #' my_plot <- plot_chromHMM(peaklist = peaklist,
 #'                          cell_line = "K562",
-#'                          genome_build = "hg19")
-#'
+#'                          genome_build = "hg19") 
 plot_chromHMM <- function(peaklist,
                           chromHMM_annotation,
-                          cell_line=NULL,
                           genome_build,
-                          interact=TRUE,
+                          cell_line=NULL,
+                          interact=FALSE,
                           return_data=FALSE){
-  # define variables
+  # templateR:::args2vars(plot_chromHMM)
   State <- Sample <- value <- NULL;
 
   message("--- Running plot_chromHMM() ---")
@@ -64,6 +59,10 @@ plot_chromHMM <- function(peaklist,
       stp <- "Must supply chromHMM_annotation or cell_line."
       stop(stp)
   }
+  if(missing(genome_build)) {
+    stp <- "Must supply genome_build."
+    stop(stp)
+  }
   #### Liftover ####
   ## chromHMM_annotation must be lifted over to match genome build of peaklist.
   chromHMM_annotation <- liftover_grlist(grlist = chromHMM_annotation,
@@ -75,6 +74,7 @@ plot_chromHMM <- function(peaklist,
   peaklist <- prepare_peaklist(peaklist = peaklist,
                                remove_empty = TRUE,
                                as_grangeslist = TRUE)
+  peaklist <- methods::as(peaklist,"GRangesList")
   # annotate peakfiles with chromHMM annotations
   message("Annotating with features.")
   annotation <- genomation::annotateWithFeatures(
@@ -107,14 +107,13 @@ plot_chromHMM <- function(peaklist,
     ggplot2::theme(axis.text = ggplot2::element_text(size = 11)) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 315,
                                                        vjust = 0.5,
-                                                       hjust=0))
+                                                       hjust = 0))
     #### Make plot interactive ####
     if(isTRUE(interact)){
-        chrHMM_plot <- plotly::ggplotly(chrHMM_plot)
-        chrHMM_plot <- htmltools::tagList(plotly::as_widget(chrHMM_plot))
+        chrHMM_plot <- as_interactive(chrHMM_plot) 
     }
     #### Return ####
-    if(return_data){
+    if(isTRUE(return_data)){
         message("Returning named list with both plot and data.")
         return(
             list(plot=chrHMM_plot,

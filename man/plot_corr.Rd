@@ -6,7 +6,7 @@
 \usage{
 plot_corr(
   peakfiles,
-  reference,
+  reference = NULL,
   genome_build,
   bin_size = 5000,
   keep_chr = NULL,
@@ -16,7 +16,7 @@ plot_corr(
   interact = FALSE,
   draw_cellnote = TRUE,
   fill_diag = NA,
-  workers = 1,
+  workers = check_workers(),
   show_plot = TRUE,
   save_path = tempfile(fileext = ".corr.csv.gz")
 )
@@ -74,15 +74,14 @@ correlations:
   \href{http://homer.ucsd.edu/homer/ngs/peaks.html}{HOMER}.}
 }}
 
-\item{interact}{Default TRUE. By default, all heatmaps are interactive.
-If set FALSE, all heatmaps in the report will be static.}
+\item{interact}{Default TRUE. By default heatmap is interactive.
+If FALSE, heatmap is static.}
 
 \item{draw_cellnote}{Draw the numeric values within each heatmap cell.}
 
 \item{fill_diag}{Fill the diagonal of the overlap matrix.}
 
-\item{workers}{Number of cores to parallelise across 
-(in applicable functions).}
+\item{workers}{Number of threads to parallelize across.}
 
 \item{show_plot}{Show the plot.}
 
@@ -102,10 +101,11 @@ data("CnT_H3K27ac")
 data("encode_H3K27ac")
 peakfiles <- list(CnR_H3K27ac=CnR_H3K27ac, CnT_H3K27ac=CnT_H3K27ac)
 reference <- list("encode_H3K27ac"=encode_H3K27ac)
-
-#increasing bin_size for speed but lower values will give more granular corr
+## Increasing bin_size for speed here,
+## but lower values will give more precise results (and lower correlations)
 cp <- plot_corr(peakfiles = peakfiles,
                 reference = reference,
                 genome_build = "hg19",
-                bin_size = 5000)
+                bin_size = 5000,
+                workers = 1)
 }

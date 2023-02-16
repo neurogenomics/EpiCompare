@@ -37,6 +37,7 @@
 #' @param save_path Path to save a table of correlation results to.
 #' @inheritParams EpiCompare
 #' @inheritParams get_bpparam
+#' @inheritParams check_workers
 #' @inheritParams remove_nonstandard_chrom
 #' @inheritParams precision_recall_matrix
 #' @return correlation matrix
@@ -54,7 +55,8 @@
 #' corr_mat <- compute_corr(peakfiles = peakfiles,
 #'                          reference = reference,
 #'                          genome_build = "hg19",
-#'                          bin_size = 200000)
+#'                          bin_size = 200000, 
+#'                          workers = 1)
 compute_corr <- function(peakfiles,
                          reference = NULL,
                          genome_build,
@@ -68,7 +70,7 @@ compute_corr <- function(peakfiles,
                                           "score"),
                          return_bins = FALSE,
                          fill_diag = NA,
-                         workers = 1,
+                         workers = check_workers(),
                          save_path = tempfile(fileext = ".corr.csv.gz")){
     # templateR:::source_all()
     # templateR:::args2vars(EpiCompare::compute_corr)

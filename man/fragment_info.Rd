@@ -25,17 +25,13 @@ of unique fragments.
 \examples{
 ### Load Data ###
 data(CnT_H3K27ac_picard) # example picard output
-data(CnR_H3K27ac_picard) # example picard output
-
+data(CnR_H3K27ac_picard) # example picard output 
 ### Import Picard Metrics ###
 # To import Picard duplication metrics (.txt file) into R as data frame
-# CnT_H3K27ac_picard <- read.table("/path/to/picard/output.txt", header = TRUE,fill = TRUE)
-
+# CnT_H3K27ac_picard <- read.table("/path/to/picard/output.txt",
+#  header = TRUE,fill = TRUE) 
 ### Create Named List ###
-picard <- list("CnT_H3K27ac"=CnT_H3K27ac_picard,
-               "CnR_H3K27ac"=CnR_H3K27ac_picard)
-
-### Run ###
-df <- fragment_info(picard_list = picard)
-
+picard_list <- list("CnT_H3K27ac"=CnT_H3K27ac_picard,
+               "CnR_H3K27ac"=CnR_H3K27ac_picard) 
+df <- fragment_info(picard_list = picard_list)
 }

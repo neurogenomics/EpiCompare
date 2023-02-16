@@ -5,7 +5,8 @@
 #' @inheritParams EpiCompare
 #' @returns Named list.
 #' @keywords internal
-prepare_genome_builds <- function(genome_build){
+prepare_genome_builds <- function(genome_build,
+                                  blacklist = NULL){
     
     item_names <- c("peakfiles","reference","blacklist")
     if(length(genome_build)==0){
@@ -38,7 +39,13 @@ prepare_genome_builds <- function(genome_build){
         message("Assigning 'peakfiles': ",peakfiles_build)
         message("Assigning 'reference': ",reference_build) 
         message("Assigning 'blacklist': ",blacklist_build) 
-    } else {
+    } else if( all(item_names[c(1,2)] %in% names(genome_build)) &&
+               is.null(blacklist)){
+      names(genome_build) <- tolower(names(genome_build))
+      peakfiles_build <- genome_build[["peakfiles"]]
+      reference_build <- genome_build[["reference"]]
+      blacklist_build <- NULL
+    }else {
         stop("Unable to parse genome_build.")
     }
     #### Return ####

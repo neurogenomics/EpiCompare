@@ -26,9 +26,7 @@ using the
 \examples{
 ### Load Data ###
 data("encode_H3K27ac") # load example data
-data("CnT_H3K27ac") # load example data
-### Create Named List ###
-peakfile <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
-### Run ###
-my_plot <- overlap_upset_plot(peaklist = peakfile)
+data("CnT_H3K27ac") # load example data 
+peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac) 
+my_plot <- overlap_upset_plot(peaklist = peaklist)
 }

@@ -6,11 +6,12 @@
 \usage{
 tss_plot(
   peaklist,
-  annotation,
-  tss_distance = c(3000, 3000),
+  txdb = NULL,
+  tss_distance = c(-3000, 3000),
   conf = 0.95,
   resample = 500,
-  workers = parallel::detectCores() - 1
+  interact = FALSE,
+  workers = check_workers()
 )
 }
 \arguments{
@@ -19,10 +20,11 @@ Files must be listed and named using \code{list()}.
 e.g. \code{list("name1"=file1, "name2"=file2)}
 If not named, default file names will be assigned.}
 
-\item{annotation}{A TxDb annotation object from Bioconductor.}
+\item{txdb}{A TxDb annotation object from Bioconductor.}
 
 \item{tss_distance}{A vector specifying the distance upstream and downstream
-around TSS. Default value is \code{c(3000,3000)}, meaning peak frequency 
+around transcription start sites (TSS). 
+The default value is \code{c(-3000,3000)}; meaning peak frequency 
 3000bp upstream and downstream of TSS will be displayed.}
 
 \item{conf}{Confidence interval threshold estimated by bootstrapping
@@ -32,11 +34,14 @@ Argument passed to \link[ChIPseeker]{plotAvgProf}.}
 \item{resample}{Number of bootstrapped iterations to run.
 Argument passed to \link[ChIPseeker]{plotAvgProf}.}
 
+\item{interact}{Default TRUE. By default, plots are interactive.
+If set FALSE, all plots in the report will be static.}
+
 \item{workers}{Number of cores to parallelise bootstrapping across.
 Argument passed to \link[ChIPseeker]{plotAvgProf}.}
 }
 \value{
-profile plot in a list.
+A named list of profile plots.
 }
 \description{
 This function generates a plot of read count frequency around TSS.
@@ -46,10 +51,8 @@ This function generates a plot of read count frequency around TSS.
 data("CnT_H3K27ac") # example peaklist GRanges object
 data("CnR_H3K27ac") # example peaklist GRanges object
 ### Create Named Peaklist ###
-peaks <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
-txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
-my_plot <- tss_plot(peaklist = peaks,
-                    annotation = txdb,
-                    upstream=50,
+peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac) 
+my_plot <- tss_plot(peaklist = peaklist, 
+                    tss_distance=c(-50,50),
                     workers = 1)
 }
