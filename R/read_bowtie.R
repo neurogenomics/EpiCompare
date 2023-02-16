@@ -1,3 +1,12 @@
+#' Read bowtie
+#' 
+#' Read a bowtie file.
+#' @param path Path to bowtie file.
+#' @param verbose Print messages.
+#' @returns \link[data.table]{data.table}
+#' 
+#' @keywords internal
+#' @importFrom data.table fread :=
 read_bowtie <- function(path,
                         verbose=TRUE){
     

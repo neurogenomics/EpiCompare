@@ -154,7 +154,7 @@ overlapping and non-overlapping peaks. This also includes upset, precision-recal
 
 3. [**Functional Annotation:**](#functional_annotation) Functional annotation (`ChromHMM` analysis, peak annotation, and enrichment analysis) of peaks. This also includes peak distributions around transcription start sites (TSS). 
 
-***
+
 
 ## Input Datasets {-}
 
@@ -190,7 +190,7 @@ cat(cmd)
 ```
 
 
-***
+
 
 # General Metrics {#general_metrics .tabset}
 
@@ -230,7 +230,7 @@ save_output(save_output = params$save_output,
 remove(peak_info_df)
 ```
 
-***
+
 
 ## Fragment Information
 
@@ -262,7 +262,7 @@ if (!is.null(params$picard_files)){
 }   
 ```
 
-***
+
 
 ## Peak widths 
 
@@ -288,7 +288,7 @@ save_output(save_output = params$save_output,
 remove(width_plot)
 ```
 
-***
+
 
 # Peak Overlap {#peak_overlap .tabset}
 
@@ -326,7 +326,7 @@ save_output(save_output = params$save_output,
 remove(overlap_heatmap)
 ```
 
-***
+
 
 ## Upset Plot 
 
@@ -350,7 +350,7 @@ upset_plot
 remove(upset_plot)
 ```
 
-***
+
 
 ## Statistical Significance  
 
@@ -397,7 +397,7 @@ if (needs_ref(params$stat_plot, reference)){
 }
 ```
 
-***
+
 
 ## Precision-Recall Curves
 
@@ -437,7 +437,7 @@ pr_out$f1_plot
 remove(pr_out)
 ```
 
-***
+
 
 ## Correlation Plot
 
@@ -469,7 +469,7 @@ cp_out$corr_plot
 remove(cp_out)
 ```
 
-***
+
 
 # Functional Annotation {#functional_annotation}
 
@@ -724,7 +724,7 @@ ref_not_in_sample_chromHMM
 remove(ref_not_in_sample_chromHMM)
 ```
 
-***
+
 
 ## Annotate Peaks 
 
@@ -755,7 +755,7 @@ chipseeker_plot
 remove(chipseeker_plot)
 ```
 
-***
+
 
 ## Functional Enrichment Analyses {.tabset}
 
@@ -784,7 +784,7 @@ if (isTRUE(params$enrichment_plot)){
 }
 ```
 
-***
+
 
 ### KEGG
 
@@ -805,7 +805,7 @@ if (isTRUE(params$enrichment_plot)){
 enrichment_plots$kegg_plot
 ```
 
-***
+
 
 ### GO 
 
@@ -839,7 +839,7 @@ remove(enrichment_plots)
 ```
 
 
-***
+
 
 ## Peak Frequency around TSS 
 

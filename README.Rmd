@@ -1,5 +1,5 @@
 ---
-title: "`EpiCompare`: QC and Benchmarking of Epigenomic Datasets"
+title: "&#9878;<code>EpiCompare</code>&#9878;<br>QC and Benchmarking of Epigenomic Datasets"
 author: "`r rworkflows::use_badges(add_doi = 'https://doi.org/10.1101/2022.07.22.501149',
                                   add_bioc_release = TRUE,
                                   add_bioc_download_month = TRUE,
@@ -40,16 +40,22 @@ removed from the files prior to analysis.
 
 # Installation
 
+## Standard
+
 To install `EpiCompare` use:
 
 ```r
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
+if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 BiocManager::install("EpiCompare") 
 ```
+## All dependencies
 
-To install suggested packages as well, use:
+<details>
+<summary>&#128072; <strong>Details</strong></summary>
+
+Installing all *Imports* and *Suggests* will allow you to use the full functionality of `EpiCompare` right away, without having to stop and install extra dependencies later on. 
+
+To install these packages as well, use:
 
 ```R
 BiocManager::install("EpiCompare", dependencies=TRUE) 
@@ -59,6 +65,19 @@ Note that this will increase installation time,
 but it means that you won't have to worry about installing any R packages
 when using functions with certain suggested dependencies
 
+</details>
+
+## Development 
+
+<details>
+<summary>&#128072; <strong>Details</strong></summary>
+To install the development version of `EpiCompare`, use:
+
+```R
+if (!require("remotes")) install.packages("remotes")
+remotes::install_github("neurogenomics/EpiCompare")
+```
+</details>
 
 ## Citation
  
@@ -71,7 +90,8 @@ If you use ``r pkg``, please cite:
 # Documentation
 
 ## [EpiCompare website](https://neurogenomics.github.io/EpiCompare) 
-## [Docker/Singularity container](https://neurogenomics.github.io/EpiCompare/articles/docker)
+## [Docker/Singularity container](https://neurogenomics.github.io/EpiCompare/articles/docker)  
+## [Bioconductor page](https://doi.org/doi:10.18129/B9.bioc.EpiCompare)
 
 ### :warning: Note on documentation versioning
 
@@ -109,9 +129,8 @@ picard_files <- list("CnT"=CnT_H3K27ac_picard,
                      "CnR"=CnR_H3K27ac_picard) 
 ```
 
-**Tips on importing user-supplied files:** 
-
 <details>
+<summary><strong>&#128072; Tips on importing user-supplied files</strong></summary>
 
 `EpiCompare::gather_files` is helpful for identifying and importing 
 peak or picard files.
@@ -146,6 +165,7 @@ EpiCompare::EpiCompare(peakfiles = peakfiles,
 These input parameters must be provided:
 
 <details>
+<summary>&#128072; <strong>Details</strong></summary>
 
 -   `peakfiles` : Peakfiles you want to analyse. EpiCompare accepts
     peakfiles as GRanges object and/or as paths to BED files. Files must
@@ -174,6 +194,9 @@ These input parameters must be provided:
 
 The following input files are optional: 
 
+<details>
+<summary>&#128072; <strong>Details</strong></summary>
+
 -   `picard_files` : A list of summary metrics output from 
     [Picard](https://broadinstitute.github.io/picard/). *Picard MarkDuplicates* 
     can be used to identify the duplicate reads amongst the alignment. This tool 
@@ -189,6 +212,8 @@ The following input files are optional:
     using `list("reference_name" = GRanges_obect)`. If more than one reference 
     is specified, `EpiCompare` outputs individual reports for each reference.
     However, please note that this can take awhile. 
+    
+</details>
 
 #### Optional Plots
 
@@ -196,6 +221,7 @@ By default, these plots will not be included in the report unless set to `TRUE`.
 To turn on all features at once, simply use the `run_all=TRUE` argument:
 
 <details>
+<summary>&#128072; <strong>Details</strong></summary>
 
 -   `upset_plot` : Upset plot of overlapping peaks between samples.
 -   `stat_plot` : included only if a `reference` dataset is provided.
@@ -222,6 +248,7 @@ To turn on all features at once, simply use the `run_all=TRUE` argument:
 #### Other Options
 
 <details>
+<summary>&#128072; <strong>Details</strong></summary>
 
 -   `chromHMM_annotation` : Cell-line annotation for ChromHMM. Default
     is K562. Options are:
@@ -264,6 +291,7 @@ An example report comparing ATAC-seq and DNase-seq can be found
 `EpiCompare` includes several built-in datasets:
 
 <details>
+<summary>&#128072; <strong>Details</strong></summary>
 
 -   `encode_H3K27ac`: Human H3K27ac peak file generated with ChIP-seq using K562
 cell-line. Taken from [ENCODE](https://www.encodeproject.org/files/ENCFF044JNJ/)
@@ -280,6 +308,7 @@ For more details, run `?CnR_H3K27ac`.
 ## Session Info
 
 <details>
+<summary>&#128072; <strong>Details</strong></summary>
 
 ```{r Session Info}
 utils::sessionInfo()

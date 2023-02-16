@@ -1,4 +1,4 @@
-`EpiCompare`: QC and Benchmarking of Epigenomic Datasets
+⚖<code>EpiCompare</code>⚖<br>QC and Benchmarking of Epigenomic Datasets
 ================
 <img src= 'https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' height= '300' ><br><br><br><br>
 [![](https://img.shields.io/badge/devel%20version-1.3.3-black.svg)](https://github.com/neurogenomics/EpiCompare)
@@ -43,16 +43,27 @@ chromosomes are removed from the files prior to analysis.
 
 # Installation
 
+## Standard
+
 To install `EpiCompare` use:
 
 ``` r
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
+if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 BiocManager::install("EpiCompare") 
 ```
 
-To install suggested packages as well, use:
+## All dependencies
+
+<details>
+<summary>
+👈 <strong>Details</strong>
+</summary>
+
+Installing all *Imports* and *Suggests* will allow you to use the full
+functionality of `EpiCompare` right away, without having to stop and
+install extra dependencies later on.
+
+To install these packages as well, use:
 
 ``` r
 BiocManager::install("EpiCompare", dependencies=TRUE) 
@@ -61,6 +72,24 @@ BiocManager::install("EpiCompare", dependencies=TRUE)
 Note that this will increase installation time, but it means that you
 won’t have to worry about installing any R packages when using functions
 with certain suggested dependencies
+
+</details>
+
+## Development
+
+<details>
+<summary>
+👈 <strong>Details</strong>
+</summary>
+
+To install the development version of `EpiCompare`, use:
+
+``` r
+if (!require("remotes")) install.packages("remotes")
+remotes::install_github("neurogenomics/EpiCompare")
+```
+
+</details>
 
 ## Citation
 
@@ -78,6 +107,8 @@ If you use `EpiCompare`, please cite:
 ## [EpiCompare website](https://neurogenomics.github.io/EpiCompare)
 
 ## [Docker/Singularity container](https://neurogenomics.github.io/EpiCompare/articles/docker)
+
+## [Bioconductor page](https://doi.org/doi:10.18129/B9.bioc.EpiCompare)
 
 ### :warning: Note on documentation versioning
 
@@ -115,9 +146,10 @@ picard_files <- list("CnT"=CnT_H3K27ac_picard,
                      "CnR"=CnR_H3K27ac_picard) 
 ```
 
-**Tips on importing user-supplied files:**
-
 <details>
+<summary>
+<strong>👈 Tips on importing user-supplied files</strong>
+</summary>
 
 `EpiCompare::gather_files` is helpful for identifying and importing peak
 or picard files.
@@ -154,6 +186,9 @@ EpiCompare::EpiCompare(peakfiles = peakfiles,
 These input parameters must be provided:
 
 <details>
+<summary>
+👈 <strong>Details</strong>
+</summary>
 
 - `peakfiles` : Peakfiles you want to analyse. EpiCompare accepts
   peakfiles as GRanges object and/or as paths to BED files. Files must
@@ -183,6 +218,11 @@ These input parameters must be provided:
 
 The following input files are optional:
 
+<details>
+<summary>
+👈 <strong>Details</strong>
+</summary>
+
 - `picard_files` : A list of summary metrics output from
   [Picard](https://broadinstitute.github.io/picard/). *Picard
   MarkDuplicates* can be used to identify the duplicate reads amongst
@@ -199,6 +239,8 @@ The following input files are optional:
   reference is specified, `EpiCompare` outputs individual reports for
   each reference. However, please note that this can take awhile.
 
+</details>
+
 #### Optional Plots
 
 By default, these plots will not be included in the report unless set to
@@ -206,6 +248,9 @@ By default, these plots will not be included in the report unless set to
 argument:
 
 <details>
+<summary>
+👈 <strong>Details</strong>
+</summary>
 
 - `upset_plot` : Upset plot of overlapping peaks between samples.
 - `stat_plot` : included only if a `reference` dataset is provided. The
@@ -232,6 +277,9 @@ argument:
 #### Other Options
 
 <details>
+<summary>
+👈 <strong>Details</strong>
+</summary>
 
 - `chromHMM_annotation` : Cell-line annotation for ChromHMM. Default is
   K562. Options are:
@@ -274,6 +322,9 @@ An example report comparing ATAC-seq and DNase-seq can be found
 `EpiCompare` includes several built-in datasets:
 
 <details>
+<summary>
+👈 <strong>Details</strong>
+</summary>
 
 - `encode_H3K27ac`: Human H3K27ac peak file generated with ChIP-seq
   using K562 cell-line. Taken from
@@ -293,6 +344,9 @@ An example report comparing ATAC-seq and DNase-seq can be found
 ## Session Info
 
 <details>
+<summary>
+👈 <strong>Details</strong>
+</summary>
 
 ``` r
 utils::sessionInfo()

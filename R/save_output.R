@@ -39,6 +39,7 @@ save_output <- function(save_output = FALSE,
                              )
       }else{
         messager("Saving PNG file ==>",file,v=verbose)
+        options(bitmapType = 'cairo', device = 'png')
         ggplot2::ggsave(filename = file.path(outpath, paste0(filename,".png")),
                         plot = file,
                         device = "png",
