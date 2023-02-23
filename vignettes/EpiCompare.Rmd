@@ -273,6 +273,60 @@ to improve this. Moreover, if there are other downstream analysis tools that may
 be suitable in *EpiCompare*, feel free to report this through 
 [Github](https://github.com/neurogenomics/EpiCompare).  
 
+# Code used to generate the example report
+
+An example report comparing ATAC-seq, DNase-seq and ChIP-seq of K562 can be found 
+[here](https://neurogenomics.github.io/EpiCompare/articles/example_report.html).
+
+Code used to generate this:
+
+<details>
+
+```R
+## Load data
+# ATAC-seq data: https://www.encodeproject.org/files/ENCFF558BLC/ 
+atac1_hg38 <- ChIPseeker::readPeakFile("/path/to/bed/ENCFF558BLC.bed", as="GRanges")
+# Dnase-seq data: https://www.encodeproject.org/files/ENCFF274YGF/
+dna1_hg38 <- ChIPseeker::readPeakFile("/path/to/bed/ENCFF274YGF.bed", as="GRanges")
+# Dnase-seq data: https://www.encodeproject.org/files/ENCFF185XRG/
+dna2_hg38 <- ChIPseeker::readPeakFile("/path/to/bed/ENCFF185XRG.bed", as="GRanges")
+# ChIP-seq data: https://www.encodeproject.org/files/ENCFF038DDS/
+chip_hg38 <- ChIPseeker::readPeakFile("/path/to/bed/ENCODE_H3K27ac_hg38_ENCFF038DDS.bed", as="GRanges")
+
+## Peaklist
+peaklist <- list("ATAC_ENCFF558BLC" = atac1_hg38_unique,
+                 "Dnase_ENCFF274YGF" = dna1_hg38,
+                 "ChIP_ENCFF038DDS" = chip_hg38)
+
+## Reference
+reference <- list("Dnase_ENCFF185XRG_reference"=dna2_hg38)
+
+## Blacklist
+data("hg38_blacklist")
+
+## Run Epicompare
+EpiCompare(peakfiles = peaklist,
+           genome_build = "hg38",
+           genome_build_output = "hg38",
+           blacklist = hg38_blacklist,
+           reference = reference,
+           picard_files = NULL,
+           upset_plot = T,
+           stat_plot = T,
+           save_output = F,
+           chromHMM_plot = T,
+           chromHMM_annotation = "K562",
+           chipseeker_plot = T,
+           enrichment_plot = T,
+           tss_plot = T,
+           precision_recall_plot =T,
+           corr_plot = T,
+           interact = T,
+           output_dir = "/path/")
+```
+
+</details>
+
 # Session Information
 
 <details>

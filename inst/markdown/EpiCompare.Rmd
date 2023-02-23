@@ -487,21 +487,23 @@ remove(cp_out)
 
 <details>
 
-1. Active promoter:  
-2. Weak promoter:
-3. Poised promoter:
-4. Strong enhancer:
-5. Strong enhancer:
-6. Weak enhancer:
-7. Weak enhancer: 
-8. Insulator:
-9. Txn elongation:
-10. Txn elongation:
-11. Weak Txn:
-12. Repressed 
-13. Heterochrom.Io
-14. Repetitive CNV
-15. Repetitive CNV
+For more information on ChromHMM states, please see [here](https://www.nature.com/articles/nprot.2017.124#:~:text=ChromHMM%20helps%20to%20annotate%20the,annotation%20for%20each%20cell%20type.)
+
+1. Active promoter: being transcribed  
+2. Weak promoter: less transcriptional activity
+3. Poised promoter: ready for transcriptional activity
+4. Strong enhancer: activate transcription at high level
+5. Strong enhancer: activate transcription at high level
+6. Weak enhancer: activate transcription at low level
+7. Weak enhancer: activate transcription at low level
+8. Insulator: block transcription
+9. Txn elongation: transcription elongation
+10. Txn elongation: transcription elongation
+11. Weak Txn: weak transcription
+12. Repressed: decreased transcription
+13. Heterochrom.Io: heterochromatin and/or low signal 
+14. Repetitive CNV: repetitive or copy number variation
+15. Repetitive CNV: repetitive or copy number variation
 
 </details>
 
