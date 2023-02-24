@@ -6,6 +6,7 @@ check_unused_args <- function(upset_plot,
                               tss_plot,
                               precision_recall_plot,
                               corr_plot,
+                              add_download_button,
                               verbose=TRUE){
   #### Check which arguments are boolean ####
   # boolean_args <- names(formals(EpiCompare::EpiCompare))[
@@ -19,7 +20,8 @@ check_unused_args <- function(upset_plot,
                    enrichment_plot=enrichment_plot, 
                    tss_plot=tss_plot, 
                    precision_recall_plot=precision_recall_plot, 
-                   corr_plot=corr_plot) 
+                   corr_plot=corr_plot,
+                   add_download_button=add_download_button) 
     args_not_used <- names(bool_args)[bool_args==FALSE]
     if(length(args_not_used)>0){
       messager("NOTE: The following EpiCompare features are NOT being used:",

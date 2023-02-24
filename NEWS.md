@@ -8,6 +8,7 @@
   - Add Rscript to replicate example report in *inst/examples*.
 * EpiCompare
   - New arg `add_download_button`. 
+  - Always keep download button for post-processed peak files.
 
 ### Bug fixes
 

@@ -178,7 +178,7 @@ download_button(object = list(peaklist = peaklist,
                 save_output = params$save_output, 
                 filename = paste0("processed_peakfiles_",output_build), 
                 outfile_dir = outfile_dir,
-                add_download_button = params$add_download_button)
+                add_download_button = TRUE) # Always include button
 ```
 
 ## Command {-}
