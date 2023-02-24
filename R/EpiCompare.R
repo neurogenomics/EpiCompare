@@ -100,6 +100,7 @@
 #' frequency around transcriptional start site. Note that this can take awhile.
 #' @param interact Default TRUE. By default, plots are interactive.
 #' If set FALSE, all plots in the report will be static.
+#' @param add_download_button Add download buttons for each plot or dataset.
 #' @param save_output Default FALSE. If TRUE, all outputs (tables and plots) of
 #' the analysis will be saved in a folder (EpiCompare_file).
 #' @param output_filename Default EpiCompare.html. If otherwise, the html report
@@ -179,6 +180,7 @@ EpiCompare <- function(peakfiles,
                        corr_plot = FALSE,
                        bin_size = 5000,
                        interact = TRUE,
+                       add_download_button = FALSE,
                        save_output = FALSE,
                        output_filename = "EpiCompare",
                        output_timestamp = FALSE,
@@ -269,6 +271,7 @@ EpiCompare <- function(peakfiles,
               corr_plot = corr_plot,
               bin_size = bin_size,
               interact = interact,
+              add_download_button = add_download_button,
               save_output = save_output,
               output_dir = output_dir,
               workers = workers, 
@@ -305,6 +308,7 @@ EpiCompare <- function(peakfiles,
         corr_plot = corr_plot,
         bin_size = bin_size,
         interact = interact,
+        add_download_button = add_download_button,
         save_output = save_output,
         output_dir = output_dir,
         workers = workers, 

@@ -21,6 +21,7 @@ download_button(
   icon = "fa fa-save",
   button_type = "success",
   self_contained = TRUE,
+  add_download_button = TRUE,
   verbose = TRUE
 )
 }
@@ -46,6 +47,8 @@ function, only \code{.xlsx} and \code{.rds} are supported.}
 
 \item{self_contained}{A boolean to specify whether your HTML output is
 self-contained. Default to \code{FALSE}.}
+
+\item{add_download_button}{Add download buttons for each plot or dataset.}
 
 \item{verbose}{Print messages.}
 }

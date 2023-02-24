@@ -21,7 +21,12 @@ check_unused_args <- function(upset_plot,
                    precision_recall_plot=precision_recall_plot, 
                    corr_plot=corr_plot) 
     args_not_used <- names(bool_args)[bool_args==FALSE]
-    messager("NOTE: The following EpiCompare features are NOT being used:",
-             paste0("\n - ",args_not_used,"=",collapse = ""))
+    if(length(args_not_used)>0){
+      messager("NOTE: The following EpiCompare features are NOT being used:",
+               paste0("\n - ",args_not_used,"=",collapse = ""),
+               v=verbose) 
+    } else{
+      messager("All EpiCompare features are being used.",v=verbose)
+    }
   } 
 }

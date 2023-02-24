@@ -5,6 +5,9 @@
 * Example report:
   - Delete *report/* folder and upload to Releases instead:
     https://github.com/neurogenomics/EpiCompare/releases
+  - Add Rscript to replicate example report in *inst/examples*.
+* EpiCompare
+  - New arg `add_download_button`. 
 
 ### Bug fixes
 

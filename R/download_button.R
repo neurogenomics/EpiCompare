@@ -30,9 +30,14 @@ download_button <- function(object,
                             icon = "fa fa-save",
                             button_type = "success",
                             self_contained = TRUE,
+                            add_download_button = TRUE,
                             verbose = TRUE){
   # templateR:::args2vars(download_button)
   
+  if(isFALSE(add_download_button)) {
+    messager("Download button disabled.",v=verbose)
+    return(NULL)
+  }
   #### Make sure object is a list ####
   if(!is.list(object)){
     object <- list(object) 

@@ -24,6 +24,7 @@ EpiCompare(
   corr_plot = FALSE,
   bin_size = 5000,
   interact = TRUE,
+  add_download_button = FALSE,
   save_output = FALSE,
   output_filename = "EpiCompare",
   output_timestamp = FALSE,
@@ -158,6 +159,8 @@ larger memory usage.}
 
 \item{interact}{Default TRUE. By default, plots are interactive.
 If set FALSE, all plots in the report will be static.}
+
+\item{add_download_button}{Add download buttons for each plot or dataset.}
 
 \item{save_output}{Default FALSE. If TRUE, all outputs (tables and plots) of
 the analysis will be saved in a folder (EpiCompare_file).}

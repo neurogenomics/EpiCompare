@@ -49,6 +49,8 @@ params:
     value: 5000      
   interact:
     value: TRUE
+  add_download_button:
+    value: TRUE
   save_output:
     value: FALSE
   workers:
@@ -175,7 +177,8 @@ download_button(object = list(peaklist = peaklist,
                               blacklist = blacklist),
                 save_output = params$save_output, 
                 filename = paste0("processed_peakfiles_",output_build), 
-                outfile_dir = outfile_dir)
+                outfile_dir = outfile_dir,
+                add_download_button = params$add_download_button)
 ```
 
 ## Command {-}
@@ -219,7 +222,8 @@ peak_info_df <- peak_info(peaklist = peaklist,
                           blacklist = blacklist)
 download_button(object = peak_info_df,
                 filename = "peak_info_df", 
-                output_extension = ".csv")
+                output_extension = ".csv",
+                add_download_button = params$add_download_button)
 # Print table 
 knitr::kable(peak_info_df, format = "markdown") 
 save_output(save_output = params$save_output,
@@ -250,7 +254,8 @@ if (!is.null(params$picard_files)){
   fragment_info_df <- fragment_info(picard_list = params$picard_files)
   download_button(object = fragment_info_df,
                   filename = "fragment_info",
-                  output_extension = ".csv")
+                  output_extension = ".csv",
+                  add_download_button = params$add_download_button)
   # Print data frame
   knitr::kable(fragment_info_df, format = "markdown") 
   save_output(save_output = params$save_output,
@@ -275,7 +280,8 @@ width_plot <- width_boxplot(peaklist = peaklist_tidy,
                             interact = params$interact)
 download_button(object = width_plot,
                 filename = "width_boxplot",
-                self_contained = params$interact)
+                self_contained = params$interact,
+                add_download_button = params$add_download_button)
 width_plot$plot
 # Save boxplot
 save_output(save_output = params$save_output,
@@ -312,7 +318,8 @@ overlap_heatmap <- overlap_heatmap(peaklist = peaklist_tidy,
                                    interact = params$interact)
 download_button(object = overlap_heatmap,
                 filename = "overlap_heatmap", 
-                self_contained = params$interact)
+                self_contained = params$interact,
+                add_download_button = params$add_download_button)
 overlap_heatmap$plot
 
 # Save output 
@@ -339,7 +346,8 @@ upset_plot <- NULL
 if(isTRUE(params$upset_plot)){
   upset_plot <- overlap_upset_plot(peaklist = peaklist_tidy)
   download_button(object = upset_plot,
-                  filename = "upset_plot") 
+                  filename = "upset_plot", 
+                  add_download_button = params$add_download_button) 
   save_output(save_output = params$save_output,
               file = upset_plot,
               file_type = "image",
@@ -383,7 +391,8 @@ if (needs_ref(params$stat_plot, reference)){
   download_button(object = stat_plot,
                   filename = "overlap_stat_plot", 
                   button_label = "Download overlap stat plot",
-                  self_contained = params$interact)
+                  self_contained = params$interact,
+                  add_download_button = params$add_download_button)
   stat_plot$plot
   # Save output 
   save_output(save_output = params$save_output,
@@ -429,7 +438,8 @@ if(needs_ref(params$precision_recall_plot, reference)){
                                     interact = params$interact)
     download_button(object = pr_out,
                     filename = "precision_recall", 
-                    self_contained = params$interact)  
+                    self_contained = params$interact,
+                    add_download_button = params$add_download_button)  
 }
 pr_out$precision_recall_plot
 cat("\n\n")
@@ -463,7 +473,8 @@ if(isTRUE(params$corr_plot)){
                         interact = params$interact)  
     download_button(object = cp_out,
                     filename = "correlation_plot", 
-                    self_contained = params$interact)
+                    self_contained = params$interact,
+                    add_download_button = params$add_download_button)
 }
 cp_out$corr_plot
 remove(cp_out)
@@ -525,7 +536,8 @@ if(isTRUE(params$chromHMM_plot)){
                                     interact = params$interact)
   download_button(object = samples_chromHMM,
                   filename = "samples_ChromHMM",
-                  self_contained = params$interact) 
+                  self_contained = params$interact,
+                  add_download_button = params$add_download_button) 
   save_output(save_output = params$save_output,
               file = samples_chromHMM,
               file_type = "ggplot",
@@ -550,7 +562,8 @@ if(needs_ref(params$chromHMM_plot, reference)){
                                       invert = FALSE)
   download_button(object = sample_in_ref_df,
                   filename = "sample_in_ref_df",
-                  output_extension = ".csv")
+                  output_extension = ".csv",
+                  add_download_button = params$add_download_button)
   knitr::kable(sample_in_ref_df, format = "markdown") 
 }
 ```
@@ -572,7 +585,8 @@ if(needs_ref(params$chromHMM_plot, reference)){
                                           interact = params$interact)
   download_button(object = sample_in_ref_chromHMM,
                 filename = "sample_in_ref_chromHMM", 
-                self_contained = params$interact) 
+                self_contained = params$interact,
+                add_download_button = params$add_download_button) 
   save_output(save_output = params$save_output,
               file = sample_in_ref_chromHMM,
               file_type = "ggplot",
@@ -597,7 +611,8 @@ if (needs_ref(params$chromHMM_plot, reference)){
                                         invert = FALSE)
    download_button(object = ref_in_sample_df,
                   filename = "ref_in_sample_df",
-                  output_extension = ".csv")
+                  output_extension = ".csv",
+                  add_download_button = params$add_download_button)
    knitr::kable(ref_in_sample_df, format = "markdown")
 }
 ```
@@ -619,7 +634,8 @@ if (needs_ref(params$chromHMM_plot, reference)){
                                           interact = params$interact)
   download_button(object = ref_in_sample_chromHMM,
                   filename = "ref_in_sample_chromHMM", 
-                  self_contained = params$interact)  
+                  self_contained = params$interact,
+                  add_download_button = params$add_download_button)  
   save_output(save_output = params$save_output,
               file = ref_in_sample_chromHMM,
               file_type = "ggplot",
@@ -644,7 +660,8 @@ if (needs_ref(params$chromHMM_plot, reference)){
                                           invert = TRUE)
   download_button(object = sample_not_in_ref_df,
                   filename = "sample_not_in_ref_df", 
-                  output_extension = ".csv")
+                  output_extension = ".csv",
+                  add_download_button = params$add_download_button)
   knitr::kable(sample_not_in_ref_df, format = "markdown")
 }
 ```
@@ -666,7 +683,8 @@ if (needs_ref(params$chromHMM_plot, reference)){
                                             interact = params$interact)
   download_button(object = sample_not_in_ref_chromHMM,
                  filename = "sample_not_in_ref_chromHMM", 
-                 self_contained = params$interact)  
+                 self_contained = params$interact,
+                 add_download_button = params$add_download_button)  
   save_output(save_output = params$save_output,
               file = sample_not_in_ref_chromHMM,
               file_type = "ggplot",
@@ -691,7 +709,8 @@ if (needs_ref(params$chromHMM_plot, reference)){
                                           invert = TRUE)
   download_button(object = ref_not_in_sample_df,
                   filename = "ref_not_in_sample_df", 
-                  output_extension = ".csv")
+                  output_extension = ".csv",
+                  add_download_button = params$add_download_button)
   knitr::kable(ref_not_in_sample_df, format = "markdown")
 }
 ```
@@ -714,7 +733,8 @@ if (needs_ref(params$chromHMM_plot, reference)){
                                             interact = params$interact)
   download_button(object = ref_not_in_sample_chromHMM,
                   filename = "ref_not_in_sample_chromHMM", 
-                  self_contained = params$interact)  
+                  self_contained = params$interact,
+                  add_download_button = params$add_download_button)  
   save_output(save_output = params$save_output,
               file = ref_not_in_sample_chromHMM,
               file_type = "ggplot",
@@ -745,7 +765,8 @@ if(isTRUE(params$chipseeker_plot)){
     interact = params$interact)
   download_button(object = chipseeker_plot,
                   filename = "chipseeker_plot", 
-                  self_contained = params$interact) 
+                  self_contained = params$interact,
+                  add_download_button = params$add_download_button) 
   save_output(save_output = params$save_output,
               file = chipseeker_plot,
               file_type = "ggplot",
@@ -796,7 +817,8 @@ if (isTRUE(params$enrichment_plot)){
 if (isTRUE(params$enrichment_plot)){
   download_button(object = enrichment_plots$kegg_plot,
                   filename = "KEGG_plot", 
-                  self_contained = params$interact)  
+                  self_contained = params$interact,
+                  add_download_button = params$add_download_button)  
   save_output(save_output = params$save_output,
               file = enrichment_plots$kegg_plot,
               file_type = "ggplot",
@@ -825,7 +847,8 @@ themes present in each epigenomic dataset.
 if (isTRUE(params$enrichment_plot)){
   download_button(object = enrichment_plots$go_plot,
                   filename = "GO_plot", 
-                  self_contained = params$interact) 
+                  self_contained = params$interact,
+                  add_download_button = params$add_download_button) 
   save_output(save_output = params$save_output,
               file = enrichment_plots$go_plot,
               file_type = "ggplot",
@@ -866,7 +889,8 @@ if (isTRUE(params$tss_plot)){
                      interact = params$interact)
   download_button(object = tssplt,
                   filename = "tss_plots", 
-                  self_contained = params$interact)
+                  self_contained = params$interact,
+                  add_download_button = params$add_download_button)
 }
 tssplt
 remove(tssplt,p)
