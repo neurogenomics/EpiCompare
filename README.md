@@ -1,7 +1,7 @@
 ⚖<code>EpiCompare</code>⚖<br>QC and Benchmarking of Epigenomic Datasets
 ================
 <img src= 'https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' height= '300' ><br><br><br><br>
-[![](https://img.shields.io/badge/devel%20version-1.3.3-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-1.3.4-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![R build
 status](https://github.com/neurogenomics/EpiCompare/workflows/rworkflows/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
@@ -12,14 +12,14 @@ GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-pro
 [![](https://img.shields.io/badge/doi-https://doi.org/10.1101/2022.07.22.501149-blue.svg)](https://doi.org/https://doi.org/10.1101/2022.07.22.501149)
 [![](https://img.shields.io/badge/release%20version-1.2.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
 [![](https://img.shields.io/badge/download-35/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
-[![](https://img.shields.io/badge/download-428/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-438/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![download](http://www.bioconductor.org/shields/downloads/release/EpiCompare.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)  
 <h4>  
 Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene</i>  
 </h4>
 <h5>  
-<i>Updated</i>: Feb-16-2023  
+<i>Updated</i>: Feb-24-2023  
 </h5>
 
 # Introduction
@@ -181,7 +181,7 @@ EpiCompare::EpiCompare(peakfiles = peakfiles,
                        output_dir = tempdir())
 ```
 
-#### Mandatory Inputs
+#### Required Inputs
 
 These input parameters must be provided:
 
@@ -315,7 +315,7 @@ argument:
     specified `output_dir`
 
 An example report comparing ATAC-seq and DNase-seq can be found
-[here](https://neurogenomics.github.io/EpiCompare/inst/report/EpiCompare_example.html)
+[here](https://neurogenomics.github.io/EpiCompare/articles/example_report)
 
 ## Datasets
 

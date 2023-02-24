@@ -1,3 +1,17 @@
+## CHANGES IN VERSION 1.3.4
+
+### New features
+
+* Example report:
+  - Delete *report/* folder and upload to Releases instead:
+    https://github.com/neurogenomics/EpiCompare/releases
+
+### Bug fixes
+
+* *README.Rmd*:
+  - Fix broken link to example report.
+
+
 ## CHANGES IN VERSION 1.3.3
 
 ### New features
