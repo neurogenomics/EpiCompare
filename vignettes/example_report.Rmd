@@ -11,5 +11,5 @@ vignette: >
 ---
  
 ```{r}
-htmltools::includeHTML("https://github.com/neurogenomics/EpiCompare/raw/master/report/EpiCompare_example.html")
+htmltools::includeHTML("https://github.com/neurogenomics/EpiCompare/releases/download/1.3.3/EpiCompare_example.html")
 ```
