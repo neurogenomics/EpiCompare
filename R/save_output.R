@@ -31,19 +31,23 @@ save_output <- function(save_output = FALSE,
       data.table::fwrite(x = file,
                          file = file.path(
                            outpath,
-                           paste0(gsub("\\.txt|\\.csv","",filename),
+                           paste0(gsub("\\.txt|\\.csv","",basename(filename)),
                                   ".csv")),
                          sep = "\t")
     }else if(file_type == "ggplot"){ 
       if(isTRUE(interactive)){
         messager("Saving HTML  ==>",file,v=verbose)
         htmltools::save_html(html = file,
-                             file = file.path(outpath,paste0(filename,".html"))
+                             file = file.path(
+                               outpath,paste0(basename(filename),".html")
+                               )
                              )
       }else{
         messager("Saving PNG file ==>",file,v=verbose)
         options(bitmapType = 'cairo', device = 'png')
-        ggplot2::ggsave(filename = file.path(outpath, paste0(filename,".png")),
+        ggplot2::ggsave(filename = file.path(outpath,
+                                             paste0(basename(filename),".png")
+                                             ),
                         plot = file,
                         device = "png",
                         path = outpath)
@@ -52,7 +56,7 @@ save_output <- function(save_output = FALSE,
     }else if(file_type == "image"){
       messager("Saving PNG file ==>",file,v=verbose)
       check_dep("grDevices")
-      grDevices::png(file.path(outpath, paste0(filename,".png")))
+      grDevices::png(file.path(outpath, paste0(basename(filename),".png")))
       file
       grDevices::dev.off()
     }

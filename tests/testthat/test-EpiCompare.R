@@ -12,7 +12,7 @@ testthat::test_that("EpiCompare works",{
     picard_list <- list("CnT"=CnT_H3K27ac_picard, "CnR"=CnR_H3K27ac_picard)
   }
   
-  outpath <- file.path(tempdir(),"t1")
+  outpath <- "t1" #file.path(tempdir(),"t1")
   html_file <- EpiCompare::EpiCompare(peakfiles = peaklist,
                                       genome_build = "hg19", 
                                       picard_files = picard_list,
@@ -41,7 +41,7 @@ testthat::test_that("EpiCompare works",{
   testthat::expect_true(is.element("GO_analysis.html", files))
 
   #### All options FALSE, correct outputs generated ####
-  outpath <- file.path(tempdir(),"t2")
+  outpath <- "t2" #file.path(tempdir(),"t2")
   html_file <- EpiCompare::EpiCompare(peakfiles = peaklist,
                                        genome_build = "hg19", 
                                        picard_files = picard_list,

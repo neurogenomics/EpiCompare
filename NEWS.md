@@ -19,7 +19,9 @@
   - Fix broken link to example report.
 * *test-EpiCompare.R*
   - Fix issue with PNG save path.
-
+  - Make separate subfolders for each set of tests.
+* *test-output_files.R*
+  - Make separate subfolders for each set of tests.
 
 ## CHANGES IN VERSION 1.3.3
 
