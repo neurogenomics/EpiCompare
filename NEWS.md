@@ -9,6 +9,9 @@
 * EpiCompare
   - New arg `add_download_button`. 
   - Always keep download button for post-processed peak files.
+* `save_output``
+  - Change *.txt* suffixes to more informative *.csv* suffixes for saved files.
+  
 
 ### Bug fixes
 

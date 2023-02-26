@@ -29,7 +29,10 @@ save_output <- function(save_output = FALSE,
     if(file_type == "data.frame"){
       messager("Saving CSV file ==>",file,v=verbose)
       data.table::fwrite(x = file,
-                         file = file.path(outpath,paste0(filename,".txt")),
+                         file = file.path(
+                           outpath,
+                           paste0(gsub("\\.txt|\\.csv","",filename),
+                                  ".csv")),
                          sep = "\t")
     }else if(file_type == "ggplot"){ 
       if(isTRUE(interactive)){
