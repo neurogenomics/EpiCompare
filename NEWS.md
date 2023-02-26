@@ -17,9 +17,9 @@
 
 * *README.Rmd*:
   - Fix broken link to example report.
-* *test-EpiCompare.R*
+* *test-EpiCompare.R*:
   - Fix issue with PNG save path.
-  - Make separate subfolders for each set of tests.
+  - Make separate subfolders for each set of tests. 
 * *test-output_files.R*
   - Make separate subfolders for each set of tests.
 

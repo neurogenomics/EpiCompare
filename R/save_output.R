@@ -13,6 +13,8 @@
 #' @param verbose Print messages.
 #'
 #' @importFrom htmltools save_html
+#' @importFrom data.table fwrite
+#' @importFrom ggplot2 ggsave
 #'
 #' @return Saved data frames and plots.
 #' @keywords internal 
@@ -35,6 +37,7 @@ save_output <- function(save_output = FALSE,
                                   ".csv")),
                          sep = "\t")
     }else if(file_type == "ggplot"){ 
+      ## Save interactive HTML
       if(isTRUE(interactive)){
         messager("Saving HTML  ==>",file,v=verbose)
         htmltools::save_html(html = file,
@@ -42,9 +45,9 @@ save_output <- function(save_output = FALSE,
                                outpath,paste0(basename(filename),".html")
                                )
                              )
-      }else{
-        messager("Saving PNG file ==>",file,v=verbose)
-        options(bitmapType = 'cairo', device = 'png')
+      ## Save static PNG
+      } else{
+        messager("Saving PNG file ==>",file,v=verbose) 
         ggplot2::ggsave(filename = file.path(outpath,
                                              paste0(basename(filename),".png")
                                              ),
