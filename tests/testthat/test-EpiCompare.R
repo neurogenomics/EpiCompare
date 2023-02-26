@@ -4,8 +4,6 @@
   data("CnR_H3K27ac")
   data("CnT_H3K27ac_picard")
   data("CnR_H3K27ac_picard")
-  # Create directory for test outputs
-  outpath <- file.path(tempdir(),"EpiCompare_testthat") 
   # create named peaklist, reference and picard list
   peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac)
   reference <- list("ENCODE"=encode_H3K27ac)
@@ -13,6 +11,7 @@
 }
 
 testthat::test_that("EpiCompare works (run_all=T, interact=T, reference=NULL)",{
+  outpath <- file.path(tempdir(),"t1")
   html_file <- EpiCompare::EpiCompare(peakfiles = peaklist,
                                       genome_build = "hg19", 
                                       picard_files = picard_list,
@@ -41,19 +40,9 @@ testthat::test_that("EpiCompare works (run_all=T, interact=T, reference=NULL)",{
   testthat::expect_true(is.element("GO_analysis.html", files))
 })
 
-# remove test directory and create new one
-unlink(outpath, recursive = TRUE)
-if(!dir.exists(outpath)){
-  dir.create(outpath)
-}
-
-# remove test directory and create new one
-unlink(outpath, recursive = TRUE)
-if(!dir.exists(outpath)){
-  dir.create(outpath)
-}
 
 testthat::test_that("All options FALSE, correct outputs generated",{
+  outpath <- file.path(tempdir(),"t2")
   html_file <- EpiCompare::EpiCompare(peakfiles = peaklist,
                                        genome_build = "hg19", 
                                        picard_files = picard_list,

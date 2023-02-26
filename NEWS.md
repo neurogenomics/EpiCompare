@@ -14,6 +14,8 @@
 
 * *README.Rmd*:
   - Fix broken link to example report.
+* *test-EpiCompare.R*
+  - Fix issue with PNG save path.
 
 
 ## CHANGES IN VERSION 1.3.3
