@@ -18,7 +18,7 @@ peaklist_build and reference_build."><!-- mathjax --><script src="https://cdnjs.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.4</span>
       </span>
     </div>
 
@@ -71,7 +71,7 @@ peaklist_build and reference_build."><!-- mathjax --><script src="https://cdnjs.
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">prepare_genome_builds</span><span class="op">(</span><span class="va">genome_build</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">prepare_genome_builds</span><span class="op">(</span><span class="va">genome_build</span>, blacklist <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -89,6 +89,25 @@ Alternatively, you can supply a single character string instead of a list.
 This should <em>only</em> be done in situations where all three inputs
 (<code>peakfiles</code>, <code>reference</code>, <code>blacklist</code>) are of the same
 genome build. For example:<br><code>genome_build = "hg19"</code></p></dd>
+
+
+<dt>blacklist</dt>
+<dd><p>A <a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a> object
+ containing blacklisted genomic regions.
+Blacklists included in <span class="pkg">EpiCompare</span> are:</p><ul><li><p><code>NULL</code> (default): Automatically selects the appropriate
+ blacklist based on the <code>genome_build_output</code> argument.</p></li>
+<li><p>"hg19_blacklist": Regions of hg19 genome that have anomalous
+and/or unstructured signals. <a href="hg19_blacklist.html">hg19_blacklist</a></p></li>
+<li><p>"hg38_blacklist": Regions of hg38 genome that have anomalous
+and/or unstructured signals. <a href="hg38_blacklist.html">hg38_blacklist</a></p></li>
+<li><p>"mm10_blacklist": Regions of mm10 genome that have anomalous
+and/or unstructured signals. <a href="mm10_blacklist.html">mm10_blacklist</a></p></li>
+<li><p>"mm9_blacklist": Blacklisted regions of mm10 genome that have been
+ lifted over from <a href="mm10_blacklist.html">mm10_blacklist</a>. 
+ <a href="mm9_blacklist.html">mm9_blacklist</a></p></li>
+<li><p><code>&lt;user_input&gt;</code>: A custom user-provided blacklist in 
+<a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a> format.</p></li>
+</ul></dd>
 
 </dl></div>
     <div id="value">
@@ -110,7 +129,7 @@ genome build. For example:<br><code>genome_build = "hg19"</code></p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
       </footer></div>

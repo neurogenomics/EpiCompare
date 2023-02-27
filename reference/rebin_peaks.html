@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.4</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
 <span>  sep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">":"</span>, <span class="st">"-"</span><span class="op">)</span>,</span>
 <span>  drop_empty_chr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  as_sparse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  workers <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  workers <span class="op">=</span> <span class="fu"><a href="check_workers.html">check_workers</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -149,8 +149,7 @@ which is more efficiently stored than a dense matrix (<code>FALSE</code>).</p></
 
 
 <dt>workers</dt>
-<dd><p>Number of cores to parallelise across 
-(in applicable functions).</p></dd>
+<dd><p>Number of threads to parallelize across.</p></dd>
 
 
 <dt>verbose</dt>
@@ -202,7 +201,8 @@ which is more efficiently stored than a dense matrix (<code>FALSE</code>).</p></
 <span class="r-in"><span><span class="co">#increasing bin_size for speed</span></span></span>
 <span class="r-in"><span><span class="va">peakfiles_rebinned</span> <span class="op">&lt;-</span> <span class="fu">rebin_peaks</span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peakfiles</span>,</span></span>
 <span class="r-in"><span>                                  genome_build <span class="op">=</span> <span class="st">"hg19"</span>,</span></span>
-<span class="r-in"><span>                                  bin_size <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                                  bin_size <span class="op">=</span> <span class="fl">5000</span>,</span></span>
+<span class="r-in"><span>                                  workers <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Standardising peak files in 647,114 bins of 5,000 bp.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Merging data into matrix.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Converting to sparse matrix.</span>
@@ -222,7 +222,7 @@ which is more efficiently stored than a dense matrix (<code>FALSE</code>).</p></
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
       </footer></div>

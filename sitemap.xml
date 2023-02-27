@@ -40,6 +40,9 @@
     <loc>/reference/EpiCompare.html</loc>
   </url>
   <url>
+    <loc>/reference/as_interactive.html</loc>
+  </url>
+  <url>
     <loc>/reference/bpplapply.html</loc>
   </url>
   <url>
@@ -58,6 +61,9 @@
     <loc>/reference/check_list_names.html</loc>
   </url>
   <url>
+    <loc>/reference/check_workers.html</loc>
+  </url>
+  <url>
     <loc>/reference/clean_granges.html</loc>
   </url>
   <url>
@@ -65,6 +71,9 @@
   </url>
   <url>
     <loc>/reference/compute_corr.html</loc>
+  </url>
+  <url>
+    <loc>/reference/download_button.html</loc>
   </url>
   <url>
     <loc>/reference/encode_H3K27ac.html</loc>
@@ -112,6 +121,12 @@
     <loc>/reference/messager.html</loc>
   </url>
   <url>
+    <loc>/reference/mm10_blacklist.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mm9_blacklist.html</loc>
+  </url>
+  <url>
     <loc>/reference/overlap_heatmap.html</loc>
   </url>
   <url>
@@ -154,6 +169,9 @@
     <loc>/reference/predict_values.html</loc>
   </url>
   <url>
+    <loc>/reference/prepare_blacklist.html</loc>
+  </url>
+  <url>
     <loc>/reference/prepare_genome_builds.html</loc>
   </url>
   <url>
@@ -163,6 +181,9 @@
     <loc>/reference/prepare_reference.html</loc>
   </url>
   <url>
+    <loc>/reference/read_bowtie.html</loc>
+  </url>
+  <url>
     <loc>/reference/read_peaks.html</loc>
   </url>
   <url>
@@ -170,6 +191,12 @@
   </url>
   <url>
     <loc>/reference/remove_nonstandard_chrom.html</loc>
+  </url>
+  <url>
+    <loc>/reference/report_command.html</loc>
+  </url>
+  <url>
+    <loc>/reference/report_header.html</loc>
   </url>
   <url>
     <loc>/reference/save_output.html</loc>

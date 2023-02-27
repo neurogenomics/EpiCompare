@@ -22,7 +22,7 @@ Peaks located on chromosome 1 were subsetted to reduce the dataset size."><!-- m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.4</span>
       </span>
     </div>
 
@@ -90,7 +90,9 @@ Peaks located on chromosome 1 were subsetted to reduce the dataset size.</p>
     <h2>Source</h2>
     <p>The code to prepare the .Rda file from the raw peak file is:</p>
 <p><code># dataset was directly downloaded from</code> <br><code># https://www.encodeproject.org/files/ENCFF044JNJ/</code>
-<code>encode_H3K27ac &lt;- ChIPseeker::readPeakFile("path", as = "GRanges")</code> <br><code>encode_H3K27ac &lt;- encode_H3K27ac[seqnames(encode_H3K27ac) == "chr1"]</code> <br><code>my_label &lt;- c("name","score","strand","signalValue","pValue","qValue","peak")</code> <br><code>colnames(GenomicRanges::mcols(encode_H3K27ac)) &lt;- my_label</code> <br><code>usethis::use_data(encode_H3K27ac, overwrite = TRUE)</code> <br></p>
+<code>encode_H3K27ac &lt;- ChIPseeker::readPeakFile("path", as = "GRanges")</code> <br><code>encode_H3K27ac &lt;- 
+encode_H3K27ac[seqnames(encode_H3K27ac) == "chr1"]</code> <br><code>my_label &lt;-
+ c("name","score","strand","signalValue","pValue","qValue","peak")</code> <br><code>colnames(GenomicRanges::mcols(encode_H3K27ac)) &lt;- my_label</code> <br><code>usethis::use_data(encode_H3K27ac, overwrite = TRUE)</code> <br></p>
     </div>
 
   </div>
@@ -105,7 +107,7 @@ Peaks located on chromosome 1 were subsetted to reduce the dataset size.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
       </footer></div>

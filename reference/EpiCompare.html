@@ -20,7 +20,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.4</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
 <span>  <span class="va">peakfiles</span>,</span>
 <span>  <span class="va">genome_build</span>,</span>
 <span>  genome_build_output <span class="op">=</span> <span class="st">"hg19"</span>,</span>
-<span>  <span class="va">blacklist</span>,</span>
+<span>  blacklist <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  picard_files <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  reference <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  upset_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -89,18 +89,23 @@ divided into three sections: (1) General Metrics on Peakfiles,
 <span>  chipseeker_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  enrichment_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  tss_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  tss_distance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3000</span>, <span class="fl">3000</span><span class="op">)</span>,</span>
 <span>  precision_recall_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  n_threshold <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  corr_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  bin_size <span class="op">=</span> <span class="fl">5000</span>,</span>
 <span>  interact <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  add_download_button <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  save_output <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  output_filename <span class="op">=</span> <span class="st">"EpiCompare"</span>,</span>
 <span>  output_timestamp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">output_dir</span>,</span>
 <span>  display <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  run_all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  workers <span class="op">=</span> <span class="fl">1</span></span>
+<span>  workers <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  error <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  debug <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -137,7 +142,22 @@ Default: "hg19".</p></dd>
 
 
 <dt>blacklist</dt>
-<dd><p>A GRanges object containing blacklisted regions.</p></dd>
+<dd><p>A <a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a> object
+ containing blacklisted genomic regions.
+Blacklists included in <span class="pkg">EpiCompare</span> are:</p><ul><li><p><code>NULL</code> (default): Automatically selects the appropriate
+ blacklist based on the <code>genome_build_output</code> argument.</p></li>
+<li><p>"hg19_blacklist": Regions of hg19 genome that have anomalous
+and/or unstructured signals. <a href="hg19_blacklist.html">hg19_blacklist</a></p></li>
+<li><p>"hg38_blacklist": Regions of hg38 genome that have anomalous
+and/or unstructured signals. <a href="hg38_blacklist.html">hg38_blacklist</a></p></li>
+<li><p>"mm10_blacklist": Regions of mm10 genome that have anomalous
+and/or unstructured signals. <a href="mm10_blacklist.html">mm10_blacklist</a></p></li>
+<li><p>"mm9_blacklist": Blacklisted regions of mm10 genome that have been
+ lifted over from <a href="mm10_blacklist.html">mm10_blacklist</a>. 
+ <a href="mm9_blacklist.html">mm9_blacklist</a></p></li>
+<li><p><code>&lt;user_input&gt;</code>: A custom user-provided blacklist in 
+<a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a> format.</p></li>
+</ul></dd>
 
 
 <dt>picard_files</dt>
@@ -174,7 +194,8 @@ Reference peak file must be provided.</p></dd>
 <dt>chromHMM_plot</dt>
 <dd><p>Default FALSE. If TRUE, the function outputs ChromHMM
 heatmap of individual peak files. If a reference peak file is provided,
-ChromHMM annotation of overlapping and non-overlapping peaks is also provided.</p></dd>
+ChromHMM annotation of overlapping and non-overlapping peaks 
+is also provided.</p></dd>
 
 
 <dt>chromHMM_annotation</dt>
@@ -206,6 +227,13 @@ of KEGG and GO enrichment analysis of peak files.</p></dd>
 frequency around transcriptional start site. Note that this can take awhile.</p></dd>
 
 
+<dt>tss_distance</dt>
+<dd><p>A vector specifying the distance upstream and downstream
+around transcription start sites (TSS). 
+The default value is <code>c(-3000,3000)</code>; meaning peak frequency 
+3000bp upstream and downstream of TSS will be displayed.</p></dd>
+
+
 <dt>precision_recall_plot</dt>
 <dd><p>Default is FALSE. If TRUE,
 creates a precision-recall curve plot and an F1 plot using
@@ -229,8 +257,12 @@ larger memory usage.</p></dd>
 
 
 <dt>interact</dt>
-<dd><p>Default TRUE. By default, all heatmaps are interactive.
-If set FALSE, all heatmaps in the report will be static.</p></dd>
+<dd><p>Default TRUE. By default, plots are interactive.
+If set FALSE, all plots in the report will be static.</p></dd>
+
+
+<dt>add_download_button</dt>
+<dd><p>Add download buttons for each plot or dataset.</p></dd>
 
 
 <dt>save_output</dt>
@@ -268,8 +300,25 @@ file name.</p></dd>
 
 
 <dt>workers</dt>
-<dd><p>Number of cores to parallelise across 
-(in applicable functions).</p></dd>
+<dd><p>Number of threads to parallelize across.</p></dd>
+
+
+<dt>quiet</dt>
+<dd><p>An option to suppress printing during rendering from knitr,
+pandoc command line and others. To only suppress printing of the last
+"Output created: " message, you can set <code>rmarkdown.render.message</code> to
+<code>FALSE</code></p></dd>
+
+
+<dt>error</dt>
+<dd><p>If <code>TRUE</code>, the Rmarkdown report will continue to render 
+even when some chunks encounter errors (default: <code>FALSE</code>).
+Passed to <a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a>.</p></dd>
+
+
+<dt>debug</dt>
+<dd><p>Run in debug mode, where are messages and warnings 
+are printed within the HTML report (default: <code>FALSE</code>).</p></dd>
 
 </dl></div>
     <div id="value">
@@ -285,32 +334,46 @@ file name.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"encode_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac"</span><span class="op">)</span> <span class="co"># example dataset as GRanges object</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hg19_blacklist"</span><span class="op">)</span> <span class="co"># hg19 blacklist dataset</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnT_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"CnR_H3K27ac_picard"</span><span class="op">)</span> <span class="co"># example Picard summary output</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#### Prepare Input ####</span></span></span>
 <span class="r-in"><span><span class="co"># create named list of peakfiles</span></span></span>
-<span class="r-in"><span><span class="va">peaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR<span class="op">=</span><span class="va">CnR_H3K27ac</span>, CnT<span class="op">=</span><span class="va">CnT_H3K27ac</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">peakfiles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR<span class="op">=</span><span class="va">CnR_H3K27ac</span>, CnT<span class="op">=</span><span class="va">CnT_H3K27ac</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># create named list of picard outputs</span></span></span>
-<span class="r-in"><span><span class="va">picard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR<span class="op">=</span><span class="va">CnR_H3K27ac_picard</span>, CnT<span class="op">=</span><span class="va">CnT_H3K27ac_picard</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">picard_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>CnR<span class="op">=</span><span class="va">CnR_H3K27ac_picard</span>, CnT<span class="op">=</span><span class="va">CnT_H3K27ac_picard</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># reference peak file</span></span></span>
-<span class="r-in"><span><span class="va">reference_peak</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"ENCODE"</span> <span class="op">=</span> <span class="va">encode_H3K27ac</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"ENCODE"</span> <span class="op">=</span> <span class="va">encode_H3K27ac</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### Run EpiCompare ###</span></span></span>
-<span class="r-in"><span><span class="fu">EpiCompare</span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peaks</span>,</span></span>
+<span class="r-in"><span><span class="va">output_html</span> <span class="op">&lt;-</span> <span class="fu">EpiCompare</span><span class="op">(</span>peakfiles <span class="op">=</span> <span class="va">peakfiles</span>,</span></span>
 <span class="r-in"><span>           genome_build <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>peakfiles<span class="op">=</span><span class="st">"hg19"</span>,</span></span>
-<span class="r-in"><span>                               reference<span class="op">=</span><span class="st">"hg19"</span>,</span></span>
-<span class="r-in"><span>                               blacklist<span class="op">=</span><span class="st">"hg19"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>           genome_build_output <span class="op">=</span> <span class="st">"hg19"</span>,</span></span>
-<span class="r-in"><span>           blacklist <span class="op">=</span> <span class="va">hg19_blacklist</span>,</span></span>
-<span class="r-in"><span>           picard_files <span class="op">=</span> <span class="va">picard</span>,</span></span>
-<span class="r-in"><span>           reference <span class="op">=</span> <span class="va">reference_peak</span>,</span></span>
+<span class="r-in"><span>                               reference<span class="op">=</span><span class="st">"hg19"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>           picard_files <span class="op">=</span> <span class="va">picard_files</span>,</span></span>
+<span class="r-in"><span>           reference <span class="op">=</span> <span class="va">reference</span>,</span></span>
 <span class="r-in"><span>           output_filename <span class="op">=</span> <span class="st">"EpiCompare_test"</span>,</span></span>
 <span class="r-in"><span>           output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.075 min."</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/RtmpDyaFqq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpDyaFqq/EpiCompare_test.html"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: The following EpiCompare features are NOT being used: </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - upset_plot=</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - stat_plot=</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - chromHMM_plot=</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - chipseeker_plot=</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - enrichment_plot=</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - tss_plot=</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - precision_recall_plot=</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - corr_plot=</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - add_download_button=</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing file: EpiCompare.Rmd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   |                                                   |                                           |   0%  |                                                   |.                                          |   2%                             |                                                   |.                                          |   3% (setup)                     |                                                   |..                                         |   5%                             |                                                   |...                                        |   7% (list file names)           |                                                   |....                                       |   8%                             |                                                   |....                                       |  10% (download processed peaks)  |                                                   |.....                                      |  12%                             |                                                   |......                                     |  14% (report_command)            |                                                   |.......                                    |  15%                             |                                                   |.......                                    |  17% (peak_info)                 |                                                   |........                                   |  19%                             |                                                   |.........                                  |  20% (picard_files)              |                                                   |.........                                  |  22%                             |                                                   |..........                                 |  24% (width_boxplot)             |                                                   |...........                                |  25%                             |                                                   |............                               |  27% (overlap_heatmap)           |                                                   |............                               |  29%                             |                                                   |.............                              |  31% (overlap_upset_plot)        |                                                   |..............                             |  32%                             |                                                   |...............                            |  34% (overlap_stat_plot)         |                                                   |...............                            |  36%                             |                                                   |................                           |  37% (precision_recall_plot)     |                                                   |.................                          |  39%                             |                                                   |.................                          |  41% (Correlation Plot)          |                                                   |..................                         |  42%                             |                                                   |...................                        |  44% (plot_chromHMM1)            |                                                   |....................                       |  46%                             |                                                   |....................                       |  47% (overlap_percent1)          |                                                   |.....................                      |  49%                             |                                                   |......................                     |  51% (plot_chromHMM2)            |                                                   |.......................                    |  53%                             |                                                   |.......................                    |  54% (overlap_percent2)          |                                                   |........................                   |  56%                             |                                                   |.........................                  |  58% (plot_chromHMM3)            |                                                   |..........................                 |  59%                             |                                                   |..........................                 |  61% (overlap_percent3)          |                                                   |...........................                |  63%                             |                                                   |............................               |  64% (plot_chromHMM4)            |                                                   |............................               |  66%                             |                                                   |.............................              |  68% (overlap_percent4)          |                                                   |..............................             |  69%                             |                                                   |...............................            |  71% (plot_chromHMM5)            |                                                   |...............................            |  73%                             |                                                   |................................           |  75% (Annotate Peaks)            |                                                   |.................................          |  76%                             |                                                   |..................................         |  78% (plot_enrichment)           |                                                   |..................................         |  80%                             |                                                   |...................................        |  81% (KEGG_plot)                 |                                                   |....................................       |  83%                             |                                                   |....................................       |  85% (GO_plot)                   |                                                   |.....................................      |  86%                             |                                                   |......................................     |  88% (unnamed-chunk-1)           |                                                   |.......................................    |  90%                             |                                                   |.......................................    |  92% (tss_plots)                 |                                                   |........................................   |  93%                             |                                                   |.........................................  |  95% (unnamed-chunk-2)           |                                                   |.......................................... |  97%                             |                                                   |.......................................... |  98% (Session Info)              |                                                   |...........................................| 100%                                                                                                                                                </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> output file: EpiCompare.knit.md</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /usr/local/bin/pandoc +RTS -K512m -RTS EpiCompare.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /private/var/folders/zq/h7mtybc533b1qzkys_ttgpth0000gn/T/RtmpUpOSfq/EpiCompare_test.html --lua-filter /Library/Frameworks/R.framework/Versions/4.2/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.2/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.2/Resources/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --variable theme=bootstrap --css custom.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/zq/h7mtybc533b1qzkys_ttgpth0000gn/T//RtmpUpOSfq/rmarkdown-str89c714406573.html --variable code_folding=hide --variable code_menu=1 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Output created: /private/var/folders/zq/h7mtybc533b1qzkys_ttgpth0000gn/T/RtmpUpOSfq/EpiCompare_test.html</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.09 min."</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /var/folders/zq/h7mtybc533b1qzkys_ttgpth0000gn/T//RtmpUpOSfq</span>
+<span class="r-in"><span><span class="co"># utils::browseURL(output_html) </span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -325,7 +388,7 @@ file name.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
       </footer></div>

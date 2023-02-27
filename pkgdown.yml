@@ -1,9 +1,9 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
-pkgdown_sha: ~
+pandoc: '3.1'
+pkgdown: 2.0.7.9000
+pkgdown_sha: c354aa7e5ea1f9936692494c28c89e5bdd31fc68
 articles:
   EpiCompare: EpiCompare.html
   docker: docker.html
   example_report: example_report.html
-last_built: 2023-02-01T01:20Z
+last_built: 2023-02-27T13:24Z
 
