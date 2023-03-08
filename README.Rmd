@@ -305,17 +305,6 @@ For more details, run `?CnR_H3K27ac`.
 
 </details>
 
-## Session Info
-
-<details>
-<summary>&#128072; <strong>Details</strong></summary>
-
-```{r Session Info}
-utils::sessionInfo()
-```
-
-</details>
-
 ## Contact
 
 ### [Neurogenomics Lab](https://www.neurogenomics.co.uk/inst/report/EpiCompare.html)
@@ -327,4 +316,13 @@ Imperial College London
 [GitHub](https://github.com/neurogenomics)  
 [DockerHub](https://hub.docker.com/orgs/neurogenomicslab)
 
-<br>
+## Session Info
+
+<details>
+<summary>&#128072; <strong>Details</strong></summary>
+
+```{r Session Info}
+utils::sessionInfo()
+```
+</details>
+<hr>

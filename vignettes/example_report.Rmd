@@ -10,12 +10,7 @@ vignette: >
     %\VignetteEngine{knitr::rmarkdown} 
 ---
  
- 
-```R
-script <- system.file("examples/atac_dnase_chip_example.R",package = "EpiCompare")
-source(script)
-```
 
 ```{r}
-htmltools::includeHTML("https://github.com/neurogenomics/EpiCompare/releases/download/1.3.3/atac_dnase_chip_example.html")
+htmltools::includeHTML("https://neurogenomics.github.io/EpiArchives/")
 ```
