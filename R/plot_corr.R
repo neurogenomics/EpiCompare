@@ -44,7 +44,7 @@ plot_corr <- function(peakfiles,
                       show_plot=TRUE,
                       save_path = tempfile(fileext = ".corr.csv.gz")){
     
-    # templateR:::args2vars(plot_corr); genome_build = "hg19";
+    # devoptera::args2vars(plot_corr); genome_build = "hg19";
     check_dep("ggplot2")
     peakfile1 <- peakfile2 <- corr <- NULL;
     #### Check deps ####

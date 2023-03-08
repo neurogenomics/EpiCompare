@@ -45,7 +45,7 @@ plot_chromHMM <- function(peaklist,
                           cell_line=NULL,
                           interact=FALSE,
                           return_data=FALSE){
-  # templateR:::args2vars(plot_chromHMM)
+  # devoptera::args2vars(plot_chromHMM)
   State <- Sample <- value <- NULL;
 
   message("--- Running plot_chromHMM() ---")

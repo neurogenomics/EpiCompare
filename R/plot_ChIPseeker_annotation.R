@@ -26,7 +26,7 @@ plot_ChIPseeker_annotation <- function(peaklist,
                                        txdb = NULL,
                                        tss_distance = c(-3000, 3000),
                                        interact = FALSE){
-  # templateR:::args2vars(plot_ChIPseeker_annotation)
+  # devoptera::args2vars(plot_ChIPseeker_annotation)
   message("--- Running plot_ChIPseeker_annotation() ---")
   ### Check Peaklist Names ###
   peaklist <- check_list_names(peaklist) 

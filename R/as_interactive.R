@@ -19,6 +19,7 @@ as_interactive <- function(plt,
                            to_widget=isTRUE(getOption('knitr.in.progress')),
                            add_boxmode=FALSE){
   # plotly::renderPlotly()
+  if(is.null(plt)) return(NULL)
   if(!methods::is(plt,"plotly")){
     plt <- plotly::ggplotly(plt)
   } 

@@ -11,7 +11,6 @@
   - Always keep download button for post-processed peak files.
 * `save_output``
   - Change *.txt* suffixes to more informative *.csv* suffixes for saved files.
-  
 
 ### Bug fixes
 
@@ -22,6 +21,9 @@
   - Make separate subfolders for each set of tests. 
 * *test-output_files.R*
   - Make separate subfolders for each set of tests.
+* `plot_enrichment`
+  - Conditionally generate plots only when enrichment results aren't `NULL`.
+  - Return KEGG/GO enrichment results as well as the plots.
 
 ## CHANGES IN VERSION 1.3.3
 

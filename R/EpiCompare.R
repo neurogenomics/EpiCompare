@@ -192,7 +192,7 @@ EpiCompare <- function(peakfiles,
                        error = FALSE, 
                        debug = FALSE){
 
-  # templateR:::args2vars(EpiCompare)
+  # devoptera::args2vars(EpiCompare)
   #### time ####
   t1 <- Sys.time()
   #### Check that essential args are not missing ####

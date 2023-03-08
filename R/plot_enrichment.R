@@ -24,7 +24,7 @@
 #' data("CnR_H3K27ac") # example peakfile GRanges object 
 #' ### Create Named Peaklist ###
 #' peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac) 
-#' enrich_res <- plot_enrichment(peaklist = peaklist, 
+#' enrich_res <- plot_enrichment(peaklist = peaklist, pvalueCutoff=1,
 #'                               tss_distance = c(-50,50)) 
 plot_enrichment <- function(peaklist, 
                             txdb = NULL,
@@ -32,14 +32,20 @@ plot_enrichment <- function(peaklist,
                             pvalueCutoff = 0.05,
                             interact = FALSE,
                             verbose = TRUE){
+  # devoptera::args2vars(plot_enrichment) 
   
-  # templateR:::args2vars(plot_enrichment) 
   messager("--- Running plot_enrichment() ---",v=verbose)
+  t1 <- Sys.time()
   ### Check deps ### 
   check_dep("clusterProfiler")  
   check_dep("org.Hs.eg.db")
   ### Check Peaklist Names ###
   peaklist <- check_list_names(peaklist)  
+  ### Adjust Font Size ###
+  font_size <- 11
+  if(length(peaklist) > 6){
+    font_size <- 8
+  }
   ### Annotate Peak ###
   peak_annotated <- lapply(peaklist,
                            ChIPseeker::annotatePeak,
@@ -47,29 +53,30 @@ plot_enrichment <- function(peaklist,
                            tssRegion = tss_distance,
                            verbose = FALSE)
   genes <- lapply(peak_annotated, function(i) as.data.frame(i)$geneId)
-
   ### KEGG ### 
   messager("+ Running clusterProfiler::compareCluster for KEGG.",v=verbose)
   compKEGG <- clusterProfiler::compareCluster(geneCluster = genes,
                                               fun = "enrichKEGG",
                                               pvalueCutoff = pvalueCutoff,
                                               pAdjustMethod = "BH")
-  ### Adjust Font Size ###
-  font_size <- 11
-  if(length(peaklist) > 6){
-    font_size <- 8
-  }
-  ### Generate KEGG Dotplot ###
-  kegg_plot <- clusterProfiler::dotplot(compKEGG) +
-    ggplot2::labs(x="") +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
-                                                       vjust = 1,
-                                                       hjust = 1,
-                                                       size = font_size))
-  # Remove new line
-  sample_names <- gsub('\n([0-9]*)','',kegg_plot$data$Cluster)
-  kegg_plot$data$Cluster <- sample_names
-
+  #### Check res ####
+  if(is.null(compKEGG)){
+    messager("WARNING: No enrichment identified with enrichKEGG.",
+             "Skipping plot creation.",
+             v=verbose)
+    kegg_plot <- NULL
+  } else {
+    ### Generate KEGG Dotplot ###
+    kegg_plot <- clusterProfiler::dotplot(compKEGG) +
+      ggplot2::labs(x="") +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                         vjust = 1,
+                                                         hjust = 1,
+                                                         size = font_size))
+    # Remove new line
+    sample_names <- gsub('\n([0-9]*)','',kegg_plot$data$Cluster)
+    kegg_plot$data$Cluster <- sample_names
+  } 
   ### GO ###
   messager("+ Running clusterProfiler::compareCluster for GO.",v=verbose)
   compGO <- clusterProfiler::compareCluster(geneCluster = genes,
@@ -77,27 +84,40 @@ plot_enrichment <- function(peaklist,
                                            fun = "enrichGO",
                                            pvalueCutoff = pvalueCutoff,
                                            pAdjustMethod = "BH")
-  ### Generate GO Dotplot ###
-  go_plot <- clusterProfiler::dotplot(compGO) +
-    ggplot2::labs(x="") +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
-                                                       vjust = 1,
-                                                       hjust=1,
-                                                       size = font_size))
-  # Remove new line
-  sample_names <- gsub('\n([0-9]*)','',go_plot$data$Cluster)
-  go_plot$data$Cluster <- sample_names
-
-  
-  ### Return ###
-  message("Done.")
+  #### Check res ####
+  if(is.null(compGO)){
+    messager("WARNING: No enrichment identified with enrichKEGG.",
+             "Skipping plot creation.",
+             v=verbose)
+    go_plot <- NULL
+  } else {
+    ### Generate GO Dotplot ###
+    go_plot <- clusterProfiler::dotplot(compGO) +
+      ggplot2::labs(x="") +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                         vjust = 1,
+                                                         hjust=1,
+                                                         size = font_size))
+    # Remove new line
+    sample_names <- gsub('\n([0-9]*)','',go_plot$data$Cluster)
+    go_plot$data$Cluster <- sample_names
+  } 
+  #### Report time #### 
+  report_time(t1 = t1,
+              func = "plot_enrichment",
+              verbose = verbose)
+  #### Return ####
   if(isTRUE(interact)){
     return(list(kegg_plot=as_interactive(kegg_plot), 
-                go_plot=as_interactive(go_plot))
+                kegg_data=compKEGG,
+                go_plot=as_interactive(go_plot),
+                go_data=compGO)
            )
-  }else {
+  } else {
     return(list(kegg_plot=kegg_plot, 
-                go_plot=go_plot)
+                kegg_data=compKEGG,
+                go_plot=go_plot,
+                go_data=compGO)
            )
   }
 }

@@ -72,8 +72,7 @@ compute_corr <- function(peakfiles,
                          fill_diag = NA,
                          workers = check_workers(),
                          save_path = tempfile(fileext = ".corr.csv.gz")){
-    # templateR:::source_all()
-    # templateR:::args2vars(EpiCompare::compute_corr)
+    # devoptera::args2vars(EpiCompare::compute_corr)
     
     t1 <- Sys.time() 
     #### append all peak files since all to be compared ####
