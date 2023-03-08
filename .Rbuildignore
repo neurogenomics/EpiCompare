@@ -1,3 +1,4 @@
+vignettes/*\.html
 ^Icon*
 ^EpiCompare\.Rproj$
 ^\.Rproj\.user$
