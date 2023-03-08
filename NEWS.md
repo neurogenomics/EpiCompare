@@ -11,6 +11,8 @@
   - Always keep download button for post-processed peak files.
 * `save_output``
   - Change *.txt* suffixes to more informative *.csv* suffixes for saved files.
+* Create `EpiArchives` and offload report to there:
+  - Updated *vignettes/example_report.Rmd* so that it just renders the markdown landing page for `EpiArchives`.
 
 ### Bug fixes
 
