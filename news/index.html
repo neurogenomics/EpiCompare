@@ -79,6 +79,9 @@
 <li>`save_output``
 <ul><li>Change <em>.txt</em> suffixes to more informative <em>.csv</em> suffixes for saved files.</li>
 </ul></li>
+<li>Create <code>EpiArchives</code> and offload report to there:
+<ul><li>Updated <em>vignettes/example_report.Rmd</em> so that it just renders the markdown landing page for <code>EpiArchives</code>.</li>
+</ul></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-3-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-4"></a></h3>
@@ -94,6 +97,11 @@
 <li>
 <em>test-output_files.R</em>
 <ul><li>Make separate subfolders for each set of tests.</li>
+</ul></li>
+<li>
+<code>plot_enrichment</code>
+<ul><li>Conditionally generate plots only when enrichment results aren’t <code>NULL</code>.</li>
+<li>Return KEGG/GO enrichment results as well as the plots.</li>
 </ul></li>
 </ul></div>
 </div>
@@ -565,7 +573,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
