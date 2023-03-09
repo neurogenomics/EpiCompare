@@ -43,6 +43,7 @@ tss_plot <- function(peaklist,
     
   # devoptera::args2vars(tss_plot)
   
+  workers <- check_workers(workers = workers)
   message("--- Running tss_plot() ---")  
   #### Check Peaklist Names ####
   peaklist <- check_list_names(peaklist)

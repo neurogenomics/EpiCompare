@@ -47,6 +47,8 @@ plot_corr <- function(peakfiles,
     # devoptera::args2vars(plot_corr); genome_build = "hg19";
     check_dep("ggplot2")
     peakfile1 <- peakfile2 <- corr <- NULL;
+    
+    workers <- check_workers(workers = workers)
     #### Check deps ####
     fill_diag <- check_heatmap_args(draw_cellnote = draw_cellnote, 
                                     interact = interact, 

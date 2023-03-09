@@ -26,6 +26,7 @@
 * `plot_enrichment`
   - Conditionally generate plots only when enrichment results aren't `NULL`.
   - Return KEGG/GO enrichment results as well as the plots.
+* Add `workers <- check_workers(workers = workers)` to all functions that take `workers` to handle `workers=NULL` properly.
 
 ## CHANGES IN VERSION 1.3.3
 

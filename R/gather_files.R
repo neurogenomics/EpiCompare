@@ -61,6 +61,7 @@ gather_files <- function(dir,
                          verbose = TRUE){
 
   #### Parse type arg ####
+  workers <- check_workers(workers = workers)
   type_key <- c(
     ## peak files
     "peaks.stringent"="*.stringent.bed$",

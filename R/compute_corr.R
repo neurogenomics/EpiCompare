@@ -75,6 +75,7 @@ compute_corr <- function(peakfiles,
     # devoptera::args2vars(EpiCompare::compute_corr)
     
     t1 <- Sys.time() 
+    workers <- check_workers(workers = workers)
     #### append all peak files since all to be compared ####
     #make sure reference not already added to peakfiles
     if(!is.null(reference)){
