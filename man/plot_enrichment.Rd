@@ -47,6 +47,6 @@ data("CnT_H3K27ac") # example peakfile GRanges object
 data("CnR_H3K27ac") # example peakfile GRanges object 
 ### Create Named Peaklist ###
 peaklist <- list("CnT"=CnT_H3K27ac, "CnR"=CnR_H3K27ac) 
-enrich_res <- plot_enrichment(peaklist = peaklist, 
+enrich_res <- plot_enrichment(peaklist = peaklist, pvalueCutoff=1,
                               tss_distance = c(-50,50)) 
 }

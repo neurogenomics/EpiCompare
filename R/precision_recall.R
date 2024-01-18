@@ -65,6 +65,7 @@ precision_recall <- function(peakfiles,
     
     precision <- recall <- F1 <- NULL; 
     
+    workers <- check_workers(workers = workers)
     threshold_list <- seq(from=initial_threshold, 
                           to=1-(max_threshold/n_threshold), 
                           length.out=n_threshold)

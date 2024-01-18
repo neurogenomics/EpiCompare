@@ -75,7 +75,7 @@ control.}
 
 \item{shape}{Variable to set data point shapes by.}
 
-\item{facets}{This argument is soft-deprecated, please use \code{rows}
+\item{facets}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use \code{rows}
 and \code{cols} instead.}
 
 \item{interact}{Default TRUE. By default, plots are interactive.

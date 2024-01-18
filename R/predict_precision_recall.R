@@ -27,10 +27,8 @@
 predict_precision_recall <- function(pr_df,
                                      fun=stats::loess,
                                      precision=seq(10,100,10),
-                                     recall=seq(10,100,10)){  
-    
-    # templateR:::source_all()
-    # templateR:::args2vars(EpiCompare::predict_precision_recall) 
+                                     recall=seq(10,100,10)){
+    # devoptera::args2vars(EpiCompare::predict_precision_recall) 
     
     peaklist1 <- peaklist2 <- NULL;
     

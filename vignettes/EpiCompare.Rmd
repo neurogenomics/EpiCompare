@@ -335,21 +335,7 @@ EpiCompare(peakfiles = peaklist,
 utils::sessionInfo()
 ```
 
-</details>
-
-# Contact
- 
-### [Neurogenomics Lab](https://www.neurogenomics.co.uk/inst/report/EpiCompare.html)
-
-UK Dementia Research Institute  
-Department of Brain Sciences  
-Faculty of Medicine  
-Imperial College London   
-[GitHub](https://github.com/neurogenomics)  
-[DockerHub](https://hub.docker.com/orgs/neurogenomicslab)  
-
-<br>
-
+</details> 
 
 
 

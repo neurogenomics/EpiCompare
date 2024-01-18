@@ -1,11 +1,18 @@
 Type: Package
 Package: EpiCompare
 Title: Comparison, Benchmarking & QC of Epigenomic Datasets
-Version: 1.6.1
+Version: 1.6.2
 Authors@R: c(
     person(given = "Sera", family = "Choi", 
         email = "serachoi1230@gmail.com", 
         role = c("aut"),
+=======
+Version: 1.7.2
+Authors@R: c(
+    person(given = "Sera", family = "Choi", 
+        email = "serachoi1230@gmail.com", 
+        role = "aut",
+>>>>>>> origin/devel
         comment = c(ORCID = "0000-0002-5077-1984")),
     person(given="Brian", family="Schilder", 
         email = "brian_schilder@alumni.brown.edu", 
@@ -71,8 +78,7 @@ Suggests:
     BiocStyle,
     clusterProfiler,
     GenomicAlignments,
-    grDevices, 
-    htmlwidgets,
+    grDevices,
     knitr,
     org.Hs.eg.db,
     testthat (>= 3.0.0),

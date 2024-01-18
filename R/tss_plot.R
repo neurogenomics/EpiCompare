@@ -41,8 +41,9 @@ tss_plot <- function(peaklist,
                      interact = FALSE,
                      workers = check_workers()){
     
-  # templateR:::args2vars(tss_plot)
+  # devoptera::args2vars(tss_plot)
   
+  workers <- check_workers(workers = workers)
   message("--- Running tss_plot() ---")  
   #### Check Peaklist Names ####
   peaklist <- check_list_names(peaklist)

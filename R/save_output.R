@@ -13,6 +13,8 @@
 #' @param verbose Print messages.
 #'
 #' @importFrom htmltools save_html
+#' @importFrom data.table fwrite
+#' @importFrom ggplot2 ggsave
 #'
 #' @return Saved data frames and plots.
 #' @keywords internal 
@@ -29,18 +31,26 @@ save_output <- function(save_output = FALSE,
     if(file_type == "data.frame"){
       messager("Saving CSV file ==>",file,v=verbose)
       data.table::fwrite(x = file,
-                         file = file.path(outpath,paste0(filename,".txt")),
+                         file = file.path(
+                           outpath,
+                           paste0(gsub("\\.txt|\\.csv","",basename(filename)),
+                                  ".csv")),
                          sep = "\t")
     }else if(file_type == "ggplot"){ 
+      ## Save interactive HTML
       if(isTRUE(interactive)){
         messager("Saving HTML  ==>",file,v=verbose)
         htmltools::save_html(html = file,
-                             file = file.path(outpath,paste0(filename,".html"))
+                             file = file.path(
+                               outpath,paste0(basename(filename),".html")
+                               )
                              )
-      }else{
-        messager("Saving PNG file ==>",file,v=verbose)
-        options(bitmapType = 'cairo', device = 'png')
-        ggplot2::ggsave(filename = file.path(outpath, paste0(filename,".png")),
+      ## Save static PNG
+      } else{
+        messager("Saving PNG file ==>",file,v=verbose) 
+        ggplot2::ggsave(filename = file.path(outpath,
+                                             paste0(basename(filename),".png")
+                                             ),
                         plot = file,
                         device = "png",
                         path = outpath)
@@ -49,7 +59,7 @@ save_output <- function(save_output = FALSE,
     }else if(file_type == "image"){
       messager("Saving PNG file ==>",file,v=verbose)
       check_dep("grDevices")
-      grDevices::png(file.path(outpath, paste0(filename,".png")))
+      grDevices::png(file.path(outpath, paste0(basename(filename),".png")))
       file
       grDevices::dev.off()
     }

@@ -32,7 +32,7 @@ download_button <- function(object,
                             self_contained = TRUE,
                             add_download_button = TRUE,
                             verbose = TRUE){
-  # templateR:::args2vars(download_button)
+  # devoptera::args2vars(download_button)
   
   if(isFALSE(add_download_button)) {
     messager("Download button disabled.",v=verbose)

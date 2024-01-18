@@ -9,12 +9,24 @@
 * EpiCompare
   - New arg `add_download_button`. 
   - Always keep download button for post-processed peak files.
+* `save_output``
+  - Change *.txt* suffixes to more informative *.csv* suffixes for saved files.
+* Create `EpiArchives` and offload report to there:
+  - Updated *vignettes/example_report.Rmd* so that it just renders the markdown landing page for `EpiArchives`.
 
 ### Bug fixes
 
 * *README.Rmd*:
   - Fix broken link to example report.
-
+* *test-EpiCompare.R*:
+  - Fix issue with PNG save path.
+  - Make separate subfolders for each set of tests. 
+* *test-output_files.R*
+  - Make separate subfolders for each set of tests.
+* `plot_enrichment`
+  - Conditionally generate plots only when enrichment results aren't `NULL`.
+  - Return KEGG/GO enrichment results as well as the plots.
+* Add `workers <- check_workers(workers = workers)` to all functions that take `workers` to handle `workers=NULL` properly.
 
 ## CHANGES IN VERSION 1.3.3
 

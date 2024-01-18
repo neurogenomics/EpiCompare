@@ -25,13 +25,13 @@ owner <- tolower(strsplit(URL,"/")[[1]][4])
 for quality control and benchmarking purposes. The function outputs a
 report in HTML format consisting of three sections:
 
-1.  General Metrics: Metrics on peaks (percentage of blacklisted and
+1.  **General Metrics**: Metrics on peaks (percentage of blacklisted and
     non-standard peaks, and peak widths) and fragments (duplication
     rate) of samples.
-2.  Peak Overlap: Frequency, percentage, statistical significance of 
+2.  **Peak Overlap**: Frequency, percentage, statistical significance of 
     overlapping and non-overlapping peaks. This also includes Upset, 
     precision-recall and correlation plots. 
-3.  Functional Annotation: Functional annotation (ChromHMM, ChIPseeker
+3.  **Functional Annotation**: Functional annotation (ChromHMM, ChIPseeker
     and enrichment analysis) of peaks. Also includes peak enrichment
     around Transcription Start Site.
 
@@ -305,17 +305,6 @@ For more details, run `?CnR_H3K27ac`.
 
 </details>
 
-## Session Info
-
-<details>
-<summary>&#128072; <strong>Details</strong></summary>
-
-```{r Session Info}
-utils::sessionInfo()
-```
-
-</details>
-
 ## Contact
 
 ### [Neurogenomics Lab](https://www.neurogenomics.co.uk/inst/report/EpiCompare.html)
@@ -327,4 +316,13 @@ Imperial College London
 [GitHub](https://github.com/neurogenomics)  
 [DockerHub](https://hub.docker.com/orgs/neurogenomicslab)
 
-<br>
+## Session Info
+
+<details>
+<summary>&#128072; <strong>Details</strong></summary>
+
+```{r Session Info}
+utils::sessionInfo()
+```
+</details>
+<hr>

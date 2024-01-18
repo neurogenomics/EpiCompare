@@ -63,6 +63,7 @@ plot_precision_recall <- function(peakfiles,
                                   ){
     
     check_dep("ggplot2")
+    workers <- check_workers(workers = workers)
     # #### Gather precision-recall data ####
     plot_dat <- precision_recall(peakfiles = peakfiles,
                                  reference = reference,

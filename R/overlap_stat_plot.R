@@ -56,8 +56,9 @@ overlap_stat_plot <- function(reference,
                               digits = 4,
                               workers = check_workers()){
   
-  # templateR:::args2vars(overlap_stat_plot)
+  # devoptera::args2vars(overlap_stat_plot)
   message("--- Running overlap_stat_plot() ---")
+  workers <- check_workers(workers = workers)
   # define variables
   qvalue <- tSample <- p.adjust <- NULL;
   # check that peaklist is named, if not, default names assigned

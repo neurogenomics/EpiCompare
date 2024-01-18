@@ -1,25 +1,28 @@
 ⚖<code>EpiCompare</code>⚖<br>QC and Benchmarking of Epigenomic Datasets
 ================
-<img src= 'https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' height= '300' ><br><br><br><br>
-[![](https://img.shields.io/badge/devel%20version-1.3.4-black.svg)](https://github.com/neurogenomics/EpiCompare)
-[![R build
-status](https://github.com/neurogenomics/EpiCompare/workflows/rworkflows/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
-[![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
-[![](https://img.shields.io/github/languages/code-size/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare)
-[![](https://codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://codecov.io/gh/neurogenomics/EpiCompare)
+<img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' title='Hex sticker for EpiCompare' height='300'><br>
+[![](https://img.shields.io/badge/release%20version-1.2.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
+[![](https://img.shields.io/badge/download-39/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-458/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![download](http://www.bioconductor.org/shields/downloads/release/EpiCompare.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 [![](https://img.shields.io/badge/doi-https://doi.org/10.1101/2022.07.22.501149-blue.svg)](https://doi.org/https://doi.org/10.1101/2022.07.22.501149)
-[![](https://img.shields.io/badge/release%20version-1.2.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
-[![](https://img.shields.io/badge/download-35/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
-[![](https://img.shields.io/badge/download-438/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
-[![download](http://www.bioconductor.org/shields/downloads/release/EpiCompare.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)  
+<br>
+[![](https://img.shields.io/badge/devel%20version-1.3.4-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/github/languages/code-size/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
+<br> [![R build
+status](https://github.com/neurogenomics/EpiCompare/workflows/rworkflows/badge.svg)](https://github.com/neurogenomics/EpiCompare/actions)
+[![](https://codecov.io/gh/neurogenomics/EpiCompare/branch/master/graph/badge.svg)](https://codecov.io/gh/neurogenomics/EpiCompare)
+<br>
+<a href='https://app.codecov.io/gh/neurogenomics/EpiCompare/tree/master' target='_blank'><img src='https://codecov.io/gh/neurogenomics/EpiCompare/branch/master/graphs/icicle.svg' title='Codecov icicle graph' width='200' height='50' style='vertical-align: top;'></a>  
 <h4>  
 Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene</i>  
 </h4>
 <h5>  
-<i>Updated</i>: Feb-24-2023  
+<i>Updated</i>: Mar-08-2023  
 </h5>
 
 # Introduction
@@ -368,20 +371,23 @@ utils::sessionInfo()
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] pillar_1.8.1        compiler_4.2.1      RColorBrewer_1.1-3 
-    ##  [4] BiocManager_1.30.19 yulab.utils_0.0.6   tools_4.2.1        
-    ##  [7] digest_0.6.31       jsonlite_1.8.4      evaluate_0.20      
-    ## [10] lifecycle_1.0.3     tibble_3.1.8        gtable_0.3.1       
-    ## [13] pkgconfig_2.0.3     rlang_1.0.6         cli_3.6.0          
-    ## [16] rstudioapi_0.14     rvcheck_0.2.1       yaml_2.3.7         
-    ## [19] xfun_0.37           fastmap_1.1.0       dplyr_1.1.0        
-    ## [22] knitr_1.42          generics_0.1.3      desc_1.4.2         
-    ## [25] vctrs_0.5.2         dlstats_0.1.6       rprojroot_2.0.3    
-    ## [28] grid_4.2.1          tidyselect_1.2.0    here_1.0.1         
-    ## [31] glue_1.6.2          R6_2.5.1            fansi_1.0.4        
-    ## [34] rmarkdown_2.20.1    ggplot2_3.4.1       badger_0.2.3       
-    ## [37] magrittr_2.0.3      scales_1.2.1        htmltools_0.5.4    
-    ## [40] rworkflows_0.99.6   colorspace_2.1-0    utf8_1.2.3         
-    ## [43] munsell_0.5.0
+    ##  [4] BiocManager_1.30.20 bitops_1.0-7        yulab.utils_0.0.6  
+    ##  [7] tools_4.2.1         digest_0.6.31       jsonlite_1.8.4     
+    ## [10] evaluate_0.20       lifecycle_1.0.3     tibble_3.1.8       
+    ## [13] gtable_0.3.1        pkgconfig_2.0.3     rlang_1.0.6        
+    ## [16] graph_1.76.0        cli_3.6.0           rstudioapi_0.14    
+    ## [19] rvcheck_0.2.1       yaml_2.3.7          xfun_0.37          
+    ## [22] fastmap_1.1.0       dplyr_1.1.0         knitr_1.42         
+    ## [25] generics_0.1.3      desc_1.4.2          vctrs_0.5.2        
+    ## [28] dlstats_0.1.6       stats4_4.2.1        rprojroot_2.0.3    
+    ## [31] grid_4.2.1          tidyselect_1.2.0    here_1.0.1         
+    ## [34] Biobase_2.58.0      glue_1.6.2          R6_2.5.1           
+    ## [37] fansi_1.0.4         XML_3.99-0.13       RBGL_1.74.0        
+    ## [40] rmarkdown_2.20.1    ggplot2_3.4.1       badger_0.2.3       
+    ## [43] magrittr_2.0.3      BiocGenerics_0.44.0 biocViews_1.66.2   
+    ## [46] scales_1.2.1        htmltools_0.5.4     rworkflows_0.99.7  
+    ## [49] RUnit_0.4.32        colorspace_2.1-0    renv_0.17.0        
+    ## [52] utf8_1.2.3          RCurl_1.98-1.10     munsell_0.5.0
 
 </details>
 

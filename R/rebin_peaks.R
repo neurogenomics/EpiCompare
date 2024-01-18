@@ -45,6 +45,7 @@ rebin_peaks <- function(peakfiles,
                         ...){ 
     
     #### check genome build ####
+    workers <- check_workers(workers = workers)
     genome_build <- unique(tolower(genome_build))
     gen_build_err <- 
         paste0("All peak files must be of the same genome build.\nUse ",
