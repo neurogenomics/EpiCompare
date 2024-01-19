@@ -1,11 +1,11 @@
 Type: Package
 Package: EpiCompare
 Title: Comparison, Benchmarking & QC of Epigenomic Datasets
-Version: 1.6.3
+Version: 1.6.4
 Authors@R: c(
     person(given = "Sera", family = "Choi", 
         email = "serachoi1230@gmail.com", 
-        role = c("aut"),
+        role = "aut",
         comment = c(ORCID = "0000-0002-5077-1984")),
     person(given="Brian", family="Schilder", 
         email = "brian_schilder@alumni.brown.edu", 
