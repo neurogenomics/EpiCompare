@@ -1,0 +1,62 @@
+---
+title: "`r EpiCompare::report_header()`"
+date: "`r format(Sys.Date(), '%b-%d-%Y')`"
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    code_folding: hide 
+    number_sections: true
+    css: custom.css
+params:
+  peakfiles: 
+    value: NULL
+  output_dir: 
+    value: NULL
+  genome_build:
+    value: NULL
+  genome_build_output:
+    value: "hg19"
+  blacklist: 
+    value: NULL
+  picard_files:
+    value : NULL
+  reference: 
+    value: NULL
+  upset_plot:
+    value: FALSE
+  stat_plot:
+    value: FALSE
+  chromHMM_plot:
+    value: FALSE
+  chromHMM_annotation:
+    value: "K562"
+  chipseeker_plot:
+    value: FALSE
+  enrichment_plot:
+    value: FALSE
+  tss_plot:
+    value: FALSE
+  tss_distance:
+    value: c(-3000,3000)
+  precision_recall_plot:
+    value: FALSE
+  n_threshold:
+    value: 15
+  corr_plot:
+    value: FALSE  
+  bin_size:
+    value: 5000      
+  interact:
+    value: TRUE
+  add_download_button:
+    value: TRUE
+  save_output:
+    value: FALSE
+  workers:
+    value: 1
+  error:
+    value: FALSE
+  debug:
+    value: FALSE
+---
