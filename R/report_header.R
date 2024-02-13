@@ -10,17 +10,21 @@
 report_header <- function(){ 
   paste0(
     "<div class='report-header'>",
-    "<a href=",shQuote("https://github.com/neurogenomics/EpiCompare"),
+    "<a href=",shQuote("https://github.com/neurogenomics/EpiCompare", type = "sh"),
     " target='_blank'>",
     "<code>EpiCompare</code>",
     "</a>",
     "<code>Report</code>",
-    "<a href=",shQuote("https://doi.org/doi:10.18129/B9.bioc.EpiCompare"),
+    "<a href=",shQuote("https://doi.org/doi:10.18129/B9.bioc.EpiCompare", type = "sh"),
     " target='_blank'>",
     "<img src=",
-    shQuote(system.file('hex','hex.png',package = 'EpiCompare')),
+    shQuote(system.file('hex','hex.png',package = 'EpiCompare'), type = "sh"),
     " height='100'",">",
     "</a>",
     "</div>"
   ) 
 }
+
+
+
+
