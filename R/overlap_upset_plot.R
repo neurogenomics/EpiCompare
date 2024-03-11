@@ -75,9 +75,9 @@ overlap_upset_plot <- function(peaklist,
       text_mapping=ggplot2::aes(label=!!ComplexUpset::upset_text_percentage())
     )
   )
-  plt <- ComplexUpset::upset(data = overlap_df, 
-                             intersect = peaklist_names, 
-                             base_annotations = base_annotations)   
+  plt <- ComplexUpset::upset(data = overlap_df,
+                             intersect = peaklist_names,
+                             base_annotations = base_annotations)
   # upset_plot <- UpSetR::upset(data = overlap_df, 
   #                             order.by = "freq",
   #                             mb.ratio = c(0.60, 0.40),
