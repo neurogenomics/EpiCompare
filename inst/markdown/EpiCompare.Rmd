@@ -346,8 +346,8 @@ upset_plot <- NULL
 if(isTRUE(params$upset_plot)){
   upset_plot <- overlap_upset_plot(peaklist = peaklist_tidy)
   download_button(object = upset_plot,
-                  filename = "upset_plot", 
-                  add_download_button = params$add_download_button) 
+                  filename = "upset_plot",
+                  add_download_button = params$add_download_button)
   save_output(save_output = params$save_output,
               file = upset_plot,
               file_type = "image",
@@ -527,23 +527,23 @@ ChromHMM annotation of individual samples.
 ```{r plot_chromHMM1, fig.width=9, fig.height=fig_height} 
 samples_chromHMM <- NULL
 if(isTRUE(params$chromHMM_plot)){
-  # Get ChromHMM annotation file 
+  # Get ChromHMM annotation file
   chromHMM_list <- get_chromHMM_annotation(cell_line = params$chromHMM_annotation)
   # Plot chromHMM
-  samples_chromHMM <- plot_chromHMM(peaklist = peaklist_tidy, 
-                                    chromHMM_annotation = chromHMM_list, 
+  samples_chromHMM <- plot_chromHMM(peaklist = peaklist_tidy,
+                                    chromHMM_annotation = chromHMM_list,
                                     genome_build = output_build,
                                     interact = params$interact)
   download_button(object = samples_chromHMM,
                   filename = "samples_ChromHMM",
                   self_contained = params$interact,
-                  add_download_button = params$add_download_button) 
+                  add_download_button = params$add_download_button)
   save_output(save_output = params$save_output,
               file = samples_chromHMM,
               file_type = "ggplot",
               filename = "samples_ChromHMM",
               outpath = outfile_dir,
-              interactive = params$interact)  
+              interactive = params$interact)
 }
 samples_chromHMM
 remove(samples_chromHMM)
