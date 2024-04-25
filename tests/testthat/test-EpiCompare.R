@@ -62,3 +62,5 @@ testthat::test_that("EpiCompare works",{
   # testthat::expect_true(is.element("fragment_info.csv", files))
   # testthat::expect_true(is.element("processed_peakfiles_hg19", files))
 })
+
+
