@@ -1,7 +1,7 @@
 Type: Package
 Package: EpiCompare
 Title: Comparison, Benchmarking & QC of Epigenomic Datasets
-Version: 1.9.0
+Version: 1.9.1
 Authors@R: c(
     person(given = "Sera", family = "Choi", 
         email = "serachoi1230@gmail.com", 
@@ -18,13 +18,13 @@ Authors@R: c(
         email = "alanmurph94@hotmail.com", 
         role = "aut",
         comment = c(ORCID = "0000-0002-2487-8753")),
+    person(given="Thomas", family="Roberts",
+        email = "tomroberts.work15@gmail.com",
+        role = "cre")
     person(given="Nathan", family="Skene", 
         email = "nathan.skene@gmail.com", 
         role = "aut",
         comment = c(ORCID = "0000-0002-6807-3180")),
-    person(given="Thomas", family="Roberts",
-        email = "tomroberts.work15@gmail.com",
-        role = "cre")
   )
 Description: EpiCompare is used to compare and analyse epigenetic datasets 
   for quality control and benchmarking purposes. 
