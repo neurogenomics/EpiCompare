@@ -57,3 +57,5 @@ vignettes/*.R
 *.knit.md
 # Ignore example html report for now 
 inst/report
+/doc/
+/Meta/
