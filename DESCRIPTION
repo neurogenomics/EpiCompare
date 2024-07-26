@@ -1,7 +1,7 @@
 Type: Package
 Package: EpiCompare
 Title: Comparison, Benchmarking & QC of Epigenomic Datasets
-Version: 1.9.2
+Version: 1.9.3
 Authors@R: c(
     person(given = "Sera", family = "Choi", 
         email = "serachoi1230@gmail.com", 
@@ -62,7 +62,7 @@ Imports:
     stringr,
     utils,
     BiocGenerics,
-    downloadthis,
+    downloadthis (<= 0.3.3),
     parallel
 Suggests: 
     rworkflows,
