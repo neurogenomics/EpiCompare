@@ -62,7 +62,7 @@ Imports:
     stringr,
     utils,
     BiocGenerics,
-    downloadthis (<= 0.3.3),
+    downloadthis,
     parallel
 Suggests: 
     rworkflows,
