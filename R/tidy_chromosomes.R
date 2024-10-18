@@ -39,7 +39,7 @@
 #'               ranges = IRanges::IRanges(start = 2*(1:6), end = 3*(1:6)),
 #'               strand = "+",
 #'               seqinfo = GenomeInfoDb::Seqinfo(chrom))
-#' genome(gr) <- "hg38"
+#' GenomeInfoDb::genome(gr) <- "hg38"
 #'
 #' gr
 #'
