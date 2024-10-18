@@ -102,7 +102,7 @@ plot_chromHMM <- function(peaklist,
                                     fill = value)) +
     ggplot2::ylab("") +
     ggplot2::xlab("") +
-    ggplot2::scale_fill_viridis_b() +
+    ggplot2::scale_fill_viridis_c() +
     ggplot2::theme_minimal() +
     ggplot2::theme(axis.text = ggplot2::element_text(size = 11)) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 315,
