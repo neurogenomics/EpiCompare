@@ -1,225 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/EpiCompare.html</loc>
-  </url>
-  <url>
-    <loc>/articles/docker.html</loc>
-  </url>
-  <url>
-    <loc>/articles/example_report.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CnR_H3K27ac.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CnR_H3K27ac_picard.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CnT_H3K27ac.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CnT_H3K27ac_picard.html</loc>
-  </url>
-  <url>
-    <loc>/reference/EpiCompare.html</loc>
-  </url>
-  <url>
-    <loc>/reference/as_interactive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bpplapply.html</loc>
-  </url>
-  <url>
-    <loc>/reference/checkCache.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_cell_lines.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_genome_build.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_grlist_cols.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_list_names.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_workers.html</loc>
-  </url>
-  <url>
-    <loc>/reference/clean_granges.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_consensus_peaks.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_corr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/download_button.html</loc>
-  </url>
-  <url>
-    <loc>/reference/encode_H3K27ac.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fig_length.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fragment_info.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gather_files.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gather_files_names.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_bpparam.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_chromHMM_annotation.html</loc>
-  </url>
-  <url>
-    <loc>/reference/group_files.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hg19_blacklist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hg38_blacklist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_granges.html</loc>
-  </url>
-  <url>
-    <loc>/reference/liftover_grlist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/message_parallel.html</loc>
-  </url>
-  <url>
-    <loc>/reference/messager.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mm10_blacklist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mm9_blacklist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/overlap_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>/reference/overlap_percent.html</loc>
-  </url>
-  <url>
-    <loc>/reference/overlap_stat_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/overlap_upset_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/peak_info.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_ChIPseeker_annotation.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_chromHMM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_corr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_enrichment.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_precision_recall.html</loc>
-  </url>
-  <url>
-    <loc>/reference/precision_recall.html</loc>
-  </url>
-  <url>
-    <loc>/reference/precision_recall_matrix.html</loc>
-  </url>
-  <url>
-    <loc>/reference/predict_precision_recall.html</loc>
-  </url>
-  <url>
-    <loc>/reference/predict_values.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prepare_blacklist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prepare_genome_builds.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prepare_peaklist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prepare_reference.html</loc>
-  </url>
-  <url>
-    <loc>/reference/read_bowtie.html</loc>
-  </url>
-  <url>
-    <loc>/reference/read_peaks.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rebin_peaks.html</loc>
-  </url>
-  <url>
-    <loc>/reference/remove_nonstandard_chrom.html</loc>
-  </url>
-  <url>
-    <loc>/reference/report_command.html</loc>
-  </url>
-  <url>
-    <loc>/reference/report_header.html</loc>
-  </url>
-  <url>
-    <loc>/reference/save_output.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_min_max.html</loc>
-  </url>
-  <url>
-    <loc>/reference/stopper.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tidy_peakfile.html</loc>
-  </url>
-  <url>
-    <loc>/reference/translate_genome.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tss_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/width_boxplot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_example_peaks.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/EpiCompare.html</loc></url>
+<url><loc>/articles/docker.html</loc></url>
+<url><loc>/articles/example_report.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/CnR_H3K27ac.html</loc></url>
+<url><loc>/reference/CnR_H3K27ac_picard.html</loc></url>
+<url><loc>/reference/CnT_H3K27ac.html</loc></url>
+<url><loc>/reference/CnT_H3K27ac_picard.html</loc></url>
+<url><loc>/reference/EpiCompare.html</loc></url>
+<url><loc>/reference/as_interactive.html</loc></url>
+<url><loc>/reference/bpplapply.html</loc></url>
+<url><loc>/reference/checkCache.html</loc></url>
+<url><loc>/reference/check_cell_lines.html</loc></url>
+<url><loc>/reference/check_genome_build.html</loc></url>
+<url><loc>/reference/check_grlist_cols.html</loc></url>
+<url><loc>/reference/check_list_names.html</loc></url>
+<url><loc>/reference/check_workers.html</loc></url>
+<url><loc>/reference/clean_granges.html</loc></url>
+<url><loc>/reference/compute_consensus_peaks.html</loc></url>
+<url><loc>/reference/compute_corr.html</loc></url>
+<url><loc>/reference/download_button.html</loc></url>
+<url><loc>/reference/encode_H3K27ac.html</loc></url>
+<url><loc>/reference/fig_length.html</loc></url>
+<url><loc>/reference/fragment_info.html</loc></url>
+<url><loc>/reference/gather_files.html</loc></url>
+<url><loc>/reference/gather_files_names.html</loc></url>
+<url><loc>/reference/get_bpparam.html</loc></url>
+<url><loc>/reference/get_chromHMM_annotation.html</loc></url>
+<url><loc>/reference/group_files.html</loc></url>
+<url><loc>/reference/hg19_blacklist.html</loc></url>
+<url><loc>/reference/hg38_blacklist.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/is_granges.html</loc></url>
+<url><loc>/reference/liftover_grlist.html</loc></url>
+<url><loc>/reference/message_parallel.html</loc></url>
+<url><loc>/reference/messager.html</loc></url>
+<url><loc>/reference/mm10_blacklist.html</loc></url>
+<url><loc>/reference/mm9_blacklist.html</loc></url>
+<url><loc>/reference/overlap_heatmap.html</loc></url>
+<url><loc>/reference/overlap_percent.html</loc></url>
+<url><loc>/reference/overlap_stat_plot.html</loc></url>
+<url><loc>/reference/overlap_upset_plot.html</loc></url>
+<url><loc>/reference/peak_info.html</loc></url>
+<url><loc>/reference/plot_ChIPseeker_annotation.html</loc></url>
+<url><loc>/reference/plot_chromHMM.html</loc></url>
+<url><loc>/reference/plot_corr.html</loc></url>
+<url><loc>/reference/plot_enrichment.html</loc></url>
+<url><loc>/reference/plot_precision_recall.html</loc></url>
+<url><loc>/reference/precision_recall.html</loc></url>
+<url><loc>/reference/precision_recall_matrix.html</loc></url>
+<url><loc>/reference/predict_precision_recall.html</loc></url>
+<url><loc>/reference/predict_values.html</loc></url>
+<url><loc>/reference/prepare_blacklist.html</loc></url>
+<url><loc>/reference/prepare_genome_builds.html</loc></url>
+<url><loc>/reference/prepare_peaklist.html</loc></url>
+<url><loc>/reference/prepare_reference.html</loc></url>
+<url><loc>/reference/read_bowtie.html</loc></url>
+<url><loc>/reference/read_peaks.html</loc></url>
+<url><loc>/reference/rebin_peaks.html</loc></url>
+<url><loc>/reference/remove_nonstandard_chrom.html</loc></url>
+<url><loc>/reference/report_command.html</loc></url>
+<url><loc>/reference/report_header.html</loc></url>
+<url><loc>/reference/save_output.html</loc></url>
+<url><loc>/reference/set_min_max.html</loc></url>
+<url><loc>/reference/stopper.html</loc></url>
+<url><loc>/reference/tidy_chromosomes.html</loc></url>
+<url><loc>/reference/tidy_peakfile.html</loc></url>
+<url><loc>/reference/translate_genome.html</loc></url>
+<url><loc>/reference/tss_plot.html</loc></url>
+<url><loc>/reference/width_boxplot.html</loc></url>
+<url><loc>/reference/write_example_peaks.html</loc></url>
 </urlset>
+
