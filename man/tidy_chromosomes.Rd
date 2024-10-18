@@ -49,7 +49,7 @@ chrom <- c("chr2", "chr3", "chrX", "chrY", "chrM", "junk")
 gr <- GenomicRanges::GRanges(seqnames = chrom,
               ranges = IRanges::IRanges(start = 2*(1:6), end = 3*(1:6)),
               strand = "+",
-              seqinfo = Seqinfo(chrom))
+              seqinfo = GenomeInfoDb::Seqinfo(chrom))
 genome(gr) <- "hg38"
 
 gr
