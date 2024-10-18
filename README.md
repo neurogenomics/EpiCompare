@@ -9,7 +9,7 @@
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 [![](https://img.shields.io/badge/doi-https://doi.org/10.1101/2022.07.22.501149-blue.svg)](https://doi.org/https://doi.org/10.1101/2022.07.22.501149)
 <br>
-[![](https://img.shields.io/badge/devel%20version-1.9.7-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-1.9.8-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/languages/code-size/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
 <br> [![R build
