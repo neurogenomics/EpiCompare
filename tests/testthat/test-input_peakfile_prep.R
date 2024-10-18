@@ -20,9 +20,9 @@ test_that("tidy_peakfile() removes peaks in blacklisted
           and non-standard regions",{
   peaklist <- list("encode"=encode_H3K27ac)
   peaklist_tidy <- EpiCompare::tidy_peakfile(peaklist, hg19_blacklist)
-  peaklist_chrm_removed <- BRGenomics::tidyChromosomes(peaklist[[1]],
-                                                       keep.X = TRUE,
-                                                       keep.Y = TRUE)
+  peaklist_chrm_removed <- tidy_chromosomes(peaklist[[1]],
+                                            keep.X = TRUE,
+                                            keep.Y = TRUE)
   peaklist_chrm_blist_removed <-IRanges::subsetByOverlaps(peaklist_chrm_removed,
                                                           hg19_blacklist,
                                                           invert = TRUE)

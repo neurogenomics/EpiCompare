@@ -1,3 +1,14 @@
+## CHANGES IN VERSION 1.9.5
+
+### New features
+
+* Remove the soon-to-be-deprecated `BRGenomics` dependency.
+  - Port `tidyChromosomes` function to `EpiCompare`.
+
+### Miscellaneous
+
+* Update maintainer details.
+
 ## CHANGES IN VERSION 1.3.4
 
 ### New features

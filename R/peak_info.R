@@ -11,7 +11,6 @@
 #' @return A summary table of peak information
 #'
 #' @importMethodsFrom IRanges subsetByOverlaps
-#' @importFrom BRGenomics tidyChromosomes
 #' @export
 #'
 #' @examples
@@ -46,7 +45,7 @@ peak_info <- function(peaklist, blacklist){
 
   ### Obtain Non-standard Chromosome Percentage ###
   tidy_percent <- mapply(peaklist, FUN=function(file){
-    peak_tidy <- BRGenomics::tidyChromosomes(file, keep.X = TRUE, keep.Y = TRUE)
+    peak_tidy <- tidy_chromosomes(file, keep.X = TRUE, keep.Y = TRUE)
     removedN <- length(file) - length(peak_tidy)
     percentage <- signif(removedN/length(file)*100, 3)
   })

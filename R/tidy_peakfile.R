@@ -14,9 +14,8 @@
 #' @return list of GRanges object
 #' @export
 #'
-#' @importFrom BRGenomics tidyChromosomes
 #' @importMethodsFrom IRanges subsetByOverlaps
-
+#'
 #' @examples
 #' ### Load Data ###
 #' data("encode_H3K27ac") # example peakfile GRanges object
@@ -36,9 +35,7 @@ tidy_peakfile <- function(peaklist, blacklist){
   ### standardise peakfiles ###
   peaklist_tidy <- mapply(peaklist, FUN = function(file){
     # remove non-standard chromosomes
-    sample <- BRGenomics::tidyChromosomes(file,
-                                          keep.X = TRUE,
-                                          keep.Y = TRUE)
+    sample <- tidy_chromosomes(file, keep.X = TRUE, keep.Y = TRUE)
     # remove blacklisted regions
     IRanges::subsetByOverlaps(sample,
                               blacklist,
