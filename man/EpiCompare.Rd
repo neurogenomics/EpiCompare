@@ -45,7 +45,7 @@ and paths.Files must be listed and named using \code{list()}.
 E.g. \code{list("name1"=file1, "name2"=file2)}. If no names are specified,
 default file names will be assigned.}
 
-\item{genome_build}{A named list indicating the human genome build used to
+\item{genome_build}{A named list indicating the genome build used to
 generate each of the following inputs:
 \itemize{
 \item{"peakfiles" : }{Genome build for the \code{peakfiles} input.
@@ -61,11 +61,13 @@ Alternatively, you can supply a single character string instead of a list.
 This should \emph{only} be done in situations where all three inputs
 (\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same
 genome build. For example:\cr
-\code{genome_build = "hg19"}}
+\code{genome_build = "hg19"}\cr\cr
+Supported genome builds are: "hg19", "hg38", "mm9" and "mm10".}
 
 \item{genome_build_output}{Genome build to standardise all inputs to.
 Liftovers will be performed automatically as needed.
-Default: "hg19".}
+Default: "hg19".\cr\cr
+\strong{Note:} Cross-species liftovers are supported.}
 
 \item{blacklist}{A \link[GenomicRanges]{GRanges} object
  containing blacklisted genomic regions.

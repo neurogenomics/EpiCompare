@@ -46,8 +46,8 @@ experimental conditions and data analysis workflows of one technology. This
 can help researchers to establish a consensus regarding the optimal use of the 
 method. 
 
-Currently, *EpiCompare* only works for human genome as it uses human-based 
-hg19 and/or hg38 genome references. 
+Currently, *EpiCompare* supports human and mouse genomes (hg19, hg38, mm9 and
+mm10).
 
 # Data 
 
