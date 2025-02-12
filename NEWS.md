@@ -1,3 +1,20 @@
+## CHANGES IN VERSION 1.11.2 [HOTFIX]
+
+* Update minimum version for dependency `IRanges`. See 
+[issue #155](https://github.com/neurogenomics/EpiCompare/issues/155).
+
+## CHANGES IN VERSION 1.10.1 [HOTFIX] / 1.11.1
+
+### Bug Fixes
+
+* `prepare_output_build`
+  - Fix support for mouse genome builds (mm9 and mm10).
+  
+### Documentation
+
+* `Epicompare.Rmd`
+  - Mention support for mouse genome builds.
+
 ## CHANGES IN VERSION 1.9.5
 
 ### New features
