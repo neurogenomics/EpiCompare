@@ -82,7 +82,7 @@ if(params$save_output){
 # or... genome_build <- "hg19"
 builds <- prepare_genome_builds(genome_build = params$genome_build,
                                 blacklist = params$blacklist)
-## Standardise all data to hg19 build 
+## Standardise all data to specified build 
 output_build <- prepare_output_build(params$genome_build_output)
 
 #### ------ Prepare peaklist(s) ------ ####

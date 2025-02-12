@@ -1,3 +1,15 @@
+## CHANGES IN VERSION 1.10.1 [HOTFIX]
+
+### Bug Fixes
+
+* `prepare_output_build`
+  - Fix support for mouse genome builds (mm9 and mm10).
+  
+### Documentation
+
+* `Epicompare.Rmd`
+  - Mention support for mouse genome builds.
+
 ## CHANGES IN VERSION 1.9.5
 
 ### New features

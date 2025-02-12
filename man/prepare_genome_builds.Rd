@@ -7,7 +7,7 @@
 prepare_genome_builds(genome_build, blacklist = NULL)
 }
 \arguments{
-\item{genome_build}{A named list indicating the human genome build used to
+\item{genome_build}{A named list indicating the genome build used to
 generate each of the following inputs:
 \itemize{
 \item{"peakfiles" : }{Genome build for the \code{peakfiles} input.
@@ -23,7 +23,8 @@ Alternatively, you can supply a single character string instead of a list.
 This should \emph{only} be done in situations where all three inputs
 (\code{peakfiles}, \code{reference}, \code{blacklist}) are of the same
 genome build. For example:\cr
-\code{genome_build = "hg19"}}
+\code{genome_build = "hg19"}\cr\cr
+Supported genome builds are: "hg19", "hg38", "mm9" and "mm10".}
 
 \item{blacklist}{A \link[GenomicRanges]{GRanges} object
  containing blacklisted genomic regions.
