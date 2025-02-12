@@ -2,14 +2,14 @@
 ================
 <img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' title='Hex sticker for EpiCompare' height='300'><br>
 [![](https://img.shields.io/badge/release%20version-1.10.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
-[![](https://img.shields.io/badge/download-47/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
-[![](https://img.shields.io/badge/download-1451/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-123/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-1564/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![download](http://www.bioconductor.org/shields/downloads/release/EpiCompare.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 [![](https://img.shields.io/badge/doi-https://doi.org/10.1101/2022.07.22.501149-blue.svg)](https://doi.org/https://doi.org/10.1101/2022.07.22.501149)
 <br>
-[![](https://img.shields.io/badge/devel%20version-1.10.1-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-1.11.2-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/languages/code-size/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
 <br> [![R build
@@ -22,7 +22,7 @@ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene, Thomas Roberts, Hiranyamaya Dash</i>  
 </h4>
 <h5>  
-<i>Updated</i>: Jan-15-2025  
+<i>Updated</i>: Feb-12-2025  
 </h5>
 
 # Introduction
@@ -414,7 +414,7 @@ utils::sessionInfo()
     ## [28] fs_1.6.5            cli_3.6.3           magrittr_2.0.3     
     ## [31] rworkflows_1.0.3    digest_0.6.37       grid_4.4.2         
     ## [34] rstudioapi_0.17.1   lifecycle_1.0.4     vctrs_0.6.5        
-    ## [37] evaluate_1.0.1      glue_1.8.0          data.table_1.16.4  
+    ## [37] evaluate_1.0.3      glue_1.8.0          data.table_1.16.4  
     ## [40] colorspace_2.1-1    rmarkdown_2.29      tools_4.4.2        
     ## [43] pkgconfig_2.0.3     htmltools_0.5.8.1
 
