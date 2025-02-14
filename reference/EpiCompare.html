@@ -20,7 +20,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10.1</span>
       </span>
     </div>
 
@@ -63,7 +63,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compare epigenomic datasets</h1>
-    <small class="dont-index">Source: <a href="https://github.com/neurogenomics/EpiCompare/blob/master/R/EpiCompare.R" class="external-link"><code>R/EpiCompare.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/neurogenomics/EpiCompare/blob/RELEASE_3_20/R/EpiCompare.R" class="external-link"><code>R/EpiCompare.R</code></a></small>
     <div class="hidden name"><code>EpiCompare.Rd</code></div>
     </div>
 
@@ -123,7 +123,7 @@ default file names will be assigned.</p></dd>
 
 
 <dt id="arg-genome-build">genome_build<a class="anchor" aria-label="anchor" href="#arg-genome-build"></a></dt>
-<dd><p>A named list indicating the human genome build used to
+<dd><p>A named list indicating the genome build used to
 generate each of the following inputs:</p><ul><li><p>"peakfiles" : Genome build for the <code>peakfiles</code> input.
 Assumes genome build is the same for each element in the <code>peakfiles</code>
 list.</p></li>
@@ -134,13 +134,14 @@ list.</p></li>
 Alternatively, you can supply a single character string instead of a list.
 This should <em>only</em> be done in situations where all three inputs
 (<code>peakfiles</code>, <code>reference</code>, <code>blacklist</code>) are of the same
-genome build. For example:<br><code>genome_build = "hg19"</code></p></dd>
+genome build. For example:<br><code>genome_build = "hg19"</code><br><br>
+Supported genome builds are: "hg19", "hg38", "mm9" and "mm10".</p></dd>
 
 
 <dt id="arg-genome-build-output">genome_build_output<a class="anchor" aria-label="anchor" href="#arg-genome-build-output"></a></dt>
 <dd><p>Genome build to standardise all inputs to.
 Liftovers will be performed automatically as needed.
-Default: "hg19".</p></dd>
+Default: "hg19".<br><br><strong>Note:</strong> Cross-species liftovers are supported.</p></dd>
 
 
 <dt id="arg-blacklist">blacklist<a class="anchor" aria-label="anchor" href="#arg-blacklist"></a></dt>
@@ -426,11 +427,11 @@ are printed within the HTML report (default: <code>FALSE</code>).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 58/59 [Session Info]            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 59/59                           </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> output file: EpiCompare.knit.md</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> /usr/bin/pandoc +RTS -K512m -RTS EpiCompare.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /tmp/RtmpKu2U4A/EpiCompare_test.html --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /__w/_temp/Library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --variable theme=bootstrap --css custom.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpKu2U4A/rmarkdown-str44305c4cc624.html --variable code_folding=hide --variable code_menu=1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /usr/bin/pandoc +RTS -K512m -RTS EpiCompare.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /tmp/RtmpTnQCnK/EpiCompare_test.html --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /__w/_temp/Library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --variable theme=bootstrap --css custom.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpTnQCnK/rmarkdown-str972318214377.html --variable code_folding=hide --variable code_menu=1 </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Output created: /tmp/RtmpKu2U4A/EpiCompare_test.html</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Output created: /tmp/RtmpTnQCnK/EpiCompare_test.html</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.09 min."</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/RtmpKu2U4A</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/RtmpTnQCnK</span>
 <span class="r-in"><span><span class="co"># utils::browseURL(output_html) </span></span></span>
 </code></pre></div>
     </div>

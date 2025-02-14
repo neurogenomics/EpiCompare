@@ -18,7 +18,7 @@ peaklist_build and reference_build."><!-- mathjax --><script src="https://cdnjs.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10.1</span>
       </span>
     </div>
 
@@ -61,7 +61,7 @@ peaklist_build and reference_build."><!-- mathjax --><script src="https://cdnjs.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Prepare genome builds</h1>
-    <small class="dont-index">Source: <a href="https://github.com/neurogenomics/EpiCompare/blob/master/R/prepare_genome_builds.R" class="external-link"><code>R/prepare_genome_builds.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/neurogenomics/EpiCompare/blob/RELEASE_3_20/R/prepare_genome_builds.R" class="external-link"><code>R/prepare_genome_builds.R</code></a></small>
     <div class="hidden name"><code>prepare_genome_builds.Rd</code></div>
     </div>
 
@@ -79,7 +79,7 @@ peaklist_build and reference_build."><!-- mathjax --><script src="https://cdnjs.
 
 
 <dl><dt id="arg-genome-build">genome_build<a class="anchor" aria-label="anchor" href="#arg-genome-build"></a></dt>
-<dd><p>A named list indicating the human genome build used to
+<dd><p>A named list indicating the genome build used to
 generate each of the following inputs:</p><ul><li><p>"peakfiles" : Genome build for the <code>peakfiles</code> input.
 Assumes genome build is the same for each element in the <code>peakfiles</code>
 list.</p></li>
@@ -90,7 +90,8 @@ list.</p></li>
 Alternatively, you can supply a single character string instead of a list.
 This should <em>only</em> be done in situations where all three inputs
 (<code>peakfiles</code>, <code>reference</code>, <code>blacklist</code>) are of the same
-genome build. For example:<br><code>genome_build = "hg19"</code></p></dd>
+genome build. For example:<br><code>genome_build = "hg19"</code><br><br>
+Supported genome builds are: "hg19", "hg38", "mm9" and "mm10".</p></dd>
 
 
 <dt id="arg-blacklist">blacklist<a class="anchor" aria-label="anchor" href="#arg-blacklist"></a></dt>
