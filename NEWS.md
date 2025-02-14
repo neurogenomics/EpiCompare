@@ -1,4 +1,4 @@
-## CHANGES IN VERSION 1.11.2 [HOTFIX]
+## CHANGES IN VERSION 1.11.2 / 1.11.3
 
 * Update minimum version for dependency `IRanges`. See 
 [issue #155](https://github.com/neurogenomics/EpiCompare/issues/155).
