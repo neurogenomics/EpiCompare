@@ -7,7 +7,8 @@
 #' @param verbose Print messages.
 #' @returns Named list of \link[GenomicRanges]{GRanges} objects.
 #' @keywords internal
-#' @importFrom GenomeInfoDb seqlevelsStyle seqnames sortSeqlevels seqlevelsInUse
+#' @importFrom Seqinfo seqnames sortSeqlevels seqlevelsInUse
+#' @importFrom GenomeInfoDb seqlevelsStyle
 #' @importFrom BiocGenerics %in% 
 remove_nonstandard_chrom <- function(grlist,
                                      keep_chr = paste0(
@@ -27,13 +28,13 @@ remove_nonstandard_chrom <- function(grlist,
                suppressMessages(suppressWarnings(
                    GenomeInfoDb::seqlevelsStyle(gr) <- "UCSC"
                ))
-               gr <- gr[BiocGenerics::`%in%`(GenomeInfoDb::seqnames(gr),
+               gr <- gr[BiocGenerics::`%in%`(Seqinfo::seqnames(gr),
                                              keep_chr)]
-               GenomeInfoDb::seqlevels(gr) <- GenomeInfoDb::sortSeqlevels(
-                   GenomeInfoDb::seqlevelsInUse(gr)
+               Seqinfo::seqlevels(gr) <- Seqinfo::sortSeqlevels(
+                   Seqinfo::seqlevelsInUse(gr)
                )
                #update seq lengths
-               GenomeInfoDb::seqlevels(
+               Seqinfo::seqlevels(
                    gr, pruning.mode="coarse") <- keep_chr
                return(gr)
            })

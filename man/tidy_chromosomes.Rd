@@ -40,8 +40,8 @@ This function is adapted from \code{tidyChromosomes} in the
 Original author: Mike DeBerardine <https://github.com/mdeber>
 
 Standard chromosomes are defined using the
-  \code{\link[GenomeInfoDb:seqlevels-wrappers]{standardChromosomes}} function
-  from the \code{GenomeInfoDb} package.
+  \code{\link[GenomeInfoDb]{standardChromosomes}} function
+  from the \pkg{GenomeInfoDb} package.
 }
 \examples{
 # make a GRanges
@@ -49,8 +49,8 @@ chrom <- c("chr2", "chr3", "chrX", "chrY", "chrM", "junk")
 gr <- GenomicRanges::GRanges(seqnames = chrom,
               ranges = IRanges::IRanges(start = 2*(1:6), end = 3*(1:6)),
               strand = "+",
-              seqinfo = GenomeInfoDb::Seqinfo(chrom))
-GenomeInfoDb::genome(gr) <- "hg38"
+              seqinfo = Seqinfo::Seqinfo(chrom))
+Seqinfo::genome(gr) <- "hg38"
 
 gr
 
@@ -64,8 +64,7 @@ tidy_chromosomes(gr, keep.nonstandard = TRUE)
 
 }
 \seealso{
-\code{\link[GenomeInfoDb:seqlevels-wrappers]{
-  GenomeInfoDb::standardChromosomes}}
+\code{\link[GenomeInfoDb]{standardChromosomes}}
 }
 \author{
 Mike DeBerardine

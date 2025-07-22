@@ -1,7 +1,7 @@
 Type: Package
 Package: EpiCompare
 Title: Comparison, Benchmarking & QC of Epigenomic Datasets
-Version: 1.13.0
+Version: 1.13.1
 Authors@R: c(
     person(given = "Sera", family = "Choi", 
         email = "serachoi1230@gmail.com", 
@@ -53,7 +53,8 @@ Imports:
     genomation,
     GenomicRanges,
     IRanges (>= 2.41.3),
-    GenomeInfoDb,
+    Seqinfo (>= 0.99.2),
+    GenomeInfoDb (>= 1.45.7),
     ggplot2 (>= 3.5.0),
     htmltools,
     methods,

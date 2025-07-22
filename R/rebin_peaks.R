@@ -17,7 +17,7 @@
 #' @importFrom data.table rbindlist as.data.table dcast
 #' @importFrom GenomicRanges tileGenome seqinfo binnedAverage coverage
 #' @importFrom GenomicRanges seqnames start end 
-#' @importFrom GenomeInfoDb Seqinfo seqnames seqlevels
+#' @importFrom Seqinfo Seqinfo seqnames seqlevels
 #' @importFrom BiocGenerics `%in%`
 #' @examples 
 #' data("CnR_H3K27ac") 
@@ -85,8 +85,7 @@ rebin_peaks <- function(peakfiles,
             GenomicRanges::seqinfo(ref_bsgen),
             tilewidth=bin_size, 
             cut.last.tile.in.chrom=TRUE) 
-    GenomeInfoDb::seqlevels(gr_windows,
-                            pruning.mode="coarse") <- keep_chr
+    Seqinfo::seqlevels(gr_windows, pruning.mode="coarse") <- keep_chr
     #### Rebin peaks #### 
     messager("Standardising peak files in",
              formatC(length(gr_windows),big.mark = ","),"bins of",

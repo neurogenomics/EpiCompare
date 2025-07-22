@@ -21,16 +21,15 @@
 #'   with trimmed chromosomes have been removed.
 #'
 #' @details Standard chromosomes are defined using the
-#'   \code{\link[GenomeInfoDb:seqlevels-wrappers]{standardChromosomes}} function
-#'   from the \code{GenomeInfoDb} package.
+#'   \code{\link[GenomeInfoDb]{standardChromosomes}} function
+#'   from the \pkg{GenomeInfoDb} package.
 #'
 #' @author Mike DeBerardine
-#' @seealso \code{\link[GenomeInfoDb:seqlevels-wrappers]{
-#'   GenomeInfoDb::standardChromosomes}}
+#' @seealso \code{\link[GenomeInfoDb]{standardChromosomes}}
 #'
 #' @export
-#' @importFrom GenomeInfoDb standardChromosomes seqlevels keepSeqlevels
-#'   sortSeqlevels genome genome<-
+#' @importFrom Seqinfo seqlevels sortSeqlevels genome genome<-
+#' @importFrom GenomeInfoDb standardChromosomes keepSeqlevels
 #' @importFrom methods is
 #' @examples
 #' # make a GRanges
@@ -38,8 +37,8 @@
 #' gr <- GenomicRanges::GRanges(seqnames = chrom,
 #'               ranges = IRanges::IRanges(start = 2*(1:6), end = 3*(1:6)),
 #'               strand = "+",
-#'               seqinfo = GenomeInfoDb::Seqinfo(chrom))
-#' GenomeInfoDb::genome(gr) <- "hg38"
+#'               seqinfo = Seqinfo::Seqinfo(chrom))
+#' Seqinfo::genome(gr) <- "hg38"
 #'
 #' gr
 #'
