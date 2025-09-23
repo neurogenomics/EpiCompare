@@ -1,7 +1,9 @@
-## CHANGES IN VERSION 1.13.2
+## CHANGES IN VERSION 1.13.2 [BREAKING CHANGE]
 
 ### Bug Fixes
 
+* [BREAKING CHANGE] Temporarily disable `upset_plot` option as one of the
+dependencies, `ComplexUpset`, is not yet updated to support `ggplot 4.4.0`.
 * Fix deprecated `ggplot` arguments.
 
 ### Miscellaneous
