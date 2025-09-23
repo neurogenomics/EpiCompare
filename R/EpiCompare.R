@@ -204,7 +204,7 @@ EpiCompare <- function(peakfiles,
   if(isTRUE(run_all)){
     upset_plot <- stat_plot <- chromHMM_plot <- 
       chipseeker_plot <- enrichment_plot <- tss_plot <- 
-      precision_recall_plot <- corr_plot <- add_download_button <- TRUE;
+      precision_recall_plot <- corr_plot <- TRUE;
     save_output <- TRUE;
     if(is.null(output_dir)) output_dir <- tempdir()
   }

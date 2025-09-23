@@ -1,3 +1,14 @@
+## CHANGES IN VERSION 1.13.2
+
+### Bug Fixes
+
+* 
+
+### Miscellaneous
+
+* `add_download_button`:
+  - No longer changes to `TRUE` if `run_all` is `TRUE`.
+
 ## CHANGES IN VERSION 1.11.2 / 1.11.3
 
 * Update minimum version for dependency `IRanges`. See 
