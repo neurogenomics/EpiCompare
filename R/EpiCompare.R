@@ -136,7 +136,7 @@
 #' @export
 #' @importFrom rmarkdown render
 #' @importFrom methods show is
-#' @importFrom utils browseURL
+#' @importFrom utils browseURL packageVersion
 #'
 #' @examples
 #' ### Load Data ###
@@ -210,7 +210,7 @@ EpiCompare <- function(peakfiles,
     if (is.null(output_dir))
       output_dir <- tempdir()
   }
-  #### Check for ComplexUpset compatiblity with ggplot 4.4.0 ####
+  #### Check for ComplexUpset compatibility with ggplot 4.4.0 ####
   if (packageVersion("ggplot2") >= "4.0.0" &&
       packageVersion("ComplexUpset") <= "1.3.6" &&
       isTRUE(upset_plot)) {
