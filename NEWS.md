@@ -2,7 +2,7 @@
 
 ### Bug Fixes
 
-* 
+* Fix deprecated `ggplot` arguments.
 
 ### Miscellaneous
 

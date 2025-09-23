@@ -63,7 +63,7 @@ overlap_heatmap <- function(peaklist,
         ggplot2::theme_bw()
     if(isTRUE(draw_cellnote)){ 
         plt <- plt + ggplot2::geom_label(fill=ggplot2::alpha("white",.8), 
-                                         label.size = NA,
+                                         linewidth = NA,
                                          na.rm = TRUE)
     }
   } else{
