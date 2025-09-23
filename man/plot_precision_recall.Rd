@@ -16,7 +16,8 @@ plot_precision_recall(
   subtitle = NULL,
   color = "peaklist1",
   shape = color,
-  facets = "peaklist2 ~ .",
+  rows = "peaklist2",
+  cols = NULL,
   interact = FALSE,
   show_plot = TRUE,
   save_path = tempfile(fileext = "precision_recall.csv"),
@@ -75,8 +76,16 @@ control.}
 
 \item{shape}{Variable to set data point shapes by.}
 
-\item{facets}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use \code{rows}
-and \code{cols} instead.}
+\item{rows, cols}{A set of variables or expressions quoted by
+\code{\link[ggplot2:vars]{vars()}} and defining faceting groups on the rows or columns
+dimension. The variables can be named (the names are passed to
+\code{labeller}).
+
+For compatibility with the classic interface, \code{rows} can also be
+a formula with the rows (of the tabular display) on the LHS and
+the columns (of the tabular display) on the RHS; the dot in the
+formula is used to indicate there should be no faceting on this
+dimension (either row or column).}
 
 \item{interact}{Default TRUE. By default, plots are interactive.
 If set FALSE, all plots in the report will be static.}
@@ -91,19 +100,19 @@ If set FALSE, all plots in the report will be static.}
 list with data and precision recall and F1 plots
 }
 \description{
-Plot precision-recall curves (and optionally F1 plots) by 
-iteratively testing for peak overlap across a series of 
-thresholds used to filter \code{peakfiles}. 
+Plot precision-recall curves (and optionally F1 plots) by
+iteratively testing for peak overlap across a series of
+thresholds used to filter \code{peakfiles}.
 Each \link[GenomicRanges]{GRanges}
- object in \code{peakfiles} will be used as the "query" 
+ object in \code{peakfiles} will be used as the "query"
  against each \link[GenomicRanges]{GRanges} object in \code{reference}
  as the subject.
  Will automatically use any columns that are
- specified with \code{thresholding_cols} and present within each 
- \link[GenomicRanges]{GRanges} object 
- to create percentiles  for thresholding. 
+ specified with \code{thresholding_cols} and present within each
+ \link[GenomicRanges]{GRanges} object
+ to create percentiles  for thresholding.
 \emph{NOTE} : Assumes that all \link[GenomicRanges]{GRanges} in
-\code{peakfiles} and \code{reference} are already 
+\code{peakfiles} and \code{reference} are already
 aligned to the same genome build.
 }
 \examples{

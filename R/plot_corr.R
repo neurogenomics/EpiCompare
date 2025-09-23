@@ -92,7 +92,7 @@ plot_corr <- function(peakfiles,
     
     if(isTRUE(draw_cellnote)){ 
       plt <- plt + ggplot2::geom_label(fill=ggplot2::alpha("white",.8), 
-                                       label.size = NA,
+                                       linewidth = NA,
                                        na.rm = TRUE)
     }
     if(isTRUE(interact)){

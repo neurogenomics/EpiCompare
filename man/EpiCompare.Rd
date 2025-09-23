@@ -80,11 +80,11 @@ and/or unstructured signals. \link[EpiCompare]{hg19_blacklist}}
 \item{"hg38_blacklist": }{Regions of hg38 genome that have anomalous
 and/or unstructured signals. \link[EpiCompare]{hg38_blacklist}}
 \item{"mm10_blacklist": }{Regions of mm10 genome that have anomalous
-and/or unstructured signals. \link[EpiCompare]{mm10_blacklist}} 
+and/or unstructured signals. \link[EpiCompare]{mm10_blacklist}}
 \item{"mm9_blacklist": }{Blacklisted regions of mm10 genome that have been
- lifted over from \link[EpiCompare]{mm10_blacklist}. 
- \link[EpiCompare]{mm9_blacklist}} 
-\item{\code{<user_input>}: }{A custom user-provided blacklist in 
+ lifted over from \link[EpiCompare]{mm10_blacklist}.
+ \link[EpiCompare]{mm9_blacklist}}
+\item{\code{<user_input>}: }{A custom user-provided blacklist in
 \link[GenomicRanges]{GRanges} format.}
 }}
 
@@ -114,7 +114,7 @@ Reference peak file must be provided.}
 
 \item{chromHMM_plot}{Default FALSE. If TRUE, the function outputs ChromHMM
 heatmap of individual peak files. If a reference peak file is provided,
-ChromHMM annotation of overlapping and non-overlapping peaks 
+ChromHMM annotation of overlapping and non-overlapping peaks
 is also provided.}
 
 \item{chromHMM_annotation}{ChromHMM annotation for ChromHMM plots.
@@ -195,11 +195,11 @@ pandoc command line and others. To only suppress printing of the last
 "Output created: " message, you can set \code{rmarkdown.render.message} to
 \code{FALSE}}
 
-\item{error}{If \code{TRUE}, the Rmarkdown report will continue to render 
+\item{error}{If \code{TRUE}, the Rmarkdown report will continue to render
 even when some chunks encounter errors (default: \code{FALSE}).
 Passed to \link[knitr]{opts_chunk}.}
 
-\item{debug}{Run in debug mode, where are messages and warnings 
+\item{debug}{Run in debug mode, where are messages and warnings
 are printed within the HTML report (default: \code{FALSE}).}
 }
 \value{
@@ -235,5 +235,5 @@ output_html <- EpiCompare(peakfiles = peakfiles,
            reference = reference,
            output_filename = "EpiCompare_test",
            output_dir = tempdir())
-# utils::browseURL(output_html) 
+# utils::browseURL(output_html)
 }

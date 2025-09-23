@@ -1,3 +1,16 @@
+## CHANGES IN VERSION 1.13.2 [BREAKING CHANGE]
+
+### Bug Fixes
+
+* [BREAKING CHANGE] Temporarily disable `upset_plot` option as one of the
+dependencies, `ComplexUpset`, is not yet updated to support `ggplot 4.4.0`.
+* Fix deprecated `ggplot` arguments.
+
+### Miscellaneous
+
+* `add_download_button`:
+  - No longer changes to `TRUE` if `run_all` is `TRUE`.
+
 ## CHANGES IN VERSION 1.11.2 / 1.11.3
 
 * Update minimum version for dependency `IRanges`. See 

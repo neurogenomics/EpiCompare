@@ -44,11 +44,11 @@
 #' \item{"hg38_blacklist": }{Regions of hg38 genome that have anomalous
 #' and/or unstructured signals. \link[EpiCompare]{hg38_blacklist}}
 #' \item{"mm10_blacklist": }{Regions of mm10 genome that have anomalous
-#' and/or unstructured signals. \link[EpiCompare]{mm10_blacklist}} 
+#' and/or unstructured signals. \link[EpiCompare]{mm10_blacklist}}
 #' \item{"mm9_blacklist": }{Blacklisted regions of mm10 genome that have been
-#'  lifted over from \link[EpiCompare]{mm10_blacklist}. 
-#'  \link[EpiCompare]{mm9_blacklist}} 
-#' \item{\code{<user_input>}: }{A custom user-provided blacklist in 
+#'  lifted over from \link[EpiCompare]{mm10_blacklist}.
+#'  \link[EpiCompare]{mm9_blacklist}}
+#' \item{\code{<user_input>}: }{A custom user-provided blacklist in
 #' \link[GenomicRanges]{GRanges} format.}
 #' }
 #' @param picard_files A list of summary metrics output from Picard.
@@ -79,7 +79,7 @@
 #' \link[EpiCompare]{plot_corr}.
 #' @param chromHMM_plot Default FALSE. If TRUE, the function outputs ChromHMM
 #' heatmap of individual peak files. If a reference peak file is provided,
-#' ChromHMM annotation of overlapping and non-overlapping peaks 
+#' ChromHMM annotation of overlapping and non-overlapping peaks
 #' is also provided.
 #' @param chromHMM_annotation ChromHMM annotation for ChromHMM plots.
 #' Default K562 cell-line. Cell-line options are:
@@ -121,10 +121,10 @@
 #' (without specifying each argument manually)
 #'  by overriding the default values.
 #'  Default: \code{FALSE}.
-#' @param error If \code{TRUE}, the Rmarkdown report will continue to render 
+#' @param error If \code{TRUE}, the Rmarkdown report will continue to render
 #' even when some chunks encounter errors (default: \code{FALSE}).
 #' Passed to \link[knitr]{opts_chunk}.
-#' @param debug Run in debug mode, where are messages and warnings 
+#' @param debug Run in debug mode, where are messages and warnings
 #' are printed within the HTML report (default: \code{FALSE}).
 #' @inheritParams plot_precision_recall
 #' @inheritParams plot_corr
@@ -136,7 +136,7 @@
 #' @export
 #' @importFrom rmarkdown render
 #' @importFrom methods show is
-#' @importFrom utils browseURL
+#' @importFrom utils browseURL packageVersion
 #'
 #' @examples
 #' ### Load Data ###
@@ -162,7 +162,7 @@
 #'            reference = reference,
 #'            output_filename = "EpiCompare_test",
 #'            output_dir = tempdir())
-#' # utils::browseURL(output_html) 
+#' # utils::browseURL(output_html)
 EpiCompare <- function(peakfiles,
                        genome_build,
                        genome_build_output = "hg19",
@@ -176,7 +176,7 @@ EpiCompare <- function(peakfiles,
                        chipseeker_plot = FALSE,
                        enrichment_plot = FALSE,
                        tss_plot = FALSE,
-                       tss_distance = c(-3000,3000),
+                       tss_distance = c(-3000, 3000),
                        precision_recall_plot = FALSE,
                        n_threshold = 20,
                        corr_plot = FALSE,
@@ -191,9 +191,8 @@ EpiCompare <- function(peakfiles,
                        run_all = FALSE,
                        workers = 1,
                        quiet = FALSE,
-                       error = FALSE, 
-                       debug = FALSE){
-
+                       error = FALSE,
+                       debug = FALSE) {
   # devoptera::args2vars(EpiCompare)
   #### time ####
   t1 <- Sys.time()
@@ -201,91 +200,109 @@ EpiCompare <- function(peakfiles,
   force(output_dir)
   force(genome_build)
   #### Set all args to true ####
-  if(isTRUE(run_all)){
-    upset_plot <- stat_plot <- chromHMM_plot <- 
-      chipseeker_plot <- enrichment_plot <- tss_plot <- 
-      precision_recall_plot <- corr_plot <- add_download_button <- TRUE;
-    save_output <- TRUE;
-    if(is.null(output_dir)) output_dir <- tempdir()
+  if (isTRUE(run_all)) {
+    upset_plot <- stat_plot <- chromHMM_plot <-
+      chipseeker_plot <- enrichment_plot <- tss_plot <-
+      precision_recall_plot <- corr_plot <- TRUE
+    
+    save_output <- TRUE
+    
+    if (is.null(output_dir))
+      output_dir <- tempdir()
+  }
+  #### Check for ComplexUpset compatibility with ggplot 4.4.0 ####
+  if (packageVersion("ggplot2") >= "4.0.0" &&
+      packageVersion("ComplexUpset") <= "1.3.6" &&
+      isTRUE(upset_plot)) {
+    messager(
+      "NOTE: The installed version of ComplexUpset package is not yet",
+      "compatible with ggplot2 >= v4.0.0.",
+      "Please downgrade to ggplot2 v3 to use this feature.",
+      "EpiCompare will proceed without generating upset plot. \n "
+    )
+    upset_plot <- FALSE
   }
   #### Report which features are NOT being used ####
-  check_unused_args(upset_plot=upset_plot, 
-                    stat_plot=stat_plot, 
-                    chromHMM_plot=chromHMM_plot, 
-                    chipseeker_plot=chipseeker_plot, 
-                    enrichment_plot=enrichment_plot, 
-                    tss_plot=tss_plot, 
-                    precision_recall_plot=precision_recall_plot, 
-                    corr_plot=corr_plot,
-                    add_download_button=add_download_button
-                    )  
+  check_unused_args(
+    upset_plot = upset_plot,
+    stat_plot = stat_plot,
+    chromHMM_plot = chromHMM_plot,
+    chipseeker_plot = chipseeker_plot,
+    enrichment_plot = enrichment_plot,
+    tss_plot = tss_plot,
+    precision_recall_plot = precision_recall_plot,
+    corr_plot = corr_plot,
+    add_download_button = add_download_button
+  )
   #### Display HTML after it's been rendered ####
-  if(!is.null(display)) display <- tolower(display)[1]
+  if (!is.null(display))
+    display <- tolower(display)[1]
   ### Output Filename ###
-  if(isTRUE(output_timestamp)){
+  if (isTRUE(output_timestamp)) {
     date <- format(Sys.Date(), '%b_%d_%Y')
-    output_filename <- paste0(output_filename,"_",date)
-  } 
+    output_filename <- paste0(output_filename, "_", date)
+  }
   #### Check args ####
-  if(is.null(reference)){
-    if(isTRUE(precision_recall_plot)){
-      messager(
-        "WARNING:",
-        "precision-recall curves cannot be generated when reference=NULL.") 
+  if (is.null(reference)) {
+    if (isTRUE(precision_recall_plot)) {
+      messager("WARNING:",
+               "precision-recall curves cannot be generated when reference=NULL.")
     }
   }
   ### Parse Parameters Into Markdown & Render HTML ###
-  html_file <- paste0(output_filename,".html") 
+  html_file <- paste0(output_filename, ".html")
   ### Locate Rmd ###
-  markdown_path <- system.file("markdown",
-                               "EpiCompare.Rmd",
-                               package = "EpiCompare")
+  markdown_path <- system.file("markdown", "EpiCompare.Rmd", package = "EpiCompare")
   ### Multiple Reference Files ###
-  if(methods::is(reference,"list") &&
-     length(reference)>1){
-      output_html <- lapply(names(reference), 
-                            function(nm){
-          message("\n","======>> ",nm," <<======")
-          #### Create subfolder for each run ####
-          output_dir <- file.path(output_dir,nm)
-          dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
-          #### Parse Parameters Into Markdown & Render HTML ####
-          rmarkdown::render(
-            input = markdown_path,
-            output_dir = output_dir,
-            output_file = output_filename,
-            quiet = quiet,
-            params = list(
-              peakfiles = peakfiles,
-              genome_build = genome_build,
-              genome_build_output = genome_build_output,
-              blacklist = blacklist,
-              picard_files = picard_files,
-              reference = reference[nm],
-              upset_plot = upset_plot,
-              stat_plot = stat_plot,
-              chromHMM_plot= chromHMM_plot,
-              chromHMM_annotation = chromHMM_annotation,
-              chipseeker_plot = chipseeker_plot,
-              enrichment_plot = enrichment_plot,
-              tss_plot = tss_plot,
-              tss_distance = tss_distance,
-              precision_recall_plot = precision_recall_plot,
-              n_threshold = n_threshold,
-              corr_plot = corr_plot,
-              bin_size = bin_size,
-              interact = interact,
-              add_download_button = add_download_button,
-              save_output = save_output,
-              output_dir = output_dir,
-              workers = workers, 
-              error = error,
-              debug = debug)
-          )
-          return(file.path(output_dir,html_file))
-        }) |> unlist()
-  }else{
-    dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+  if (methods::is(reference, "list") &&
+      length(reference) > 1) {
+    output_html <- lapply(names(reference), function(nm) {
+      message("\n", "======>> ", nm, " <<======")
+      #### Create subfolder for each run ####
+      output_dir <- file.path(output_dir, nm)
+      dir.create(output_dir,
+                 showWarnings = FALSE,
+                 recursive = TRUE)
+      #### Parse Parameters Into Markdown & Render HTML ####
+      rmarkdown::render(
+        input = markdown_path,
+        output_dir = output_dir,
+        output_file = output_filename,
+        quiet = quiet,
+        params = list(
+          peakfiles = peakfiles,
+          genome_build = genome_build,
+          genome_build_output = genome_build_output,
+          blacklist = blacklist,
+          picard_files = picard_files,
+          reference = reference[nm],
+          upset_plot = upset_plot,
+          stat_plot = stat_plot,
+          chromHMM_plot = chromHMM_plot,
+          chromHMM_annotation = chromHMM_annotation,
+          chipseeker_plot = chipseeker_plot,
+          enrichment_plot = enrichment_plot,
+          tss_plot = tss_plot,
+          tss_distance = tss_distance,
+          precision_recall_plot = precision_recall_plot,
+          n_threshold = n_threshold,
+          corr_plot = corr_plot,
+          bin_size = bin_size,
+          interact = interact,
+          add_download_button = add_download_button,
+          save_output = save_output,
+          output_dir = output_dir,
+          workers = workers,
+          error = error,
+          debug = debug
+        )
+      )
+      return(file.path(output_dir, html_file))
+    }) |> unlist()
+  } else{
+    dir.create(output_dir,
+               showWarnings = FALSE,
+               recursive = TRUE)
     #### Parse Parameters Into Markdown & Render HTML ####
     rmarkdown::render(
       input = markdown_path,
@@ -301,7 +318,7 @@ EpiCompare <- function(peakfiles,
         reference = reference,
         upset_plot = upset_plot,
         stat_plot = stat_plot,
-        chromHMM_plot= chromHMM_plot,
+        chromHMM_plot = chromHMM_plot,
         chromHMM_annotation = chromHMM_annotation,
         chipseeker_plot = chipseeker_plot,
         enrichment_plot = enrichment_plot,
@@ -315,32 +332,31 @@ EpiCompare <- function(peakfiles,
         add_download_button = add_download_button,
         save_output = save_output,
         output_dir = output_dir,
-        workers = workers, 
+        workers = workers,
         error = error,
-        debug = debug)
+        debug = debug
+      )
     )
-    output_html <- file.path(output_dir,html_file)
+    output_html <- file.path(output_dir, html_file)
   }
   ### Show Timer ###
   t2 <- Sys.time()
-  methods::show(paste(
-      "Done in",round(difftime(t2, t1, units = "min"),2),"min."
-  ))
+  methods::show(paste("Done in", round(difftime(t2, t1, units = "min"), 2), "min."))
   ### Display results ###
   messager("All outputs saved to:", output_dir)
   #### Return path only ####
-  if(is.null(display)){
-      return(output_html)
-  #### Launch in web browser ####    
-  } else if(display=="browser"){
-      for(x in output_html){
-          utils::browseURL(x)
-      }
-  #### Launch in Rstudio ####
-  } else if(display=="rstudio"){
-      for(x in output_html){
-          file.show(x)
-      }
+  if (is.null(display)) {
+    return(output_html)
+    #### Launch in web browser ####
+  } else if (display == "browser") {
+    for (x in output_html) {
+      utils::browseURL(x)
+    }
+    #### Launch in Rstudio ####
+  } else if (display == "rstudio") {
+    for (x in output_html) {
+      file.show(x)
+    }
   }
   #### Return paths to html reports ####
   return(output_html)
