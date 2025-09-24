@@ -3,13 +3,13 @@
 <img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' title='Hex sticker for EpiCompare' height='300'><br>
 [![](https://img.shields.io/badge/release%20version-1.13.1-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
 [![](https://img.shields.io/badge/download-152/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
-[![](https://img.shields.io/badge/download-2874/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-2883/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![download](http://www.bioconductor.org/shields/downloads/release/EpiCompare.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 [![](https://img.shields.io/badge/doi-https://doi.org/10.1101/2022.07.22.501149-blue.svg)](https://doi.org/https://doi.org/10.1101/2022.07.22.501149)
 <br>
-[![](https://img.shields.io/badge/devel%20version-1.13.1-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-1.13.2-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/languages/code-size/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
 <br> [![R build
@@ -22,7 +22,7 @@ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene, Thomas Roberts, Hiranyamaya Dash</i>  
 </h4>
 <h5>  
-<i>Updated</i>: Sep-23-2025  
+<i>Updated</i>: Sep-24-2025  
 </h5>
 
 # Introduction
