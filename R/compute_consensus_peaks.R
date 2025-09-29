@@ -37,7 +37,7 @@
 #' @export
 #' @importFrom GenomicRanges coverage GRangesList GRanges
 #' @importFrom IRanges slice reduce
-#' @importFrom Seqinfo seqlevelsInUse
+#' @importFrom GenomeInfoDb seqlevelsInUse
 #' @examples 
 #' data("encode_H3K27ac") # example dataset as GRanges object
 #' data("CnT_H3K27ac") # example dataset as GRanges object

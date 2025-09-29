@@ -22,13 +22,13 @@ jobs:
         - os: ubuntu-latest
           r: devel
           bioc: devel
-          cont: bioconductor/bioconductor_docker:devel
+          cont: bioconductor/bioconductor_docker:RELEASE_3_21
         - os: macOS-latest
-          r: devel
-          bioc: devel
+          r: latest
+          bioc: release
         - os: windows-latest
-          r: devel
-          bioc: devel
+          r: latest
+          bioc: release
     steps:
     - uses: neurogenomics/rworkflows@master
       with:

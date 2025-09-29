@@ -4,7 +4,7 @@ compute_consensus_peaks_consensusseeker <- function(grlist,
     bsgen <- check_genome_build(genome_build = genome_build,
                                 type = "bsgen")
     chrInfo <- GenomicRanges::seqinfo(bsgen)[
-        Seqinfo::seqlevelsInUse(grlist)
+        GenomeInfoDb::seqlevelsInUse(grlist)
     ]  
     consensus_peaks <- consensusSeekeR::findConsensusPeakRegions( 
         peaks = unlist(grlist),

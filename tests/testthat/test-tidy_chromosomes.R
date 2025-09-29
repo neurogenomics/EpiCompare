@@ -2,8 +2,6 @@
 # \code{BRGenomics} package licensed under the Artistic License 2.0.
 # Original author: Mike DeBerardine <https://github.com/mdeber>
 
-library(GenomeInfoDb)  # for dropSeqlevels()
-
 bw <- GRanges(seqnames = c("chr2L", "chrM", "chrX", "chrY", "unassigned"),
               ranges = IRanges(1:5, 2:6))
 genome(bw) <- "dm6"
