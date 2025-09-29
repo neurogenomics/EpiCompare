@@ -20,8 +20,8 @@ jobs:
       matrix:
         config:
         - os: ubuntu-latest
-          r: devel
-          bioc: devel
+          r: auto
+          bioc: release
           cont: bioconductor/bioconductor_docker:RELEASE_3_21
         - os: macOS-latest
           r: latest
