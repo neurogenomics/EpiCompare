@@ -18,7 +18,7 @@ chromosomes from any GRanges object."><!-- mathjax --><script src="https://cdnjs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.12.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.12.2</span>
       </span>
     </div>
 
@@ -115,11 +115,12 @@ genome of <code>gr</code>.</p></dd>
 Original author: Mike DeBerardine &lt;https://github.com/mdeber&gt;</p>
 <p>Standard chromosomes are defined using the
   <code><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevels-wrappers.html" class="external-link">standardChromosomes</a></code> function
-  from the <span class="pkg">GenomeInfoDb</span> package.</p>
+  from the <code>GenomeInfoDb</code> package.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevels-wrappers.html" class="external-link">standardChromosomes</a></code></p></div>
+    <div class="dont-index"><p><code><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqlevels-wrappers.html" class="external-link">
+  GenomeInfoDb::standardChromosomes</a></code></p></div>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -133,8 +134,8 @@ Original author: Mike DeBerardine &lt;https://github.com/mdeber&gt;</p>
 <span class="r-in"><span><span class="va">gr</span> <span class="op">&lt;-</span> <span class="fu">GenomicRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span>seqnames <span class="op">=</span> <span class="va">chrom</span>,</span></span>
 <span class="r-in"><span>              ranges <span class="op">=</span> <span class="fu">IRanges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/IRanges/man/IRanges-constructor.html" class="external-link">IRanges</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, end <span class="op">=</span> <span class="fl">3</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>              strand <span class="op">=</span> <span class="st">"+"</span>,</span></span>
-<span class="r-in"><span>              seqinfo <span class="op">=</span> <span class="fu">Seqinfo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Seqinfo/man/Seqinfo-class.html" class="external-link">Seqinfo</a></span><span class="op">(</span><span class="va">chrom</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">Seqinfo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Seqinfo/man/seqinfo.html" class="external-link">genome</a></span><span class="op">(</span><span class="va">gr</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"hg38"</span></span></span>
+<span class="r-in"><span>              seqinfo <span class="op">=</span> <span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/Seqinfo-class.html" class="external-link">Seqinfo</a></span><span class="op">(</span><span class="va">chrom</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">GenomeInfoDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqinfo.html" class="external-link">genome</a></span><span class="op">(</span><span class="va">gr</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"hg38"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">gr</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GRanges object with 6 ranges and 0 metadata columns:</span>
