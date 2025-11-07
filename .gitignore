@@ -33,6 +33,7 @@ papers/
 figure/
 EpiCompare_file/
 inst/doc
+*.jpeg
 
 
 # Example code in package build process
