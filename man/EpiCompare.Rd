@@ -11,6 +11,7 @@ EpiCompare(
   blacklist = NULL,
   picard_files = NULL,
   reference = NULL,
+  peak_score_plot = FALSE,
   upset_plot = FALSE,
   stat_plot = FALSE,
   chromHMM_plot = FALSE,
@@ -104,6 +105,9 @@ generated. However, please note that specifying more than one reference can
 take awhile. If a reference is specified, it enables two analyses: (1) plot
 showing statistical significance of overlapping/non-overlapping peaks; and
 (2) ChromHMM of overlapping/non-overlapping peaks.}
+
+\item{peak_score_plot}{Default FALSE. If TRUE, the report includes boxplots
+showing the distribution of peak scores in each peak file.}
 
 \item{upset_plot}{Default FALSE. If TRUE, the report includes upset plot of
 overlapping peaks.}

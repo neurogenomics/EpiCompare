@@ -1,3 +1,9 @@
+## CHANGES IN VERSION 1.15.1
+
+### New features
+
+* Add box plot for peak score distribution (`peak_score_plot`).
+
 ## CHANGES IN VERSION 1.13.2 [BREAKING CHANGE]
 
 ### Bug Fixes
