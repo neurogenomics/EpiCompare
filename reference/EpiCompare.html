@@ -20,7 +20,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiCompare</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.1</span>
       </span>
     </div>
 
@@ -82,6 +82,7 @@ divided into three sections: (1) General Metrics on Peakfiles,
 <span>  blacklist <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  picard_files <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  reference <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  peak_score_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  upset_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  stat_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  chromHMM_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -181,6 +182,11 @@ generated. However, please note that specifying more than one reference can
 take awhile. If a reference is specified, it enables two analyses: (1) plot
 showing statistical significance of overlapping/non-overlapping peaks; and
 (2) ChromHMM of overlapping/non-overlapping peaks.</p></dd>
+
+
+<dt id="arg-peak-score-plot">peak_score_plot<a class="anchor" aria-label="anchor" href="#arg-peak-score-plot"></a></dt>
+<dd><p>Default FALSE. If TRUE, the report includes boxplots
+showing the distribution of peak scores in each peak file.</p></dd>
 
 
 <dt id="arg-upset-plot">upset_plot<a class="anchor" aria-label="anchor" href="#arg-upset-plot"></a></dt>
@@ -355,6 +361,7 @@ are printed within the HTML report (default: <code>FALSE</code>).</p></dd>
 <span class="r-in"><span>           output_filename <span class="op">=</span> <span class="st">"EpiCompare_test"</span>,</span></span>
 <span class="r-in"><span>           output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> NOTE: The following EpiCompare features are NOT being used: </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - peak_score_plot=</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  - upset_plot=</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  - stat_plot=</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  - chromHMM_plot=</span>
@@ -367,71 +374,73 @@ are printed within the HTML report (default: <code>FALSE</code>).</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> processing file: EpiCompare.Rmd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2/59 [setup]                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4/59 [list file names]         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6/59 [download processed peaks]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8/59 [report_command]          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10/59 [peak_info]               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12/59 [picard_files]            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14/59 [width_boxplot]           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16/59 [overlap_heatmap]         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18/59 [overlap_upset_plot]      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20/59 [overlap_stat_plot]       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22/59 [precision_recall_plot]   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24/59 [Correlation Plot]        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26/59 [plot_chromHMM1]          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28/59 [overlap_percent1]        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30/59 [plot_chromHMM2]          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32/59 [overlap_percent2]        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34/59 [plot_chromHMM3]          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36/59 [overlap_percent3]        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38/59 [plot_chromHMM4]          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40/59 [overlap_percent4]        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42/59 [plot_chromHMM5]          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44/59 [Annotate Peaks]          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46/59 [plot_enrichment]         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48/59 [KEGG_plot]               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50/59 [GO_plot]                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52/59 [unnamed-chunk-1]         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54/59 [tss_plots]               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56/59 [unnamed-chunk-2]         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57/59                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58/59 [Session Info]            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59/59                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2/61 [setup]                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4/61 [list file names]         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6/61 [download processed peaks]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8/61 [report_command]          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10/61 [peak_info]               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12/61 [picard_files]            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14/61 [width_boxplot]           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16/61 [score_boxplot]           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18/61 [overlap_heatmap]         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20/61 [overlap_upset_plot]      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22/61 [overlap_stat_plot]       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24/61 [precision_recall_plot]   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26/61 [Correlation Plot]        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28/61 [plot_chromHMM1]          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30/61 [overlap_percent1]        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32/61 [plot_chromHMM2]          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34/61 [overlap_percent2]        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36/61 [plot_chromHMM3]          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38/61 [overlap_percent3]        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40/61 [plot_chromHMM4]          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42/61 [overlap_percent4]        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44/61 [plot_chromHMM5]          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46/61 [Annotate Peaks]          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48/61 [plot_enrichment]         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50/61 [KEGG_plot]               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52/61 [GO_plot]                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54/61 [unnamed-chunk-1]         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56/61 [tss_plots]               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58/61 [unnamed-chunk-2]         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59/61                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60/61 [Session Info]            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61/61                           </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> output file: EpiCompare.knit.md</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> /usr/bin/pandoc +RTS -K512m -RTS EpiCompare.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /tmp/RtmpSi8FQV/EpiCompare_test.html --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /__w/_temp/Library/rmarkdown/rmd/h/default.html --syntax-highlighting=none --variable highlightjs=1 --number-sections --variable theme=bootstrap --css custom.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpSi8FQV/rmarkdown-str511232f72c45.html --variable code_folding=hide --variable code_menu=1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /usr/bin/pandoc +RTS -K512m -RTS EpiCompare.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /tmp/Rtmp2jfvxq/EpiCompare_test.html --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /__w/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /__w/_temp/Library/rmarkdown/rmd/h/default.html --syntax-highlighting=none --variable highlightjs=1 --number-sections --variable theme=bootstrap --css custom.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/Rtmp2jfvxq/rmarkdown-str466355661d73.html --variable code_folding=hide --variable code_menu=1 </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Output created: /tmp/RtmpSi8FQV/EpiCompare_test.html</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Output created: /tmp/Rtmp2jfvxq/EpiCompare_test.html</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Done in 0.1 min."</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/RtmpSi8FQV</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> All outputs saved to: /tmp/Rtmp2jfvxq</span>
 <span class="r-in"><span><span class="co"># utils::browseURL(output_html)</span></span></span>
 </code></pre></div>
     </div>
@@ -447,7 +456,7 @@ are printed within the HTML report (default: <code>FALSE</code>).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>
