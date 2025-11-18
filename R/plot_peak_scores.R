@@ -9,8 +9,8 @@
 #' @inheritParams plot_corr
 #' @return A boxplot of peak scores.
 #'
+#' @import ggplot2
 #' @importFrom GenomicRanges mcols
-#' @importFrom ggplot2 ggplot
 #' 
 #' @export
 #' @examples
@@ -50,14 +50,14 @@ plot_peak_scores <- function(peaklist,
         geom_boxplot() +
         theme_bw() +
         labs(y = "Score", x = "") +
-        ggplot2::coord_flip() +
-        ggplot2::theme(axis.text.x = ggplot2::element_text(
+        coord_flip() +
+        theme(axis.text.x = element_text(
             angle = 45,
             vjust = 1,
             hjust = 1,
             size = font_size
         )) +
-        ggplot2::scale_y_continuous(
+        scale_y_continuous(
             limits = quantile(score_data$score, c(0.025, 0.975), na.rm = TRUE)
         )
     

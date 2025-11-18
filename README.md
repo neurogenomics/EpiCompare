@@ -3,7 +3,7 @@
 <img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' title='Hex sticker for EpiCompare' height='300'><br>
 [![](https://img.shields.io/badge/release%20version-1.15.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
 [![](https://img.shields.io/badge/download-159/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
-[![](https://img.shields.io/badge/download-3107/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-3149/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![download](http://www.bioconductor.org/shields/downloads/release/EpiCompare.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
@@ -22,7 +22,7 @@ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene, Thomas Roberts, Hiranyamaya Dash</i>  
 </h4>
 <h5>  
-<i>Updated</i>: Nov-07-2025  
+<i>Updated</i>: Nov-18-2025  
 </h5>
 
 # Introduction

@@ -906,7 +906,7 @@ TSS regions are defined as the flanking sequence of the TSS sites.
 
 * By default, this function plots the frequency of peaks upstream (*-3000bp*) 
 and downstream (*default: +3000bp*) of TSS. These ranges can be adjusted with 
-the argument `EpCompare(tss_distance=)`. 
+the argument `EpiCompare(tss_distance=)`. 
 
 * The grey area around the main frequency line represents 
 the 95% confidence interval estimated by bootstrapping. 

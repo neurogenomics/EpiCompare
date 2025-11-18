@@ -30,7 +30,7 @@ each peak file.
 }
 \examples{
 data("encode_H3K27ac") # example peaklist GRanges object
-data("CnT_H3K27ac") # example peaklist GRanges object  
-peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)  
-my_plot <- plot_peak_scores(peaklist = peaklist) 
+data("CnT_H3K27ac") # example peaklist GRanges object
+peaklist <- list("encode"=encode_H3K27ac, "CnT"=CnT_H3K27ac)
+my_plot <- plot_peak_scores(peaklist = peaklist)
 }
