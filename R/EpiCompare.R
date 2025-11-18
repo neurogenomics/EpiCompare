@@ -66,6 +66,8 @@
 #' take awhile. If a reference is specified, it enables two analyses: (1) plot
 #' showing statistical significance of overlapping/non-overlapping peaks; and
 #' (2) ChromHMM of overlapping/non-overlapping peaks.
+#' @param peak_score_plot Default FALSE. If TRUE, the report includes boxplots
+#' showing the distribution of peak scores in each peak file.
 #' @param upset_plot Default FALSE. If TRUE, the report includes upset plot of
 #' overlapping peaks.
 #' @param stat_plot Default FALSE. If TRUE, the function creates a plot showing
@@ -169,6 +171,7 @@ EpiCompare <- function(peakfiles,
                        blacklist = NULL,
                        picard_files = NULL,
                        reference = NULL,
+                       peak_score_plot = FALSE,
                        upset_plot = FALSE,
                        stat_plot = FALSE,
                        chromHMM_plot = FALSE,
@@ -201,7 +204,7 @@ EpiCompare <- function(peakfiles,
   force(genome_build)
   #### Set all args to true ####
   if (isTRUE(run_all)) {
-    upset_plot <- stat_plot <- chromHMM_plot <-
+    peak_score_plot <- upset_plot <- stat_plot <- chromHMM_plot <-
       chipseeker_plot <- enrichment_plot <- tss_plot <-
       precision_recall_plot <- corr_plot <- TRUE
     
@@ -224,6 +227,7 @@ EpiCompare <- function(peakfiles,
   }
   #### Report which features are NOT being used ####
   check_unused_args(
+    peak_score_plot = peak_score_plot,
     upset_plot = upset_plot,
     stat_plot = stat_plot,
     chromHMM_plot = chromHMM_plot,
@@ -276,6 +280,7 @@ EpiCompare <- function(peakfiles,
           blacklist = blacklist,
           picard_files = picard_files,
           reference = reference[nm],
+          peak_score_plot = peak_score_plot,
           upset_plot = upset_plot,
           stat_plot = stat_plot,
           chromHMM_plot = chromHMM_plot,
@@ -316,6 +321,7 @@ EpiCompare <- function(peakfiles,
         blacklist = blacklist,
         picard_files = picard_files,
         reference = reference,
+        peak_score_plot = peak_score_plot,
         upset_plot = upset_plot,
         stat_plot = stat_plot,
         chromHMM_plot = chromHMM_plot,

@@ -1,15 +1,15 @@
 ⚖<code>EpiCompare</code>⚖<br>QC and Benchmarking of Epigenomic Datasets
 ================
 <img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' title='Hex sticker for EpiCompare' height='300'><br>
-[![](https://img.shields.io/badge/release%20version-1.13.1-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
-[![](https://img.shields.io/badge/download-152/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
-[![](https://img.shields.io/badge/download-2874/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/release%20version-1.15.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
+[![](https://img.shields.io/badge/download-159/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-3149/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![download](http://www.bioconductor.org/shields/downloads/release/EpiCompare.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 [![](https://img.shields.io/badge/doi-https://doi.org/10.1101/2022.07.22.501149-blue.svg)](https://doi.org/https://doi.org/10.1101/2022.07.22.501149)
 <br>
-[![](https://img.shields.io/badge/devel%20version-1.13.1-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-1.15.0-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/languages/code-size/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
 <br> [![R build
@@ -22,7 +22,7 @@ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene, Thomas Roberts, Hiranyamaya Dash</i>  
 </h4>
 <h5>  
-<i>Updated</i>: Sep-23-2025  
+<i>Updated</i>: Nov-18-2025  
 </h5>
 
 # Introduction
@@ -384,9 +384,9 @@ Imperial College London
 utils::sessionInfo()
 ```
 
-    ## R Under development (unstable) (2025-08-22 r88678)
+    ## R Under development (unstable) (2025-10-27 r88972)
     ## Platform: aarch64-apple-darwin20
-    ## Running under: macOS Sequoia 15.7
+    ## Running under: macOS Tahoe 26.1
     ## 
     ## Matrix products: default
     ## BLAS:   /Library/Frameworks/R.framework/Versions/4.6-arm64/Resources/lib/libRblas.0.dylib 
@@ -410,12 +410,12 @@ utils::sessionInfo()
     ## [16] knitr_1.50          yulab.utils_0.2.1   tibble_3.3.0       
     ## [19] desc_1.4.3          dlstats_0.1.7       rprojroot_2.1.1    
     ## [22] pillar_1.11.1       RColorBrewer_1.1-3  rlang_1.1.6        
-    ## [25] badger_0.2.5        xfun_0.53           fs_1.6.6           
+    ## [25] badger_0.2.5        xfun_0.54           fs_1.6.6           
     ## [28] S7_0.2.0            cli_3.6.5           magrittr_2.0.4     
     ## [31] rworkflows_1.0.6    digest_0.6.37       grid_4.6.0         
     ## [34] rstudioapi_0.17.1   rappdirs_0.3.3      lifecycle_1.0.4    
     ## [37] vctrs_0.6.5         evaluate_1.0.5      glue_1.8.0         
-    ## [40] data.table_1.17.8   farver_2.1.2        rmarkdown_2.29     
+    ## [40] data.table_1.17.8   farver_2.1.2        rmarkdown_2.30     
     ## [43] tools_4.6.0         pkgconfig_2.0.3     htmltools_0.5.8.1
 
 </details>

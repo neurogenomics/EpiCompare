@@ -1,4 +1,5 @@
-check_unused_args <- function(upset_plot,
+check_unused_args <- function(peak_score_plot,
+                              upset_plot,
                               stat_plot,
                               chromHMM_plot,
                               chipseeker_plot,
@@ -13,7 +14,8 @@ check_unused_args <- function(upset_plot,
   #   sapply(formals(EpiCompare), is.logical)
   # ]
   if(isTRUE(verbose)){
-    bool_args <- c(upset_plot=upset_plot, 
+    bool_args <- c(peak_score_plot=peak_score_plot,
+                   upset_plot=upset_plot, 
                    stat_plot=stat_plot, 
                    chromHMM_plot=chromHMM_plot, 
                    chipseeker_plot=chipseeker_plot, 

@@ -23,6 +23,8 @@ params:
     value : NULL
   reference: 
     value: NULL
+  peak_score_plot:
+    value: FALSE
   upset_plot:
     value: FALSE
   stat_plot:
@@ -292,6 +294,37 @@ save_output(save_output = params$save_output,
             interactive = params$interact)
 # Remove variable
 remove(width_plot)
+```
+
+
+
+## Peak scores 
+
+Distribution of peak scores in samples 
+
+<br> 
+
+```{r score_boxplot,fig.width=10,fig.height=fig_height} 
+score_plot <- NULL
+
+if(isTRUE(params$peak_score_plot)){
+    score_plot <- plot_peak_scores(peaklist = peaklist_tidy, 
+                                   interact = params$interact)
+    download_button(object = score_plot,
+                    filename = "peak_score_boxplot",
+                    self_contained = params$interact,
+                    add_download_button = params$add_download_button)
+    # Save boxplot
+    save_output(save_output = params$save_output,
+                file = score_plot$plot,
+                file_type = "ggplot",
+                filename = "peak_score_plot",
+                outpath = outfile_dir, 
+                interactive = params$interact)
+}
+score_plot$plot
+# Remove variable
+remove(score_plot)
 ```
 
 
@@ -873,7 +906,7 @@ TSS regions are defined as the flanking sequence of the TSS sites.
 
 * By default, this function plots the frequency of peaks upstream (*-3000bp*) 
 and downstream (*default: +3000bp*) of TSS. These ranges can be adjusted with 
-the argument `EpCompare(tss_distance=)`. 
+the argument `EpiCompare(tss_distance=)`. 
 
 * The grey area around the main frequency line represents 
 the 95% confidence interval estimated by bootstrapping. 
