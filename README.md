@@ -1,15 +1,15 @@
 ⚖<code>EpiCompare</code>⚖<br>QC and Benchmarking of Epigenomic Datasets
 ================
 <img src='https://github.com/neurogenomics/EpiCompare/raw/master/inst/hex/hex.png' title='Hex sticker for EpiCompare' height='300'><br>
-[![](https://img.shields.io/badge/release%20version-1.15.0-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
+[![](https://img.shields.io/badge/release%20version-1.15.1-green.svg)](https://www.bioconductor.org/packages/EpiCompare)
 [![](https://img.shields.io/badge/download-159/month-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
-[![](https://img.shields.io/badge/download-3149/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
+[![](https://img.shields.io/badge/download-3268/total-green.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![download](http://www.bioconductor.org/shields/downloads/release/EpiCompare.svg)](https://bioconductor.org/packages/stats/bioc/EpiCompare)
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 [![](https://img.shields.io/badge/doi-https://doi.org/10.1101/2022.07.22.501149-blue.svg)](https://doi.org/https://doi.org/10.1101/2022.07.22.501149)
 <br>
-[![](https://img.shields.io/badge/devel%20version-1.15.0-black.svg)](https://github.com/neurogenomics/EpiCompare)
+[![](https://img.shields.io/badge/devel%20version-1.15.1-black.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/languages/code-size/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare)
 [![](https://img.shields.io/github/last-commit/neurogenomics/EpiCompare.svg)](https://github.com/neurogenomics/EpiCompare/commits/master)
 <br> [![R build
@@ -22,7 +22,7 @@ Authors: <i>Sera Choi, Brian Schilder, Leyla Abbasova, Alan Murphy,
 Nathan Skene, Thomas Roberts, Hiranyamaya Dash</i>  
 </h4>
 <h5>  
-<i>Updated</i>: Nov-18-2025  
+<i>Updated</i>: Dec-01-2025  
 </h5>
 
 # Introduction
@@ -403,16 +403,16 @@ utils::sessionInfo()
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] gtable_0.3.6        jsonlite_2.0.0      renv_1.1.5         
-    ##  [4] dplyr_1.1.4         compiler_4.6.0      BiocManager_1.30.26
+    ##  [4] dplyr_1.1.4         compiler_4.6.0      BiocManager_1.30.27
     ##  [7] tidyselect_1.2.1    rvcheck_0.2.1       scales_1.4.0       
-    ## [10] yaml_2.3.10         fastmap_1.2.0       here_1.0.2         
-    ## [13] ggplot2_4.0.0       R6_2.6.1            generics_0.1.4     
-    ## [16] knitr_1.50          yulab.utils_0.2.1   tibble_3.3.0       
+    ## [10] yaml_2.3.11         fastmap_1.2.0       here_1.0.2         
+    ## [13] ggplot2_4.0.1       R6_2.6.1            generics_0.1.4     
+    ## [16] knitr_1.50          yulab.utils_0.2.2   tibble_3.3.0       
     ## [19] desc_1.4.3          dlstats_0.1.7       rprojroot_2.1.1    
     ## [22] pillar_1.11.1       RColorBrewer_1.1-3  rlang_1.1.6        
     ## [25] badger_0.2.5        xfun_0.54           fs_1.6.6           
-    ## [28] S7_0.2.0            cli_3.6.5           magrittr_2.0.4     
-    ## [31] rworkflows_1.0.6    digest_0.6.37       grid_4.6.0         
+    ## [28] S7_0.2.1            cli_3.6.5           magrittr_2.0.4     
+    ## [31] rworkflows_1.0.6    digest_0.6.39       grid_4.6.0         
     ## [34] rstudioapi_0.17.1   rappdirs_0.3.3      lifecycle_1.0.4    
     ## [37] vctrs_0.6.5         evaluate_1.0.5      glue_1.8.0         
     ## [40] data.table_1.17.8   farver_2.1.2        rmarkdown_2.30     

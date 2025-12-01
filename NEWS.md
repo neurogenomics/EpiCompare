@@ -1,3 +1,9 @@
+## CHANGES IN VERSION 1.15.2
+
+## Miscellaneous
+
+* Heatmap cell values are now rounded off to 1 decimal place.
+
 ## CHANGES IN VERSION 1.15.1
 
 ### New features
