@@ -1,8 +1,8 @@
-pandoc: 3.8.2.1
+pandoc: 3.9.0.2
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   docker: docker.html
   EpiCompare: EpiCompare.html
   example_report: example_report.html
-last_built: 2025-12-02T14:59Z
+last_built: 2026-05-11T13:24Z
